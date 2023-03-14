@@ -1,0 +1,1012 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.Linux Virtual Server简介1.1 LVS介绍LVS：Linux Virtual Server，负载调度器。 #LVS官网： http:&#x2F;&#x2F;www.linuxvirtualserver.org&#x2F;  #阿里SLB和LVS https:&#x2F;&#x2F;yq.aliyun.com&#x2F;articles&#x2F;1803 https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;LVS    LVS根据请求报文的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(1).LVS工作模式">
+<meta property="og:url" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs01/index.html">
+<meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.Linux Virtual Server简介1.1 LVS介绍LVS：Linux Virtual Server，负载调度器。 #LVS官网： http:&#x2F;&#x2F;www.linuxvirtualserver.org&#x2F;  #阿里SLB和LVS https:&#x2F;&#x2F;yq.aliyun.com&#x2F;articles&#x2F;1803 https:&#x2F;&#x2F;github.com&#x2F;alibaba&#x2F;LVS    LVS根据请求报文的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs01/lvs-nat-1.png">
+<meta property="og:image" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs01/lvs-nat-2.png">
+<meta property="og:image" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs01/lvs-dr-1.png">
+<meta property="article:published_time" content="2023-02-02T14:57:03.000Z">
+<meta property="article:modified_time" content="2023-03-14T17:48:38.546Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="LVS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs01/lvs-nat-1.png">
+  
+  
+  
+  <title>(1).LVS工作模式 - 陈怀森の学习笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 学习笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(1).LVS工作模式"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-02 22:57" pubdate>
+          2023年2月2日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          4 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(1).LVS工作模式</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-Linux-Virtual-Server简介"><a href="#1-Linux-Virtual-Server简介" class="headerlink" title="1.Linux Virtual Server简介"></a>1.Linux Virtual Server简介</h1><h2 id="1-1-LVS介绍"><a href="#1-1-LVS介绍" class="headerlink" title="1.1 LVS介绍"></a>1.1 LVS介绍</h2><p>LVS：Linux Virtual Server，负载调度器。</p>
+<figure><div class="code-wrapper"><pre class="language-http" data-language="http"><code class="language-http">#LVS官网：
+<span class="token header"><span class="token header-name keyword">http</span><span class="token punctuation">:</span><span class="token header-value">//www.linuxvirtualserver.org/</span></span>
+
+#阿里SLB和LVS
+<span class="token header"><span class="token header-name keyword">https</span><span class="token punctuation">:</span><span class="token header-value">//yq.aliyun.com/articles/1803</span></span>
+<span class="token header"><span class="token header-name keyword">https</span><span class="token punctuation">:</span><span class="token header-value">//github.com/alibaba/LVS</span></span></code></pre></div></figure>
+
+
+
+<p>LVS根据请求报文的目标IP和目标协议及端口将其调度转发至其中的RS，根据调度算法调度至RS。</p>
+<p>LVS是内核级功能，工作在INPUT链的位置，将发往INPUT的流量进行“处理”。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#查看CentOS7.9内核支持LVS</span>
+<span class="token punctuation">[</span>root@Server10 ~<span class="token punctuation">]</span><span class="token comment"># grep -i -C 10 ipvs /boot/config-3.10.0-1160.el7.x86_64 </span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_IPVS</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_LENGTH</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_LIMIT</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_MAC</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_MARK</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_MULTIPORT</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_NFACCT</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_OSF</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_OWNER</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_POLICY</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_PHYSDEV</span><span class="token operator">=</span>m
+--
+<span class="token assign-left variable">CONFIG_IP_SET_HASH_NETNET</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_SET_HASH_NETPORT</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_SET_HASH_NETIFACE</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_SET_LIST_SET</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_IPV6</span><span class="token operator">=</span>y
+<span class="token comment"># CONFIG_IP_VS_DEBUG is not set</span>
+<span class="token assign-left variable">CONFIG_IP_VS_TAB_BITS</span><span class="token operator">=</span><span class="token number">12</span>
+
+<span class="token comment">#</span>
+<span class="token comment"># IPVS transport protocol load balancing support</span>
+<span class="token comment">#</span>
+<span class="token assign-left variable">CONFIG_IP_VS_PROTO_TCP</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_IP_VS_PROTO_UDP</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_IP_VS_PROTO_AH_ESP</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_IP_VS_PROTO_ESP</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_IP_VS_PROTO_AH</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_IP_VS_PROTO_SCTP</span><span class="token operator">=</span>y
+
+<span class="token comment">#</span>
+<span class="token comment"># IPVS scheduler</span>
+<span class="token comment">#</span>
+<span class="token assign-left variable">CONFIG_IP_VS_RR</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_WRR</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_LC</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_WLC</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_LBLC</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_LBLCR</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_DH</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_SH</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_SED</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_NQ</span><span class="token operator">=</span>m
+
+<span class="token comment">#</span>
+<span class="token comment"># IPVS SH scheduler</span>
+<span class="token comment">#</span>
+<span class="token assign-left variable">CONFIG_IP_VS_SH_TAB_BITS</span><span class="token operator">=</span><span class="token number">8</span>
+
+<span class="token comment">#</span>
+<span class="token comment"># IPVS application helper</span>
+<span class="token comment">#</span>
+<span class="token assign-left variable">CONFIG_IP_VS_FTP</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_IP_VS_NFCT</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_IP_VS_PE_SIP</span><span class="token operator">=</span>m
+
+<span class="token comment">#</span>
+<span class="token comment"># IP: Netfilter Configuration</span>
+<span class="token comment">#</span>
+<span class="token assign-left variable">CONFIG_NF_DEFRAG_IPV4</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NF_CONNTRACK_IPV4</span><span class="token operator">=</span>m</code></pre></div></figure>
+
+
+
+<h2 id="1-2-LVS相关术语"><a href="#1-2-LVS相关术语" class="headerlink" title="1.2 LVS相关术语"></a>1.2 LVS相关术语</h2><ul>
+<li>DS:Director Server。前端负载均衡器节点</li>
+<li>RS:Real Server。后端真实的工作服务器</li>
+<li>VIP:Virtual Serve IP。用户请求的目标IP地址。</li>
+<li>DIP:Director Server IP。内部主机通信的IP地址。</li>
+<li>RIP:Real Server IP。后端服务器的IP地址。</li>
+<li>CIP:Client IP。客户端的IP地址。</li>
+</ul>
+<h2 id="1-3-LVS工作模式"><a href="#1-3-LVS工作模式" class="headerlink" title="1.3 LVS工作模式"></a>1.3 LVS工作模式</h2><ul>
+<li>LVS-NAT</li>
+<li>LVS-DR</li>
+<li>LVS-TUN</li>
+<li>LVS-FULLNAT</li>
+</ul>
+<h3 id="1-3-1-NAT模式"><a href="#1-3-1-NAT模式" class="headerlink" title="1.3.1 NAT模式"></a>1.3.1 NAT模式</h3><p><img src="/2023/02/02/LB/LVS/lvs01/lvs-nat-1.png" srcset="/img/loading.gif" lazyload alt="lvs-nat-1"></p>
+<p><img src="/2023/02/02/LB/LVS/lvs01/lvs-nat-2.png" srcset="/img/loading.gif" lazyload alt="lvs-nat-2"></p>
+<p><strong>NAT模式工作原理：</strong></p>
+<ol>
+<li>用户发起请求<a target="_blank" rel="noopener" href="http://www.chsblogs.com,到达lvs网卡,此时数据包源ip是cip,目标ip是vip./">www.chsblogs.com，到达LVS网卡，此时数据包源IP是CIP，目标IP是VIP。</a></li>
+<li>经过网卡进入PREROUTING，根据目的IP查找路由，确认是本机，将数据转发至INPUT，此时数据包源IP是CIP，目标IP是VIP。</li>
+<li>到达LVS后，通过目的IP和目的PORT查找是否为IPVS服务。若是IPVS服务，则会选择一个RS作为后端服务器，将数据包目的IP修改为RIP，并以RIP为目的查找路由信息，确定下一跳和出口信息，将数据包转发至POSTROUTING。</li>
+<li>修改后的数据包经过POSTROUTING和链路层处理后，到达RS服务器，此时数据包源IP是CIP，目的IP是RIP。</li>
+<li>到达RS服务器的数据包经过链路层和网络层检查后，送往用户空间Web服务。Web服务处理完成，发送响应数据包，到达LVS服务器后，此时源IP是RIP，目的IP是CIP。</li>
+<li>LVS服务器收到RS响应数据包后，根据路由查找，发现目的IP不是本机IP，将数据包转发给FORWARD链，此时源IP是RIP，目的IP是CIP。</li>
+<li>LVS服务器收到响应数据包后，根据目的IP和目的PORT查找服务和连接表，将源IP改为VIP，通过路由查找，确定下一跳和出口信息，将数据包发送至网关，经过复杂的网络到达用户客户端，最终完成一次请求和响应。</li>
+</ol>
+<p><strong>NAT模式特性：</strong></p>
+<ul>
+<li>本质是多目标IP的DNAT，通过将请求报文中的目标地址和目标端口修改为其中的RS的RIP和PORT实现转发。</li>
+<li>NAT的数据包进出都要经过LVS，所以LVS负载压力较高。</li>
+<li>RIP和DIP应在同一个IP网络，且应使用私有地址；RS的网关要指向DIP。</li>
+</ul>
+<p><strong>NAT模式优点：</strong></p>
+<ul>
+<li>VS必须是Linux系统，RS支持Windows操作系统。</li>
+<li>支持端口映射，可以修改请求报文的目标PORT。</li>
+</ul>
+<p><strong>NAT模式缺点：</strong></p>
+<ul>
+<li><p>后端RS需要配置网关。</p>
+</li>
+<li><p>NAT的数据包进出都要经过LVS，所以LVS负载压力较高。</p>
+</li>
+</ul>
+<p><strong>NAT模式场景：</strong></p>
+<ul>
+<li>RS有Windows操作系统。</li>
+</ul>
+<h3 id="1-3-2-DR模式"><a href="#1-3-2-DR模式" class="headerlink" title="1.3.2 DR模式"></a>1.3.2 DR模式</h3><p>LVS-DR：Direct Routing，直接路由，LVS默认模式，应用最广泛，通过为请求报文重新封装一个MAC首部进行转发，源MAC是DIP所在接口的MAC，目标MAC是其中一台RS的RIP所在接口的MAC地址。源IP&#x2F;PORT，以及目标IP&#x2F;PORT保持不变。</p>
+<p><img src="/2023/02/02/LB/LVS/lvs01/lvs-dr-1.png" srcset="/img/loading.gif" lazyload alt="lvs-dr-1"></p>
+<p><strong>DR模式工作原理：</strong></p>
+<ol>
+<li>用户发起请求<a target="_blank" rel="noopener" href="http://www.chsblogs.com,请求数据包穿过网络到达lvs服务器连接的路由器,此时源ip是cip,目标ip是vip;源mac是cmac,目标mac地址是r1接口的mac地址,记为r1mac/">www.chsblogs.com，请求数据包穿过网络到达LVS服务器连接的路由器，此时源IP是CIP，目标IP是VIP；源MAC是CMAC，目标MAC地址是R1接口的MAC地址，记为R1MAC</a></li>
+<li>请求报文经过R1路由器分发后，到达LVS服务器的网卡，此时源IP是CIP，目标IP是VIP，源MAC是R2接口的MAC地址，记为R2MAC，目标MAC地址VIP 对应的 MAC，记为 VMAC 。</li>
+<li>数据包经过链路层到达 PREROUTING 位置，查找路由发现目的IP是LVS的VIP，就会传递到INPUT链上，此时数据包MAC，IP，PORT都没有修改。</li>
+<li>数据包到达INPUT链。此时 LVS 会根据目的 IP 和 PORT来确认是否是 LVS 定义的服务，如果是定义过的 VIP 服务，就会根据配置信息，从真实服务器列表 中选择一个作为 RS1，然后以 RS1作为目标查找Out 方向的路由，确定一下跳信息以及数据包要通过哪个网卡发出。最后将数据包投递到POSTROUTING链上。</li>
+<li>数据包通过POSTROUTING链后，从网络层转到链路层，将目的 MAC 地址修改为RealServer服务器MAC地址，记为 RMAC ；而源 MAC 地址修改为 LVS 与 RS 同网段的IP对应的MAC地址，记为DMAC 。此时，数据包通过交换机转发给了RealServer服务器。</li>
+<li>请求数据包到达后端真实服务器后，链路层检查目的 MAC 是自己网卡地址。到了网络层，查找路由，目的 IP 是 VIP（lo 上配置了 VIP），判定是本地主机的数据包，经过协议栈拷贝至Web服务，Web服务响应请求后，产生响应数据包。</li>
+<li>然后以CIP查找出方向的路由，确定下一跳信息和发送网卡设备信息。此时源IP是VIP，目标IP是CIP，而源MAC地址是RS的MAC地址，记为RMAC ，目的 MAC 是下一跳（路由器）的 MAC 地址，记为 R2MAC。然后数据包通过RS相连的路由器转发给真正客户端，完成了请求响应的全过程。</li>
+</ol>
+<p><strong>DR模式特性：</strong></p>
+<ul>
+<li>前端路由将目标地址为VIP报文发往Director Server</li>
+<li>Director和RS都配置有VIP</li>
+<li>RS的RIP可以使用私网地址，也可以是公网地址，RIP与DIP在同一IP网络。RIP的网关不能指向DIP，以确保响应报文不会经由Director</li>
+<li>RS和Director要在同一个物理网络。</li>
+<li>请求报文要经由Director，但响应报文不经由Director，而由RS直接发往Client。</li>
+<li>不支持端口映射。</li>
+<li>无需开启 ip_forward</li>
+<li>RS可使用大多数OS系统</li>
+</ul>
+<p><strong>DR模式优点：</strong></p>
+<ul>
+<li>响应数据不经过 LVS，性能高。</li>
+</ul>
+<p><strong>DR模式缺点：</strong></p>
+<ul>
+<li>LVS 与 RS必须在同一个物理网络（不支持跨机房）</li>
+<li>服务器上必须配置 lo 和其它内核参数</li>
+<li>不支持端口映射</li>
+</ul>
+<p><strong>DR模式场景：</strong></p>
+<p>对性能要求非常高，可以首选 DR 模式，而且可以透传客户端源 IP 地址。</p>
+<h3 id="1-3-3-TUN模式"><a href="#1-3-3-TUN模式" class="headerlink" title="1.3.3 TUN模式"></a>1.3.3 TUN模式</h3><h3 id="1-3-4-FULLNAT模式"><a href="#1-3-4-FULLNAT模式" class="headerlink" title="1.3.4 FULLNAT模式"></a>1.3.4 FULLNAT模式</h3><h2 id="1-4-LVS工作模式比较"><a href="#1-4-LVS工作模式比较" class="headerlink" title="1.4 LVS工作模式比较"></a>1.4 LVS工作模式比较</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>NAT</th>
+<th>TUN</th>
+<th>DR</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Real Server</td>
+<td>any</td>
+<td>Tunneling</td>
+<td>Non-arp device</td>
+</tr>
+<tr>
+<td>Real server network</td>
+<td>Private</td>
+<td>LAN&#x2F;WAN</td>
+<td>LAN</td>
+</tr>
+<tr>
+<td>Real server number</td>
+<td>low (10~20)</td>
+<td>High (100)</td>
+<td>High (100)</td>
+</tr>
+<tr>
+<td>Real server gateway</td>
+<td>load balancer</td>
+<td>own router</td>
+<td>Own route</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>端口转换</td>
+<td>WAN</td>
+<td>性能最好</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>性能瓶颈</td>
+<td>要求支持隧道,不支持端口转 换</td>
+<td>不支持跨网段和端口转 换</td>
+</tr>
+</tbody></table>
+<p>LVS-NAT与LVS-FULLNAT：</p>
+<ul>
+<li>请求和响应报文都经过Director</li>
+<li>LVS-NAT：RIP的网关要指向DIP</li>
+<li>LVS-FULLNAT：RIP和DIP未必在同一IP网络，但要能通信。</li>
+</ul>
+<p>LVS-DR与LVS-TUN：</p>
+<ul>
+<li>请求报文要经过Director，但响应报文由RS直接发往Client</li>
+<li>LVS-DR：通过封装新的MAC首部实现，通过MAC网络转发。</li>
+<li>LVS-TUN：通过在原IP报文外封装新IP头实现转发，支持远距离通信。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/LVS/" class="category-chain-item">LVS</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/LVS/">#LVS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(1).LVS工作模式</div>
+      <div>http://chsblogs.com/2023/02/02/LB/LVS/lvs01/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/02/LB/LVS/lvs02/" title="(2).LVS调度算法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">(2).LVS调度算法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/07/Container/Docker/docker08/" title="(8).Docker-Compose">
+                        <span class="hidden-mobile">(8).Docker-Compose</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2023/02/02/LB/LVS/lvs01/';
+          this.page.identifier = '/2023/02/02/LB/LVS/lvs01/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="LVS"
+        id="heading-76ae2e1c04e57e1c385524a20193b25c" role="tab" data-toggle="collapse" href="#collapse-76ae2e1c04e57e1c385524a20193b25c"
+        aria-expanded="true"
+      >
+        LVS
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-76ae2e1c04e57e1c385524a20193b25c"
+           role="tabpanel" aria-labelledby="heading-76ae2e1c04e57e1c385524a20193b25c">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/02/02/LB/LVS/lvs01/" title="(1).LVS工作模式"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(1).LVS工作模式</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/02/LB/LVS/lvs02/" title="(2).LVS调度算法"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(2).LVS调度算法</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/02/LB/LVS/lvs03/" title="(3).LVS实战案例"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(3).LVS实战案例</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

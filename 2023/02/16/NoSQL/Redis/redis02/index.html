@@ -1,0 +1,1000 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.Redis配置详解1.1 Redis配置################################## NETWORK ##################################### bind 127.0.0.1 -::1 #监听地址，可以用空格隔开后多个监听IP protected-mode yes #redis3.2之后加入的新特性，在没有设置bind IP和密码的时候,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(2).Redis配置详解">
+<meta property="og:url" content="http://chsblogs.com/2023/02/16/NoSQL/Redis/redis02/index.html">
+<meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.Redis配置详解1.1 Redis配置################################## NETWORK ##################################### bind 127.0.0.1 -::1 #监听地址，可以用空格隔开后多个监听IP protected-mode yes #redis3.2之后加入的新特性，在没有设置bind IP和密码的时候,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-16T15:06:07.000Z">
+<meta property="article:modified_time" content="2023-03-14T17:50:09.963Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>(2).Redis配置详解 - 陈怀森の学习笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 学习笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(2).Redis配置详解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-16 23:06" pubdate>
+          2023年2月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          6 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(2).Redis配置详解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-Redis配置详解"><a href="#1-Redis配置详解" class="headerlink" title="1.Redis配置详解"></a>1.Redis配置详解</h1><h2 id="1-1-Redis配置"><a href="#1-1-Redis配置" class="headerlink" title="1.1 Redis配置"></a>1.1 Redis配置</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">################################## NETWORK #####################################</span>
+<span class="token builtin class-name">bind</span> <span class="token number">127.0</span>.0.1 -::1 <span class="token comment">#监听地址，可以用空格隔开后多个监听IP</span>
+protected-mode <span class="token function">yes</span> <span class="token comment">#redis3.2之后加入的新特性，在没有设置bind IP和密码的时候,redis只允许访问127.0.0.1:6379，可以远程连接，但当访问将提示警告信息并拒绝远程访问。</span>
+port <span class="token number">6379</span> <span class="token comment">#监听端口,默认6379/tcp</span>
+tcp-backlog <span class="token number">511</span> <span class="token comment">#三次握手的时候server端收到client ack确认号之后的队列值，即全连接队列长度</span>
+unixsocket /run/redis.sock 
+unixsocketperm <span class="token number">700</span>
+<span class="token function">timeout</span> <span class="token number">0</span> <span class="token comment">#客户端和Redis服务端的连接超时时间，默认是0，表示永不超时</span>
+tcp-keepalive <span class="token number">300</span> <span class="token comment">#tcp 会话保持时间300s</span>
+
+<span class="token comment">################################# GENERAL #####################################</span>
+daemonize no <span class="token comment">#默认no,即直接运行redis-server程序时,不作为守护进程运行，而是以前台方式运行，如果想在后台运行需改成yes,当redis作为守护进程运行的时候，它会写一个pid到/var/run/redis.pid文件。</span>
+supervised auto <span class="token comment">#和OS相关参数，可设置通过upstart和systemd管理Redis守护进程，centos7后都使用systemd。</span>
+pidfile /var/run/redis_6379.pid <span class="token comment">#pid文件路径</span>
+loglevel notice <span class="token comment">#日志级别</span>
+logfile <span class="token string">""</span> <span class="token comment">#日志路径</span>
+syslog-enabled no
+syslog-ident redis
+syslog-facility local0
+databases <span class="token number">16</span> <span class="token comment">#设置数据库数量，默认：0-15，共16个库</span>
+always-show-logo no<span class="token comment">#在启动redis 时是否显示或在日志中记录记录redis的logo</span>
+
+<span class="token comment">################################ SNAPSHOTTING  ################################</span>
+save <span class="token number">3600</span> <span class="token number">1</span> <span class="token comment">#在900秒内有1个key内容发生更改,就执行快照机制</span>
+save <span class="token number">300</span> <span class="token number">100</span> <span class="token comment">#在300秒内有10个key内容发生更改,就执行快照机制</span>
+save <span class="token number">60</span> <span class="token number">10000</span> <span class="token comment">#60秒内如果有10000个key以上的变化，就自动快照备份</span>
+stop-writes-on-bgsave-error <span class="token function">yes</span> <span class="token comment">#默认为yes时,可能会因空间满等原因快照无法保存出错时，会禁止redis写入操作，生产建议为no</span>
+rdbcompression <span class="token function">yes</span> <span class="token comment">#持久化到RDB文件时，是否压缩，"yes"为压缩，"no"则反之</span>
+rdbchecksum <span class="token function">yes</span> <span class="token comment">#是否对备份文件开启RC64校验，默认是开启</span>
+dbfilename dump.rdb <span class="token comment">#快照文件名</span>
+rdb-del-sync-files no
+<span class="token function">dir</span> ./ <span class="token comment">#快照文件保存路径</span>
+
+<span class="token comment">################################# REPLICATION #################################</span>
+replicaof <span class="token operator">&lt;</span>masterip<span class="token operator">></span> <span class="token operator">&lt;</span>masterport<span class="token operator">></span> <span class="token comment">#指定复制的master主机地址和端口，5.0版之前的指令为slaveof</span>
+masteruser <span class="token operator">&lt;</span>username<span class="token operator">></span> <span class="token comment">#指定复制的master主机的密码</span>
+
+<span class="token comment">#当从库同主库失去连接或者复制正在进行，从机库有两种运行方式：</span>
+<span class="token comment">#1、设置为yes(默认设置)，从库会继续响应客户端的读请求，此为建议值</span>
+<span class="token comment">#2、设置为no，除去特定命令外的任何请求都会返回一个错误"SYNC with master in progress"。</span>
+replica-serve-stale-data <span class="token function">yes</span>
+replica-read-only <span class="token function">yes</span> <span class="token comment">#是否设置从库只读，建议值为yes,否则主库同步从库时可能会覆盖数据，造成数据丢失。</span>
+
+<span class="token comment">#是否使用socket方式复制数据(无盘同步)，新slave第一次连接master时需要做数据的全量同步，redis server就要从内存dump出新的RDB文件，然后从master传到slave，有两种方式把RDB文件传输给客户端：</span>
+<span class="token comment">#1.基于硬盘（disk-backed）：为no时，master创建一个新进程dump生成RDB磁盘文件，RDB完成之后由父进程（即主进程）将RDB文件发送给slaves，此为默认值。</span>
+<span class="token comment">#2.基于socket（diskless）：master创建一个新进程直接dump RDB至slave的网络socket，不经过主进程和硬盘。</span>
+<span class="token comment">#推荐使用基于硬盘（为no），是因为RDB文件创建后，可以同时传输给更多的slave，但是基于socket(为yes)， 新slave连接到master之后得逐个同步数据。只有当磁盘I/O较慢且网络较快时，可用diskless(yes),否则一般建议使用磁盘(no)</span>
+repl-diskless-sync no
+
+<span class="token comment">#diskless时复制的服务器等待的延迟时间，设置0为关闭，在延迟时间内到达的客户端，会一起通过diskless方式同步数据，但是一旦复制开始，master节点不会再接收新slave的复制请求，直到下一次同步开始才再接收新请求。即无法为延迟时间后到达的新副本提供服务，新副本将排队等待下一次RDB传输，因此服务器会等待一段时间才能让更多副本到达。推荐值：30-60</span>
+repl-diskless-sync-delay <span class="token number">5</span>
+repl-diskless-load disabled
+repl-ping-replica-period <span class="token number">10</span> <span class="token comment">#slave根据master指定的时间进行周期性的PING master,用于监测master状态,默认10s</span>
+repl-timeout <span class="token number">60</span> <span class="token comment">#复制连接的超时时间，需要大于repl-ping-slave-period，否则会经常报超时。</span>
+
+<span class="token comment">#是否在slave套接字发送SYNC之后禁用 TCP_NODELAY，如果选择"yes"，Redis将合并多个报文为一个大的报文，从而使用更少数量的包向slaves发送数据，但是将使数据传输到slave上有延迟，Linux内核的默认配置会达到40毫秒，如果 "no" ，数据传输到slave的延迟将会减少，但要使用更多的带宽。</span>
+repl-disable-tcp-nodelay no
+
+<span class="token comment">#复制缓冲区内存大小，当slave断开连接一段时间后，该缓冲区会累积复制副本数据，因此当slave 重新连接时，通常不需要完全重新同步，只需传递在副本中的断开连接后没有同步的部分数据即可。只有在至少有一个slave连接之后才分配此内存空间,建议建立主从时此值要调大一些或在低峰期配置,否则会导致同步到slave失败。</span>
+repl-backlog-size 1mb
+repl-backlog-ttl <span class="token number">3600</span> <span class="token comment">#多长时间内master没有slave连接，就清空backlog缓冲区</span>
+replica-priority <span class="token number">100</span> <span class="token comment">#当master不可用，哨兵Sentinel会根据slave的优先级选举一个master，此值最低的slave会优先当选master，而配置成0，永远不会被选举，一般多个slave都设为一样的值，让其自动选择。</span>
+
+<span class="token comment">################################## SECURITY ###################################</span>
+acllog-max-len <span class="token number">128</span>
+requirepass foobared <span class="token comment">#设置redis连接密码，之后需要AUTH pass,如果有特殊符号，用" "引起来,生产建议设置。</span>
+rename-command CONFIG <span class="token string">""</span> <span class="token comment">#重命名一些高危命令</span>
+
+<span class="token comment">################################### CLIENTS ####################################</span>
+maxclients <span class="token number">10000</span> <span class="token comment">#Redis最大连接客户端</span>
+
+<span class="token comment">############################## MEMORY MANAGEMENT ################################</span>
+maxmemory <span class="token operator">&lt;</span>bytes<span class="token operator">></span> <span class="token comment">#redis使用的最大内存，单位为bytes字节，0为不限制，建议设为物理内存一半，8G内存的计算方式8(G)*1024(MB)1024(KB)*1024(Kbyte)，需要注意的是缓冲区是不计算在maxmemory内,生产中如果不设置此项,可能会导致OOM。</span>
+maxmemory-samples <span class="token number">5</span>
+
+<span class="token comment">############################# LAZY FREEING ####################################</span>
+lazyfree-lazy-eviction no
+lazyfree-lazy-expire no
+lazyfree-lazy-server-del no
+replica-lazy-flush no
+lazyfree-lazy-user-del no
+lazyfree-lazy-user-flush no
+
+<span class="token comment">################################ THREADED I/O #################################</span>
+io-threads <span class="token number">4</span>
+
+<span class="token comment">############################## APPEND ONLY MODE ###############################</span>
+<span class="token comment">##是否开启AOF日志记录，默认redis使用的是rdb方式持久化，这种方式在许多应用中已经足够用了，但是redis如果中途宕机，会导致可能有几分钟的数据丢失(取决于dump数据的间隔时间)，根据save来策略进行持久化，Append Only File是另一种持久化方式，可以提供更好的持久化特性，Redis会把每次写入的数据在接收后都写入 appendonly.aof 文件，每次启动时Redis都会先把这个文件的数据读入内存里，先忽略RDB文件。默认不启用此功能。</span>
+appendonly no
+appendfilename <span class="token string">"appendonly.aof"</span> <span class="token comment">#文本文件AOF的文件名，存放在dir指令指定的目录中</span>
+
+<span class="token comment">#aof持久化策略的配置</span>
+<span class="token comment">#no表示由操作系统保证数据同步到磁盘,Linux的默认fsync策略是30秒，最多会丢失30s的数据</span>
+<span class="token comment">#always表示每次写入都执行fsync，以保证数据同步到磁盘,安全性高,性能较差</span>
+<span class="token comment">#everysec表示每秒执行一次fsync，可能会导致丢失这1s数据,此为默认值,也生产建议值</span>
+appendfsync everysec
+
+<span class="token comment">#同时在执行bgrewriteaof操作和主进程写aof文件的操作，两者都会操作磁盘，而bgrewriteaof往往会涉及大量磁盘操作，这样就会造成主进程在写aof文件的时候出现阻塞的情形,以下参数实现控制。</span>
+<span class="token comment">##在aof rewrite期间,是否对aof新记录的append暂缓使用文件同步策略,主要考虑磁盘IO开支和请求阻塞时间。</span>
+<span class="token comment">#默认为no,表示"不暂缓",新的aof记录仍然会被立即同步到磁盘，是最安全的方式，不会丢失数据，但是要忍受阻塞的问题。</span>
+<span class="token comment">#yes,相当于将appendfsync设置为no，这说明并没有执行磁盘操作，只是写入了缓冲区，因此这样并不会造成阻塞（因为没有竞争磁盘），但是如果这个时候redis挂掉，就会丢失数据。丢失多少数据呢？Linux的默认fsync策略是30秒，最多会丢失30s的数据,但由于yes性能较好而且会避免出现阻塞因此比较推荐。</span>
+<span class="token comment">#rewrite 即对aof文件进行整理,将空闲空间回收,从而可以减少恢复数据时间。</span>
+no-appendfsync-on-rewrite no
+auto-aof-rewrite-percentage <span class="token number">100</span> <span class="token comment">#当Aof log增长超过指定百分比例时，重写AOF文件，设置为0表示不自动重写Aof日志，重写是为了使aof体积保持最小，但是还可以确保保存最完整的数据。</span>
+auto-aof-rewrite-min-size 64mb <span class="token comment">#触发aof rewrite的最小文件大小</span>
+aof-load-truncated <span class="token function">yes</span> <span class="token comment">#是否加载由于某些原因导致的末尾异常的AOF文件(主进程被kill/断电等)，建议yes。</span>
+
+<span class="token comment">#redis4.0新增RDB-AOF混合持久化格式，在开启了这个功能之后，AOF重写产生的文件将同时包含RDB格式的内容和AOF格式的内容，其中RDB格式的内容用于记录已有的数据，而AOF格式的内容则用于记录最近发生了变化的数据，这样Redis就可以同时兼有RDB持久化和AOF持久化的优点（既能够快速地生成重写文件，也能够在出现问题时，快速地载入数据）。</span>
+aof-use-rdb-preamble <span class="token function">yes</span>
+
+<span class="token comment">################################ LUA SCRIPTING  ###############################</span>
+lua-time-limit <span class="token number">5000</span> <span class="token comment">#lua脚本的最大执行时间，单位为毫秒</span>
+
+<span class="token comment">################################ REDIS CLUSTER  ###############################</span>
+cluster-enabled <span class="token function">yes</span> <span class="token comment">#是否开启集群模式，默认不开启,即单机模式。</span>
+cluster-config-file nodes-6379.conf <span class="token comment">#由node节点自动生成的集群配置文件名称。</span>
+cluster-node-timeout <span class="token number">15000</span> <span class="token comment">#集群中node节点连接超时时间，单位ms,超过此时间，会踢出集群。</span>
+
+<span class="token comment">#单位为次,在执行故障转移的时候可能有些节点和master断开一段时间导致数据比较旧，这些节点就不适用于选举为master，超过这个时间的就不会被进行故障转移,不能当选master，计算公式：(node-timeout * replica-validity-factor) + repl-pingreplica-period。</span>
+cluster-replica-validity-factor <span class="token number">10</span>
+cluster-migration-barrier <span class="token number">1</span> <span class="token comment">#集群迁移屏障，一个主节点至少拥有1个正常工作的从节点，即如果主节点的slave节点故障后会将多余的从节点分配到当前主节点成为其新的从节点。</span>
+cluster-allow-replica-migration <span class="token function">yes</span>
+
+<span class="token comment">#集群请求槽位全部覆盖，如果一个主库宕机且没有备库就会出现集群槽位不全，那么yes时redis集群槽位验证不全,就不再对外提供服务(对key赋值时,会出现CLUSTERDOWN The cluster is down的提示,cluster_state:fail,但ping 仍PONG)，而no则可以继续使用,但是会出现查询数据查不到的情况(因为有数据丢失)。生产建议为no</span>
+cluster-require-full-coverage <span class="token function">yes</span>
+cluster-replica-no-failover no <span class="token comment">#如果为yes,此选项阻止在主服务器发生故障时尝试对其主服务器进行故障转移。 但是，主服务器仍然可以执行手动强制故障转移，一般为no。</span>
+cluster-allow-reads-when-down no
+
+<span class="token comment">########################## CLUSTER DOCKER/NAT support  ########################</span>
+cluster-announce-ip <span class="token number">10.1</span>.1.5
+cluster-announce-tls-port <span class="token number">6379</span>
+cluster-announce-port <span class="token number">0</span>
+cluster-announce-bus-port <span class="token number">6380</span>
+
+<span class="token comment">################################## SLOW LOG ###################################</span>
+<span class="token comment">#Slow log 是 Redis 用来记录超过指定执行时间的日志系统，执行时间不包括与客户端交谈，发送回复等I/O操作，而是实际执行命令所需的时间（在该阶段线程被阻塞并且不能同时为其它请求提供服务）,由于slow log 保存在内存里面，读写速度非常快，因此可放心地使用，不必担心因为开启 slow log 而影响Redis的速度。</span>
+slowlog-log-slower-than <span class="token number">10000</span> <span class="token comment">#以微秒为单位的慢日志记录，为负数会禁用慢日志，为0会记录每个命令操作。默认值为10ms,一般一条命令执行都在微秒级,生产建议设为1ms-10ms之间。</span>
+slowlog-max-len <span class="token number">128</span> <span class="token comment">#最多记录多少条慢日志的保存队列长度，达到此长度后，记录新命令会将最旧的命令从命令队列中删除，以此滚动删除,即,先进先出,队列固定长度,默认128,值偏小,生产建议设为1000以上。</span></code></pre></div></figure>
+
+
+
+<h2 id="1-2-CONFIG动态修改配置"><a href="#1-2-CONFIG动态修改配置" class="headerlink" title="1.2 CONFIG动态修改配置"></a>1.2 CONFIG动态修改配置</h2><p>config 命令用于查看当前redis配置、以及不重启redis服务实现动态更改redis配置等。不是所有配置都可以动态修改,且此方式无法持久保存。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#设置连接密码</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> CONFIG SET requirepass <span class="token number">654321</span>
+OK
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> CONFIG GET requirepass
+<span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"requirepass"</span>
+<span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">"654321"</span>
+
+<span class="token comment">#获取当前配置</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> CONFIG GET *
+  <span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"rdbchecksum"</span>
+  <span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">"yes"</span>
+  <span class="token number">3</span><span class="token punctuation">)</span> <span class="token string">"daemonize"</span>
+  <span class="token number">4</span><span class="token punctuation">)</span> <span class="token string">"yes"</span>
+  <span class="token number">5</span><span class="token punctuation">)</span> <span class="token string">"io-threads-do-reads"</span>
+  <span class="token number">6</span><span class="token punctuation">)</span> <span class="token string">"no"</span>
+  <span class="token number">7</span><span class="token punctuation">)</span> <span class="token string">"lua-replicate-commands"</span>
+  <span class="token number">8</span><span class="token punctuation">)</span> <span class="token string">"yes"</span>
+  <span class="token number">9</span><span class="token punctuation">)</span> <span class="token string">"always-show-logo"</span>
+ <span class="token number">10</span><span class="token punctuation">)</span> <span class="token string">"no"</span>
+ <span class="token number">11</span><span class="token punctuation">)</span> <span class="token string">"protected-mode"</span>
+ <span class="token number">12</span><span class="token punctuation">)</span> <span class="token string">"no"</span>
+ <span class="token number">13</span><span class="token punctuation">)</span> <span class="token string">"rdbcompression"</span>
+ <span class="token number">14</span><span class="token punctuation">)</span> <span class="token string">"yes"</span>
+ <span class="token number">15</span><span class="token punctuation">)</span> <span class="token string">"rdb-del-sync-files"</span>
+ <span class="token number">16</span><span class="token punctuation">)</span> <span class="token string">"no"</span>
+ <span class="token number">17</span><span class="token punctuation">)</span> <span class="token string">"activerehashing"</span>
+ <span class="token number">18</span><span class="token punctuation">)</span> <span class="token string">"yes"</span>
+ <span class="token number">19</span><span class="token punctuation">)</span> <span class="token string">"stop-writes-on-bgsave-error"</span>
+ <span class="token number">20</span><span class="token punctuation">)</span> <span class="token string">"yes"</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+
+<span class="token comment">#更改最大内存</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> CONFIG SET maxmemory <span class="token number">8589934592</span>
+OK
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> CONFIG GET maxmemory
+<span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"maxmemory"</span>
+<span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">"8589934592"</span></code></pre></div></figure>
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/Redis/" class="category-chain-item">Redis</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Redis/">#Redis</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(2).Redis配置详解</div>
+      <div>http://chsblogs.com/2023/02/16/NoSQL/Redis/redis02/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/16/NoSQL/Redis/redis03/" title="(3).Redis持久化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">(3).Redis持久化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/16/NoSQL/Redis/redis01/" title="(1).Redis简介及安装">
+                        <span class="hidden-mobile">(1).Redis简介及安装</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2023/02/16/NoSQL/Redis/redis02/';
+          this.page.identifier = '/2023/02/16/NoSQL/Redis/redis02/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Redis"
+        id="heading-e111446745a1825b862f8727ae63bce4" role="tab" data-toggle="collapse" href="#collapse-e111446745a1825b862f8727ae63bce4"
+        aria-expanded="true"
+      >
+        Redis
+        <span class="list-group-count">(6)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-e111446745a1825b862f8727ae63bce4"
+           role="tabpanel" aria-labelledby="heading-e111446745a1825b862f8727ae63bce4">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/02/16/NoSQL/Redis/redis01/" title="(1).Redis简介及安装"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(1).Redis简介及安装</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/16/NoSQL/Redis/redis02/" title="(2).Redis配置详解"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(2).Redis配置详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/16/NoSQL/Redis/redis03/" title="(3).Redis持久化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(3).Redis持久化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/18/NoSQL/Redis/redis04/" title="(4).Redis主从复制"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(4).Redis主从复制</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/18/NoSQL/Redis/redis05/" title="(5).Redis哨兵机制"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(5).Redis哨兵机制</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/19/NoSQL/Redis/redis06/" title="(6).Redis之Cluster集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(6).Redis之Cluster集群</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

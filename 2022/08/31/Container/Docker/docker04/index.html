@@ -1,0 +1,1311 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.Dockerfile1.1 Dockerfile简介​	Dockerfile是一个用来构建镜像的文本文件，由一行行命令语句组成，并且支持以 # 开头的注释行。一般的。Dockerfile分为四部分：基础镜像信息、维护者信息、镜像操作指令、容器启动时执行指令。 1.2 Dockerfile指令1.2.1 FROMFROM：指定构建新镜像时使用的基础镜像，通常必须是Dockerfile除了注释之外">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(4).Docker构建镜像">
+<meta property="og:url" content="http://chsblogs.com/2022/08/31/Container/Docker/docker04/index.html">
+<meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.Dockerfile1.1 Dockerfile简介​	Dockerfile是一个用来构建镜像的文本文件，由一行行命令语句组成，并且支持以 # 开头的注释行。一般的。Dockerfile分为四部分：基础镜像信息、维护者信息、镜像操作指令、容器启动时执行指令。 1.2 Dockerfile指令1.2.1 FROMFROM：指定构建新镜像时使用的基础镜像，通常必须是Dockerfile除了注释之外">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-31T00:58:44.000Z">
+<meta property="article:modified_time" content="2023-03-14T17:11:21.952Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>(4).Docker构建镜像 - 陈怀森の学习笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 学习笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(4).Docker构建镜像"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-31 08:58" pubdate>
+          2022年8月31日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(4).Docker构建镜像</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-Dockerfile"><a href="#1-Dockerfile" class="headerlink" title="1.Dockerfile"></a>1.Dockerfile</h1><h2 id="1-1-Dockerfile简介"><a href="#1-1-Dockerfile简介" class="headerlink" title="1.1 Dockerfile简介"></a>1.1 Dockerfile简介</h2><p>​	Dockerfile是一个用来构建镜像的文本文件，由一行行命令语句组成，并且支持以 # 开头的注释行。一般的。Dockerfile分为四部分：基础镜像信息、维护者信息、镜像操作指令、容器启动时执行指令。</p>
+<h2 id="1-2-Dockerfile指令"><a href="#1-2-Dockerfile指令" class="headerlink" title="1.2 Dockerfile指令"></a>1.2 Dockerfile指令</h2><h3 id="1-2-1-FROM"><a href="#1-2-1-FROM" class="headerlink" title="1.2.1 FROM"></a>1.2.1 FROM</h3><p>FROM：指定构建新镜像时使用的基础镜像，通常必须是Dockerfile除了注释之外的第一行，但其前面也可以出现ARG指令。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+FROM <span class="token punctuation">[</span>--platform<span class="token operator">=</span><span class="token operator">&lt;</span>platform<span class="token operator">></span><span class="token punctuation">]</span> <span class="token operator">&lt;</span>image<span class="token operator">></span> <span class="token punctuation">[</span>AS <span class="token operator">&lt;</span>name<span class="token operator">></span><span class="token punctuation">]</span>
+FROM <span class="token punctuation">[</span>--platform<span class="token operator">=</span><span class="token operator">&lt;</span>platform<span class="token operator">></span><span class="token punctuation">]</span> <span class="token operator">&lt;</span>image<span class="token operator">></span><span class="token punctuation">[</span>:<span class="token operator">&lt;</span>tag<span class="token operator">></span><span class="token punctuation">]</span> <span class="token punctuation">[</span>AS <span class="token operator">&lt;</span>name<span class="token operator">></span><span class="token punctuation">]</span>
+FROM <span class="token punctuation">[</span>--platform<span class="token operator">=</span><span class="token operator">&lt;</span>platform<span class="token operator">></span><span class="token punctuation">]</span> <span class="token operator">&lt;</span>image<span class="token operator">></span><span class="token punctuation">[</span>@<span class="token operator">&lt;</span>digest<span class="token operator">></span><span class="token punctuation">]</span> <span class="token punctuation">[</span>AS <span class="token operator">&lt;</span>name<span class="token operator">></span><span class="token punctuation">]</span>
+
+示例：
+FROM centos:7.8.2003</code></pre></div></figure>
+
+
+
+<h3 id="1-2-2-RUN"><a href="#1-2-2-RUN" class="headerlink" title="1.2.2 RUN"></a>1.2.2 RUN</h3><p>RUN：基于FROM中定义的镜像为基础环境运行指定命令，并提交结果，生成的镜像将用于Dockerfile中的下一步。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：有2种形式
+<span class="token comment">#shell形式,非交互形式</span>
+RUN <span class="token operator">&lt;</span>command<span class="token operator">></span>
+<span class="token comment">#exec执行</span>
+RUN <span class="token punctuation">[</span><span class="token string">"executable"</span>, <span class="token string">"param1"</span>, <span class="token string">"param2"</span><span class="token punctuation">]</span>
+
+示例：
+RUN yum <span class="token parameter variable">-y</span> <span class="token function">install</span> <span class="token function">vim</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> /etc/nginx
+RUN <span class="token punctuation">[</span><span class="token string">"executable"</span>, <span class="token string">"param1"</span>, <span class="token string">"param2"</span><span class="token punctuation">]</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-3-CMD"><a href="#1-2-3-CMD" class="headerlink" title="1.2.3 CMD"></a>1.2.3 CMD</h3><p>CMD：为正在执行的容器提供默认值，默认值可以包括可执行文件，也可以省略可执行文件。Dockerfile中只能有一条CMD指令。如果列出多个CMD，则只有最后一个CMD生效。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：Dockerfile中只能有一条CMD指令。如果列出多个CMD，则只有最后一个CMD生效。
+CMD <span class="token punctuation">[</span><span class="token string">"param1"</span>,<span class="token string">"param2"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>作为ENTRYPOINT 的默认参数<span class="token punctuation">)</span>
+CMD <span class="token builtin class-name">command</span> param1 param2<span class="token punctuation">(</span>执行shell<span class="token punctuation">)</span>
+
+示例：
+CMD <span class="token punctuation">[</span><span class="token string">"/bin/bash"</span><span class="token punctuation">]</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-4-LABEL"><a href="#1-2-4-LABEL" class="headerlink" title="1.2.4 LABEL"></a>1.2.4 LABEL</h3><p>LABEL：将元数据添加到镜像。标签是键值对。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+LABEL <span class="token operator">&lt;</span>key<span class="token operator">>=</span><span class="token operator">&lt;</span>value<span class="token operator">></span> <span class="token operator">&lt;</span>key<span class="token operator">>=</span><span class="token operator">&lt;</span>value<span class="token operator">></span> <span class="token operator">&lt;</span>key<span class="token operator">>=</span><span class="token operator">&lt;</span>value<span class="token operator">></span> <span class="token punctuation">..</span>.
+
+示例：
+LABEL <span class="token string">"blogs"</span><span class="token operator">=</span><span class="token string">"www.chsblogs.com"</span>
+LABEL <span class="token assign-left variable">version</span><span class="token operator">=</span><span class="token string">"1.2.0"</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-5-EXPOSE"><a href="#1-2-5-EXPOSE" class="headerlink" title="1.2.5 EXPOSE"></a>1.2.5 EXPOSE</h3><p>EXPOSE：指定容器暴露的端口，支持TCP、UDP协议</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+EXPOSE <span class="token operator">&lt;</span>port<span class="token operator">></span> <span class="token punctuation">[</span><span class="token operator">&lt;</span>port<span class="token operator">></span>/<span class="token operator">&lt;</span>protocol<span class="token operator">></span><span class="token punctuation">..</span>.<span class="token punctuation">]</span>
+
+示例：
+EXPOSE <span class="token number">80</span> <span class="token number">443</span>
+EXPOSE <span class="token number">8080</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-6-ENV"><a href="#1-2-6-ENV" class="headerlink" title="1.2.6 ENV"></a>1.2.6 ENV</h3><p>ENV：设置容器环境变量</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+ENV <span class="token operator">&lt;</span>key<span class="token operator">>=</span><span class="token operator">&lt;</span>value<span class="token operator">></span> <span class="token punctuation">..</span>.
+
+示例：
+ENV JAVA_HOME /usr/local/src
+ENV JRE_HOME <span class="token variable">$JAVA_HOME</span>/jre
+ENV CLASSPATH <span class="token variable">$JAVA_HOME</span>/lib/:<span class="token variable">$JRE_HOME</span>/lib/
+ENV <span class="token environment constant">PATH</span> <span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token variable">$JAVA_HOME</span>/bin</code></pre></div></figure>
+
+
+
+<h3 id="1-2-7-ADD"><a href="#1-2-7-ADD" class="headerlink" title="1.2.7 ADD"></a>1.2.7 ADD</h3><p>ADD：ADD指令从＜src＞复制新文件、目录或远程文件URL，并将它们添加到路径＜dest＞的映像文件系统中。会自动解压tar.gz格式的压缩包，不会自动解压zip。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+ADD <span class="token punctuation">[</span>--chown<span class="token operator">=</span><span class="token operator">&lt;</span>user<span class="token operator">></span>:<span class="token operator">&lt;</span>group<span class="token operator">></span><span class="token punctuation">]</span> <span class="token operator">&lt;</span>src<span class="token operator">></span><span class="token punctuation">..</span>. <span class="token operator">&lt;</span>dest<span class="token operator">></span>
+ADD <span class="token punctuation">[</span>--chown<span class="token operator">=</span><span class="token operator">&lt;</span>user<span class="token operator">></span>:<span class="token operator">&lt;</span>group<span class="token operator">></span><span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token string">"&lt;src>"</span>,<span class="token punctuation">..</span>. <span class="token string">"&lt;dest>"</span><span class="token punctuation">]</span>
+
+示例：
+ADD jdk-8u341-linux-x64.tar.gz /usr/local/src</code></pre></div></figure>
+
+
+
+<h3 id="1-2-8-COPY"><a href="#1-2-8-COPY" class="headerlink" title="1.2.8 COPY"></a>1.2.8 COPY</h3><p>COPY：从＜src＞复制新文件或目录，并将它们添加到路径＜dest＞的容器文件系统中。不会解压任何压缩。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+COPY <span class="token punctuation">[</span>--chown<span class="token operator">=</span><span class="token operator">&lt;</span>user<span class="token operator">></span>:<span class="token operator">&lt;</span>group<span class="token operator">></span><span class="token punctuation">]</span> <span class="token operator">&lt;</span>src<span class="token operator">></span><span class="token punctuation">..</span>. <span class="token operator">&lt;</span>dest<span class="token operator">></span>
+COPY <span class="token punctuation">[</span>--chown<span class="token operator">=</span><span class="token operator">&lt;</span>user<span class="token operator">></span>:<span class="token operator">&lt;</span>group<span class="token operator">></span><span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token string">"&lt;src>"</span>,<span class="token punctuation">..</span>. <span class="token string">"&lt;dest>"</span><span class="token punctuation">]</span>
+
+示例：
+COPY jdk-8u341-linux-x64.tar.gz /usr/local/src</code></pre></div></figure>
+
+
+
+<h3 id="1-2-9-ENTRYPOINT"><a href="#1-2-9-ENTRYPOINT" class="headerlink" title="1.2.9 ENTRYPOINT"></a>1.2.9 ENTRYPOINT</h3><p>ENTRYPOINT：用于定义容器在启动时候默认执行的命令或者脚本，如果是和CMD命令混合使用的时候，会将CMD的命令当做参数传递给ENTRYPOINT后面的脚本，可以在脚本中对参数做判断并相应的容器初始化操作。Dockerfile中只能有一条ENTRYPOINT指令。如果列出多个ENTRYPOINT，则只有最后一个ENTRYPOINT生效。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+ENTRYPOINT <span class="token punctuation">[</span><span class="token string">"executable"</span>, <span class="token string">"param1"</span>, <span class="token string">"param2"</span><span class="token punctuation">]</span><span class="token punctuation">(</span>exec格式，首选<span class="token punctuation">)</span>
+ENTRYPOINT <span class="token builtin class-name">command</span> param1 param2<span class="token punctuation">(</span>shell形式<span class="token punctuation">)</span>
+
+示例：
+FROM ubuntu
+ENTRYPOINT <span class="token punctuation">[</span><span class="token string">"top"</span>, <span class="token string">"-b"</span><span class="token punctuation">]</span> <span class="token operator">&lt;=</span><span class="token operator">=</span><span class="token operator">></span> ENTRYPOINT <span class="token punctuation">[</span><span class="token string">"top"</span>, <span class="token string">"-b"</span>, <span class="token string">"-c"</span><span class="token punctuation">]</span>
+CMD <span class="token punctuation">[</span><span class="token string">"-c"</span><span class="token punctuation">]</span>
+
+注意：
+<span class="token function">docker</span> run命令中指定的参数将附加在ENTRYPOINT中的所有元素之后，并将覆盖使用CMD指定的所有元素。</code></pre></div></figure>
+
+
+
+<h3 id="1-2-10-VOLUME"><a href="#1-2-10-VOLUME" class="headerlink" title="1.2.10 VOLUME"></a>1.2.10 VOLUME</h3><p>VOLUME：创建一个具有指定名称的挂载点，并将其标记为保存来自本机主机或其他容器的外部挂载卷。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+VOLUME <span class="token punctuation">[</span><span class="token string">"/data"</span><span class="token punctuation">]</span>
+
+示例：
+FROM ubuntu
+RUN <span class="token function">mkdir</span> /myvol
+RUN <span class="token builtin class-name">echo</span> <span class="token string">"hello world"</span> <span class="token operator">></span> /myvol/greeting
+VOLUME /myvol</code></pre></div></figure>
+
+
+
+<h3 id="1-2-11-USER"><a href="#1-2-11-USER" class="headerlink" title="1.2.11 USER"></a>1.2.11 USER</h3><p>USER：</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+<span class="token environment constant">USER</span> <span class="token operator">&lt;</span>user<span class="token operator">></span><span class="token punctuation">[</span>:<span class="token operator">&lt;</span>group<span class="token operator">></span><span class="token punctuation">]</span>
+<span class="token environment constant">USER</span> <span class="token operator">&lt;</span><span class="token environment constant">UID</span><span class="token operator">></span><span class="token punctuation">[</span>:<span class="token operator">&lt;</span>GID<span class="token operator">></span><span class="token punctuation">]</span>
+
+示例：
+<span class="token environment constant">USER</span> nginx
+
+注意：使用<span class="token environment constant">USER</span>指定用户后，Dockerfile中其后命令都是用该用户和组。</code></pre></div></figure>
+
+
+
+<h3 id="1-2-12-WORKDIR"><a href="#1-2-12-WORKDIR" class="headerlink" title="1.2.12 WORKDIR"></a>1.2.12 WORKDIR</h3><p>WORKDIR：为Dockerfile中的任何RUN、CMD、ENTRYPOINT、COPY和ADD指令设置工作目录</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+WORKDIR /path/to/workdir
+
+示例：
+WORKDIR /a    <span class="token comment">#工作目录/a</span>
+WORKDIR b     <span class="token comment">#工作目录/a/b</span>
+WORKDIR c     <span class="token comment">#工作目录/a/b/c</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-13-ARG"><a href="#1-2-13-ARG" class="headerlink" title="1.2.13 ARG"></a>1.2.13 ARG</h3><p>ARG：定义一个变量。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+ARG <span class="token operator">&lt;</span>name<span class="token operator">></span><span class="token punctuation">[</span><span class="token operator">=</span><span class="token operator">&lt;</span>default value<span class="token operator">></span><span class="token punctuation">]</span>
+
+示例1：
+ARG <span class="token assign-left variable">user</span><span class="token operator">=</span>www
+
+示例2：
+FROM centos:7.8.2003
+ARG parameter
+RUN yum <span class="token parameter variable">-y</span> <span class="token function">install</span> epel-release <span class="token operator">&amp;&amp;</span> yum <span class="token parameter variable">-y</span> <span class="token function">install</span> <span class="token variable">$parameter</span>
+EXPOSE <span class="token number">80</span> <span class="token number">443</span>
+CMD <span class="token punctuation">[</span><span class="token string">"nginx"</span>,<span class="token string">"-g"</span>,<span class="token string">"daemon off;"</span><span class="token punctuation">]</span>
+
+<span class="token comment">#灵活传参</span>
+<span class="token function">docker</span> build --build-arg <span class="token assign-left variable">parameter</span><span class="token operator">=</span>nginx <span class="token builtin class-name">.</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-14-ONBUILD"><a href="#1-2-14-ONBUILD" class="headerlink" title="1.2.14 ONBUILD"></a>1.2.14 ONBUILD</h3><p>ONBUILD：特殊的指令，它后面跟的是其它指令，比如<code>RUN``COPY</code>等，而这些指令，在当前镜像构建时并不会被执行。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">用法：
+ONBUILD <span class="token operator">&lt;</span>INSTRUCTION<span class="token operator">></span>
+
+示例：
+ONBUILD ADD <span class="token builtin class-name">.</span> /app/src
+ONBUILD RUN /usr/local/bin/python-build <span class="token parameter variable">--dir</span> /app/src</code></pre></div></figure>
+
+
+
+<h1 id="2-构建Tomcat业务镜像"><a href="#2-构建Tomcat业务镜像" class="headerlink" title="2.构建Tomcat业务镜像"></a>2.构建Tomcat业务镜像</h1><p>​	基于官方提供的centos、debian、ubuntu、alpine等基础镜像构建JDK，然后在基于构建的JDK镜像构建Tomcat业务镜像。</p>
+<h2 id="2-1-构建centos基础镜像"><a href="#2-1-构建centos基础镜像" class="headerlink" title="2.1 构建centos基础镜像"></a>2.1 构建centos基础镜像</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@node10:/opt<span class="token comment"># mkdir -pv /opt/dockerfile/&#123;web/&#123;nginx,tomcat,jdk,apache&#125;,/system/&#123;centos,ubuntu,debian,alpine&#125;&#125;</span>
+
+root@node10:~<span class="token comment"># cd /opt/dockerfile/system/centos/</span>
+
+root@node10:/opt/dockerfile/system/centos<span class="token comment"># vim Dockerfile</span>
+<span class="token comment"># CentOS:7.9.2009 Base Image</span>
+FROM centos:7.9.2009
+LABEL <span class="token string">"name"</span><span class="token operator">=</span><span class="token string">"www.chsblogs.com"</span>
+RUN yum <span class="token parameter variable">-y</span> <span class="token function">install</span> <span class="token function">wget</span> <span class="token function">vim</span> lrzsz psmisc net-tools tree <span class="token function">unzip</span> <span class="token function">zip</span> gcc gcc-c++ automake pcre pcre-devel zlib zlib-devel openssl openssl-devel iproute iotop <span class="token function">lsof</span> ntpdate telnet
+RUN <span class="token function">groupadd</span> www <span class="token parameter variable">-g</span> <span class="token number">2022</span> <span class="token operator">&amp;&amp;</span> <span class="token function">useradd</span> www <span class="token parameter variable">-u</span> <span class="token number">2022</span> <span class="token parameter variable">-g</span> www
+
+<span class="token comment">#构建centos基础镜像</span>
+root@node10:/opt/dockerfile/system/centos<span class="token comment"># docker build -t centos-base:v1 .</span></code></pre></div></figure>
+
+
+
+<h2 id="2-2-基于centos-base-v1镜像构建JDK镜像"><a href="#2-2-基于centos-base-v1镜像构建JDK镜像" class="headerlink" title="2.2 基于centos-base:v1镜像构建JDK镜像"></a>2.2 基于centos-base:v1镜像构建JDK镜像</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#编写Dockerfile文件</span>
+root@node10:~<span class="token comment"># cd /opt/dockerfile/web/jdk/</span>
+root@node10:/opt/dockerfile/web/jdk<span class="token comment"># vim Dockerfile</span>
+FROM centos-base:v1
+LABEL <span class="token string">"name"</span><span class="token operator">=</span><span class="token string">"www.chsblogs.com"</span>
+ADD jdk-8u341-linux-x64.tar.gz /usr/local/src/
+RUN <span class="token function">ln</span> <span class="token parameter variable">-sv</span> /usr/local/src/jdk1.8.0_341 /usr/local/jdk
+ADD profile /etc/profile
+ENV JAVA_HOME /usr/local/jdk
+ENV JRE_HOME <span class="token variable">$JAVA_HOME</span>/jre
+ENV CLASSPATH <span class="token variable">$JAVA_HOME</span>/lib/:<span class="token variable">$JRE_HOME</span>/lib/
+ENV <span class="token environment constant">PATH</span> <span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token variable">$JAVA_HOME</span>/bin
+RUN <span class="token function">rm</span> <span class="token parameter variable">-rf</span> /etc/localtime <span class="token operator">&amp;&amp;</span> <span class="token function">ln</span> <span class="token parameter variable">-snf</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+<span class="token comment">#准备JDK包和profile文件</span>
+root@node10:/opt/dockerfile/web/jdk<span class="token comment"># tree -L 1</span>
+<span class="token builtin class-name">.</span>
+├── Dockerfile
+├── jdk-8u341-linux-x64.tar.gz
+└── profile
+
+<span class="token number">0</span> directories, <span class="token number">3</span> files
+
+<span class="token comment">#构建JDK镜像</span>
+root@node10:/opt/dockerfile/web/jdk<span class="token comment"># docker build -t jdk-base:v8.341 .</span>
+
+<span class="token comment">#验证JDK</span>
+root@node10:/opt/dockerfile/web/jdk<span class="token comment"># docker images | grep jdk</span>
+jdk-base      v8.341     8d86f86bef92   <span class="token number">7</span> hours ago     930MB
+root@node10:/opt/dockerfile/web/jdk<span class="token comment"># docker run -it 8d86f86bef92 bash</span>
+<span class="token punctuation">[</span>root@c487eda328ef /<span class="token punctuation">]</span><span class="token comment"># java -version</span>
+<span class="token function">java</span> version <span class="token string">"1.8.0_341"</span>
+Java<span class="token punctuation">(</span>TM<span class="token punctuation">)</span> SE Runtime Environment <span class="token punctuation">(</span>build <span class="token number">1.8</span>.0_341-b10<span class="token punctuation">)</span>
+Java HotSpot<span class="token punctuation">(</span>TM<span class="token punctuation">)</span> <span class="token number">64</span>-Bit Server VM <span class="token punctuation">(</span>build <span class="token number">25.341</span>-b10, mixed mode<span class="token punctuation">)</span></code></pre></div></figure>
+
+
+
+<h2 id="2-3-基于JDK镜像构建Tomcat-9-Base镜像"><a href="#2-3-基于JDK镜像构建Tomcat-9-Base镜像" class="headerlink" title="2.3 基于JDK镜像构建Tomcat 9 Base镜像"></a>2.3 基于JDK镜像构建Tomcat 9 Base镜像</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#编写Dockerfile文件</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-9.0.65<span class="token comment">#</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-9.0.65<span class="token comment"># vim Dockerfile</span>
+
+<span class="token comment">#Tomcat Base Image</span>
+FROM jdk-base:v8.341
+LABEL <span class="token string">"name"</span><span class="token operator">=</span><span class="token string">"www.chsblogs.com"</span>
+ENV TZ <span class="token string">"Asia/Shanghai"</span>
+ENV <span class="token environment constant">LANG</span> en_US.UTF-8
+ENV <span class="token environment constant">TERM</span> term
+ENV TOMCAT_MAJOR_VERSION <span class="token number">9</span>
+ENV TOMCAT_MINOR_VERSION <span class="token number">9.0</span>.65
+ENV CATALINA_HOME /apps/tomcat
+ENV APP_DIR <span class="token variable">$&#123;CATALINA_HOME&#125;</span>/webapps
+RUN <span class="token function">mkdir</span> /apps
+ADD apache-tomcat-9.0.65.tar.gz /apps
+RUN <span class="token function">ln</span> <span class="token parameter variable">-sv</span> /apps/apache-tomcat-9.0.65 /apps/tomcat
+
+<span class="token comment">#准备Tomcat包</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-9.0.65<span class="token comment"># tree -L 1</span>
+<span class="token builtin class-name">.</span>
+├── apache-tomcat-9.0.65.tar.gz
+└── Dockerfile
+
+<span class="token number">0</span> directories, <span class="token number">2</span> files
+
+<span class="token comment">#构建Tomcat镜像</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-9.0.65<span class="token comment"># docker build -t tomcat-base:v9.0.65 .</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-9.0.65<span class="token comment"># docker images | grep tomcat</span>
+tomcat-base   v9.0.65    93c3e152f847   <span class="token number">5</span> minutes ago   946MB</code></pre></div></figure>
+
+
+
+<h2 id="2-4-基于tomcat-base-v9-0-65构建业务镜像"><a href="#2-4-基于tomcat-base-v9-0-65构建业务镜像" class="headerlink" title="2.4 基于tomcat-base:v9.0.65构建业务镜像"></a>2.4 基于tomcat-base:v9.0.65构建业务镜像</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#创建tomcat-app1目录，编写Dockerfile文件</span>
+root@node10:/opt/dockerfile/web/tomcat<span class="token comment"># mkdir tomcat-app1</span>
+root@node10:/opt/dockerfile/web/tomcat<span class="token comment"># cd tomcat-app1/</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># vim Dockerfile</span>
+<span class="token comment">#tomcat app1</span>
+FROM tomcat-base:v9.0.65
+LABEL <span class="token string">"name"</span><span class="token operator">=</span><span class="token string">"www.chsblogs.com"</span>
+ADD run_tomcat.sh /apps/tomcat/bin/run_start.sh
+ADD server.xml /apps/tomcat/conf/server.xml
+ADD myapp.tar.gz /data/tomcat/webapps
+RUN <span class="token function">chown</span> www.www /data/ /apps/ <span class="token parameter variable">-R</span>
+EXPOSE <span class="token number">8080</span> <span class="token number">8443</span>
+CMD <span class="token punctuation">[</span><span class="token string">"/apps/tomcat/bin/run_start.sh"</span><span class="token punctuation">]</span>
+
+<span class="token comment">#自定义myapp页面</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># mkdir myapp</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># echo "&lt;h1>tomcat web app1&lt;/h1>" > myapp/index.html</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># cat myapp/index.html </span>
+<span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>tomcat web app<span class="token operator"><span class="token file-descriptor important">1</span>&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># tar -czvf myapp.tar.gz myapp/</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># docker cp 68af9479e007:/apps/tomcat/conf/server.xml ./</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># vim server.xml #更改tomcat路径</span>
+     <span class="token operator">&lt;</span>Host <span class="token assign-left variable">name</span><span class="token operator">=</span><span class="token string">"localhost"</span>  <span class="token assign-left variable">appBase</span><span class="token operator">=</span><span class="token string">"/data/tomcat/webapps"</span> <span class="token assign-left variable">unpackWARs</span><span class="token operator">=</span><span class="token string">"false"</span> <span class="token assign-left variable">autoDeploy</span><span class="token operator">=</span><span class="token string">"false"</span><span class="token operator">></span>
+
+<span class="token comment">#容器启动脚本</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># cat run_tomcat.sh </span>
+<span class="token comment">#!/bin/bash</span>
+<span class="token function">su</span> - www <span class="token parameter variable">-c</span> <span class="token string">"/apps/tomcat/bin/catalina.sh start"</span>
+<span class="token function">tail</span> <span class="token parameter variable">-f</span> /etc/hosts
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># chmod +x run_tomcat.sh</span>
+
+<span class="token comment">#目录结构</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># tree -L 1</span>
+<span class="token builtin class-name">.</span>
+├── Dockerfile
+├── myapp
+├── myapp.tar.gz
+├── run_tomcat.sh
+└── server.xml
+
+<span class="token number">1</span> directory, <span class="token number">4</span> files
+
+<span class="token comment">#构建tomcat-app1镜像</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># docker build -t tomcat-app1:v1 .</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># docker images | grep tomcat-app1</span>
+tomcat-app1   v1         19c9361f2568   <span class="token number">21</span> seconds ago      962MB
+
+<span class="token comment">#启动容器</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># docker run -d -p 8080:8080 tomcat-app1:v1</span>
+086bd62738a1131c8538a21b4786df739aba058c0a65f16d639322102aff9e47
+
+<span class="token comment">#访问测试</span>
+root@node10:/opt/dockerfile/web/tomcat/tomcat-app1<span class="token comment"># curl http://192.168.1.10:8080/myapp/</span>
+<span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>tomcat web app<span class="token operator"><span class="token file-descriptor important">1</span>&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span></code></pre></div></figure>
+
+
+
+<h1 id="3-构建Haproxy镜像"><a href="#3-构建Haproxy镜像" class="headerlink" title="3.构建Haproxy镜像"></a>3.构建Haproxy镜像</h1><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#编写Dockerfile文件</span>
+root@node10:/opt/dockerfile<span class="token comment"># mkdir haproxy</span>
+root@node10:/opt/dockerfile<span class="token comment"># cd haproxy/</span>
+root@node10:/opt/dockerfile/haproxy<span class="token comment"># vim Dockerfile</span>
+<span class="token comment">#Haproxy Base Image</span>
+FROM centos-base:v1
+LABEL <span class="token string">"name"</span><span class="token operator">=</span><span class="token string">"www.chsblogs.com"</span>
+ADD lua-5.4.4.tar.gz /usr/local/src/
+ADD haproxy-2.1.12.tar.gz /usr/local/src/
+RUN <span class="token builtin class-name">cd</span> /usr/local/src/lua-5.4.4/ <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> all <span class="token builtin class-name">test</span>
+RUN yum <span class="token parameter variable">-y</span> <span class="token function">install</span> gcc openssl-devel pcre-devel systemd-devel <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> /usr/local/src/haproxy-2.1.12/ <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token assign-left variable">ARCH</span><span class="token operator">=</span>x86_64 <span class="token assign-left variable">TARGET</span><span class="token operator">=</span>linux-glibc <span class="token assign-left variable">USE_PCRE</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">USE_OPENSSL</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">USE_ZLIB</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">USE_SYSTEMD</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">USE_LUA</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">LUA_INC</span><span class="token operator">=</span>/usr/local/src/lua-5.4.4/src/ <span class="token assign-left variable">LUA_LIB</span><span class="token operator">=</span>/usr/local/src/lua-5.4.4/src/ <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token function">install</span> <span class="token assign-left variable">PREFIX</span><span class="token operator">=</span>/apps/haproxy <span class="token operator">&amp;&amp;</span> <span class="token function">ln</span> <span class="token parameter variable">-s</span> /apps/haproxy/sbin/haproxy /usr/sbin/
+RUN <span class="token function">mkdir</span> /var/lib/haproxy <span class="token operator">&amp;&amp;</span> <span class="token function">useradd</span> <span class="token parameter variable">-r</span> <span class="token parameter variable">-s</span> /sbin/nologin <span class="token parameter variable">-d</span> /var/lib/haproxy haproxy
+ADD haproxy.cfg /etc/haproxy/
+ADD run_haproxy.sh /usr/bin
+RUN <span class="token function">chmod</span> +x /usr/bin/run_haproxy.sh
+EXPOSE <span class="token number">80</span> <span class="token number">9999</span>
+CMD <span class="token punctuation">[</span><span class="token string">"/usr/bin/run_haproxy.sh"</span><span class="token punctuation">]</span>
+
+<span class="token comment">#haproxy.cfg配置文件</span>
+root@node10:/opt/dockerfile/haproxy<span class="token comment"># cat haproxy.cfg </span>
+global
+    log         <span class="token number">127.0</span>.0.1 local2
+    <span class="token function">chroot</span>      /apps/haproxy
+    stats socket /var/lib/haproxy/haproxy.sock mode <span class="token number">600</span> level admin
+    pidfile     /var/run/haproxy.pid
+    maxconn     <span class="token number">4000</span>
+    user        haproxy
+    group       haproxy
+    daemon
+
+    stats socket /var/lib/haproxy/stats
+
+defaults
+    mode                    http
+    log                     global
+    option                  httplog
+    option                  dontlognull
+    option http-server-close
+    option forwardfor       except <span class="token number">127.0</span>.0.0/8
+    option                  redispatch
+    retries                 <span class="token number">3</span>
+    <span class="token function">timeout</span> http-request    10s
+    <span class="token function">timeout</span> queue           1m
+    <span class="token function">timeout</span> connect         10s
+    <span class="token function">timeout</span> client          1m
+    <span class="token function">timeout</span> server          1m
+    <span class="token function">timeout</span> http-keep-alive 10s
+    <span class="token function">timeout</span> check           10s
+    maxconn                 <span class="token number">3000</span>
+
+listen stats
+  mode http
+  <span class="token builtin class-name">bind</span> <span class="token number">0.0</span>.0.0:9999
+  stats <span class="token builtin class-name">enable</span>
+  log global
+  stats uri /haproxy-status
+  stats auth admin:admin
+
+<span class="token comment">#容器启动脚本</span>
+root@node10:/opt/dockerfile/haproxy<span class="token comment"># cat run_haproxy.sh </span>
+<span class="token comment">#!/bin/bash</span>
+/usr/sbin/haproxy <span class="token parameter variable">-Ws</span> <span class="token parameter variable">-f</span> /etc/haproxy/haproxy.cfg <span class="token parameter variable">-p</span> /var/lib/haproxy/haproxy.pid
+
+
+<span class="token comment">#目录结构</span>
+root@node10:/opt/dockerfile/haproxy<span class="token comment"># tree -L 1</span>
+<span class="token builtin class-name">.</span>
+├── Dockerfile
+├── haproxy-2.1.12.tar.gz
+├── haproxy.cfg
+├── lua-5.4.4.tar.gz
+└── run_haproxy.sh
+
+<span class="token number">0</span> directories, <span class="token number">5</span> files
+
+
+<span class="token comment">#构建haproxy:v2.1.12镜像</span>
+root@node10:/opt/dockerfile/haproxy<span class="token comment"># docker build -t haproxy:v2.1.12 .</span>
+root@node10:/opt/dockerfile/haproxy<span class="token comment"># docker images | grep haproxy</span>
+haproxy       v2.1.12    9c7138da5b0d   <span class="token number">4</span> minutes ago    854MB
+
+<span class="token comment">#启动容器</span>
+root@node10:/opt/dockerfile/haproxy<span class="token comment"># docker run -d -it -p 9999:9999 haproxy:v2.1.12</span>
+
+<span class="token comment">#验证容器</span>
+root@node10:/opt/dockerfile/haproxy<span class="token comment"># docker ps -a</span>
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                                               NAMES
+083eac675842   haproxy:v2.1.12   <span class="token string">"/usr/bin/run_haprox…"</span>   <span class="token number">4</span> minutes ago   Up <span class="token number">4</span> minutes   <span class="token number">80</span>/tcp, <span class="token number">0.0</span>.0.0:9999-<span class="token operator">></span><span class="token number">9999</span>/tcp, :::9999-<span class="token operator">></span><span class="token number">9999</span>/tcp   eloquent_ptolemy
+root@node10:/opt/dockerfile/haproxy<span class="token comment"># docker exec -it 083eac675842 bash</span>
+<span class="token punctuation">[</span>root@083eac675842 /<span class="token punctuation">]</span><span class="token comment"># ss -tnl</span>
+State      Recv-Q Send-Q                                    Local Address:Port                                                   Peer Address:Port              
+LISTEN     <span class="token number">0</span>      <span class="token number">3000</span>                                                  *:9999                                                              *:* </code></pre></div></figure>
+
+
+
+<h1 id="4-基于alpine基础镜像构建nginx镜像"><a href="#4-基于alpine基础镜像构建nginx镜像" class="headerlink" title="4.基于alpine基础镜像构建nginx镜像"></a>4.基于alpine基础镜像构建nginx镜像</h1><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#编写Dockerfile文件</span>
+root@node10:/opt/dockerfile/system/alpine<span class="token comment"># vim Dockerfiles</span>
+FROM alpine
+LABEL <span class="token string">"name"</span><span class="token operator">=</span><span class="token string">"www.chsblogs.com"</span>
+RUN <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'s/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g'</span> /etc/apk/repositories
+RUN apk update <span class="token operator">&amp;&amp;</span> apk <span class="token function">add</span> iotop gcc libgcc libc-dev libcurl libc-utils pcre-dev zlib-dev libnfs <span class="token function">make</span> pcre pcre2 <span class="token function">zip</span> <span class="token function">unzip</span> net-tools pstree <span class="token function">wget</span> libevent libevent-dev iproute2
+ADD nginx-1.22.0.tar.gz /opt
+RUN <span class="token builtin class-name">cd</span> /opt/nginx-1.22.0 <span class="token operator">&amp;&amp;</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/apps/nginx <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token function">install</span> <span class="token operator">&amp;&amp;</span> <span class="token function">ln</span> <span class="token parameter variable">-sv</span> /apps/nginx/sbin/nginx /usr/bin
+RUN addgroup <span class="token parameter variable">-g</span> <span class="token number">2022</span> <span class="token parameter variable">-S</span> nginx <span class="token operator">&amp;&amp;</span> adduser <span class="token parameter variable">-s</span> /sbin/nologin <span class="token parameter variable">-S</span> <span class="token parameter variable">-D</span> <span class="token parameter variable">-u</span> <span class="token number">2022</span> <span class="token parameter variable">-G</span> nginx nginx
+RUN <span class="token function">chown</span> nginx.nginx /apps/nginx <span class="token parameter variable">-R</span>
+RUN <span class="token builtin class-name">echo</span> <span class="token string">"daemon off;"</span> <span class="token operator">>></span> /apps/nginx/conf/nginx.conf
+RUN <span class="token builtin class-name">echo</span> <span class="token string">"&lt;h1>nginx page test&lt;/h1>"</span> <span class="token operator">></span> /apps/nginx/html/index.html
+EXPOSE <span class="token number">80</span> <span class="token number">443</span>
+CMD <span class="token punctuation">[</span><span class="token string">"/apps/nginx/sbin/nginx"</span><span class="token punctuation">]</span>
+
+<span class="token comment">#目录结构</span>
+root@node10:/opt/dockerfile/system/alpine<span class="token comment"># tree -L 1</span>
+<span class="token builtin class-name">.</span>
+├── Dockerfile
+└── nginx-1.22.0.tar.gz
+
+<span class="token number">0</span> directories, <span class="token number">2</span> files
+
+<span class="token comment">#构建nginx:v1.22.0镜像</span>
+root@node10:/opt/dockerfile/system/alpine<span class="token comment"># docker build -t nginx:v1.22.0 .</span>
+
+<span class="token comment">#启动容器</span>
+root@node10:/opt/dockerfile/system/alpine<span class="token comment"># docker run -d -p 80:80 nginx:v1.22.0</span>
+
+<span class="token comment">#访问测试</span>
+root@node10:/opt/dockerfile/system/alpine<span class="token comment"># curl http://192.168.1.10/</span>
+<span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>nginx page test<span class="token operator">&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span></code></pre></div></figure>
+
+
+
+<h1 id="5-基于ubuntu基础镜像构建nginx镜像"><a href="#5-基于ubuntu基础镜像构建nginx镜像" class="headerlink" title="5.基于ubuntu基础镜像构建nginx镜像"></a>5.基于ubuntu基础镜像构建nginx镜像</h1><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#编写Dockerfile文件</span>
+root@node10:/opt/dockerfile/system/ubuntu<span class="token comment"># vim Dockerfile</span>
+FROM ubuntu:20.04
+LABEL <span class="token string">"name"</span><span class="token operator">=</span><span class="token string">"www.chsblogs.com"</span>
+RUN <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">"s@http://.*archive.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g"</span> /etc/apt/sources.list
+RUN <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">"s@http://.*security.ubuntu.com@http://mirrors.tuna.tsinghua.edu.cn@g"</span> /etc/apt/sources.list
+<span class="token comment">#COPY sources.list /etc/apt/sources.list</span>
+<span class="token comment">#RUN apt update</span>
+RUN <span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> iproute2 ntpdate tcpdump telnet <span class="token function">traceroute</span> nfs-kernel-server nfs-common lrzsz tree openssl libssl-dev libpcre3 libpcre3-dev zlib1g-dev ntpdate tcpdump telnet <span class="token function">traceroute</span> gcc openssh-server lrzsz tree openssl libssl-dev libpcre3 libpcre3-dev zlib1g-dev ntpdate tcpdump telnet <span class="token function">traceroute</span> iotop <span class="token function">unzip</span> <span class="token function">zip</span> gcc <span class="token function">make</span>
+ADD nginx-1.22.0.tar.gz /opt
+RUN <span class="token builtin class-name">cd</span> /opt/nginx-1.22.0 <span class="token operator">&amp;&amp;</span> ./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/apps/nginx <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token function">install</span> <span class="token operator">&amp;&amp;</span> <span class="token function">ln</span> <span class="token parameter variable">-sv</span> /apps/nginx/sbin/nginx /usr/bin
+RUN <span class="token function">groupadd</span> <span class="token parameter variable">-g</span> <span class="token number">2022</span> nginx <span class="token operator">&amp;&amp;</span> <span class="token function">useradd</span> <span class="token parameter variable">-g</span> nginx <span class="token parameter variable">-s</span> /sbin/nologin <span class="token parameter variable">-u</span> <span class="token number">2022</span> nginx
+RUN <span class="token function">chown</span> nginx.nginx /apps/nginx <span class="token parameter variable">-R</span>
+RUN <span class="token builtin class-name">echo</span> <span class="token string">"daemon off;"</span> <span class="token operator">>></span> /apps/nginx/conf/nginx.conf
+RUN <span class="token builtin class-name">echo</span> <span class="token string">"&lt;h1>nginx page test&lt;/h1>"</span> <span class="token operator">></span> /apps/nginx/html/index.html
+EXPOSE <span class="token number">80</span> <span class="token number">443</span>
+CMD <span class="token punctuation">[</span><span class="token string">"/apps/nginx/sbin/nginx"</span><span class="token punctuation">]</span>
+
+<span class="token comment">#目录结构</span>
+root@node10:/opt/dockerfile/system/ubuntu<span class="token comment"># tree -L 1</span>
+<span class="token builtin class-name">.</span>
+├── Dockerfile
+└── nginx-1.22.0.tar.gz
+
+<span class="token number">0</span> directories, <span class="token number">2</span> files
+
+<span class="token comment">#构建ubuntu-nginx:v1.22.0镜像</span>
+root@node10:/opt/dockerfile/system/ubuntu<span class="token comment"># docker build -t ubuntu-nginx:v1.22.0 .</span>
+root@node10:/opt/dockerfile/system/ubuntu<span class="token comment"># docker images | grep ubuntu-nginx</span>
+ubuntu-nginx   v1.22.0    4056f3a49504   <span class="token number">3</span> minutes ago    451MB
+
+<span class="token comment">#启动容器</span>
+root@node10:/opt/dockerfile/system/ubuntu<span class="token comment"># docker run -d -p 80:80 ubuntu-nginx:v1.22.0</span>
+
+<span class="token comment">#访问测试</span>
+root@node10:/opt/dockerfile/system/ubuntu<span class="token comment"># curl http://192.168.1.10/</span>
+<span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>nginx page test<span class="token operator">&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span>
+</code></pre></div></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/Docker/" class="category-chain-item">Docker</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Docker/">#Docker</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(4).Docker构建镜像</div>
+      <div>http://chsblogs.com/2022/08/31/Container/Docker/docker04/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/09/03/StudyNotes/Linux/" title="Linuxの学习笔记(大纲)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linuxの学习笔记(大纲)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/30/Container/Docker/docker03/" title="(3).Docker命令">
+                        <span class="hidden-mobile">(3).Docker命令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2022/08/31/Container/Docker/docker04/';
+          this.page.identifier = '/2022/08/31/Container/Docker/docker04/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Docker"
+        id="heading-c5fd214cdd0d2b3b4272e73b022ba5c2" role="tab" data-toggle="collapse" href="#collapse-c5fd214cdd0d2b3b4272e73b022ba5c2"
+        aria-expanded="true"
+      >
+        Docker
+        <span class="list-group-count">(8)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-c5fd214cdd0d2b3b4272e73b022ba5c2"
+           role="tabpanel" aria-labelledby="heading-c5fd214cdd0d2b3b4272e73b022ba5c2">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2022/08/30/Container/Docker/docker01/" title="(1).Docker简介"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(1).Docker简介</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/08/30/Container/Docker/docker02/" title="(2).Docker安装"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(2).Docker安装</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/08/30/Container/Docker/docker03/" title="(3).Docker命令"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(3).Docker命令</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/08/31/Container/Docker/docker04/" title="(4).Docker构建镜像"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(4).Docker构建镜像</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/09/03/Container/Docker/docker05/" title="(5).Docker镜像仓库之Harbor"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(5).Docker镜像仓库之Harbor</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/09/06/Container/Docker/docker06/" title="(6).Docker网络"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(6).Docker网络</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/09/07/Container/Docker/docker07/" title="(7).Docker资源限制"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(7).Docker资源限制</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/09/07/Container/Docker/docker08/" title="(8).Docker-Compose"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(8).Docker-Compose</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

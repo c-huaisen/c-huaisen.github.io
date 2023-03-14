@@ -1,0 +1,1186 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.Docker是什么？Docker是一个开源的应用容器引擎，基于Go语言并遵从Apache2.0协议开源。 Docker是基于Linux内核实现，最早采用LXC技术(LinuX Container)，LXC是Linux原生支持的容器技术，可以提供轻量级的虚拟化。Docker后改为自己研发并开源的runc技术运行容器。 Docker相比虚拟机的交付速度更快，资源消耗更低，Docker使用客户端-服">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(1).Docker简介">
+<meta property="og:url" content="http://chsblogs.com/2022/08/30/Container/Docker/docker01/index.html">
+<meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.Docker是什么？Docker是一个开源的应用容器引擎，基于Go语言并遵从Apache2.0协议开源。 Docker是基于Linux内核实现，最早采用LXC技术(LinuX Container)，LXC是Linux原生支持的容器技术，可以提供轻量级的虚拟化。Docker后改为自己研发并开源的runc技术运行容器。 Docker相比虚拟机的交付速度更快，资源消耗更低，Docker使用客户端-服">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2022/08/30/Container/Docker/docker01/image-20220829124549860.png">
+<meta property="og:image" content="http://chsblogs.com/2022/08/30/Container/Docker/docker01/image-20220829214559207.png">
+<meta property="article:published_time" content="2022-08-30T11:56:58.000Z">
+<meta property="article:modified_time" content="2023-03-14T17:10:08.452Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2022/08/30/Container/Docker/docker01/image-20220829124549860.png">
+  
+  
+  
+  <title>(1).Docker简介 - 陈怀森の学习笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 学习笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(1).Docker简介"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-30 19:56" pubdate>
+          2022年8月30日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(1).Docker简介</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-Docker是什么？"><a href="#1-Docker是什么？" class="headerlink" title="1.Docker是什么？"></a>1.Docker是什么？</h1><p>Docker是一个开源的应用容器引擎，基于Go语言并遵从Apache2.0协议开源。</p>
+<p>Docker是基于Linux内核实现，最早采用LXC技术(LinuX Container)，LXC是Linux原生支持的容器技术，可以提供轻量级的虚拟化。Docker后改为自己研发并开源的runc技术运行容器。</p>
+<p>Docker相比虚拟机的交付速度更快，资源消耗更低，Docker使用客户端-服务器(C&#x2F;S)架构模式，使用远程API来管理和创建Docker容器。</p>
+<p>Docker三个基本概念：</p>
+<ul>
+<li>镜像(Image)：Docker镜像，就相当于一个root文件系统。比如官方镜像ubuntu:20.04就包含了完整的一套Ubuntu20.04最小系统的root文件系统。</li>
+<li>容器(Container)：镜像和容器的关系，就像面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行的实体。容器可以被创建，启动，停止，删除，暂停等。</li>
+<li>仓库(Repository)：仓库可看成一个代码控制中心，用来保存镜像。</li>
+</ul>
+<p><img src="/2022/08/30/Container/Docker/docker01/image-20220829124549860.png" srcset="/img/loading.gif" lazyload alt="image-20220829124549860"> </p>
+<p>Docker的组成：</p>
+<ul>
+<li>Docker镜像(Image)：Docker镜像用于创建Docker容器的模板，比如Ubuntu系统。</li>
+<li>Docker容器(Container)：容器是独立的一个或一组应用，是镜像运行时的实体。</li>
+<li>Docker客户端(Client)：Docker客户端通过命令行或者其他工具使用Docker SDK与Docker的守护进程通信。</li>
+<li>Docker服务端(Server)：Docker守护进程，运行Docker容器。</li>
+<li>Docker主机(Host)：一个物理机或者虚拟机用于执行Docker守护进程和容器。</li>
+<li>Docker仓库(Registry)：Docker仓库用来保存镜像，可以理解为代码控制中的代码仓库。</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方仓库</span>
+https://hub.docker.com/</code></pre></div></figure>
+
+
+
+<h1 id="2-Docker底层技术"><a href="#2-Docker底层技术" class="headerlink" title="2.Docker底层技术"></a>2.Docker底层技术</h1><p>Docker底层的核心技术包括：</p>
+<ul>
+<li>Linux上的名字空间(Namespaces)</li>
+<li>控制组(Control Group)</li>
+<li>Union文件系统(Union File Systems)</li>
+<li>容器格式(Container Format)</li>
+</ul>
+<h2 id="2-1-Linux-Namespace"><a href="#2-1-Linux-Namespace" class="headerlink" title="2.1 Linux Namespace"></a>2.1 Linux Namespace</h2><p>​	Namespace是Linux系统的底层概念，在内核层实现，即有一些不同类型的命名空间被部署在内核，各个Docker容器运行在同一个Docker主进程并且共用同一个宿主机系统内核，各Docker容器运行在宿主机的用户控件，每个容器都要有类似于虚拟机一样的相互隔离的运行空间，但是容器技术是在一个进程内实现运行指定服务的运行环境，并且还可以保护宿主机内核不受其他进程的干扰和影响，如文件系统空间，网络空间，进程空间等，目前主要通过以下技术实现容器运行空间的相互隔离。</p>
+<table>
+<thead>
+<tr>
+<th align="left">隔离类型</th>
+<th>功能</th>
+<th>系统调用参数</th>
+<th>内核版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">MNT Namespace</td>
+<td>提供磁盘挂载点和文件系统的隔离能力</td>
+<td>CLONE_NEWNS</td>
+<td>Linux 2.4.19</td>
+</tr>
+<tr>
+<td align="left">IPC Namespace</td>
+<td>提供进程间通信的隔离能力</td>
+<td>CLONE_NEWIPC</td>
+<td>Linux 2.6.19</td>
+</tr>
+<tr>
+<td align="left">UTS Namespace</td>
+<td>提供主机名隔离能力</td>
+<td>CLONE_NEWUTS</td>
+<td>Linux 2.6.19</td>
+</tr>
+<tr>
+<td align="left">PID Namespace</td>
+<td>提供进程隔离能力</td>
+<td>CLONE_NEWPID</td>
+<td>Linux 2.6.24</td>
+</tr>
+<tr>
+<td align="left">Net Namespace</td>
+<td>提供网络隔离能力</td>
+<td>CLONE_NEWNET</td>
+<td>Linux 2.6.29</td>
+</tr>
+<tr>
+<td align="left">User Namespace</td>
+<td>提供用户隔离能力</td>
+<td>CLONE_NEWUSER</td>
+<td>Linux 3.8</td>
+</tr>
+</tbody></table>
+<h3 id="2-1-1-MNT-Namespace"><a href="#2-1-1-MNT-Namespace" class="headerlink" title="2.1.1 MNT Namespace"></a>2.1.1 MNT Namespace</h3><p>​	每个容器都要有独立的根文件系统和独立的用户空间，以实现在容器里面启动服务并且使用容器的运行环境，即一个宿主机是ubuntu的服务器，可以在里面启动一个CentOS运行环境的容器并且在容器里面启动一个Nginx服务，这个Nginx运行时使用的运行环境就是CentOS系统目录的运行环境，但是在容器里面是不能访问宿主机的资源，宿主机是使用了chroot技术把容器锁定到一个指定的运行目录里面。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#启动容器验证</span>
+<span class="token comment">#docke版本</span>
+root@node10:~<span class="token comment"># docker --version</span>
+Docker version <span class="token number">20.10</span>.17, build 100c701
+
+<span class="token comment">#启动容器</span>
+root@node10:~<span class="token comment"># docker run -d --name nginx1 -p 80:80 nginx</span>
+327eccd06f3e6dcd94c455943ecfa91f0083a906d1a1bb657359bdaaecd49d5f
+root@node10:~<span class="token comment"># docker run -d --name nginx2 -p 81:80 nginx</span>
+c882dc8e3514e7c1c83104680ff219cda18a3d016829ef564c086a1bb31e4d05
+root@node10:~<span class="token comment"># docker run -d --name nginx3 -p 82:80 nginx</span>
+c5c8712cf3e63149f82427347382b8486502541fe76775a4589290c983d2615d
+
+<span class="token comment">#Debian系统安装基础命令</span>
+~<span class="token comment"># apt update</span>
+~<span class="token comment"># apt -y install procps iputils-ping net-tools</span>
+
+<span class="token comment">#验证容器根文件系统</span>
+root@node10:~<span class="token comment"># docker exec -it c5c8712cf3e6 bash</span>
+root@c5c8712cf3e6:/<span class="token comment"># cat /etc/issue</span>
+Debian GNU/Linux <span class="token number">11</span> <span class="token punctuation">\</span>n <span class="token punctuation">\</span>l
+
+root@c5c8712cf3e6:/<span class="token comment"># ls /</span>
+bin   dev		   docker-entrypoint.sh  home  lib64  mnt  proc  run   srv  tmp  var
+boot  docker-entrypoint.d  etc			 lib   media  opt  root  sbin  sys  usr</code></pre></div></figure>
+
+<h3 id="2-1-2-IPC-Namespace"><a href="#2-1-2-IPC-Namespace" class="headerlink" title="2.1.2 IPC Namespace"></a>2.1.2 IPC Namespace</h3><p>​	一个容器内的进程间通信，允许一个容器内的不同进程的内存，缓存等数据访问，但是不能跨容器访问其他容器的数据。</p>
+<h3 id="2-1-3-UTS-Namespace"><a href="#2-1-3-UTS-Namespace" class="headerlink" title="2.1.3 UTS Namespace"></a>2.1.3 UTS Namespace</h3><p>​	UTS(“UNIX Time-sharing System”) 包含了运行内核的名称，版本，底层体系结构4类型等信息用于系统标识，其中包含了hostname和domain name，它使得一个容器拥有属于自己的hostname标识，这个主机名标识独立于宿主机系统和其上的其他容器。</p>
+<h3 id="2-1-4-PID-Namespace"><a href="#2-1-4-PID-Namespace" class="headerlink" title="2.1.4 PID Namespace"></a>2.1.4 PID Namespace</h3><p>不同用户的进程就是通过 pid 名字空间隔离开的，且不同名字空间中可以有相同 pid</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#创建一个nginx容器</span>
+root@node10:~<span class="token comment"># docker ps</span>
+CONTAINER ID   IMAGE     COMMAND                  CREATED       STATUS       PORTS                               NAMES
+327eccd06f3e   nginx     <span class="token string">"/docker-entrypoint.…"</span>   <span class="token number">8</span> hours ago   Up <span class="token number">8</span> hours   <span class="token number">0.0</span>.0.0:80-<span class="token operator">></span><span class="token number">80</span>/tcp, :::80-<span class="token operator">></span><span class="token number">80</span>/tcp   nginx1
+
+<span class="token comment">#nginx容器内的主进程与工作进程</span>
+root@327eccd06f3e:/<span class="token comment"># ps -ef | grep nginx</span>
+root           <span class="token number">1</span>       <span class="token number">0</span>  <span class="token number">0</span> 05:39 ?        00:00:00 nginx: master process nginx <span class="token parameter variable">-g</span> daemon off<span class="token punctuation">;</span>
+nginx         <span class="token number">30</span>       <span class="token number">1</span>  <span class="token number">0</span> 05:39 ?        00:00:00 nginx: worker process
+nginx         <span class="token number">31</span>       <span class="token number">1</span>  <span class="token number">0</span> 05:39 ?        00:00:00 nginx: worker process
+root         <span class="token number">455</span>     <span class="token number">442</span>  <span class="token number">0</span> <span class="token number">13</span>:17 pts/1    00:00:00 <span class="token function">grep</span> nginx
+
+<span class="token comment">#宿主机的pid与容器的pid关系，查看宿主机nginx进程，可以看到nginx的主进程pid:9212，它的父进程pid:9190</span>
+root@node10:~<span class="token comment"># ps -ef | grep nginx</span>
+root        <span class="token number">9212</span>    <span class="token number">9190</span>  <span class="token number">0</span> 05:39 ?        00:00:00 nginx: master process nginx <span class="token parameter variable">-g</span> daemon off<span class="token punctuation">;</span>
+systemd+    <span class="token number">9294</span>    <span class="token number">9212</span>  <span class="token number">0</span> 05:39 ?        00:00:00 nginx: worker process
+systemd+    <span class="token number">9295</span>    <span class="token number">9212</span>  <span class="token number">0</span> 05:39 ?        00:00:00 nginx: worker process
+root       <span class="token number">23593</span>   <span class="token number">20740</span>  <span class="token number">0</span> <span class="token number">13</span>:18 pts/0    00:00:00 <span class="token function">grep</span> <span class="token parameter variable">--color</span><span class="token operator">=</span>auto nginx
+
+<span class="token comment">#查看宿主机pid:9190</span>
+root@node10:~<span class="token comment"># pstree -p 9190</span>
+containerd-shim<span class="token punctuation">(</span><span class="token number">9190</span><span class="token punctuation">)</span>─┬─bash<span class="token punctuation">(</span><span class="token number">12055</span><span class="token punctuation">)</span>
+                      ├─bash<span class="token punctuation">(</span><span class="token number">22913</span><span class="token punctuation">)</span>
+                      ├─nginx<span class="token punctuation">(</span><span class="token number">9212</span><span class="token punctuation">)</span>─┬─nginx<span class="token punctuation">(</span><span class="token number">9294</span><span class="token punctuation">)</span>
+                      │             └─nginx<span class="token punctuation">(</span><span class="token number">9295</span><span class="token punctuation">)</span>
+                      ├─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9191</span><span class="token punctuation">)</span>
+                      ├─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9192</span><span class="token punctuation">)</span>
+                      ├─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9193</span><span class="token punctuation">)</span>
+                      ├─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9194</span><span class="token punctuation">)</span>
+                      ├─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9195</span><span class="token punctuation">)</span>
+                      ├─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9196</span><span class="token punctuation">)</span>
+                      ├─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9197</span><span class="token punctuation">)</span>
+                      ├─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9198</span><span class="token punctuation">)</span>
+                      ├─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9261</span><span class="token punctuation">)</span>
+                      └─<span class="token punctuation">&#123;</span>containerd-shim<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token number">9262</span><span class="token punctuation">)</span></code></pre></div></figure>
+
+
+
+<h3 id="2-1-5-Net-Namespace"><a href="#2-1-5-Net-Namespace" class="headerlink" title="2.1.5 Net Namespace"></a>2.1.5 Net Namespace</h3><p>​	Docker使用Net Namespace启用一个vethX接口，这样容器将拥有它自己的桥接IP地址，通常是docker0，而docker0实质就是Linux的虚拟网桥，网桥是在OSI七层模型的数据链路层的网络设备，通过Mac地址对网络进行划分，并且在不同网络直接传递数据。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#查看宿主机网卡信息</span>
+root@node10:~<span class="token comment"># ifconfig</span>
+docker0: <span class="token assign-left variable">flags</span><span class="token operator">=</span><span class="token number">416</span><span class="token operator"><span class="token file-descriptor important">3</span>&lt;</span>UP,BROADCAST,RUNNING,MULTICAST<span class="token operator">></span>  mtu <span class="token number">1500</span>
+        inet <span class="token number">172.17</span>.0.1  netmask <span class="token number">255.255</span>.0.0  broadcast <span class="token number">172.17</span>.255.255
+        inet6 fe80::42:76ff:fea2:3ea  prefixlen <span class="token number">64</span>  scopeid 0x2<span class="token operator"><span class="token file-descriptor important">0</span>&lt;</span>link<span class="token operator">></span>
+        ether 02:42:76:a2:03:ea  txqueuelen <span class="token number">0</span>  <span class="token punctuation">(</span>Ethernet<span class="token punctuation">)</span>
+        RX packets <span class="token number">1857</span>  bytes <span class="token number">90366</span> <span class="token punctuation">(</span><span class="token number">90.3</span> KB<span class="token punctuation">)</span>
+        RX errors <span class="token number">0</span>  dropped <span class="token number">0</span>  overruns <span class="token number">0</span>  frame <span class="token number">0</span>
+        TX packets <span class="token number">2369</span>  bytes <span class="token number">10118460</span> <span class="token punctuation">(</span><span class="token number">10.1</span> MB<span class="token punctuation">)</span>
+        TX errors <span class="token number">0</span>  dropped <span class="token number">0</span> overruns <span class="token number">0</span>  carrier <span class="token number">0</span>  collisions <span class="token number">0</span>
+
+ens33: <span class="token assign-left variable">flags</span><span class="token operator">=</span><span class="token number">416</span><span class="token operator"><span class="token file-descriptor important">3</span>&lt;</span>UP,BROADCAST,RUNNING,MULTICAST<span class="token operator">></span>  mtu <span class="token number">1500</span>
+        inet <span class="token number">192.168</span>.1.10  netmask <span class="token number">255.255</span>.255.0  broadcast <span class="token number">192.168</span>.1.255
+        inet6 fe80::20c:29ff:fea2:51d5  prefixlen <span class="token number">64</span>  scopeid 0x2<span class="token operator"><span class="token file-descriptor important">0</span>&lt;</span>link<span class="token operator">></span>
+        ether 00:0c:29:a2:51:d5  txqueuelen <span class="token number">1000</span>  <span class="token punctuation">(</span>Ethernet<span class="token punctuation">)</span>
+        RX packets <span class="token number">99777</span>  bytes <span class="token number">45657571</span> <span class="token punctuation">(</span><span class="token number">45.6</span> MB<span class="token punctuation">)</span>
+        RX errors <span class="token number">0</span>  dropped <span class="token number">0</span>  overruns <span class="token number">0</span>  frame <span class="token number">0</span>
+        TX packets <span class="token number">8471</span>  bytes <span class="token number">976578</span> <span class="token punctuation">(</span><span class="token number">976.5</span> KB<span class="token punctuation">)</span>
+        TX errors <span class="token number">0</span>  dropped <span class="token number">0</span> overruns <span class="token number">0</span>  carrier <span class="token number">0</span>  collisions <span class="token number">0</span>
+
+veth06a285f: <span class="token assign-left variable">flags</span><span class="token operator">=</span><span class="token number">416</span><span class="token operator"><span class="token file-descriptor important">3</span>&lt;</span>UP,BROADCAST,RUNNING,MULTICAST<span class="token operator">></span>  mtu <span class="token number">1500</span>
+        inet6 fe80::747b:2fff:fea7:933  prefixlen <span class="token number">64</span>  scopeid 0x2<span class="token operator"><span class="token file-descriptor important">0</span>&lt;</span>link<span class="token operator">></span>
+        ether <span class="token number">76</span>:7b:2f:a7:09:33  txqueuelen <span class="token number">0</span>  <span class="token punctuation">(</span>Ethernet<span class="token punctuation">)</span>
+        RX packets <span class="token number">0</span>  bytes <span class="token number">0</span> <span class="token punctuation">(</span><span class="token number">0.0</span> B<span class="token punctuation">)</span>
+        RX errors <span class="token number">0</span>  dropped <span class="token number">0</span>  overruns <span class="token number">0</span>  frame <span class="token number">0</span>
+        TX packets <span class="token number">17</span>  bytes <span class="token number">1338</span> <span class="token punctuation">(</span><span class="token number">1.3</span> KB<span class="token punctuation">)</span>
+        TX errors <span class="token number">0</span>  dropped <span class="token number">0</span> overruns <span class="token number">0</span>  carrier <span class="token number">0</span>  collisions <span class="token number">0</span>
+
+veth29ed0d6: <span class="token assign-left variable">flags</span><span class="token operator">=</span><span class="token number">416</span><span class="token operator"><span class="token file-descriptor important">3</span>&lt;</span>UP,BROADCAST,RUNNING,MULTICAST<span class="token operator">></span>  mtu <span class="token number">1500</span>
+        inet6 fe80::406c:45ff:fe90:12e3  prefixlen <span class="token number">64</span>  scopeid 0x2<span class="token operator"><span class="token file-descriptor important">0</span>&lt;</span>link<span class="token operator">></span>
+        ether <span class="token number">42</span>:6c:45:90:12:e3  txqueuelen <span class="token number">0</span>  <span class="token punctuation">(</span>Ethernet<span class="token punctuation">)</span>
+        RX packets <span class="token number">1842</span>  bytes <span class="token number">113991</span> <span class="token punctuation">(</span><span class="token number">113.9</span> KB<span class="token punctuation">)</span>
+        RX errors <span class="token number">0</span>  dropped <span class="token number">0</span>  overruns <span class="token number">0</span>  frame <span class="token number">0</span>
+        TX packets <span class="token number">2360</span>  bytes <span class="token number">10117153</span> <span class="token punctuation">(</span><span class="token number">10.1</span> MB<span class="token punctuation">)</span>
+        TX errors <span class="token number">0</span>  dropped <span class="token number">0</span> overruns <span class="token number">0</span>  carrier <span class="token number">0</span>  collisions <span class="token number">0</span>
+
+vetha303916: <span class="token assign-left variable">flags</span><span class="token operator">=</span><span class="token number">416</span><span class="token operator"><span class="token file-descriptor important">3</span>&lt;</span>UP,BROADCAST,RUNNING,MULTICAST<span class="token operator">></span>  mtu <span class="token number">1500</span>
+        inet6 fe80::f457:37ff:fe37:69c4  prefixlen <span class="token number">64</span>  scopeid 0x2<span class="token operator"><span class="token file-descriptor important">0</span>&lt;</span>link<span class="token operator">></span>
+        ether f6:57:37:37:69:c4  txqueuelen <span class="token number">0</span>  <span class="token punctuation">(</span>Ethernet<span class="token punctuation">)</span>
+        RX packets <span class="token number">0</span>  bytes <span class="token number">0</span> <span class="token punctuation">(</span><span class="token number">0.0</span> B<span class="token punctuation">)</span>
+        RX errors <span class="token number">0</span>  dropped <span class="token number">0</span>  overruns <span class="token number">0</span>  frame <span class="token number">0</span>
+        TX packets <span class="token number">15</span>  bytes <span class="token number">1118</span> <span class="token punctuation">(</span><span class="token number">1.1</span> KB<span class="token punctuation">)</span>
+        TX errors <span class="token number">0</span>  dropped <span class="token number">0</span> overruns <span class="token number">0</span>  carrier <span class="token number">0</span>  collisions <span class="token number">0</span>
+
+
+<span class="token comment">#查看宿主机桥接设备</span>
+root@node10:~<span class="token comment"># apt install bridge-utils</span>
+root@node10:~<span class="token comment"># brctl show</span>
+bridge name	bridge <span class="token function">id</span>		STP enabled	interfaces
+docker0		<span class="token number">8000</span>.024276a203ea	no		veth06a285f
+							            veth29ed0d6
+							            vetha303916
+							    
+<span class="token comment">#查看容器IP</span>
+root@327eccd06f3e:/<span class="token comment"># ifconfig</span>
+eth0: <span class="token assign-left variable">flags</span><span class="token operator">=</span><span class="token number">416</span><span class="token operator"><span class="token file-descriptor important">3</span>&lt;</span>UP,BROADCAST,RUNNING,MULTICAST<span class="token operator">></span>  mtu <span class="token number">1500</span>
+        inet <span class="token number">172.17</span>.0.2  netmask <span class="token number">255.255</span>.0.0  broadcast <span class="token number">172.17</span>.255.255
+        ether 02:42:ac:11:00:02  txqueuelen <span class="token number">0</span>  <span class="token punctuation">(</span>Ethernet<span class="token punctuation">)</span>
+        RX packets <span class="token number">4195</span>  bytes <span class="token number">10217822</span> <span class="token punctuation">(</span><span class="token number">9.7</span> MiB<span class="token punctuation">)</span>
+        RX errors <span class="token number">0</span>  dropped <span class="token number">0</span>  overruns <span class="token number">0</span>  frame <span class="token number">0</span>
+        TX packets <span class="token number">3380</span>  bytes <span class="token number">202715</span> <span class="token punctuation">(</span><span class="token number">197.9</span> KiB<span class="token punctuation">)</span>
+        TX errors <span class="token number">0</span>  dropped <span class="token number">0</span> overruns <span class="token number">0</span>  carrier <span class="token number">0</span>  collisions <span class="token number">0</span>
+</code></pre></div></figure>
+
+<p> <img src="/2022/08/30/Container/Docker/docker01/image-20220829214559207.png" srcset="/img/loading.gif" lazyload alt="image-20220829214559207">    </p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#查看宿主机iptables规则</span>
+root@node10:~<span class="token comment"># iptables -t nat -vnL</span>
+Chain PREROUTING <span class="token punctuation">(</span>policy ACCEPT <span class="token number">1830</span> packets, 286K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token builtin class-name">source</span>               destination         
+    <span class="token number">8</span>   <span class="token number">394</span> DOCKER     all  --  *      *       <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0            ADDRTYPE match dst-type LOCAL
+
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT <span class="token number">1818</span> packets, 285K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token builtin class-name">source</span>               destination         
+
+Chain OUTPUT <span class="token punctuation">(</span>policy ACCEPT <span class="token number">34</span> packets, <span class="token number">2419</span> bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token builtin class-name">source</span>               destination         
+    <span class="token number">0</span>     <span class="token number">0</span> DOCKER     all  --  *      *       <span class="token number">0.0</span>.0.0/0           <span class="token operator">!</span><span class="token number">127.0</span>.0.0/8          ADDRTYPE match dst-type LOCAL
+
+<span class="token comment">#源地址转换，让容器通过宿主机访问外网</span>
+Chain POSTROUTING <span class="token punctuation">(</span>policy ACCEPT <span class="token number">34</span> packets, <span class="token number">2419</span> bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token builtin class-name">source</span>               destination         
+   <span class="token number">12</span>   <span class="token number">730</span> MASQUERADE  all  --  *      <span class="token operator">!</span>docker0  <span class="token number">172.17</span>.0.0/16        <span class="token number">0.0</span>.0.0/0           
+    <span class="token number">0</span>     <span class="token number">0</span> MASQUERADE  tcp  --  *      *       <span class="token number">172.17</span>.0.2           <span class="token number">172.17</span>.0.2           tcp dpt:80
+    <span class="token number">0</span>     <span class="token number">0</span> MASQUERADE  tcp  --  *      *       <span class="token number">172.17</span>.0.3           <span class="token number">172.17</span>.0.3           tcp dpt:80
+    <span class="token number">0</span>     <span class="token number">0</span> MASQUERADE  tcp  --  *      *       <span class="token number">172.17</span>.0.4           <span class="token number">172.17</span>.0.4           tcp dpt:80
+
+<span class="token comment">#目的地址转换，以实现从外宿主机访问容器</span>
+Chain DOCKER <span class="token punctuation">(</span><span class="token number">2</span> references<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token builtin class-name">source</span>               destination         
+    <span class="token number">0</span>     <span class="token number">0</span> RETURN     all  --  docker0 *       <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0           
+    <span class="token number">0</span>     <span class="token number">0</span> DNAT       tcp  --  <span class="token operator">!</span>docker0 *       <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0            tcp dpt:80 to:172.17.0.2:80
+    <span class="token number">0</span>     <span class="token number">0</span> DNAT       tcp  --  <span class="token operator">!</span>docker0 *       <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0            tcp dpt:81 to:172.17.0.3:80
+    <span class="token number">0</span>     <span class="token number">0</span> DNAT       tcp  --  <span class="token operator">!</span>docker0 *       <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0            tcp dpt:82 to:172.17.0.4:80
+    
+    
+    
+root@node10:~<span class="token comment"># iptables -vnL</span>
+Chain INPUT <span class="token punctuation">(</span>policy ACCEPT <span class="token number">16972</span> packets, 5634K bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token builtin class-name">source</span>               destination         
+
+<span class="token comment">#转发规则</span>
+Chain FORWARD <span class="token punctuation">(</span>policy DROP <span class="token number">0</span> packets, <span class="token number">0</span> bytes<span class="token punctuation">)</span>
+ pkts bytes target     prot opt <span class="token keyword">in</span>     out     <span class="token builtin class-name">source</span>               destination         
+<span class="token number">11758</span>   20M DOCKER-<span class="token environment constant">USER</span>  all  --  *      *       <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0           
+<span class="token number">11758</span>   20M DOCKER-ISOLATION-STAGE-1  all  --  *      *       <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0           
+ <span class="token number">6528</span>   20M ACCEPT     all  --  *      docker0  <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0            ctstate RELATED,ESTABLISHED
+    <span class="token number">2</span>   <span class="token number">104</span> DOCKER     all  --  *      docker0  <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0           
+ <span class="token number">5228</span>  246K ACCEPT     all  --  docker0 <span class="token operator">!</span>docker0  <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0           
+    <span class="token number">0</span>     <span class="token number">0</span> ACCEPT     all  --  docker0 docker0  <span class="token number">0.0</span>.0.0/0            <span class="token number">0.0</span>.0.0/0 </code></pre></div></figure>
+
+
+
+<h3 id="2-1-6-User-Namespace"><a href="#2-1-6-User-Namespace" class="headerlink" title="2.1.6 User Namespace"></a>2.1.6 User Namespace</h3><p>​	User Namespace允许在各个宿主机的各个容器空间内创建相同的用户名以及相同的用户UID和GID，只是会把用户的作用范围限制在每个容器内，即A容器和B容器可以有相同的用户名，但是此用户名的有效范围仅是当前容器内，不能访问另外一个容器内的文件系统，即相互隔离，互不影响。</p>
+<h2 id="2-2-Linux-Control-groups"><a href="#2-2-Linux-Control-groups" class="headerlink" title="2.2 Linux Control groups"></a>2.2 Linux Control groups</h2><p>​	Linux Control groups是Linux内核的一个特性(内核2.6.24开始支持)，主要用来对共享资源进行隔离，限制，审计等。只有能控制分配到容器的资源，才能避免当多个容器同时运行时对系统资源的竞争。控制组可以提供对容器的内存，CPU，磁盘IO等资源的限制和审计管理。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#CentOS7.9 cgroups</span>
+<span class="token punctuation">[</span>root@node50 ~<span class="token punctuation">]</span><span class="token comment"># cat /etc/redhat-release </span>
+CentOS Linux release <span class="token number">7.9</span>.2009 <span class="token punctuation">(</span>Core<span class="token punctuation">)</span>
+<span class="token punctuation">[</span>root@node50 ~<span class="token punctuation">]</span><span class="token comment"># cat /boot/config-3.10.0-1160.el7.x86_64 | grep CGROUP</span>
+<span class="token assign-left variable">CONFIG_CGROUPS</span><span class="token operator">=</span>y
+<span class="token comment"># CONFIG_CGROUP_DEBUG is not set</span>
+<span class="token assign-left variable">CONFIG_CGROUP_FREEZER</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_PIDS</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_DEVICE</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_CPUACCT</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_HUGETLB</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_PERF</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_SCHED</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_BLK_CGROUP</span><span class="token operator">=</span>y
+<span class="token comment"># CONFIG_DEBUG_BLK_CGROUP is not set</span>
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_CGROUP</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NET_CLS_CGROUP</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_NETPRIO_CGROUP</span><span class="token operator">=</span>y</code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#Ubuntu20.04 cgroups</span>
+root@node10:~<span class="token comment"># cat /etc/issue</span>
+Ubuntu <span class="token number">20.04</span>.4 LTS <span class="token punctuation">\</span>n <span class="token punctuation">\</span>l
+
+root@node10:~<span class="token comment"># uname -r</span>
+<span class="token number">5.4</span>.0-125-generic
+root@node10:~<span class="token comment"># cat /boot/config-5.4.0-125-generic | grep CGROUP</span>
+<span class="token assign-left variable">CONFIG_CGROUPS</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_BLK_CGROUP</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_WRITEBACK</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_SCHED</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_PIDS</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_RDMA</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_FREEZER</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_HUGETLB</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_DEVICE</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_CPUACCT</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_PERF</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_BPF</span><span class="token operator">=</span>y
+<span class="token comment"># CONFIG_CGROUP_DEBUG is not set</span>
+<span class="token assign-left variable">CONFIG_SOCK_CGROUP_DATA</span><span class="token operator">=</span>y
+<span class="token comment"># CONFIG_BLK_CGROUP_IOLATENCY is not set</span>
+<span class="token assign-left variable">CONFIG_BLK_CGROUP_IOCOST</span><span class="token operator">=</span>y
+<span class="token comment"># CONFIG_BFQ_CGROUP_DEBUG is not set</span>
+<span class="token assign-left variable">CONFIG_NETFILTER_XT_MATCH_CGROUP</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_NET_CLS_CGROUP</span><span class="token operator">=</span>m
+<span class="token assign-left variable">CONFIG_CGROUP_NET_PRIO</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_CGROUP_NET_CLASSID</span><span class="token operator">=</span>y</code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#cgroups中内存模块</span>
+root@node10:~<span class="token comment"># cat /boot/config-5.4.0-125-generic | grep MEMCG</span>
+<span class="token assign-left variable">CONFIG_MEMCG</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_MEMCG_SWAP</span><span class="token operator">=</span>y
+<span class="token comment"># CONFIG_MEMCG_SWAP_ENABLED is not set</span>
+<span class="token assign-left variable">CONFIG_MEMCG_KMEM</span><span class="token operator">=</span>y
+<span class="token assign-left variable">CONFIG_SLUB_MEMCG_SYSFS_ON</span><span class="token operator">=</span>y</code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#cgroups具体实现</span>
+blkio：		<span class="token comment">#块设备IO限制</span>
+cpu：		<span class="token comment">#使用调度程序为cgroup任务提供cpu访问</span>
+cpuacct：	<span class="token comment">#产生cgroup任务的cpu资源报告</span>
+cpuset：		<span class="token comment">#如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存</span>
+devices：	<span class="token comment">#允许或拒绝cgroup任务对设备的访问</span>
+freezer：	<span class="token comment">#暂停和恢复cgroup任务</span>
+memory：		<span class="token comment">#设置每个cgroup的内存限制以及产生内存资源报告</span>
+net_cls：	<span class="token comment">#标记每个网络包以供cgroup方便使用</span>
+ns：			<span class="token comment">#命名空间子系统</span>
+perf_event：	<span class="token comment">#增加了对group的监测跟踪的能力，可以监测属于某个特定的group的所有线程以及运行在特定cpu上的线程。</span>
+
+<span class="token comment">#查看系统cgroups</span>
+root@node10:~<span class="token comment"># ll /sys/fs/cgroup/</span>
+total <span class="token number">0</span>
+drwxr-xr-x <span class="token number">15</span> root root <span class="token number">380</span> Aug <span class="token number">29</span> 01:11 ./
+drwxr-xr-x <span class="token number">11</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 <span class="token punctuation">..</span>/
+dr-xr-xr-x  <span class="token number">5</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 blkio/
+lrwxrwxrwx  <span class="token number">1</span> root root  <span class="token number">11</span> Aug <span class="token number">29</span> 01:11 cpu -<span class="token operator">></span> cpu,cpuacct/
+lrwxrwxrwx  <span class="token number">1</span> root root  <span class="token number">11</span> Aug <span class="token number">29</span> 01:11 cpuacct -<span class="token operator">></span> cpu,cpuacct/
+dr-xr-xr-x  <span class="token number">5</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 cpu,cpuacct/
+dr-xr-xr-x  <span class="token number">3</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 cpuset/
+dr-xr-xr-x  <span class="token number">5</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 devices/
+dr-xr-xr-x  <span class="token number">4</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 freezer/
+dr-xr-xr-x  <span class="token number">3</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 hugetlb/
+dr-xr-xr-x  <span class="token number">5</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 memory/
+lrwxrwxrwx  <span class="token number">1</span> root root  <span class="token number">16</span> Aug <span class="token number">29</span> 01:11 net_cls -<span class="token operator">></span> net_cls,net_prio/
+dr-xr-xr-x  <span class="token number">3</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 net_cls,net_prio/
+lrwxrwxrwx  <span class="token number">1</span> root root  <span class="token number">16</span> Aug <span class="token number">29</span> 01:11 net_prio -<span class="token operator">></span> net_cls,net_prio/
+dr-xr-xr-x  <span class="token number">3</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 perf_event/
+dr-xr-xr-x  <span class="token number">5</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 pids/
+dr-xr-xr-x  <span class="token number">3</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 rdma/
+dr-xr-xr-x  <span class="token number">6</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:11 systemd/
+dr-xr-xr-x  <span class="token number">6</span> root root   <span class="token number">0</span> Aug <span class="token number">29</span> 01:14 unified/</code></pre></div></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/Docker/" class="category-chain-item">Docker</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Docker/">#Docker</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(1).Docker简介</div>
+      <div>http://chsblogs.com/2022/08/30/Container/Docker/docker01/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/30/Container/Docker/docker02/" title="(2).Docker安装">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">(2).Docker安装</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/28/Linux/Ubuntu/UbuntuBase/" title="(2).Ubuntu基础配置">
+                        <span class="hidden-mobile">(2).Ubuntu基础配置</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2022/08/30/Container/Docker/docker01/';
+          this.page.identifier = '/2022/08/30/Container/Docker/docker01/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Docker"
+        id="heading-c5fd214cdd0d2b3b4272e73b022ba5c2" role="tab" data-toggle="collapse" href="#collapse-c5fd214cdd0d2b3b4272e73b022ba5c2"
+        aria-expanded="true"
+      >
+        Docker
+        <span class="list-group-count">(8)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-c5fd214cdd0d2b3b4272e73b022ba5c2"
+           role="tabpanel" aria-labelledby="heading-c5fd214cdd0d2b3b4272e73b022ba5c2">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2022/08/30/Container/Docker/docker01/" title="(1).Docker简介"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(1).Docker简介</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/08/30/Container/Docker/docker02/" title="(2).Docker安装"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(2).Docker安装</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/08/30/Container/Docker/docker03/" title="(3).Docker命令"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(3).Docker命令</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/08/31/Container/Docker/docker04/" title="(4).Docker构建镜像"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(4).Docker构建镜像</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/09/03/Container/Docker/docker05/" title="(5).Docker镜像仓库之Harbor"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(5).Docker镜像仓库之Harbor</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/09/06/Container/Docker/docker06/" title="(6).Docker网络"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(6).Docker网络</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/09/07/Container/Docker/docker07/" title="(7).Docker资源限制"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(7).Docker资源限制</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/09/07/Container/Docker/docker08/" title="(8).Docker-Compose"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(8).Docker-Compose</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

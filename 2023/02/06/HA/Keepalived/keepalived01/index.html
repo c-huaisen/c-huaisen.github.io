@@ -1,0 +1,1051 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.高可用集群1.1 集群类型 LB：Load Balance负载均衡(LVS&#x2F;HAProxy&#x2F;Nginx) HA：High Availability高可用集群(数据库、Zookeeper、Redis) HPC：High Performance Computing 高性能集群  1.2 系统可用性SLA：Service-Level Agreement 服务等级协议（提供服务的企">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(1).Keepalived简介及安装">
+<meta property="og:url" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/index.html">
+<meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.高可用集群1.1 集群类型 LB：Load Balance负载均衡(LVS&#x2F;HAProxy&#x2F;Nginx) HA：High Availability高可用集群(数据库、Zookeeper、Redis) HPC：High Performance Computing 高性能集群  1.2 系统可用性SLA：Service-Level Agreement 服务等级协议（提供服务的企">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png">
+<meta property="article:published_time" content="2023-02-06T03:45:41.000Z">
+<meta property="article:modified_time" content="2023-03-14T17:47:28.752Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="Keepalived">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png">
+  
+  
+  
+  <title>(1).Keepalived简介及安装 - 陈怀森の学习笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 学习笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(1).Keepalived简介及安装"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-06 11:45" pubdate>
+          2023年2月6日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(1).Keepalived简介及安装</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-高可用集群"><a href="#1-高可用集群" class="headerlink" title="1.高可用集群"></a>1.高可用集群</h1><h2 id="1-1-集群类型"><a href="#1-1-集群类型" class="headerlink" title="1.1 集群类型"></a>1.1 集群类型</h2><ul>
+<li>LB：Load Balance负载均衡(LVS&#x2F;HAProxy&#x2F;Nginx)</li>
+<li>HA：High Availability高可用集群(数据库、Zookeeper、Redis)</li>
+<li>HPC：High Performance Computing 高性能集群</li>
+</ul>
+<h2 id="1-2-系统可用性"><a href="#1-2-系统可用性" class="headerlink" title="1.2 系统可用性"></a>1.2 系统可用性</h2><p>SLA：Service-Level Agreement 服务等级协议（提供服务的企业与客户之间就服务的品质、水准、性<br>能等方面所达成的双方共同认可的协议或契约）  </p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">A <span class="token operator">=</span> MTBF / <span class="token punctuation">(</span>MTBF+MTTR）
+<span class="token number">99.95</span>%:<span class="token punctuation">(</span><span class="token number">60</span>*24*30<span class="token punctuation">)</span>*<span class="token punctuation">(</span><span class="token number">1</span>-0.9995<span class="token punctuation">)</span><span class="token operator">=</span><span class="token number">21.6</span>分钟 <span class="token comment">#一般按一个月停机时间统计</span>
+指标 ：99.9%, <span class="token number">99.99</span>%, <span class="token number">99.999</span>%,99.9999%</code></pre></div></figure>
+
+
+
+<h2 id="1-3-系统故障"><a href="#1-3-系统故障" class="headerlink" title="1.3 系统故障"></a>1.3 系统故障</h2><p>硬件故障：设计缺陷、wear out（损耗）、自然灾害……<br>软件故障：设计缺陷 bug  </p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#实现高可用,提升系统高用性的解决方案：降低MTTR- Mean Time To Repair(平均故障时间),解决方案：建立冗余机制。</span>
+active/passive 主/备
+active/active  双主</code></pre></div></figure>
+
+<h2 id="1-4-VRRP"><a href="#1-4-VRRP" class="headerlink" title="1.4 VRRP"></a>1.4 VRRP</h2><p>VRRP：Virtual Router Redundancy Protocol（虚拟路由冗余协议），解决静态网关单点故障。</p>
+<ul>
+<li>物理层：路由器、三层交换机。</li>
+<li>软件层：Keepalived</li>
+</ul>
+<p>VRRP相关术语：</p>
+<ul>
+<li>虚拟路由器：Virtual Router</li>
+<li>虚拟路由器标识：VRID(0-255)，唯一标识虚拟路由器。</li>
+<li>VIP：Virtual IP</li>
+<li>VMAC：Virutal MAC (00-00-5e-00-01-VRID)</li>
+<li>物理路由器：  <ul>
+<li>master：主设备</li>
+<li>backup：备设备</li>
+<li>priority：优先级</li>
+</ul>
+</li>
+</ul>
+<p>VRRP相关技术：</p>
+<ul>
+<li>通告：心跳，优先级；周期性</li>
+<li>工作方式：抢占式，非抢占式</li>
+<li>安全认证：<ul>
+<li>无认证</li>
+<li>简单字符认证：预共享密钥</li>
+<li>MD5</li>
+</ul>
+</li>
+<li>工作模式：<ul>
+<li>主&#x2F;备：单虚拟路由器</li>
+<li>主&#x2F;主：主&#x2F;备（虚拟路由器1）,备&#x2F;主（虚拟路由器2）</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-Keeaplived简介"><a href="#2-Keeaplived简介" class="headerlink" title="2.Keeaplived简介"></a>2.Keeaplived简介</h1><figure><div class="code-wrapper"><pre class="language-http" data-language="http"><code class="language-http">#官网：
+<span class="token header"><span class="token header-name keyword">http</span><span class="token punctuation">:</span><span class="token header-value">//keepalived.org/</span></span>
+
+#官网文档
+<span class="token header"><span class="token header-name keyword">https</span><span class="token punctuation">:</span><span class="token header-value">//keepalived.org/doc/</span></span>
+<span class="token header"><span class="token header-name keyword">http</span><span class="token punctuation">:</span><span class="token header-value">//keepalived.org/documentation.html</span></span></code></pre></div></figure>
+
+<p><img src="/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png" srcset="/img/loading.gif" lazyload alt="image-20230206151024839"> </p>
+<ul>
+<li>用户空间核心组件：<ul>
+<li>VRRP Stack：VIP消息通告。</li>
+<li>Checkrs：检测Real Server</li>
+<li>System Call：实现VRRP协议状态转换时调用脚本的功能。</li>
+<li>SMTP：邮件组件。</li>
+<li>IPVS wrapper：生成IPVS规则。</li>
+<li>Nettlink Reflector：网络接口</li>
+<li>WatchDog：监控进程</li>
+</ul>
+</li>
+<li>控制组件：提供Keepalived.conf的解析器，完成Keepalived配置。</li>
+<li>IO复用器：针对网络目的而优化的自己的线程抽象。</li>
+<li>内存管理组件：为某些通用的内存管理功能(例如分配，重新分配，发布等)提供访问权限。</li>
+</ul>
+<h2 id="2-1-Keepalived安装"><a href="#2-1-Keepalived安装" class="headerlink" title="2.1 Keepalived安装"></a>2.1 Keepalived安装</h2><h3 id="2-1-1-包安装"><a href="#2-1-1-包安装" class="headerlink" title="2.1.1 包安装"></a>2.1.1 包安装</h3><p>CentOS7.9安装Keepalived：</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># yum -y install keepalived</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># yum info keepalived</span>
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.nju.edu.cn
+ * extras: mirrors.nju.edu.cn
+ * updates: mirrors.nju.edu.cn
+Installed Packages
+Name        <span class="token builtin class-name">:</span> keepalived
+Arch        <span class="token builtin class-name">:</span> x86_64
+Version     <span class="token builtin class-name">:</span> <span class="token number">1.3</span>.5
+Release     <span class="token builtin class-name">:</span> <span class="token number">19</span>.el7
+Size        <span class="token builtin class-name">:</span> <span class="token number">1.0</span> M
+Repo        <span class="token builtin class-name">:</span> installed
+From repo   <span class="token builtin class-name">:</span> base
+Summary     <span class="token builtin class-name">:</span> Load balancer and high availability <span class="token function">service</span>
+URL         <span class="token builtin class-name">:</span> http://www.keepalived.org/
+License     <span class="token builtin class-name">:</span> GPLv2+
+Description <span class="token builtin class-name">:</span> Keepalived provides simple and robust facilities <span class="token keyword">for</span> load balancing
+            <span class="token builtin class-name">:</span> and high availability.  The load balancing framework relies on the
+            <span class="token builtin class-name">:</span> well-known and widely used Linux Virtual Server <span class="token punctuation">(</span>IPVS<span class="token punctuation">)</span> kernel module
+            <span class="token builtin class-name">:</span> providing layer-4 <span class="token punctuation">(</span>transport layer<span class="token punctuation">)</span> load balancing.  Keepalived
+            <span class="token builtin class-name">:</span> implements a <span class="token builtin class-name">set</span> of checkers to dynamically and adaptively maintain
+            <span class="token builtin class-name">:</span> and manage a load balanced server pool according their health.
+            <span class="token builtin class-name">:</span> Keepalived also implements the Virtual Router Redundancy Protocol
+            <span class="token builtin class-name">:</span> <span class="token punctuation">(</span>VRRPv2<span class="token punctuation">)</span> to achieve high availability with director failover.</code></pre></div></figure>
+
+
+
+<p>Ubuntu20.04安装Keepalived：</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@node30:~<span class="token comment"># apt -y install keepalived</span>
+root@node30:~<span class="token comment"># dpkg -s keepalived</span>
+Package: keepalived
+Status: <span class="token function">install</span> ok installed
+Priority: optional
+Section: admin
+Installed-Size: <span class="token number">1221</span>
+Maintainer: Ubuntu Developers <span class="token operator">&lt;</span>ubuntu-devel-discuss@lists.ubuntu.com<span class="token operator">></span>
+Architecture: amd64
+Version: <span class="token number">1</span>:2.0.19-2ubuntu0.2
+Depends: iproute2, libc6 <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">2.28</span><span class="token punctuation">)</span>, libglib2.0-0 <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">2.26</span>.0<span class="token punctuation">)</span>, libmnl0 <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">1.0</span>.3-4~<span class="token punctuation">)</span>, libnftnl11 <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">1.1</span>.2<span class="token punctuation">)</span>, libnl-3-200 <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">3.2</span>.27<span class="token punctuation">)</span>, libnl-genl-3-200 <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">3.2</span>.7<span class="token punctuation">)</span>, libpcre2-8-0 <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">10.22</span><span class="token punctuation">)</span>, libsnmp35 <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">5.8</span>+dfsg<span class="token punctuation">)</span>, libssl1.1 <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">1.1</span>.0<span class="token punctuation">)</span>
+Pre-Depends: init-system-helpers <span class="token punctuation">(</span><span class="token operator">>=</span> <span class="token number">1.54</span>~<span class="token punctuation">)</span>
+Recommends: ipvsadm
+Conffiles:
+ /etc/dbus-1/system.d/org.keepalived.Vrrp1.conf eb86d4c61a0c69d1f98bcf8dcbbd8f60
+ /etc/default/keepalived 6b2e3432e4ae31b444058ba2b0d1f06a
+ /etc/init.d/keepalived 0312972e0718331b4c90b3b98e623624
+Description: Failover and monitoring daemon <span class="token keyword">for</span> LVS clusters
+ keepalived is used <span class="token keyword">for</span> monitoring real servers within a Linux
+ Virtual Server <span class="token punctuation">(</span>LVS<span class="token punctuation">)</span> cluster.  keepalived can be configured to
+ remove real servers from the cluster pool <span class="token keyword">if</span> it stops responding,
+ as well as send a notification email to <span class="token function">make</span> the admin aware of
+ the <span class="token function">service</span> failure.
+ <span class="token builtin class-name">.</span>
+ In addition, keepalived implements an independent Virtual Router
+ Redundancy Protocol <span class="token punctuation">(</span>VRRPv2<span class="token punctuation">;</span> see rfc2338 <span class="token keyword">for</span> additional info<span class="token punctuation">)</span>
+ framework <span class="token keyword">for</span> director failover.
+ <span class="token builtin class-name">.</span>
+ You need a kernel <span class="token operator">>=</span> <span class="token number">2.4</span>.28 or <span class="token operator">>=</span> <span class="token number">2.6</span>.11 <span class="token keyword">for</span> keepalived.
+ See README.Debian <span class="token keyword">for</span> <span class="token function">more</span> information.
+Homepage: http://keepalived.org
+Original-Maintainer: Alexander Wirt <span class="token operator">&lt;</span>formorer@debian.org<span class="token operator">></span>
+
+root@node30:~<span class="token comment"># dpkg -L keepalived</span>
+/.
+/etc
+/etc/dbus-1
+/etc/dbus-1/system.d
+/etc/dbus-1/system.d/org.keepalived.Vrrp1.conf
+/etc/default
+/etc/default/keepalived
+/etc/init.d
+/etc/init.d/keepalived
+/etc/keepalived
+/lib
+/lib/systemd
+/lib/systemd/system
+/lib/systemd/system/keepalived.service
+/usr
+/usr/bin
+/usr/bin/genhash
+/usr/sbin
+/usr/sbin/keepalived
+/usr/share
+/usr/share/dbus-1
+/usr/share/dbus-1/interfaces
+/usr/share/dbus-1/interfaces/org.keepalived.Vrrp1.Instance.xml
+/usr/share/dbus-1/interfaces/org.keepalived.Vrrp1.Vrrp.xml
+/usr/share/doc
+/usr/share/doc/keepalived
+/usr/share/doc/keepalived/AUTHOR
+/usr/share/doc/keepalived/CONTRIBUTORS
+/usr/share/doc/keepalived/README
+/usr/share/doc/keepalived/TODO.gz
+/usr/share/doc/keepalived/changelog.Debian.gz
+/usr/share/doc/keepalived/copyright
+/usr/share/doc/keepalived/keepalived.conf.SYNOPSIS
+/usr/share/doc/keepalived/samples
+/usr/share/doc/keepalived/samples/client.pem
+/usr/share/doc/keepalived/samples/dh1024.pem
+/usr/share/doc/keepalived/samples/keepalived.conf.HTTP_GET.port
+/usr/share/doc/keepalived/samples/keepalived.conf.IPv6
+/usr/share/doc/keepalived/samples/keepalived.conf.SMTP_CHECK
+/usr/share/doc/keepalived/samples/keepalived.conf.SSL_GET
+/usr/share/doc/keepalived/samples/keepalived.conf.conditional_conf
+/usr/share/doc/keepalived/samples/keepalived.conf.fwmark
+/usr/share/doc/keepalived/samples/keepalived.conf.inhibit
+/usr/share/doc/keepalived/samples/keepalived.conf.misc_check
+/usr/share/doc/keepalived/samples/keepalived.conf.misc_check_arg
+/usr/share/doc/keepalived/samples/keepalived.conf.quorum
+/usr/share/doc/keepalived/samples/keepalived.conf.sample
+/usr/share/doc/keepalived/samples/keepalived.conf.status_code
+/usr/share/doc/keepalived/samples/keepalived.conf.track_interface
+/usr/share/doc/keepalived/samples/keepalived.conf.virtual_server_group
+/usr/share/doc/keepalived/samples/keepalived.conf.virtualhost
+/usr/share/doc/keepalived/samples/keepalived.conf.vrrp
+/usr/share/doc/keepalived/samples/keepalived.conf.vrrp.localcheck
+/usr/share/doc/keepalived/samples/keepalived.conf.vrrp.lvs_syncd
+/usr/share/doc/keepalived/samples/keepalived.conf.vrrp.routes
+/usr/share/doc/keepalived/samples/keepalived.conf.vrrp.rules
+/usr/share/doc/keepalived/samples/keepalived.conf.vrrp.scripts
+/usr/share/doc/keepalived/samples/keepalived.conf.vrrp.static_ipaddress
+/usr/share/doc/keepalived/samples/keepalived.conf.vrrp.sync
+/usr/share/doc/keepalived/samples/root.pem
+/usr/share/doc/keepalived/samples/sample.misccheck.smbcheck.sh
+/usr/share/doc/keepalived/samples/sample_notify_fifo.sh
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/genhash.1.gz
+/usr/share/man/man5
+/usr/share/man/man5/keepalived.conf.5.gz
+/usr/share/man/man8
+/usr/share/man/man8/keepalived.8.gz
+/usr/share/snmp
+/usr/share/snmp/mibs
+/usr/share/snmp/mibs/KEEPALIVED-MIB.txt
+/usr/share/snmp/mibs/VRRP-MIB.txt
+/usr/share/snmp/mibs/VRRPv3-MIB.txt
+
+root@node30:~<span class="token comment"># cp /usr/share/doc/keepalived/samples/keepalived.conf.sample /etc/keepalived/keepalived.conf</span>
+root@node30:~<span class="token comment"># systemctl start keepalived</span>
+root@node30:~<span class="token comment"># systemctl status keepalived</span>
+● keepalived.service - Keepalive Daemon <span class="token punctuation">(</span>LVS and VRRP<span class="token punctuation">)</span>
+     Loaded: loaded <span class="token punctuation">(</span>/lib/systemd/system/keepalived.service<span class="token punctuation">;</span> enabled<span class="token punctuation">;</span> vendor preset: enabled<span class="token punctuation">)</span>
+     Active: active <span class="token punctuation">(</span>running<span class="token punctuation">)</span> since Mon <span class="token number">2023</span>-02-06 <span class="token number">14</span>:59:42 UTC<span class="token punctuation">;</span> 1s ago
+   Main PID: <span class="token number">2266</span> <span class="token punctuation">(</span>keepalived<span class="token punctuation">)</span>
+      Tasks: <span class="token number">3</span> <span class="token punctuation">(</span>limit: <span class="token number">2236</span><span class="token punctuation">)</span>
+     Memory: <span class="token number">2</span>.2M
+     CGroup: /system.slice/keepalived.service
+             ├─2266 /usr/sbin/keepalived --dont-fork
+             ├─2282 /usr/sbin/keepalived --dont-fork
+             └─2283 /usr/sbin/keepalived --dont-fork
+
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">2283</span><span class="token punctuation">]</span>: Registering Kernel netlink reflector
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">2283</span><span class="token punctuation">]</span>: Registering Kernel netlink <span class="token builtin class-name">command</span> channel
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">2283</span><span class="token punctuation">]</span>: Opening <span class="token function">file</span> <span class="token string">'/etc/keepalived/keepalived.conf'</span><span class="token builtin class-name">.</span>
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">2283</span><span class="token punctuation">]</span>: Registering gratuitous ARP shared channel
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_healthcheckers<span class="token punctuation">[</span><span class="token number">2282</span><span class="token punctuation">]</span>: Opening <span class="token function">file</span> <span class="token string">'/etc/keepalived/keepalived.conf'</span><span class="token builtin class-name">.</span>
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_healthcheckers<span class="token punctuation">[</span><span class="token number">2282</span><span class="token punctuation">]</span>: Initializing ipvs
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_healthcheckers<span class="token punctuation">[</span><span class="token number">2282</span><span class="token punctuation">]</span>: Gained quorum <span class="token number">1</span>+0<span class="token operator">=</span><span class="token number">1</span> <span class="token operator">&lt;=</span> <span class="token number">1</span> <span class="token keyword">for</span> VS <span class="token punctuation">[</span><span class="token number">10.10</span>.10.2<span class="token punctuation">]</span>:tcp:1358
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_healthcheckers<span class="token punctuation">[</span><span class="token number">2282</span><span class="token punctuation">]</span>: Activating healthchecker <span class="token keyword">for</span> <span class="token function">service</span> <span class="token punctuation">[</span><span class="token number">192.168</span>.200.2<span class="token punctuation">]</span>:tcp:1358 <span class="token keyword">for</span> VS <span class="token punctuation">[</span><span class="token number">10.10</span>.10.2<span class="token punctuation">]</span>:tcp:1358
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_healthcheckers<span class="token punctuation">[</span><span class="token number">2282</span><span class="token punctuation">]</span>: Activating BFD healthchecker
+Feb 06 <span class="token number">14</span>:59:42 node30 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">2283</span><span class="token punctuation">]</span>: <span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Entering BACKUP STATE <span class="token punctuation">(</span>init<span class="token punctuation">)</span>
+
+root@node30:~<span class="token comment"># ps auxf |grep keepalived</span>
+root        <span class="token number">2657</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>   <span class="token number">5296</span>   <span class="token number">720</span> pts/0    S+   <span class="token number">15</span>:00   <span class="token number">0</span>:00          <span class="token punctuation">\</span>_ <span class="token function">grep</span> <span class="token parameter variable">--color</span><span class="token operator">=</span>auto keepalived
+root        <span class="token number">2266</span>  <span class="token number">0.0</span>  <span class="token number">0.4</span>  <span class="token number">25264</span>  <span class="token number">8064</span> ?        Ss   <span class="token number">14</span>:59   <span class="token number">0</span>:00 /usr/sbin/keepalived --dont-fork
+root        <span class="token number">2282</span>  <span class="token number">0.0</span>  <span class="token number">0.1</span>  <span class="token number">25264</span>  <span class="token number">2880</span> ?        S    <span class="token number">14</span>:59   <span class="token number">0</span>:00  <span class="token punctuation">\</span>_ /usr/sbin/keepalived --dont-fork
+root        <span class="token number">2283</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>  <span class="token number">25264</span>   <span class="token number">936</span> ?        S    <span class="token number">14</span>:59   <span class="token number">0</span>:00  <span class="token punctuation">\</span>_ /usr/sbin/keepalived --dont-fork</code></pre></div></figure>
+
+
+
+<h3 id="2-1-2-编译安装"><a href="#2-1-2-编译安装" class="headerlink" title="2.1.2 编译安装"></a>2.1.2 编译安装</h3><p>CentOS7.9编译安装Keepalived</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># yum -y install gcc curl openssl-devel libnl3-devel net-snmpdevel</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># wget https://keepalived.org/software/keepalived-2.0.20.tar.gz</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># tar -xvf keepalived-2.0.20.tar.gz -C /usr/local/src/</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># cd /usr/local/src/keepalived-2.0.20/</span>
+<span class="token comment">#默认生成iptables规则,无法访问VIP,编译时可以加--disable-fwmark禁用生成iptables规则</span>
+<span class="token punctuation">[</span>root@node10 keepalived-2.0.20<span class="token punctuation">]</span><span class="token comment"># ./configure --prefix=/usr/local/keepalived #--disable-fwmark</span>
+<span class="token punctuation">[</span>root@node10 keepalived-2.0.20<span class="token punctuation">]</span><span class="token comment"># make &amp;&amp; make install</span>
+<span class="token punctuation">[</span>root@node10 keepalived-2.0.20<span class="token punctuation">]</span><span class="token comment"># cd</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># mkdir /etc/keepalived</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># cp /usr/local/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl enable --now keepalived.service</span>
+Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.service to /usr/lib/systemd/system/keepalived.service.
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl status keepalived</span></code></pre></div></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/Keepalived/" class="category-chain-item">Keepalived</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Keepalived/">#Keepalived</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(1).Keepalived简介及安装</div>
+      <div>http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/06/HA/Keepalived/keepalived02/" title="(2).Keepalived配置说明">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">(2).Keepalived配置说明</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/02/LB/LVS/lvs03/" title="(3).LVS实战案例">
+                        <span class="hidden-mobile">(3).LVS实战案例</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/';
+          this.page.identifier = '/2023/02/06/HA/Keepalived/keepalived01/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Keepalived"
+        id="heading-e5bfeb1eb37907d5db604fa2d443a22f" role="tab" data-toggle="collapse" href="#collapse-e5bfeb1eb37907d5db604fa2d443a22f"
+        aria-expanded="true"
+      >
+        Keepalived
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-e5bfeb1eb37907d5db604fa2d443a22f"
+           role="tabpanel" aria-labelledby="heading-e5bfeb1eb37907d5db604fa2d443a22f">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/02/06/HA/Keepalived/keepalived01/" title="(1).Keepalived简介及安装"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(1).Keepalived简介及安装</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/06/HA/Keepalived/keepalived02/" title="(2).Keepalived配置说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(2).Keepalived配置说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/06/HA/Keepalived/keepalived03/" title="(3).Keepalived企业应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(3).Keepalived企业应用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

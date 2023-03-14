@@ -1,0 +1,994 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.Redis哨兵(Sentinel)机制主从架构无法实现master和slave角色的自动切换，即当master出现redis服务异常，主机断电，磁盘损坏等问题导致master无法使用，而redis主从复制无法实现自动的故障转移(将slave自动提升为新master)，需要手动修改配置，才能切换到slave redis服务器，另外当单台Redis服务器性能无法满足业务写入需求的时候，也无法横向扩">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(5).Redis哨兵机制">
+<meta property="og:url" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis05/index.html">
+<meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.Redis哨兵(Sentinel)机制主从架构无法实现master和slave角色的自动切换，即当master出现redis服务异常，主机断电，磁盘损坏等问题导致master无法使用，而redis主从复制无法实现自动的故障转移(将slave自动提升为新master)，需要手动修改配置，才能切换到slave redis服务器，另外当单台Redis服务器性能无法满足业务写入需求的时候，也无法横向扩">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis05/image-20230226102632664.png">
+<meta property="article:published_time" content="2023-02-18T10:51:24.000Z">
+<meta property="article:modified_time" content="2023-03-14T17:49:58.260Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis05/image-20230226102632664.png">
+  
+  
+  
+  <title>(5).Redis哨兵机制 - 陈怀森の学习笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 学习笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(5).Redis哨兵机制"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-18 18:51" pubdate>
+          2023年2月18日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(5).Redis哨兵机制</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-Redis哨兵-Sentinel-机制"><a href="#1-Redis哨兵-Sentinel-机制" class="headerlink" title="1.Redis哨兵(Sentinel)机制"></a>1.Redis哨兵(Sentinel)机制</h1><p>主从架构无法实现master和slave角色的自动切换，即当master出现redis服务异常，主机断电，磁盘损坏等问题导致master无法使用，而redis主从复制无法实现自动的故障转移(将slave自动提升为新master)，需要手动修改配置，才能切换到slave redis服务器，另外当单台Redis服务器性能无法满足业务写入需求的时候，也无法横向扩展redis服务的并行写入性能。</p>
+<h2 id="1-1-Sentinel工作原理"><a href="#1-1-Sentinel工作原理" class="headerlink" title="1.1 Sentinel工作原理"></a>1.1 Sentinel工作原理</h2><ol>
+<li>Sentinel进程是用于监控redis集群中master主服务器工作的状态，在master主服务器发生故障的时候，可以实现master和slave服务器的切换，保证系统的高可用。</li>
+<li>Sentinel是一个分布式系统，可以在一个架构中运行多个Sentinel进程，这些进程使用gossip protocols来接收关于master主服务器是否下线的信息，并使用投票协议(Agreement Protocols)来决定是否执行自动故障迁移，以及选择哪个slave作为新的master。</li>
+<li>每个Sentinel进程会向其它Sentinel、master、slave定时发送消息，以确定对方是否”存活”，如果发现对方在指定配置时间内未得到回应，则暂时认为对方已离线，即宕机。</li>
+<li>当Sentinel集群中多数的Sentinel进程在对master主服务器做出down的判断，并且通过SENTINEL is-master-down-by-addr命令互相交流之后，得出的master服务器下线的判断。</li>
+<li>通过一定的vote算法，从剩下的slave从服务器节点中，选一台提升为master服务器节点，然后自动修改相关配置，并开启故障转移(failover)。</li>
+</ol>
+<ul>
+<li>Sentinel机制可以解决master和slave角色的自动切换问题，但单个 Master 的性能瓶颈问题无法解决,类似于MySQL中的MHA功能。</li>
+<li>Redis Sentinel中的Sentinel节点个数应该为大于等于3且最好为奇数。</li>
+<li>客户端初始化时连接的是Sentinel节点集合，不再是具体的Redis节点，但Sentinel只是配置中心不是代理。</li>
+<li>Redis Sentinel 节点与普通redis 没有区别,要实现读写分离依赖于客户端程序。</li>
+<li>redis 3.0 之前版本中,生产环境一般使用哨兵模式,3.0后推出redis cluster功能,可以支持更大规模的生产环境。</li>
+</ul>
+<p><strong>Sentinel中的三个定时任务：</strong></p>
+<ul>
+<li>每10s每个Sentinel对master和slave执行info<ul>
+<li>发现slave节点</li>
+<li>确认主从关系</li>
+</ul>
+</li>
+<li>每2s每个Sentinel通过master节点的channel交换信息（pub&#x2F;sub）<ul>
+<li>通过sentinel__:hello频道交互。</li>
+<li>交互对节点的“看法”和自身信息。</li>
+</ul>
+</li>
+<li>每1s每个Sentinel对其它Sentinel和redis执行ping</li>
+</ul>
+<p><img src="/2023/02/18/NoSQL/Redis/redis05/image-20230226102632664.png" srcset="/img/loading.gif" lazyload alt="image-20230226102632664"> </p>
+<h2 id="1-2-配置Sentinel机制"><a href="#1-2-配置Sentinel机制" class="headerlink" title="1.2 配置Sentinel机制"></a>1.2 配置Sentinel机制</h2><h3 id="1-2-1-配置清单"><a href="#1-2-1-配置清单" class="headerlink" title="1.2.1 配置清单"></a>1.2.1 配置清单</h3><table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP地址</th>
+<th>操作系统</th>
+<th>服务</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>node10</td>
+<td>192.168.1.10</td>
+<td>CentOS7.9</td>
+<td>Redis 3.2.12</td>
+<td>master</td>
+</tr>
+<tr>
+<td>node11</td>
+<td>192.168.1.11</td>
+<td>CentOS7.9</td>
+<td>Redis 3.2.12</td>
+<td>slave</td>
+</tr>
+<tr>
+<td>node12</td>
+<td>192.168.1.12</td>
+<td>CentOS7.9</td>
+<td>Redis 3.2.12</td>
+<td>slave</td>
+</tr>
+</tbody></table>
+<h3 id="1-2-2-安装redis配置主从"><a href="#1-2-2-安装redis配置主从" class="headerlink" title="1.2.2 安装redis配置主从"></a>1.2.2 安装redis配置主从</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#三台主机安装redis</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># yum -y install redis</span>
+
+<span class="token comment">#三台主机配置redis</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># sed -i -e 's/bind 127.0.0.1/bind 0.0.0.0/' -e 's/^# masterauth .*/masterauth 123456/' -e 's/^# requirepass .*/requirepass 123456/' /etc/redis.conf</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># sed -i 's/protected-mode yes/protected-mode no/' /etc/redis.conf</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># sed -i 's@daemonize no@daemonize yes@' /etc/redis.conf</span>
+
+<span class="token comment">#两台从节点配置</span>
+<span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># echo "slaveof 192.168.1.10 6379" >> /etc/redis.conf</span>
+<span class="token punctuation">[</span>root@node12 ~<span class="token punctuation">]</span><span class="token comment"># echo "slaveof 192.168.1.10 6379" >> /etc/redis.conf</span>
+
+<span class="token comment">#启动redis服务</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl enable --now redis</span>
+
+<span class="token comment">#查看master服务器状态</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># redis-cli -a 123456</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> info replication
+<span class="token comment"># Replication</span>
+role:master
+connected_slaves:2
+slave0:ip<span class="token operator">=</span><span class="token number">192.168</span>.1.11,port<span class="token operator">=</span><span class="token number">6379</span>,state<span class="token operator">=</span>online,offset<span class="token operator">=</span><span class="token number">15</span>,lag<span class="token operator">=</span><span class="token number">1</span>
+slave1:ip<span class="token operator">=</span><span class="token number">192.168</span>.1.12,port<span class="token operator">=</span><span class="token number">6379</span>,state<span class="token operator">=</span>online,offset<span class="token operator">=</span><span class="token number">15</span>,lag<span class="token operator">=</span><span class="token number">0</span>
+master_repl_offset:15
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:2
+repl_backlog_histlen:14</code></pre></div></figure>
+
+
+
+<h3 id="1-2-3-配置哨兵文件"><a href="#1-2-3-配置哨兵文件" class="headerlink" title="1.2.3 配置哨兵文件"></a>1.2.3 配置哨兵文件</h3><p>Sentinel实际上是一个特殊的redis服务器,有些redis指令支持,但很多指令并不支持，默认监听在26379&#x2F;tcp端口。哨兵可以不和Redis服务器部署在一起，但一般部署在一起以节约成本。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#三个哨兵服务器的配置都如下</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># grep -vE "^#|^$" /etc/redis-sentinel.conf</span>
+port <span class="token number">26379</span>
+<span class="token function">dir</span> /tmp
+sentinel monitor mymaster <span class="token number">192.168</span>.1.10 <span class="token number">6379</span> <span class="token number">2</span>
+sentinel auth-pass mymaster <span class="token number">123456</span>
+sentinel down-after-milliseconds mymaster <span class="token number">3000</span>
+sentinel parallel-syncs mymaster <span class="token number">1</span>
+sentinel failover-timeout mymaster <span class="token number">180000</span>
+logfile /var/log/redis/sentinel.log
+protected-mode no
+
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># scp /etc/redis-sentinel.conf 192.168.1.11:/etc/</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># scp /etc/redis-sentinel.conf 192.168.1.12:/etc/</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-4-启动哨兵"><a href="#1-2-4-启动哨兵" class="headerlink" title="1.2.4 启动哨兵"></a>1.2.4 启动哨兵</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#启动哨兵服务</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl enable --now redis-sentinel.service</span>
+
+<span class="token comment">#验证哨兵端口</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># ss -tnl | grep 26379</span>
+LISTEN     <span class="token number">0</span>      <span class="token number">128</span>          *:26379                    *:*                  
+LISTEN     <span class="token number">0</span>      <span class="token number">128</span>       <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:26379                 <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:*
+
+<span class="token comment">#当前sentinel状态</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># redis-cli -p 26379</span>
+<span class="token number">127.0</span>.0.1:2637<span class="token operator"><span class="token file-descriptor important">9</span>></span> info sentinel
+<span class="token comment"># Sentinel</span>
+sentinel_masters:1
+sentinel_tilt:0
+sentinel_running_scripts:0
+sentinel_scripts_queue_length:0
+sentinel_simulate_failure_flags:0
+master0:name<span class="token operator">=</span>mymaster,status<span class="token operator">=</span>ok,address<span class="token operator">=</span><span class="token number">192.168</span>.1.10:6379,slaves<span class="token operator">=</span><span class="token number">2</span>,sentinels<span class="token operator">=</span><span class="token number">3</span> <span class="token comment">#两个slave,三个sentinel服务器</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-5-模拟故障"><a href="#1-2-5-模拟故障" class="headerlink" title="1.2.5 模拟故障"></a>1.2.5 模拟故障</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#停止Redis Master 节点测试故障转移。</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl stop redis</span>
+
+<span class="token comment">#查看故障后的master信息</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># redis-cli -a 123456 -p 26379</span>
+<span class="token number">127.0</span>.0.1:2637<span class="token operator"><span class="token file-descriptor important">9</span>></span> INFO sentinel
+<span class="token comment"># Sentinel</span>
+sentinel_masters:1
+sentinel_tilt:0
+sentinel_running_scripts:0
+sentinel_scripts_queue_length:0
+sentinel_simulate_failure_flags:0
+master0:name<span class="token operator">=</span>mymaster,status<span class="token operator">=</span>ok,address<span class="token operator">=</span><span class="token number">192.168</span>.1.11:6379,slaves<span class="token operator">=</span><span class="token number">2</span>,sentinels<span class="token operator">=</span><span class="token number">3</span> <span class="token comment">#192.168.1.11成为master</span>
+
+<span class="token comment">#查看故障转移日志</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.489 <span class="token comment"># +sdown master mymaster 192.168.1.10 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.547 <span class="token comment"># +odown master mymaster 192.168.1.10 6379 #quorum 2/2</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.547 <span class="token comment"># +new-epoch 1</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.547 <span class="token comment"># +try-failover master mymaster 192.168.1.10 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.549 <span class="token comment"># +vote-for-leader 5e7cfbf246c8e14a00ee92bae97fe5da22b390eb 1</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.556 <span class="token comment"># e4d8eb124ef9f7f4da200e1df4120c718ef80cf8 voted for 5e7cfbf246c8e14a00ee92bae97fe5da22b390eb 1</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.559 <span class="token comment"># 4a808bd8597172995513ffeb6acdca019ce66d77 voted for 5e7cfbf246c8e14a00ee92bae97fe5da22b390eb 1</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.606 <span class="token comment"># +elected-leader master mymaster 192.168.1.10 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.606 <span class="token comment"># +failover-state-select-slave master mymaster 192.168.1.10 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.666 <span class="token comment"># +selected-slave slave 192.168.1.11:6379 192.168.1.11 6379 @ mymaster 192.168.1.10 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.667 * +failover-state-send-slaveof-noone slave <span class="token number">192.168</span>.1.11:6379 <span class="token number">192.168</span>.1.11 <span class="token number">6379</span> @ mymaster <span class="token number">192.168</span>.1.10 <span class="token number">6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:47.734 * +failover-state-wait-promotion slave <span class="token number">192.168</span>.1.11:6379 <span class="token number">192.168</span>.1.11 <span class="token number">6379</span> @ mymaster <span class="token number">192.168</span>.1.10 <span class="token number">6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:48.579 <span class="token comment"># +promoted-slave slave 192.168.1.11:6379 192.168.1.11 6379 @ mymaster 192.168.1.10 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:48.579 <span class="token comment"># +failover-state-reconf-slaves master mymaster 192.168.1.10 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:48.632 * +slave-reconf-sent slave <span class="token number">192.168</span>.1.12:6379 <span class="token number">192.168</span>.1.12 <span class="token number">6379</span> @ mymaster <span class="token number">192.168</span>.1.10 <span class="token number">6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:49.603 * +slave-reconf-inprog slave <span class="token number">192.168</span>.1.12:6379 <span class="token number">192.168</span>.1.12 <span class="token number">6379</span> @ mymaster <span class="token number">192.168</span>.1.10 <span class="token number">6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:49.603 * +slave-reconf-done slave <span class="token number">192.168</span>.1.12:6379 <span class="token number">192.168</span>.1.12 <span class="token number">6379</span> @ mymaster <span class="token number">192.168</span>.1.10 <span class="token number">6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:49.672 <span class="token comment"># -odown master mymaster 192.168.1.10 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:49.672 <span class="token comment"># +failover-end master mymaster 192.168.1.10 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:49.672 <span class="token comment"># +switch-master mymaster 192.168.1.10 6379 192.168.1.11 6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:49.673 * +slave slave <span class="token number">192.168</span>.1.12:6379 <span class="token number">192.168</span>.1.12 <span class="token number">6379</span> @ mymaster <span class="token number">192.168</span>.1.11 <span class="token number">6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:49.673 * +slave slave <span class="token number">192.168</span>.1.10:6379 <span class="token number">192.168</span>.1.10 <span class="token number">6379</span> @ mymaster <span class="token number">192.168</span>.1.11 <span class="token number">6379</span>
+<span class="token number">1520</span>:X <span class="token number">27</span> Feb <span class="token number">20</span>:54:52.676 <span class="token comment"># +sdown slave 192.168.1.10:6379 192.168.1.10 6379 @ mymaster 192.168.1.11 6379</span>
+
+<span class="token comment">#故障转移后的redis配置文件会被自动修改，故障转移后redis.conf中的slaveof行的master IP会被修改</span>
+<span class="token punctuation">[</span>root@node12 ~<span class="token punctuation">]</span><span class="token comment"># grep ^slaveof /etc/redis.conf</span>
+slaveof <span class="token number">192.168</span>.1.11 <span class="token number">6379</span>
+
+<span class="token comment">#当故障节点恢复后，会自动为从节点</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># grep ^slaveof /etc/redis.conf</span>
+slaveof <span class="token number">192.168</span>.1.11 <span class="token number">6379</span></code></pre></div></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/Redis/" class="category-chain-item">Redis</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Redis/">#Redis</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(5).Redis哨兵机制</div>
+      <div>http://chsblogs.com/2023/02/18/NoSQL/Redis/redis05/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/19/NoSQL/Redis/redis06/" title="(6).Redis之Cluster集群">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">(6).Redis之Cluster集群</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/18/NoSQL/Redis/redis04/" title="(4).Redis主从复制">
+                        <span class="hidden-mobile">(4).Redis主从复制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2023/02/18/NoSQL/Redis/redis05/';
+          this.page.identifier = '/2023/02/18/NoSQL/Redis/redis05/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Redis"
+        id="heading-e111446745a1825b862f8727ae63bce4" role="tab" data-toggle="collapse" href="#collapse-e111446745a1825b862f8727ae63bce4"
+        aria-expanded="true"
+      >
+        Redis
+        <span class="list-group-count">(6)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-e111446745a1825b862f8727ae63bce4"
+           role="tabpanel" aria-labelledby="heading-e111446745a1825b862f8727ae63bce4">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/02/16/NoSQL/Redis/redis01/" title="(1).Redis简介及安装"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(1).Redis简介及安装</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/16/NoSQL/Redis/redis02/" title="(2).Redis配置详解"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(2).Redis配置详解</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/16/NoSQL/Redis/redis03/" title="(3).Redis持久化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(3).Redis持久化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/18/NoSQL/Redis/redis04/" title="(4).Redis主从复制"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(4).Redis主从复制</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/18/NoSQL/Redis/redis05/" title="(5).Redis哨兵机制"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(5).Redis哨兵机制</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/19/NoSQL/Redis/redis06/" title="(6).Redis之Cluster集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(6).Redis之Cluster集群</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

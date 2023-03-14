@@ -1,0 +1,1445 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.Keepalived单主配置1.1 MASTER配置global_defs &amp;#123;    notification_email &amp;#123;      acassen@firewall.loc      failover@firewall.loc      sysadmin@firewall.loc    &amp;#125;    notification_email_from Alexand">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(3).Keepalived企业应用">
+<meta property="og:url" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived03/index.html">
+<meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.Keepalived单主配置1.1 MASTER配置global_defs &amp;#123;    notification_email &amp;#123;      acassen@firewall.loc      failover@firewall.loc      sysadmin@firewall.loc    &amp;#125;    notification_email_from Alexand">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived03/image-20230208162916282.png">
+<meta property="article:published_time" content="2023-02-06T15:25:34.000Z">
+<meta property="article:modified_time" content="2023-03-14T17:47:21.513Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="Keepalived">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived03/image-20230208162916282.png">
+  
+  
+  
+  <title>(3).Keepalived企业应用 - 陈怀森の学习笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 学习笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(3).Keepalived企业应用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-06 23:25" pubdate>
+          2023年2月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          16k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(3).Keepalived企业应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-Keepalived单主配置"><a href="#1-Keepalived单主配置" class="headerlink" title="1.Keepalived单主配置"></a>1.Keepalived单主配置</h1><h2 id="1-1-MASTER配置"><a href="#1-1-MASTER配置" class="headerlink" title="1.1 MASTER配置"></a>1.1 MASTER配置</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id node11
+   vrrp_skip_check_adv_addr
+   <span class="token comment">#vrrp_strict</span>
+   vrrp_garp_interval <span class="token number">0</span>
+   vrrp_gna_interval <span class="token number">0</span>
+   vrrp_mcast_group4 <span class="token number">224.0</span>.0.18
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state MASTER
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">100</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<h2 id="1-2-BACKUP配置"><a href="#1-2-BACKUP配置" class="headerlink" title="1.2 BACKUP配置"></a>1.2 BACKUP配置</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id node12
+   vrrp_skip_check_adv_addr
+   <span class="token comment">#vrrp_strict</span>
+   vrrp_garp_interval <span class="token number">0</span>
+   vrrp_gna_interval <span class="token number">0</span>
+   vrrp_mcast_group4 <span class="token number">224.0</span>.0.18
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state BACKUP
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">80</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<h1 id="2-抢占模式和非抢占模式"><a href="#2-抢占模式和非抢占模式" class="headerlink" title="2.抢占模式和非抢占模式"></a>2.抢占模式和非抢占模式</h1><h2 id="2-1-非抢占模式"><a href="#2-1-非抢占模式" class="headerlink" title="2.1 非抢占模式"></a>2.1 非抢占模式</h2><p>默认为抢占模式preempt，即当高优先级的主机恢复在线后，会抢占低先级的主机的MASTER角色，造成网络抖动，建议设置为非抢占模式nopreempt ，即高优先级主机恢复后，并不会抢占低优先级主机的MASTER角色。</p>
+<p><strong>注意：要关闭 VIP抢占，必须将各 keepalived 服务器state配置为BACKUP</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#HA1主机配置</span>
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    <span class="token comment">#都为BACKUP</span>
+    state BACKUP
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">100</span>
+    advert_int <span class="token number">1</span>
+    <span class="token comment">#添加此行，都为nopreempt</span>
+    nopreempt
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#HA2主机配置</span>
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    <span class="token comment">#都为BACKUP</span>
+    state BACKUP
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">80</span>
+    advert_int <span class="token number">1</span>
+    <span class="token comment">#添加此行，都为nopreempt</span>
+    nopreempt
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<h2 id="2-2-抢占延迟模式"><a href="#2-2-抢占延迟模式" class="headerlink" title="2.2 抢占延迟模式"></a>2.2 抢占延迟模式</h2><p>抢占延迟模式，即优先级高的主机恢复后，不会立即抢回VIP，而是延迟一段时间（默认300s）再抢回VIP</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">preempt_delay <span class="token operator">&lt;</span>INT<span class="token operator">></span> <span class="token comment">#指定抢占延迟时间为&lt;INT>s，默认延迟300s</span></code></pre></div></figure>
+
+<p><strong>注意：需要将各 keepalived 服务器state配置为BACKUP，并且不启用vrrp_strict</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#HA1主机配置</span>
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    <span class="token comment">#都为BACKUP</span>
+    state BACKUP
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">100</span>
+    advert_int <span class="token number">1</span>
+    preempt_delay <span class="token number">10</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#HA2主机配置</span>
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    <span class="token comment">#都为BACKUP</span>
+    state BACKUP
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">80</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<h1 id="3-VIP单播配置"><a href="#3-VIP单播配置" class="headerlink" title="3.VIP单播配置"></a>3.VIP单播配置</h1><p>默认keepalived主机之间利用多播相互通告消息，会造成网络拥塞，可以替换成单播，减少网络流量。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#在所有节点vrrp_instance语句块中设置对方主机的IP，建议设置为专用于对应心跳线网络的地址，而非使用业务网络。</span>
+unicast_src_ip <span class="token operator">&lt;</span>IPADDR<span class="token operator">></span> <span class="token comment">#指定发送单播的源IP</span>
+unicast_peer <span class="token punctuation">&#123;</span>
+    <span class="token operator">&lt;</span>IPADDR<span class="token operator">></span> <span class="token comment">#指定接收单播的对方目标主机IP</span>
+    <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+<p><strong>注意：启用 vrrp_strict 时，不能启用单播。</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#MASTER主机配置</span>
+global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id node11
+   vrrp_skip_check_adv_addr
+   <span class="token comment">#vrrp_strict</span>
+   vrrp_garp_interval <span class="token number">0</span>
+   vrrp_gna_interval <span class="token number">0</span>
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state MASTER
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">100</span>
+    advert_int <span class="token number">1</span>
+    preempt_delay <span class="token number">10</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+    unicast_src_ip <span class="token number">192.168</span>.1.11
+    unicast_peer <span class="token punctuation">&#123;</span>
+      <span class="token number">192.168</span>.1.12
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#BACKUP主机配置</span>
+global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id node12
+   vrrp_skip_check_adv_addr
+   <span class="token comment">#vrrp_strict</span>
+   vrrp_garp_interval <span class="token number">0</span>
+   vrrp_gna_interval <span class="token number">0</span>
+   vrrp_mcast_group4 <span class="token number">224.0</span>.0.18
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state BACKUP
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">80</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+    unicast_src_ip <span class="token number">192.168</span>.1.12
+    unicast_peer <span class="token punctuation">&#123;</span>
+      <span class="token number">192.168</span>.1.11
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#抓包</span>
+<span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># tcpdump -i ens33 -nn src host 192.168.1.11 and dst host 192.168.1.12</span>
+tcpdump: verbose output suppressed, use <span class="token parameter variable">-v</span> or <span class="token parameter variable">-vv</span> <span class="token keyword">for</span> full protocol decode
+listening on ens33, link-type EN10MB <span class="token punctuation">(</span>Ethernet<span class="token punctuation">)</span>, capture size <span class="token number">262144</span> bytes
+<span class="token number">14</span>:09:37.610480 IP <span class="token number">192.168</span>.1.11 <span class="token operator">></span> <span class="token number">192.168</span>.1.12: VRRPv2, Advertisement, vrid <span class="token number">66</span>, prio <span class="token number">100</span>, authtype simple, intvl 1s, length <span class="token number">20</span>
+<span class="token number">14</span>:09:38.613866 IP <span class="token number">192.168</span>.1.11 <span class="token operator">></span> <span class="token number">192.168</span>.1.12: VRRPv2, Advertisement, vrid <span class="token number">66</span>, prio <span class="token number">100</span>, authtype simple, intvl 1s, length <span class="token number">20</span>
+<span class="token number">14</span>:09:39.615474 IP <span class="token number">192.168</span>.1.11 <span class="token operator">></span> <span class="token number">192.168</span>.1.12: VRRPv2, Advertisement, vrid <span class="token number">66</span>, prio <span class="token number">100</span>, authtype simple, intvl 1s, length <span class="token number">20</span>
+<span class="token number">14</span>:09:40.618198 IP <span class="token number">192.168</span>.1.11 <span class="token operator">></span> <span class="token number">192.168</span>.1.12: VRRPv2, Advertisement, vrid <span class="token number">66</span>, prio <span class="token number">100</span>, authtype simple, intvl 1s, length <span class="token number">20</span>
+<span class="token number">14</span>:09:41.619297 IP <span class="token number">192.168</span>.1.11 <span class="token operator">></span> <span class="token number">192.168</span>.1.12: VRRPv2, Advertisement, vrid <span class="token number">66</span>, prio <span class="token number">100</span>, authtype simple, intvl 1s, length <span class="token number">20</span>
+<span class="token number">14</span>:09:42.620918 IP <span class="token number">192.168</span>.1.11 <span class="token operator">></span> <span class="token number">192.168</span>.1.12: VRRPv2, Advertisement, vrid <span class="token number">66</span>, prio <span class="token number">100</span>, authtype simple, intvl 1s, length <span class="token number">20</span></code></pre></div></figure>
+
+
+
+<h1 id="4-Keepalived通知脚本配置"><a href="#4-Keepalived通知脚本配置" class="headerlink" title="4.Keepalived通知脚本配置"></a>4.Keepalived通知脚本配置</h1><p>当keepalived的状态变化时，可以自动触发脚本的执行，比如：发邮件通知用户。默认以用户keepalived_script身份执行脚本，如果此用户不存在，以root执行脚本。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#可以用下面指令指定脚本执行用户的身份</span>
+global_defs <span class="token punctuation">&#123;</span>
+	<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+	script_user <span class="token operator">&lt;</span><span class="token environment constant">USER</span><span class="token operator">></span>
+	<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+<h2 id="4-1-通知脚本类型"><a href="#4-1-通知脚本类型" class="headerlink" title="4.1 通知脚本类型"></a>4.1 通知脚本类型</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#当前节点成为主节点时触发的脚本</span>
+notify_master <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span>
+
+<span class="token comment">#当前节点转为备节点时触发的脚本</span>
+notify_backup <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span>
+
+<span class="token comment">#当前节点转为“失败”状态时触发的脚本</span>
+notify_fault <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span>
+
+<span class="token comment">#通用格式的通知触发机制，一个脚本可完成以上三种状态的转换时的通知</span>
+notify <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span>
+
+<span class="token comment">#当停止VRRP时触发的脚本</span>
+notify_stop <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span></code></pre></div></figure>
+
+
+
+<h2 id="4-2-脚本调用方式"><a href="#4-2-脚本调用方式" class="headerlink" title="4.2 脚本调用方式"></a>4.2 脚本调用方式</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id node11
+   vrrp_skip_check_adv_addr
+   <span class="token comment">#vrrp_strict</span>
+   vrrp_garp_interval <span class="token number">0</span>
+   vrrp_gna_interval <span class="token number">0</span>
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state MASTER
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">100</span>
+    advert_int <span class="token number">1</span>
+    preempt_delay <span class="token number">10</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">#此处添加</span>
+    notify_master <span class="token string">"/etc/keepalived/notify.sh master"</span>
+    notify_backup <span class="token string">"/etc/keepalived/notify.sh backup"</span>
+    notify_fault <span class="token string">"/etc/keepalived/notify.sh fault"</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<h2 id="4-3-创建通知脚本"><a href="#4-3-创建通知脚本" class="headerlink" title="4.3 创建通知脚本"></a>4.3 创建通知脚本</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/keepalived/notify.sh</span>
+<span class="token comment">#!/bin/bash</span>
+<span class="token assign-left variable">contact</span><span class="token operator">=</span><span class="token string">'1285780460@qq.com'</span>
+<span class="token function-name function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token assign-left variable">mailsubject</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">hostname</span><span class="token variable">)</span></span> to be <span class="token variable">$1</span>, vip floating"</span>
+    <span class="token assign-left variable">mailbody</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> +<span class="token string">'%F %T'</span><span class="token variable">)</span></span>: vrrp transition, <span class="token variable"><span class="token variable">$(</span><span class="token function">hostname</span><span class="token variable">)</span></span> changed to be <span class="token variable">$1</span>"</span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$mailbody</span>"</span> <span class="token operator">|</span> mail <span class="token parameter variable">-s</span> <span class="token string">"<span class="token variable">$mailsubject</span>"</span> <span class="token variable">$contact</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">case</span> <span class="token variable">$1</span> <span class="token keyword">in</span>
+master<span class="token punctuation">)</span>
+    notify master
+    <span class="token punctuation">;</span><span class="token punctuation">;</span>
+backup<span class="token punctuation">)</span>
+    notify backup
+    <span class="token punctuation">;</span><span class="token punctuation">;</span>
+fault<span class="token punctuation">)</span>
+    notify fault
+	<span class="token punctuation">;</span><span class="token punctuation">;</span>
+*<span class="token punctuation">)</span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"Usage: <span class="token variable"><span class="token variable">$(</span><span class="token function">basename</span> $0<span class="token variable">)</span></span> &#123;master|backup|fault&#125;"</span>
+    <span class="token builtin class-name">exit</span> <span class="token number">1</span>
+    <span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span class="token keyword">esac</span></code></pre></div></figure>
+
+
+
+<h2 id="4-4-邮件配置"><a href="#4-4-邮件配置" class="headerlink" title="4.4 邮件配置"></a>4.4 邮件配置</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># yum -y install mailx sendmail</span>
+<span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/mail.rc</span>
+<span class="token comment">#在最后面添加下面行</span>
+<span class="token builtin class-name">set</span> <span class="token assign-left variable">from</span><span class="token operator">=</span>chen_huai_sen@163.com
+<span class="token builtin class-name">set</span> <span class="token assign-left variable">smtp</span><span class="token operator">=</span>smtp.163.com
+<span class="token builtin class-name">set</span> smtp-auth-user<span class="token operator">=</span>chen_huai_sen@163.com
+<span class="token builtin class-name">set</span> smtp-auth-password<span class="token operator">=</span>你的授权码
+<span class="token builtin class-name">set</span> smtp-auth<span class="token operator">=</span>login
+
+<span class="token comment">#测试发送邮件</span>
+<span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># echo "Test Mail"| mail -s Warning chen_huai_sen@163.com</span></code></pre></div></figure>
+
+
+
+<h2 id="4-5-实现Keepalived状态切换通知脚本"><a href="#4-5-实现Keepalived状态切换通知脚本" class="headerlink" title="4.5 实现Keepalived状态切换通知脚本"></a>4.5 实现Keepalived状态切换通知脚本</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#在所有 keepalived节点配置如下</span>
+<span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/keepalived/notify.sh</span>
+<span class="token comment">#!/bin/bash</span>
+<span class="token assign-left variable">contact</span><span class="token operator">=</span><span class="token string">'1285780460@qq.com'</span>
+<span class="token function-name function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token assign-left variable">mailsubject</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">hostname</span><span class="token variable">)</span></span> to be <span class="token variable">$1</span>, vip floating"</span>
+    <span class="token assign-left variable">mailbody</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> +<span class="token string">'%F %T'</span><span class="token variable">)</span></span>: vrrp transition, <span class="token variable"><span class="token variable">$(</span><span class="token function">hostname</span><span class="token variable">)</span></span> changed to be <span class="token variable">$1</span>"</span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$mailbody</span>"</span> <span class="token operator">|</span> mail <span class="token parameter variable">-s</span> <span class="token string">"<span class="token variable">$mailsubject</span>"</span> <span class="token variable">$contact</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">case</span> <span class="token variable">$1</span> <span class="token keyword">in</span>
+master<span class="token punctuation">)</span>
+    notify master
+    <span class="token punctuation">;</span><span class="token punctuation">;</span>
+backup<span class="token punctuation">)</span>
+    notify backup
+    <span class="token punctuation">;</span><span class="token punctuation">;</span>
+fault<span class="token punctuation">)</span>
+    notify fault
+	<span class="token punctuation">;</span><span class="token punctuation">;</span>
+*<span class="token punctuation">)</span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"Usage: <span class="token variable"><span class="token variable">$(</span><span class="token function">basename</span> $0<span class="token variable">)</span></span> &#123;master|backup|fault&#125;"</span>
+    <span class="token builtin class-name">exit</span> <span class="token number">1</span>
+    <span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span class="token keyword">esac</span>
+
+<span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># chmod +x /etc/keepalived/notify.sh</span>
+
+<span class="token comment">#模拟MASTER故障</span>
+<span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># systemctl stop keepalived</span></code></pre></div></figure>
+
+<p><img src="/2023/02/06/HA/Keepalived/keepalived03/image-20230208162916282.png" srcset="/img/loading.gif" lazyload alt="image-20230208162916282"> </p>
+<h1 id="5-Keepalived双主配置"><a href="#5-Keepalived双主配置" class="headerlink" title="5.Keepalived双主配置"></a>5.Keepalived双主配置</h1><p>MASTER&#x2F;SLAVE的单主架构，同一时间只有一个Keepalived对外提供服务，此主机繁忙，而另一台主机却很空闲，利用率低下，可以使用MASTER&#x2F;MASTER的双主架构，解决此问题。  即将两个或以上VIP分别运行在不同的keepalived服务器，以实现服务器并行提供web访问的目的，提高服务器资源利用率。  </p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#HA1主机配置</span>
+<span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/keepalived/keepalived.conf</span>
+global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id node11
+   vrrp_skip_check_adv_addr
+   <span class="token comment">#vrrp_strict</span>
+   vrrp_garp_interval <span class="token number">0</span>
+   vrrp_gna_interval <span class="token number">0</span>
+<span class="token punctuation">&#125;</span>
+
+vrrp_script check_down <span class="token punctuation">&#123;</span>
+   script <span class="token string">"/etc/keepalived/checkDown.sh"</span>
+   interval <span class="token number">1</span>
+   weight <span class="token parameter variable">-30</span>
+   fall <span class="token number">3</span>
+   rise <span class="token number">2</span>
+   <span class="token function">timeout</span> <span class="token number">2</span>
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state MASTER
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">100</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+    notify_master <span class="token string">"/etc/keepalived/notify.sh master"</span>
+    notify_backup <span class="token string">"/etc/keepalived/notify.sh backup"</span>
+    notify_fault <span class="token string">"/etc/keepalived/notify.sh fault"</span>
+    track_script <span class="token punctuation">&#123;</span>
+        check_down
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_2 <span class="token punctuation">&#123;</span>
+    state BACKUP
+    interface ens33
+    virtual_router_id <span class="token number">77</span>
+    priority <span class="token number">80</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.77 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+    notify_master <span class="token string">"/etc/keepalived/notify.sh master"</span>
+    notify_backup <span class="token string">"/etc/keepalived/notify.sh backup"</span>
+    notify_fault <span class="token string">"/etc/keepalived/notify.sh fault"</span>
+    track_script <span class="token punctuation">&#123;</span>
+        check_down
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#HA2主机配置</span>
+<span class="token punctuation">[</span>root@node12 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/keepalived/keepalived.conf</span>
+global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id node11
+   vrrp_skip_check_adv_addr
+   <span class="token comment">#vrrp_strict</span>
+   vrrp_garp_interval <span class="token number">0</span>
+   vrrp_gna_interval <span class="token number">0</span>
+<span class="token punctuation">&#125;</span>
+
+vrrp_script check_down <span class="token punctuation">&#123;</span>
+   script <span class="token string">"/etc/keepalived/checkDown.sh"</span>
+   interval <span class="token number">1</span>
+   weight <span class="token parameter variable">-30</span>
+   fall <span class="token number">3</span>
+   rise <span class="token number">2</span>
+   <span class="token function">timeout</span> <span class="token number">2</span>
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state BACKUP
+    interface ens33
+    virtual_router_id <span class="token number">66</span>
+    priority <span class="token number">80</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+    notify_master <span class="token string">"/etc/keepalived/notify.sh master"</span>
+    notify_backup <span class="token string">"/etc/keepalived/notify.sh backup"</span>
+    notify_fault <span class="token string">"/etc/keepalived/notify.sh fault"</span>
+    track_script <span class="token punctuation">&#123;</span>
+        check_down
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_2 <span class="token punctuation">&#123;</span>
+    state MASTER
+    interface ens33
+    virtual_router_id <span class="token number">77</span>
+    priority <span class="token number">80</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.77 dev ens33 label ens33:0
+    <span class="token punctuation">&#125;</span>
+    notify_master <span class="token string">"/etc/keepalived/notify.sh master"</span>
+    notify_backup <span class="token string">"/etc/keepalived/notify.sh backup"</span>
+    notify_fault <span class="token string">"/etc/keepalived/notify.sh fault"</span>
+    track_script <span class="token punctuation">&#123;</span>
+        check_down
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<h1 id="6-基于VRRP-Script实现高可用"><a href="#6-基于VRRP-Script实现高可用" class="headerlink" title="6.基于VRRP Script实现高可用"></a>6.基于VRRP Script实现高可用</h1><p>keepalived利用 VRRP Script 技术，可以调用外部的辅助脚本进行资源监控，并根据监控的结果实现优先动态调整，从而实现其它应用的高可用性功能。</p>
+<h2 id="6-1-VRRP-Script配置"><a href="#6-1-VRRP-Script配置" class="headerlink" title="6.1 VRRP Script配置"></a>6.1 VRRP Script配置</h2><ul>
+<li>第一步：定义脚本</li>
+</ul>
+<p>vrrp_script：自定义资源监控脚本，vrrp实例根据脚本返回值，公共定义，可被多个实例调用，定义在vrrp实例之外的独立配置块，一般放在global_defs设置块之后,是和global_defs平级的语句块。通常此脚本用于监控指定应用的状态。一旦发现应用的状态异常，则触发对MASTER节点的权重减至低于BACKUP节点，从而实现VIP切换到BACKUP节点。</p>
+<p><strong>注意: 此定义脚本的语句块一定要放在下面调用此语句vrrp_instance语句块的前面</strong>  </p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">vrrp_script <span class="token operator">&lt;</span>SCRIPT_NAME<span class="token operator">></span> <span class="token punctuation">&#123;</span>
+	script <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span> <span class="token comment">#此脚本返回值为非0时，会触发下面OPTIONS执行</span>
+	OPTIONS
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token comment">#详细配置</span>
+vrrp_script <span class="token operator">&lt;</span>SCRIPT_NAME<span class="token operator">></span> <span class="token punctuation">&#123;</span>            <span class="token comment">#定义一个检测脚本，在global_defs 之外配置</span>
+	script <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span>    <span class="token comment">#Shell命令或脚本路径(注意执行权限)</span>
+	interval <span class="token operator">&lt;</span>INT<span class="token operator">></span>                     <span class="token comment">#间隔时间，单位为秒，默认1秒</span>
+	<span class="token function">timeout</span> <span class="token operator">&lt;</span>INT<span class="token operator">></span>                      <span class="token comment">#超时时间</span>
+	weight <span class="token operator">&lt;</span>INT:-254<span class="token punctuation">..</span><span class="token number">25</span><span class="token operator"><span class="token file-descriptor important">4</span>></span>             <span class="token comment">#默认为0,如果设置此值为负数，当上面脚本返回值为非0时，会将此值与本节点权重相加可以                                         降低本节点权重，即表示fall. 如果是正数，当脚本返回值为0，会将此值与本节点权重相加                                         可以提高本节点权重，即表示 rise.通常使用负值</span>
+	fall <span class="token operator">&lt;</span>INT<span class="token operator">></span>                         <span class="token comment">#执行脚本连续几次都失败,则转换为失败，建议设为2以上</span>
+	rise <span class="token operator">&lt;</span>INT<span class="token operator">></span>                         <span class="token comment">#执行脚本连续几次都成功，把服务器从失败标记为成功</span>
+	user USERNAME <span class="token punctuation">[</span>GROUPNAME<span class="token punctuation">]</span>          <span class="token comment">#执行监测脚本的用户或组</span>
+	init_fail                          <span class="token comment">#设置默认标记为失败状态，监测成功之后再转换为成功状态</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<ul>
+<li>第二步：调用脚本</li>
+</ul>
+<p>track_script：调用vrrp_script定义的脚本去监控资源，定义在VRRP实例之内，调用事先定义的vrrp_script  </p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">track_script <span class="token punctuation">&#123;</span>
+	SCRIPT_NAME_1
+	SCRIPT_NAME_2
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#调用VRRP Script</span>
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+	<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+	track_script <span class="token punctuation">&#123;</span>
+		<span class="token operator">&lt;</span>SCRIPT_NAME<span class="token operator">></span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<h2 id="6-2-基于脚本实现主从切换"><a href="#6-2-基于脚本实现主从切换" class="headerlink" title="6.2 基于脚本实现主从切换"></a>6.2 基于脚本实现主从切换</h2><h3 id="6-2-1-Keepalived1配置"><a href="#6-2-1-Keepalived1配置" class="headerlink" title="6.2.1 Keepalived1配置"></a>6.2.1 Keepalived1配置</h3><h3 id="6-2-2-Keepalived2配置"><a href="#6-2-2-Keepalived2配置" class="headerlink" title="6.2.2 Keepalived2配置"></a>6.2.2 Keepalived2配置</h3><h3 id="6-2-3-创建checkDown-sh"><a href="#6-2-3-创建checkDown-sh" class="headerlink" title="6.2.3 创建checkDown.sh"></a>6.2.3 创建checkDown.sh</h3><h3 id="6-2-4-验证主从切换"><a href="#6-2-4-验证主从切换" class="headerlink" title="6.2.4 验证主从切换"></a>6.2.4 验证主从切换</h3><p>查看Keepalived1主机状态</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># hostname -I</span>
+<span class="token number">192.168</span>.1.11 <span class="token number">192.168</span>.1.66</code></pre></div></figure>
+
+
+
+<p>Keepalived1主机创建down文件</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># touch /etc/keepalived/down</span></code></pre></div></figure>
+
+
+
+<p>查看Keepalived1主机状态</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># hostname -I</span>
+<span class="token number">192.168</span>.1.11 </code></pre></div></figure>
+
+
+
+<p>删除down文件</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># rm -rf /etc/keepalived/down</span></code></pre></div></figure>
+
+
+
+<p>查看Keepalived1主机状态</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># hostname -I</span>
+<span class="token number">192.168</span>.1.11 <span class="token number">192.168</span>.1.66</code></pre></div></figure>
+
+
+
+<p>查看VIP切换日志</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#Keepalived1日志</span>
+<span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># cat /var/log/keepalived.log</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:32 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: /etc/keepalived/checkDown.sh exited with status <span class="token number">1</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:33 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: /etc/keepalived/checkDown.sh exited with status <span class="token number">1</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:34 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: /etc/keepalived/checkDown.sh exited with status <span class="token number">1</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:34 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Script<span class="token punctuation">(</span>check_down<span class="token punctuation">)</span> failed
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:34 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Changing effective priority from <span class="token number">100</span> to <span class="token number">70</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:35 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Received advert with higher priority <span class="token number">80</span>, ours <span class="token number">70</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:35 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Entering BACKUP STATE
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:35 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> removing protocol VIPs.
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:35 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Opening script <span class="token function">file</span> /etc/keepalived/notify.sh
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:35 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: /etc/keepalived/checkDown.sh exited with status <span class="token number">1</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:36 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: /etc/keepalived/checkDown.sh exited with status <span class="token number">1</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: /etc/keepalived/checkDown.sh exited with status <span class="token number">1</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:17 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Script<span class="token punctuation">(</span>check_down<span class="token punctuation">)</span> succeeded
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:17 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Changing effective priority from <span class="token number">70</span> to <span class="token number">100</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:18 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> forcing a new MASTER election
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:19 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Transition to MASTER STATE
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:20 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Entering MASTER STATE
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:20 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> setting protocol VIPs.
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:20 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:20 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Sending/queueing gratuitous ARPs on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:20 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:20 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:20 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:20 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:20 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Opening script <span class="token function">file</span> /etc/keepalived/notify.sh
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:25 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:25 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Sending/queueing gratuitous ARPs on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:25 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:25 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:25 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:25 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+
+<span class="token comment">#Keepalived2日志</span>
+<span class="token punctuation">[</span>root@node12 ~<span class="token punctuation">]</span><span class="token comment"># cat /var/log/keepalived.log</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:35 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> forcing a new MASTER election
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:36 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Transition to MASTER STATE
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Entering MASTER STATE
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> setting protocol VIPs.
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Sending/queueing gratuitous ARPs on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:37 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Opening script <span class="token function">file</span> /etc/keepalived/notify.sh
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:42 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:42 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Sending/queueing gratuitous ARPs on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:42 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:42 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:42 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:55:42 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Sending gratuitous ARP on ens33 <span class="token keyword">for</span> <span class="token number">192.168</span>.1.66
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:18 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Received advert with higher priority <span class="token number">100</span>, ours <span class="token number">80</span>
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:18 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> Entering BACKUP STATE
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:18 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: VRRP_Instance<span class="token punctuation">(</span>VI_1<span class="token punctuation">)</span> removing protocol VIPs.
+Feb  <span class="token number">8</span> <span class="token number">19</span>:57:18 node12 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">28266</span><span class="token punctuation">]</span>: Opening script <span class="token function">file</span> /etc/keepalived/notify.sh</code></pre></div></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/Keepalived/" class="category-chain-item">Keepalived</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Keepalived/">#Keepalived</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(3).Keepalived企业应用</div>
+      <div>http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived03/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/09/LB/HAProxy/haproxy01/" title="(1).HAProxy简介及安装">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">(1).HAProxy简介及安装</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/06/HA/Keepalived/keepalived02/" title="(2).Keepalived配置说明">
+                        <span class="hidden-mobile">(2).Keepalived配置说明</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived03/';
+          this.page.identifier = '/2023/02/06/HA/Keepalived/keepalived03/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Keepalived"
+        id="heading-e5bfeb1eb37907d5db604fa2d443a22f" role="tab" data-toggle="collapse" href="#collapse-e5bfeb1eb37907d5db604fa2d443a22f"
+        aria-expanded="true"
+      >
+        Keepalived
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-e5bfeb1eb37907d5db604fa2d443a22f"
+           role="tabpanel" aria-labelledby="heading-e5bfeb1eb37907d5db604fa2d443a22f">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/02/06/HA/Keepalived/keepalived01/" title="(1).Keepalived简介及安装"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(1).Keepalived简介及安装</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/06/HA/Keepalived/keepalived02/" title="(2).Keepalived配置说明"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(2).Keepalived配置说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/06/HA/Keepalived/keepalived03/" title="(3).Keepalived企业应用"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(3).Keepalived企业应用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

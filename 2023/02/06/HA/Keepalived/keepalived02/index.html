@@ -1,0 +1,991 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.Keepalived配置说明1.1 配置文件组成#配置文件 &#x2F;etc&#x2F;keepalived&#x2F;keepalived.conf  #配置文件组成 global_defs &amp;#123; #全局配置，定义邮件配置，route_id，vrrp配置，多播地址等。    ...... &amp;#125;  vrrp_instance VI_1 &amp;#123; #定义每个vrrp虚拟路由器     ...... &amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(2).Keepalived配置说明">
+<meta property="og:url" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived02/index.html">
+<meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.Keepalived配置说明1.1 配置文件组成#配置文件 &#x2F;etc&#x2F;keepalived&#x2F;keepalived.conf  #配置文件组成 global_defs &amp;#123; #全局配置，定义邮件配置，route_id，vrrp配置，多播地址等。    ...... &amp;#125;  vrrp_instance VI_1 &amp;#123; #定义每个vrrp虚拟路由器     ...... &amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-06T15:25:22.000Z">
+<meta property="article:modified_time" content="2023-03-14T17:47:35.198Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="Keepalived">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>(2).Keepalived配置说明 - 陈怀森の学习笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 学习笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(2).Keepalived配置说明"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-06 23:25" pubdate>
+          2023年2月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          4 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(2).Keepalived配置说明</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-Keepalived配置说明"><a href="#1-Keepalived配置说明" class="headerlink" title="1.Keepalived配置说明"></a>1.Keepalived配置说明</h1><h2 id="1-1-配置文件组成"><a href="#1-1-配置文件组成" class="headerlink" title="1.1 配置文件组成"></a>1.1 配置文件组成</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#配置文件</span>
+/etc/keepalived/keepalived.conf
+
+<span class="token comment">#配置文件组成</span>
+global_defs <span class="token punctuation">&#123;</span> <span class="token comment">#全局配置，定义邮件配置，route_id，vrrp配置，多播地址等。</span>
+   <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span> <span class="token comment">#定义每个vrrp虚拟路由器</span>
+    <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token punctuation">&#125;</span>
+
+virtual_server <span class="token number">192.168</span>.200.100 <span class="token number">443</span> <span class="token punctuation">&#123;</span> <span class="token comment">#LVS集群配置</span>
+    <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<h2 id="1-2-Keepalived详细配置"><a href="#1-2-Keepalived详细配置" class="headerlink" title="1.2 Keepalived详细配置"></a>1.2 Keepalived详细配置</h2><h3 id="1-2-1-全局配置"><a href="#1-2-1-全局配置" class="headerlink" title="1.2.1 全局配置"></a>1.2.1 全局配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     <span class="token comment">##keepalived 发生故障切换时邮件发送的目标邮箱，可以按行区分写多个</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span class="token punctuation">&#125;</span>
+   <span class="token comment">#发邮件地址</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   <span class="token comment">#邮件服务器地址</span>
+   smtp_server <span class="token number">192.168</span>.200.1
+   <span class="token comment">#邮件服务器连接timeout</span>
+   smtp_connect_timeout <span class="token number">30</span>
+   <span class="token comment">#每个keepalived主机唯一标识，建议使用当前主机名，但多节点重名不影响</span>
+   router_id LVS_DEVEL
+   <span class="token comment">#对所有通告报文都检查，会比较消耗性能，启用此配置后，如果收到的通告报文和上一个报文是同一个路由器，则跳过检查，默认值为全检查</span>
+   vrrp_skip_check_adv_addr
+   <span class="token comment">#严格遵守VRRP协议,启用此项后以下状况将无法启动服务:1.无VIP地址 2.配置了单播邻居 3.在VRRP版本2中有IPv6地址，开启动此项并且没有配置vrrp_iptables时会自动开启iptables防火墙规则，默认导致VIP无法访问,建议不加此项配置</span>
+   vrrp_strict
+   <span class="token comment">#gratuitous ARP messages 报文发送延迟，0表示不延迟</span>
+   vrrp_garp_interval <span class="token number">0</span>
+   <span class="token comment">#unsolicited NA messages （不请自来）消息发送延迟</span>
+   vrrp_gna_interval <span class="token number">0</span>
+   <span class="token comment">#指定组播IP地址范围：224.0.0.0到239.255.255.255,默认值：224.0.0.18</span>
+   vrrp_mcast_group4 <span class="token number">224.0</span>.0.18
+   <span class="token comment">#此项和vrrp_strict同时开启时，则不会添加防火墙规则,如果无配置vrrp_strict项,则无需启用此项配置</span>
+   vrrp_iptables
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-2-虚拟路由器配置"><a href="#1-2-2-虚拟路由器配置" class="headerlink" title="1.2.2 虚拟路由器配置"></a>1.2.2 虚拟路由器配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">vrrp_instance VI_1 <span class="token punctuation">&#123;</span> <span class="token comment">#VI_1为vrrp实例名，一般为业务名称</span>
+    <span class="token comment">#当前节点在此虚拟路由器的初始状态，状态为MASTER或者BACKUP</span>
+    state MASTER<span class="token operator">|</span>BACKUP
+    <span class="token comment">#绑定为当前虚拟路由器使用的物理接口。如：eth0,bond0,br0,可以和VIP不在一个网卡。</span>
+    interface ens33
+    <span class="token comment">#每个虚拟路由器惟一标识，范围：0-255，每个虚拟路由器此值必须唯一，否则服务无法启动，同属一个虚拟路由器的多个keepalived节点必须相同,务必要确认在同一网络中此值必须唯一。</span>
+    virtual_router_id <span class="token number">51</span>
+    <span class="token comment">#当前物理节点在此虚拟路由器的优先级，范围：1-254，值越大优先级越高,每个keepalived主机节点此值不同。</span>
+    priority <span class="token number">100</span>
+    <span class="token comment">#vrrp通告的时间间隔，默认1s</span>
+    advert_int <span class="token number">1</span>
+    <span class="token comment">#认证机制</span>
+    authentication <span class="token punctuation">&#123;</span>
+        <span class="token comment">#AH为IPSEC认证(不推荐),PASS为简单密码(建议使用)</span>
+        auth_type PASS
+        <span class="token comment">#预共享密钥，仅前8位有效，同一个虚拟路由器的多个keepalived节点必须一样。</span>
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">#虚拟IP,生产环境可能指定上百个IP地址</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token operator">&lt;</span>IPADDR<span class="token operator">></span>/<span class="token operator">&lt;</span>MASK<span class="token operator">></span> brd <span class="token operator">&lt;</span>IPADDR<span class="token operator">></span> dev <span class="token operator">&lt;</span>STRING<span class="token operator">></span> scope <span class="token operator">&lt;</span>SCOPE<span class="token operator">></span> label <span class="token operator">&lt;</span>LABEL<span class="token operator">></span>
+        <span class="token comment">#指定VIP，不指定网卡，默认为eth0,注意：不指定/prefix,默认为/32</span>
+        <span class="token number">192.168</span>.200.16
+        <span class="token comment">#指定VIP的网卡</span>
+        <span class="token number">192.168</span>.200.17/24 dev ens33
+        <span class="token comment">#指定VIP的网卡label</span>
+        <span class="token number">192.168</span>.200.18/24 dev ens33 label ens33:1
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">#配置监控网络接口，一旦出现故障，则转为FAULT状态实现地址转移</span>
+    track_interface <span class="token punctuation">&#123;</span>
+        eth0
+        eth1
+		<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+<h3 id="1-2-3-IPVS配置"><a href="#1-2-3-IPVS配置" class="headerlink" title="1.2.3 IPVS配置"></a>1.2.3 IPVS配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#注意:括号必须分行写,两个括号写在同一行,如: &#125;&#125; 会出错</span>
+<span class="token comment">#&lt;IP> &lt;PORT>定义虚拟主机IP地址和端口</span>
+<span class="token comment">#fwmark &lt;INT>ipvs的防火墙打标，实现基于防火墙的负载均衡集群</span>
+<span class="token comment">#group &lt;STRING>使用虚拟服务器组</span>
+virtual_server <span class="token operator">&lt;</span>IP<span class="token operator">></span> <span class="token operator">&lt;</span>PORT<span class="token operator">>|</span>fwmark <span class="token operator">&lt;</span>INT<span class="token operator">>|</span>group <span class="token operator">&lt;</span>STRING<span class="token operator">></span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">#检查后端服务器的时间间隔</span>
+    delay_loop <span class="token operator">&lt;</span>INT<span class="token operator">></span>
+    <span class="token comment">#定义调度方法</span>
+    lb_algo rr<span class="token operator">|</span>wrr<span class="token operator">|</span>lc<span class="token operator">|</span>wlc<span class="token operator">|</span>lblc<span class="token operator">|</span><span class="token function">sh</span><span class="token operator">|</span>dh
+    <span class="token comment">#集群的类型,注意要大写</span>
+    lb_kind NAT<span class="token operator">|</span>DR<span class="token operator">|</span>TUN
+    <span class="token comment">#持久连接时长</span>
+    persistence_timeout <span class="token operator">&lt;</span>INT<span class="token operator">></span>
+    <span class="token comment">#指定服务协议,一般为TCP</span>
+    protocol TCP<span class="token operator">|</span>UDP<span class="token operator">|</span>SCTP
+    <span class="token comment">#RS的IP和PORT</span>
+    real_server <span class="token operator">&lt;</span>IPADDR<span class="token operator">></span> <span class="token operator">&lt;</span>PORT<span class="token operator">></span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">#RS权重</span>
+        weight <span class="token operator">&lt;</span>INT<span class="token operator">></span>
+        <span class="token comment">#RS上线通知脚本</span>
+        notify_up <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span>
+        <span class="token comment">#RS下线通知脚本</span>
+        notify_down <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span>
+        <span class="token comment">#定义当前主机健康状态检测方法</span>
+        HTTP_GET<span class="token operator">|</span>SSL_GET<span class="token operator">|</span>TCP_CHECK<span class="token operator">|</span>SMTP_CHECK<span class="token operator">|</span>MISC_CHECK <span class="token punctuation">&#123;</span>
+            <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#应用层监测：HTTP_GET|SSL_GET</span>
+HTTP_GET<span class="token operator">|</span>SSL_GET <span class="token punctuation">&#123;</span>
+            url <span class="token punctuation">&#123;</span>
+              <span class="token comment">#定义要监控的URL</span>
+              path /
+              <span class="token comment">#判断上述检测机制为健康状态的响应码，一般为 200</span>
+              status_code <span class="token operator">&lt;</span>INT<span class="token operator">></span>
+            <span class="token punctuation">&#125;</span>
+            connect_timeout <span class="token operator">&lt;</span>INT<span class="token operator">></span>     <span class="token comment">#客户端请求的超时时长.</span>
+            nb_get_retry <span class="token operator">&lt;</span>INT<span class="token operator">></span>        <span class="token comment">#重试次数</span>
+            delay_before_retry <span class="token operator">&lt;</span>INT<span class="token operator">></span>  <span class="token comment">#重试之前的延迟时长</span>
+            connect_ip <span class="token operator">&lt;</span>IP ADDRESS<span class="token operator">></span>   <span class="token comment">#向当前RS哪个IP地址发起健康状态检测请求</span>
+            connect_port <span class="token operator">&lt;</span>PORT<span class="token operator">></span>       <span class="token comment">#向当前RS的哪个PORT发起健康状态检测请求</span>
+            bindto <span class="token operator">&lt;</span>IP ADDRESS<span class="token operator">></span>       <span class="token comment">#向当前RS发出健康状态检测请求时使用的源地址</span>
+            bind_port <span class="token operator">&lt;</span>PORT<span class="token operator">></span>          <span class="token comment">#向当前RS发出健康状态检测请求时使用的源端口</span>
+        <span class="token punctuation">&#125;</span>
+        
+<span class="token comment">#传输层检测：TCP监测</span>
+TCP_CHECK <span class="token punctuation">&#123;</span>
+	connect_ip <span class="token operator">&lt;</span>IP ADDRESS<span class="token operator">></span>   <span class="token comment">#向当前RS的哪个IP地址发起健康状态检测请求。</span>
+	connect_port <span class="token operator">&lt;</span>PORT<span class="token operator">></span>       <span class="token comment">#向当前RS的哪个PORT发起健康状态检测请求。</span>
+	bindto <span class="token operator">&lt;</span>IP ADDRESS<span class="token operator">></span>       <span class="token comment">#发出健康状态检测请求时使用的源地址。</span>
+	bind_port <span class="token operator">&lt;</span>PORT<span class="token operator">></span>          <span class="token comment">#发出健康状态检测请求时使用的源端口。</span>
+	connect_timeout <span class="token operator">&lt;</span>INTEGER<span class="token operator">></span> <span class="token comment">#客户端请求的超时时长。</span>
+<span class="token punctuation">&#125;</span></code></pre></div></figure>
+
+<h3 id="1-2-4-独立日志配置"><a href="#1-2-4-独立日志配置" class="headerlink" title="1.2.4 独立日志配置"></a>1.2.4 独立日志配置</h3><p>默认keepalived的日志属于LOG_DAEMON,记录在系统日志messages文件,可以实现独立日志文件记录自身日志。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/sysconfig/keepalived</span>
+<span class="token assign-left variable">KEEPALIVED_OPTIONS</span><span class="token operator">=</span><span class="token string">"-D -S 6"</span>
+
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/rsyslog.conf</span>
+<span class="token comment"># keepalived</span>
+local6.*                                                /var/log/keepalived.log
+
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl restart keepalived.service rsyslog.service</span></code></pre></div></figure>
+
+
+
+<h3 id="1-2-5-子配置文件"><a href="#1-2-5-子配置文件" class="headerlink" title="1.2.5 子配置文件"></a>1.2.5 子配置文件</h3><p>当生产环境复杂时， &#x2F;etc&#x2F;keepalived&#x2F;keepalived.conf 文件中内容过多，不易管理，可以将不同集群的配置，比如：不同集群的VIP配置放在独立的子配置文件中。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#利用include 指令可以实现包含子配置文件</span>
+include /path/file
+
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># mkdir /etc/keepalived/conf.d/</span>
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/keepalived/keepalived.conf</span>
+global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id LVS_DEVEL
+   vrrp_skip_check_adv_addr
+   vrrp_strict
+   vrrp_garp_interval <span class="token number">0</span>
+   vrrp_gna_interval <span class="token number">0</span>
+<span class="token punctuation">&#125;</span>
+include /etc/keepalived/conf.d/*.conf <span class="token comment">#将VRRP相关配置放在子配置文件中</span>
+
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/keepalived/conf.d/test.conf</span>
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state MASTER
+    interface ens33
+    virtual_router_id <span class="token number">51</span>
+    priority <span class="token number">100</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.66
+    <span class="token punctuation">&#125;</span>           
+<span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl restart keepalived</span></code></pre></div></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/Keepalived/" class="category-chain-item">Keepalived</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Keepalived/">#Keepalived</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(2).Keepalived配置说明</div>
+      <div>http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived02/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/06/HA/Keepalived/keepalived03/" title="(3).Keepalived企业应用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">(3).Keepalived企业应用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/06/HA/Keepalived/keepalived01/" title="(1).Keepalived简介及安装">
+                        <span class="hidden-mobile">(1).Keepalived简介及安装</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived02/';
+          this.page.identifier = '/2023/02/06/HA/Keepalived/keepalived02/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Keepalived"
+        id="heading-e5bfeb1eb37907d5db604fa2d443a22f" role="tab" data-toggle="collapse" href="#collapse-e5bfeb1eb37907d5db604fa2d443a22f"
+        aria-expanded="true"
+      >
+        Keepalived
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-e5bfeb1eb37907d5db604fa2d443a22f"
+           role="tabpanel" aria-labelledby="heading-e5bfeb1eb37907d5db604fa2d443a22f">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/02/06/HA/Keepalived/keepalived01/" title="(1).Keepalived简介及安装"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(1).Keepalived简介及安装</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/06/HA/Keepalived/keepalived02/" title="(2).Keepalived配置说明"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(2).Keepalived配置说明</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/02/06/HA/Keepalived/keepalived03/" title="(3).Keepalived企业应用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(3).Keepalived企业应用</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
