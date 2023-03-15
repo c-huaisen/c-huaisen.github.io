@@ -24,7 +24,7 @@
 <meta property="og:description" content="1.负载均衡简介负载均衡：Load Balance，简称LB，是一种服务或基于硬件设备等实现的高可用反向代理技术，负载均衡将特定的业务(web服务、网络流量等)分担给指定的一个或多个后端特定的服务器或设备，从而提高了公司业务的并发处理能力、保证了业务的高可用性、方便了业务后期的水平动态扩展。 #阿里云SLB介绍 https:&#x2F;&#x2F;developer.aliyun.com&#x2F;article&#x2F;1803">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-09T06:24:51.000Z">
-<meta property="article:modified_time" content="2023-03-14T17:48:01.886Z">
+<meta property="article:modified_time" content="2023-03-15T03:17:45.588Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="HAProxy">
 <meta name="twitter:card" content="summary_large_image">
@@ -355,8 +355,6 @@ root@node30:~<span class="token comment"># apt-get install haproxy=2.7.\*</span>
 root@node30:~<span class="token comment"># haproxy -v</span>
 HAProxy version <span class="token number">2.7</span>.2-1ppa1~focal <span class="token number">2023</span>/01/20 - https://haproxy.org/</code></pre></div></figure>
 
-
-
 <h2 id="3-2-CentOS7-9安装"><a href="#3-2-CentOS7-9安装" class="headerlink" title="3.2 CentOS7.9安装"></a>3.2 CentOS7.9安装</h2><figure><div class="code-wrapper"><pre class="language-http" data-language="http"><code class="language-http">#第三方网站下载RPM包
 <span class="token header"><span class="token header-name keyword">https</span><span class="token punctuation">:</span><span class="token header-value">//pkgs.org/download/haproxy</span></span>
 
@@ -378,8 +376,6 @@ Copyright <span class="token number">2000</span>-2016 Willy Tarreau <span class=
 <span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># haproxy -v</span>
 HA-Proxy version <span class="token number">1.8</span>.14-52e4d43 <span class="token number">2018</span>/09/20
 Copyright <span class="token number">2000</span>-2018 Willy Tarreau <span class="token operator">&lt;</span>willy@haproxy.org<span class="token operator">></span></code></pre></div></figure>
-
-
 
 <h2 id="3-3-编译安装HAProxy"><a href="#3-3-编译安装HAProxy" class="headerlink" title="3.3 编译安装HAProxy"></a>3.3 编译安装HAProxy</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#HAProxy源码包下载地址</span>
 http://www.haproxy.org/download/</code></pre></div></figure>
@@ -411,8 +407,6 @@ root@node30:/usr/local/src/lua-5.4.4<span class="token comment"># make all test<
 <span class="token comment">#查看lua版本</span>
 root@node30:/usr/local/src/lua-5.4.4<span class="token comment"># src/lua -v</span>
 Lua <span class="token number">5.4</span>.4  Copyright <span class="token punctuation">(</span>C<span class="token punctuation">)</span> <span class="token number">1994</span>-2022 Lua.org, PUC-Rio</code></pre></div></figure>
-
-
 
 <h3 id="3-3-2-编译安装HAProxy"><a href="#3-3-2-编译安装HAProxy" class="headerlink" title="3.3.2 编译安装HAProxy"></a>3.3.2 编译安装HAProxy</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#HAProxy1.8及1.9版本编译参数：</span>
 <span class="token function">make</span> <span class="token assign-left variable">ARCH</span><span class="token operator">=</span>x86_64 <span class="token assign-left variable">TARGET</span><span class="token operator">=</span>linux2628 <span class="token assign-left variable">USE_PCRE</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">USE_OPENSSL</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">USE_ZLIB</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">USE_SYSTEMD</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">USE_CPU_AFFINITY</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">PREFIX</span><span class="token operator">=</span>/usr/local/haproxy
@@ -490,7 +484,6 @@ listen stats
 <span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># useradd -r -s /sbin/nologin -d /var/lib/haproxy haproxy</span>
 <span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl start haproxy</span>
 <span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl enable --now haproxy</span></code></pre></div></figure>
-
 
                 
               </div>

@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived03/image-20230208162916282.png">
 <meta property="article:published_time" content="2023-02-06T15:25:34.000Z">
-<meta property="article:modified_time" content="2023-03-14T17:47:21.513Z">
+<meta property="article:modified_time" content="2023-03-15T03:13:45.090Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Keepalived">
 <meta name="twitter:card" content="summary_large_image">
@@ -333,8 +333,6 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
 
-
-
 <h2 id="1-2-BACKUP配置"><a href="#1-2-BACKUP配置" class="headerlink" title="1.2 BACKUP配置"></a>1.2 BACKUP配置</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">global_defs <span class="token punctuation">&#123;</span>
    notification_email <span class="token punctuation">&#123;</span>
      acassen@firewall.loc
@@ -366,8 +364,6 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
         <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
-
-
 
 <h1 id="2-抢占模式和非抢占模式"><a href="#2-抢占模式和非抢占模式" class="headerlink" title="2.抢占模式和非抢占模式"></a>2.抢占模式和非抢占模式</h1><h2 id="2-1-非抢占模式"><a href="#2-1-非抢占模式" class="headerlink" title="2.1 非抢占模式"></a>2.1 非抢占模式</h2><p>默认为抢占模式preempt，即当高优先级的主机恢复在线后，会抢占低先级的主机的MASTER角色，造成网络抖动，建议设置为非抢占模式nopreempt ，即高优先级主机恢复后，并不会抢占低优先级主机的MASTER角色。</p>
 <p><strong>注意：要关闭 VIP抢占，必须将各 keepalived 服务器state配置为BACKUP</strong></p>
@@ -409,8 +405,6 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
 
-
-
 <h2 id="2-2-抢占延迟模式"><a href="#2-2-抢占延迟模式" class="headerlink" title="2.2 抢占延迟模式"></a>2.2 抢占延迟模式</h2><p>抢占延迟模式，即优先级高的主机恢复后，不会立即抢回VIP，而是延迟一段时间（默认300s）再抢回VIP</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">preempt_delay <span class="token operator">&lt;</span>INT<span class="token operator">></span> <span class="token comment">#指定抢占延迟时间为&lt;INT>s，默认延迟300s</span></code></pre></div></figure>
 
@@ -449,8 +443,6 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
         <span class="token number">192.168</span>.1.66 dev ens33 label ens33:0
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
-
-
 
 <h1 id="3-VIP单播配置"><a href="#3-VIP单播配置" class="headerlink" title="3.VIP单播配置"></a>3.VIP单播配置</h1><p>默认keepalived主机之间利用多播相互通告消息，会造成网络拥塞，可以替换成单播，减少网络流量。</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#在所有节点vrrp_instance语句块中设置对方主机的IP，建议设置为专用于对应心跳线网络的地址，而非使用业务网络。</span>
@@ -546,8 +538,6 @@ listening on ens33, link-type EN10MB <span class="token punctuation">(</span>Eth
 <span class="token number">14</span>:09:41.619297 IP <span class="token number">192.168</span>.1.11 <span class="token operator">></span> <span class="token number">192.168</span>.1.12: VRRPv2, Advertisement, vrid <span class="token number">66</span>, prio <span class="token number">100</span>, authtype simple, intvl 1s, length <span class="token number">20</span>
 <span class="token number">14</span>:09:42.620918 IP <span class="token number">192.168</span>.1.11 <span class="token operator">></span> <span class="token number">192.168</span>.1.12: VRRPv2, Advertisement, vrid <span class="token number">66</span>, prio <span class="token number">100</span>, authtype simple, intvl 1s, length <span class="token number">20</span></code></pre></div></figure>
 
-
-
 <h1 id="4-Keepalived通知脚本配置"><a href="#4-Keepalived通知脚本配置" class="headerlink" title="4.Keepalived通知脚本配置"></a>4.Keepalived通知脚本配置</h1><p>当keepalived的状态变化时，可以自动触发脚本的执行，比如：发邮件通知用户。默认以用户keepalived_script身份执行脚本，如果此用户不存在，以root执行脚本。</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#可以用下面指令指定脚本执行用户的身份</span>
 global_defs <span class="token punctuation">&#123;</span>
@@ -570,8 +560,6 @@ notify <span class="token operator">&lt;</span>STRING<span class="token operator
 
 <span class="token comment">#当停止VRRP时触发的脚本</span>
 notify_stop <span class="token operator">&lt;</span>STRING<span class="token operator">>|</span><span class="token operator">&lt;</span>QUOTED-STRING<span class="token operator">></span></code></pre></div></figure>
-
-
 
 <h2 id="4-2-脚本调用方式"><a href="#4-2-脚本调用方式" class="headerlink" title="4.2 脚本调用方式"></a>4.2 脚本调用方式</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">global_defs <span class="token punctuation">&#123;</span>
    notification_email <span class="token punctuation">&#123;</span>
@@ -609,8 +597,6 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
     notify_fault <span class="token string">"/etc/keepalived/notify.sh fault"</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
 
-
-
 <h2 id="4-3-创建通知脚本"><a href="#4-3-创建通知脚本" class="headerlink" title="4.3 创建通知脚本"></a>4.3 创建通知脚本</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/keepalived/notify.sh</span>
 <span class="token comment">#!/bin/bash</span>
 <span class="token assign-left variable">contact</span><span class="token operator">=</span><span class="token string">'1285780460@qq.com'</span>
@@ -635,8 +621,6 @@ fault<span class="token punctuation">)</span>
     <span class="token punctuation">;</span><span class="token punctuation">;</span>
 <span class="token keyword">esac</span></code></pre></div></figure>
 
-
-
 <h2 id="4-4-邮件配置"><a href="#4-4-邮件配置" class="headerlink" title="4.4 邮件配置"></a>4.4 邮件配置</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># yum -y install mailx sendmail</span>
 <span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/mail.rc</span>
 <span class="token comment">#在最后面添加下面行</span>
@@ -648,8 +632,6 @@ fault<span class="token punctuation">)</span>
 
 <span class="token comment">#测试发送邮件</span>
 <span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># echo "Test Mail"| mail -s Warning chen_huai_sen@163.com</span></code></pre></div></figure>
-
-
 
 <h2 id="4-5-实现Keepalived状态切换通知脚本"><a href="#4-5-实现Keepalived状态切换通知脚本" class="headerlink" title="4.5 实现Keepalived状态切换通知脚本"></a>4.5 实现Keepalived状态切换通知脚本</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#在所有 keepalived节点配置如下</span>
 <span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/keepalived/notify.sh</span>
@@ -681,7 +663,7 @@ fault<span class="token punctuation">)</span>
 <span class="token comment">#模拟MASTER故障</span>
 <span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># systemctl stop keepalived</span></code></pre></div></figure>
 
-<p><img src="/2023/02/06/HA/Keepalived/keepalived03/image-20230208162916282.png" srcset="/img/loading.gif" lazyload alt="image-20230208162916282"> </p>
+<p><img src="/2023/02/06/HA/Keepalived/keepalived03/image-20230208162916282.png" srcset="/img/loading.gif" lazyload alt="image-20230208162916282">  </p>
 <h1 id="5-Keepalived双主配置"><a href="#5-Keepalived双主配置" class="headerlink" title="5.Keepalived双主配置"></a>5.Keepalived双主配置</h1><p>MASTER&#x2F;SLAVE的单主架构，同一时间只有一个Keepalived对外提供服务，此主机繁忙，而另一台主机却很空闲，利用率低下，可以使用MASTER&#x2F;MASTER的双主架构，解决此问题。  即将两个或以上VIP分别运行在不同的keepalived服务器，以实现服务器并行提供web访问的目的，提高服务器资源利用率。  </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#HA1主机配置</span>
 <span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># vim /etc/keepalived/keepalived.conf</span>
@@ -821,8 +803,6 @@ vrrp_instance VI_2 <span class="token punctuation">&#123;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
 
-
-
 <h1 id="6-基于VRRP-Script实现高可用"><a href="#6-基于VRRP-Script实现高可用" class="headerlink" title="6.基于VRRP Script实现高可用"></a>6.基于VRRP Script实现高可用</h1><p>keepalived利用 VRRP Script 技术，可以调用外部的辅助脚本进行资源监控，并根据监控的结果实现优先动态调整，从而实现其它应用的高可用性功能。</p>
 <h2 id="6-1-VRRP-Script配置"><a href="#6-1-VRRP-Script配置" class="headerlink" title="6.1 VRRP Script配置"></a>6.1 VRRP Script配置</h2><ul>
 <li>第一步：定义脚本</li>
@@ -866,37 +846,35 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
 	<span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
 
-
-
-<h2 id="6-2-基于脚本实现主从切换"><a href="#6-2-基于脚本实现主从切换" class="headerlink" title="6.2 基于脚本实现主从切换"></a>6.2 基于脚本实现主从切换</h2><h3 id="6-2-1-Keepalived1配置"><a href="#6-2-1-Keepalived1配置" class="headerlink" title="6.2.1 Keepalived1配置"></a>6.2.1 Keepalived1配置</h3><h3 id="6-2-2-Keepalived2配置"><a href="#6-2-2-Keepalived2配置" class="headerlink" title="6.2.2 Keepalived2配置"></a>6.2.2 Keepalived2配置</h3><h3 id="6-2-3-创建checkDown-sh"><a href="#6-2-3-创建checkDown-sh" class="headerlink" title="6.2.3 创建checkDown.sh"></a>6.2.3 创建checkDown.sh</h3><h3 id="6-2-4-验证主从切换"><a href="#6-2-4-验证主从切换" class="headerlink" title="6.2.4 验证主从切换"></a>6.2.4 验证主从切换</h3><p>查看Keepalived1主机状态</p>
+<h2 id="6-2-基于脚本实现主从切换"><a href="#6-2-基于脚本实现主从切换" class="headerlink" title="6.2 基于脚本实现主从切换"></a>6.2 基于脚本实现主从切换</h2><h3 id="6-2-1-Keepalived1配置"><a href="#6-2-1-Keepalived1配置" class="headerlink" title="6.2.1 Keepalived1配置"></a>6.2.1 Keepalived1配置</h3><h3 id="6-2-2-Keepalived2配置"><a href="#6-2-2-Keepalived2配置" class="headerlink" title="6.2.2 Keepalived2配置"></a>6.2.2 Keepalived2配置</h3><h3 id="6-2-3-创建checkDown-sh"><a href="#6-2-3-创建checkDown-sh" class="headerlink" title="6.2.3 创建checkDown.sh"></a>6.2.3 创建checkDown.sh</h3><h3 id="6-2-4-验证主从切换"><a href="#6-2-4-验证主从切换" class="headerlink" title="6.2.4 验证主从切换"></a>6.2.4 验证主从切换</h3><p><strong>查看Keepalived1主机状态：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># hostname -I</span>
 <span class="token number">192.168</span>.1.11 <span class="token number">192.168</span>.1.66</code></pre></div></figure>
 
 
 
-<p>Keepalived1主机创建down文件</p>
+<p><strong>Keepalived1主机创建down文件：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># touch /etc/keepalived/down</span></code></pre></div></figure>
 
 
 
-<p>查看Keepalived1主机状态</p>
+<p><strong>查看Keepalived1主机状态：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># hostname -I</span>
 <span class="token number">192.168</span>.1.11 </code></pre></div></figure>
 
 
 
-<p>删除down文件</p>
+<p><strong>删除down文件：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># rm -rf /etc/keepalived/down</span></code></pre></div></figure>
 
 
 
-<p>查看Keepalived1主机状态</p>
+<p><strong>查看Keepalived1主机状态：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># hostname -I</span>
 <span class="token number">192.168</span>.1.11 <span class="token number">192.168</span>.1.66</code></pre></div></figure>
 
 
 
-<p>查看VIP切换日志</p>
+<p><strong>查看VIP切换日志：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#Keepalived1日志</span>
 <span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># cat /var/log/keepalived.log</span>
 Feb  <span class="token number">8</span> <span class="token number">19</span>:55:32 node11 Keepalived_vrrp<span class="token punctuation">[</span><span class="token number">41136</span><span class="token punctuation">]</span>: /etc/keepalived/checkDown.sh exited with status <span class="token number">1</span>

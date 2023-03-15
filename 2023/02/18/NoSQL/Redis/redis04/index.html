@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png">
 <meta property="article:published_time" content="2023-02-18T10:51:05.000Z">
-<meta property="article:modified_time" content="2023-03-14T17:50:20.411Z">
+<meta property="article:modified_time" content="2023-03-15T03:24:51.612Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary_large_image">
@@ -303,7 +303,7 @@
                 
                 <h1 id="1-Redis主从复制"><a href="#1-Redis主从复制" class="headerlink" title="1.Redis主从复制"></a>1.Redis主从复制</h1><p>虽然Redis可以实现单机的数据持久化，但无论是RDB也好或者AOF也好，都解决不了单点宕机问题。此外,单机的性能也是有极限的,因此需要使用另外的技术来解决单点故障和性能扩展的问题。</p>
 <h2 id="1-1-Redis主从复制架构"><a href="#1-1-Redis主从复制架构" class="headerlink" title="1.1 Redis主从复制架构"></a>1.1 Redis主从复制架构</h2><p>主从模式（master&#x2F;slave），可以实现Redis数据的跨主机备份。  程序端连接到高可用负载的VIP，然后连接到负载服务器设置的Redis后端real server，此模式不需要在程序里面配 置Redis服务器的真实IP地址，当后期Redis服务器IP地址发生变更只需要更改redis 相应的后端real server即可， 可避免更改程序中的IP地址设置。</p>
-<p><img src="/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png" srcset="/img/loading.gif" lazyload alt="image-20230227210731764"> </p>
+<p><img src="/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png" srcset="/img/loading.gif" lazyload alt="image-20230227210731764">  </p>
 <h2 id="1-2-配置Redis主从"><a href="#1-2-配置Redis主从" class="headerlink" title="1.2 配置Redis主从"></a>1.2 配置Redis主从</h2><h3 id="1-2-1-配置清单"><a href="#1-2-1-配置清单" class="headerlink" title="1.2.1 配置清单"></a>1.2.1 配置清单</h3><table>
 <thead>
 <tr>

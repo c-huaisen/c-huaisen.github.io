@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://chsblogs.com/2023/02/16/NoSQL/Redis/redis03/image-20230226094557677.png">
 <meta property="og:image" content="http://chsblogs.com/2023/02/16/NoSQL/Redis/redis03/image-20230226100125771.png">
 <meta property="article:published_time" content="2023-02-16T15:10:16.000Z">
-<meta property="article:modified_time" content="2023-03-14T17:50:15.685Z">
+<meta property="article:modified_time" content="2023-03-15T03:24:03.669Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary_large_image">
@@ -306,7 +306,7 @@
 <h2 id="1-1-RDB模式"><a href="#1-1-RDB模式" class="headerlink" title="1.1 RDB模式"></a>1.1 RDB模式</h2><h3 id="1-1-1-RDB工作原理"><a href="#1-1-1-RDB工作原理" class="headerlink" title="1.1.1 RDB工作原理"></a>1.1.1 RDB工作原理</h3><p>RDB(Redis DataBase)：基于时间的快照，其默认只保留当前最新的一次快照，特点是执行速度比较快，缺点是可能会丢失从上次快照到当前时间点之间未做快照的数据。</p>
 <p>Redis从master主进程先fork出一个子进程，使用写时复制机制，子进程将内存的数据保存为一个临时文件，比如：tmp-.rdb，当数据保存完成之后再将上一次保存的RDB文件替换掉，然后关闭子进程，这样可以保证每一次做RDB快照保存的数据都是完整的。</p>
 <p>因为直接替换RDB文件的时候，可能会出现突然断电等问题，而导致RDB文件还没有保存完整就因为突然关机停止保存，而导致数据丢失的情况，后续可以手动将每次生成的RDB文件进行备份，这样可以最大化保存历史数据。</p>
-<p><img src="/2023/02/16/NoSQL/Redis/redis03/image-20230226094557677.png" srcset="/img/loading.gif" lazyload alt="image-20230226094557677"> </p>
+<p><img src="/2023/02/16/NoSQL/Redis/redis03/image-20230226094557677.png" srcset="/img/loading.gif" lazyload alt="image-20230226094557677">  </p>
 <h3 id="1-1-2-RDB相关配置"><a href="#1-1-2-RDB相关配置" class="headerlink" title="1.1.2 RDB相关配置"></a>1.1.2 RDB相关配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">################################ SNAPSHOTTING  ################################</span>
 save <span class="token number">3600</span> <span class="token number">1</span> <span class="token comment">#在900秒内有1个key内容发生更改,就执行快照机制</span>
 save <span class="token number">300</span> <span class="token number">100</span> <span class="token comment">#在300秒内有10个key内容发生更改,就执行快照机制</span>
@@ -343,7 +343,7 @@ rdb-del-sync-files no
 <h2 id="1-2-AOF模式"><a href="#1-2-AOF模式" class="headerlink" title="1.2 AOF模式"></a>1.2 AOF模式</h2><h3 id="1-2-1-AOF工作原理"><a href="#1-2-1-AOF工作原理" class="headerlink" title="1.2.1 AOF工作原理"></a>1.2.1 AOF工作原理</h3><p>AOF：AppendOnylFile，按照操作顺序依次将操作追加到指定的日志文件末尾。</p>
 <p>AOF 和 RDB 一样使用了写时复制机制，AOF默认为每秒钟 fsync一次，即将执行的命令保存到AOF文件当中，这样即使redis服务器发生故障最多只丢失1秒钟之内的数据，也可以设置不同的fsync策略always，即设置每次执行命令的时候执行fsync，fsync会在后台执行线程，所以主线程可以继续处理用户的正常请求而不受到写入AOF文件的I&#x2F;O影响。</p>
 <p>同时启用RDB和AOF,进行恢复时,默认AOF文件优先级高于RDB文件,即会使用AOF文件进行恢复。</p>
-<p><img src="/2023/02/16/NoSQL/Redis/redis03/image-20230226100125771.png" srcset="/img/loading.gif" lazyload alt="image-20230226100125771"> </p>
+<p><img src="/2023/02/16/NoSQL/Redis/redis03/image-20230226100125771.png" srcset="/img/loading.gif" lazyload alt="image-20230226100125771">  </p>
 <h3 id="1-2-2-AOF相关配置"><a href="#1-2-2-AOF相关配置" class="headerlink" title="1.2.2 AOF相关配置"></a>1.2.2 AOF相关配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">############################## APPEND ONLY MODE ###############################</span>
 <span class="token comment">##是否开启AOF日志记录，默认redis使用的是rdb方式持久化，这种方式在许多应用中已经足够用了，但是redis如果中途宕机，会导致可能有几分钟的数据丢失(取决于dump数据的间隔时间)，根据save来策略进行持久化，Append Only File是另一种持久化方式，可以提供更好的持久化特性，Redis会把每次写入的数据在接收后都写入 appendonly.aof 文件，每次启动时Redis都会先把这个文件的数据读入内存里，先忽略RDB文件。默认不启用此功能。</span>
 appendonly no

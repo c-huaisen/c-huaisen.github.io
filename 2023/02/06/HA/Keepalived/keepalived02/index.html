@@ -24,7 +24,7 @@
 <meta property="og:description" content="1.Keepalived配置说明1.1 配置文件组成#配置文件 &#x2F;etc&#x2F;keepalived&#x2F;keepalived.conf  #配置文件组成 global_defs &amp;#123; #全局配置，定义邮件配置，route_id，vrrp配置，多播地址等。    ...... &amp;#125;  vrrp_instance VI_1 &amp;#123; #定义每个vrrp虚拟路由器     ...... &amp;#">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-06T15:25:22.000Z">
-<meta property="article:modified_time" content="2023-03-14T17:47:35.198Z">
+<meta property="article:modified_time" content="2023-03-15T03:11:17.483Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Keepalived">
 <meta name="twitter:card" content="summary_large_image">
@@ -315,8 +315,6 @@ virtual_server <span class="token number">192.168</span>.200.100 <span class="to
     <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
 
-
-
 <h2 id="1-2-Keepalived详细配置"><a href="#1-2-Keepalived详细配置" class="headerlink" title="1.2 Keepalived详细配置"></a>1.2 Keepalived详细配置</h2><h3 id="1-2-1-全局配置"><a href="#1-2-1-全局配置" class="headerlink" title="1.2.1 全局配置"></a>1.2.1 全局配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">global_defs <span class="token punctuation">&#123;</span>
    notification_email <span class="token punctuation">&#123;</span>
      <span class="token comment">##keepalived 发生故障切换时邮件发送的目标邮箱，可以按行区分写多个</span>
@@ -345,8 +343,6 @@ virtual_server <span class="token number">192.168</span>.200.100 <span class="to
    <span class="token comment">#此项和vrrp_strict同时开启时，则不会添加防火墙规则,如果无配置vrrp_strict项,则无需启用此项配置</span>
    vrrp_iptables
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
-
-
 
 <h3 id="1-2-2-虚拟路由器配置"><a href="#1-2-2-虚拟路由器配置" class="headerlink" title="1.2.2 虚拟路由器配置"></a>1.2.2 虚拟路由器配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">vrrp_instance VI_1 <span class="token punctuation">&#123;</span> <span class="token comment">#VI_1为vrrp实例名，一般为业务名称</span>
     <span class="token comment">#当前节点在此虚拟路由器的初始状态，状态为MASTER或者BACKUP</span>
@@ -450,8 +446,6 @@ local6.*                                                /var/log/keepalived.log
 
 <span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl restart keepalived.service rsyslog.service</span></code></pre></div></figure>
 
-
-
 <h3 id="1-2-5-子配置文件"><a href="#1-2-5-子配置文件" class="headerlink" title="1.2.5 子配置文件"></a>1.2.5 子配置文件</h3><p>当生产环境复杂时， &#x2F;etc&#x2F;keepalived&#x2F;keepalived.conf 文件中内容过多，不易管理，可以将不同集群的配置，比如：不同集群的VIP配置放在独立的子配置文件中。</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#利用include 指令可以实现包含子配置文件</span>
 include /path/file
@@ -492,15 +486,6 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
 <span class="token punctuation">&#125;</span>
 
 <span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># systemctl restart keepalived</span></code></pre></div></figure>
-
-
-
-
-
-
-
-
-
 
 
 

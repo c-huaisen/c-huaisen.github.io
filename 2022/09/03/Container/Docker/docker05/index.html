@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221512412.png">
 <meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221839209.png">
 <meta property="article:published_time" content="2022-09-03T15:38:58.000Z">
-<meta property="article:modified_time" content="2023-03-14T17:11:28.107Z">
+<meta property="article:modified_time" content="2023-03-15T03:05:59.928Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary_large_image">
@@ -345,13 +345,11 @@
 <td>v2.5.0</td>
 </tr>
 </tbody></table>
-<h2 id="2-2-安装Docker"><a href="#2-2-安装Docker" class="headerlink" title="2.2 安装Docker"></a>2.2 安装Docker</h2><p>详见Docker安装文档：<a href="https://chsblogs.com/2022/08/30/Docker/%E3%80%902%E3%80%91Docker%E5%AE%89%E8%A3%85/">https://chsblogs.com/2022/08/30/Docker/%E3%80%902%E3%80%91Docker%E5%AE%89%E8%A3%85/</a></p>
+<h2 id="2-2-安装Docker"><a href="#2-2-安装Docker" class="headerlink" title="2.2 安装Docker"></a>2.2 安装Docker</h2><p>详见Docker安装文档：<a href="https://chsblogs.com/2022/08/30/Container/Docker/docker02/">https://chsblogs.com/2022/08/30/Container/Docker/docker02/</a></p>
 <h2 id="2-3-下载Harbor安装包"><a href="#2-3-下载Harbor安装包" class="headerlink" title="2.3 下载Harbor安装包"></a>2.3 下载Harbor安装包</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@node14:~<span class="token comment"># cd /usr/local/src/</span>
 root@node14:/usr/local/src<span class="token comment"># wget https://github.com/goharbor/harbor/releases/download/v2.5.0/harbor-offline-installer-v2.5.0.tgz</span>
 root@node14:/usr/local/src<span class="token comment"># ls</span>
 harbor-offline-installer-v2.5.0.tgz</code></pre></div></figure>
-
-
 
 <h2 id="2-4-安装Docker-Compose"><a href="#2-4-安装Docker-Compose" class="headerlink" title="2.4 安装Docker-Compose"></a>2.4 安装Docker-Compose</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@node14:/usr/local/src<span class="token comment"># apt update</span>
 root@node14:/usr/local/src<span class="token comment"># apt install -y python3-pip</span>
@@ -364,8 +362,6 @@ root@node14:/usr/local/src<span class="token comment"># pip uninstall chardet</s
 root@node14:/usr/local/src<span class="token comment"># pip install requests</span>
 root@node14:/usr/local/src<span class="token comment"># docker-compose -v</span>
 <span class="token function">docker-compose</span> version <span class="token number">1.29</span>.2, build unknown</code></pre></div></figure>
-
-
 
 <h2 id="2-5-安装Harbor"><a href="#2-5-安装Harbor" class="headerlink" title="2.5 安装Harbor"></a>2.5 安装Harbor</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@node14:/usr/local/src<span class="token comment"># tar -xvf harbor-offline-installer-v2.5.0.tgz</span>
 root@node14:/usr/local/src<span class="token comment"># cd harbor/</span>
@@ -397,9 +393,7 @@ Creating nginx             <span class="token punctuation">..</span>. <span clas
 Creating harbor-jobservice <span class="token punctuation">..</span>. <span class="token keyword">done</span>
 ✔ ----Harbor has been installed and started successfully.----</code></pre></div></figure>
 
-
-
-<h2 id="2-6-访问测试"><a href="#2-6-访问测试" class="headerlink" title="2.6 访问测试"></a>2.6 访问测试</h2><p><img src="/2022/09/03/Container/Docker/docker05/image-20220904235329135.png" srcset="/img/loading.gif" lazyload alt="Harbor"> </p>
+<h2 id="2-6-访问测试"><a href="#2-6-访问测试" class="headerlink" title="2.6 访问测试"></a>2.6 访问测试</h2><p><img src="/2022/09/03/Container/Docker/docker05/image-20220904235329135.png" srcset="/img/loading.gif" lazyload alt="Harbor">  </p>
 <h1 id="3-使用Harbor仓库上传下载镜像"><a href="#3-使用Harbor仓库上传下载镜像" class="headerlink" title="3.使用Harbor仓库上传下载镜像"></a>3.使用Harbor仓库上传下载镜像</h1><h2 id="3-1-配置Docker文件"><a href="#3-1-配置Docker文件" class="headerlink" title="3.1 配置Docker文件"></a>3.1 配置Docker文件</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#配置docker</span>
 root@node10:~<span class="token comment"># vim /etc/docker/daemon.json</span>
 <span class="token punctuation">&#123;</span>
@@ -483,7 +477,7 @@ harbor.chsblogs.com/baseimages/ubuntu   <span class="token operator">&lt;</span>
 
 
 
-<h1 id="4-Harbor-v2-5-0-高可用部署"><a href="#4-Harbor-v2-5-0-高可用部署" class="headerlink" title="4.Harbor(v2.5.0)高可用部署"></a>4.Harbor(v2.5.0)高可用部署</h1><p>​	Harbor高可用可以解决单点故障问题，使用Haproxy+Keepalived配置Harbor高可用。</p>
+<h1 id="4-Harbor-v2-5-0-高可用部署"><a href="#4-Harbor-v2-5-0-高可用部署" class="headerlink" title="4.Harbor(v2.5.0)高可用部署"></a>4.Harbor(v2.5.0)高可用部署</h1><p>Harbor高可用可以解决单点故障问题，使用Haproxy+Keepalived配置Harbor高可用。</p>
 <h2 id="4-1-主机清单"><a href="#4-1-主机清单" class="headerlink" title="4.1 主机清单"></a>4.1 主机清单</h2><table>
 <thead>
 <tr>
@@ -588,8 +582,6 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
 
-
-
 <h3 id="4-3-2-主机-node13-配置"><a href="#4-3-2-主机-node13-配置" class="headerlink" title="4.3.2 主机[node13]配置"></a>4.3.2 主机[node13]配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#安装keepalived+haproxy</span>
 root@node13:~<span class="token comment"># apt update &amp;&amp; apt install -y haproxy keepalived</span>
 root@node13:~<span class="token comment"># cp /usr/share/doc/keepalived/samples/keepalived.conf.sample /etc/keepalived/</span>
@@ -649,8 +641,6 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
 
-
-
 <h2 id="4-4-安装Harbor"><a href="#4-4-安装Harbor" class="headerlink" title="4.4 安装Harbor"></a>4.4 安装Harbor</h2><p>参考2.Harbor安装配置</p>
 <h2 id="4-5-配置Harbor双向复制"><a href="#4-5-配置Harbor双向复制" class="headerlink" title="4.5 配置Harbor双向复制"></a>4.5 配置Harbor双向复制</h2><h3 id="4-5-1-主机-node14-配置"><a href="#4-5-1-主机-node14-配置" class="headerlink" title="4.5.1 主机[node14]配置"></a>4.5.1 主机[node14]配置</h3><ul>
 <li>复制管理-新建规则</li>
@@ -692,8 +682,6 @@ root@node10:~<span class="token comment"># docker push harbor.chsblogs.com/basei
 The push refers to repository <span class="token punctuation">[</span>harbor.chsblogs.com/baseimages/ubuntu<span class="token punctuation">]</span>
 9f54eef41275: Pushed 
 <span class="token number">20.04</span>: digest: sha256:7cc0576c7c0ec2384de5cbf245f41567e922aab1b075f3e8ad565f508032df17 size: <span class="token number">529</span></code></pre></div></figure>
-
-
 
 <h2 id="4-7-验证Harbor镜像复制"><a href="#4-7-验证Harbor镜像复制" class="headerlink" title="4.7 验证Harbor镜像复制"></a>4.7 验证Harbor镜像复制</h2><p><img src="/2022/09/03/Container/Docker/docker05/image-20220906221839209.png" srcset="/img/loading.gif" lazyload alt="Harbor镜像复制"> </p>
 

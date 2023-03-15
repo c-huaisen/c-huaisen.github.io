@@ -24,7 +24,7 @@
 <meta property="og:description" content="1.HAProxy高级功能及配置1.1 基于cookie的会话保持Cookie Value：为当前Server指定Cookie值，实现基于Cookie的会话黏性。 官方文档：https:&#x2F;&#x2F;cbonte.github.io&#x2F;haproxy-dconv&#x2F;2.4&#x2F;snapshot&#x2F;configuration.html#4-cookie #配置选项 cookie &lt;name&gt; [ rewrite">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-14T05:44:46.000Z">
-<meta property="article:modified_time" content="2023-03-14T17:48:19.721Z">
+<meta property="article:modified_time" content="2023-03-15T03:20:19.997Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="HAProxy">
 <meta name="twitter:card" content="summary_large_image">
@@ -377,8 +377,6 @@ active or backup DOWN <span class="token keyword">for</span> maintenance <span c
 <span class="token comment">#active或者backup被人为软下线(人为将weight改成0)</span>
 active or backup SOFT STOPPED <span class="token keyword">for</span> maintenance</code></pre></div></figure>
 
-
-
 <p><strong>Backend Server信息</strong></p>
 <table>
 <thead>
@@ -466,8 +464,6 @@ HTTP/1.1 <span class="token number">200</span> OK
 cache-control: no-cache
 content-type: text/html</code></pre></div></figure>
 
-
-
 <h2 id="1-3-IP地址透传"><a href="#1-3-IP地址透传" class="headerlink" title="1.3 IP地址透传"></a>1.3 IP地址透传</h2><p>Web服务器中需要记录客户端的真实IP地址，用于做访问统计、安全防护、行为分析、区域排行等场景。</p>
 <p><strong>四层负载：</strong>IP+PORT转发</p>
 <p>​		在四层负载设备中，把client发送的报文目标地址(原来是负载均衡设备的IP地址)，根据均衡设备设置的选择web服务器的规则选择对应的web服务器IP地址，这样client就可以直接跟此服务器建立TCP连接并发送数据，而四层负载自身不参与建立连接，而和LVS不同，haproxy是伪四层负载均衡，因为haproxy需要分别和前端客户端及后端服务器建立连接。</p>
@@ -498,8 +494,6 @@ http <span class="token punctuation">&#123;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
-
-
 
 <h3 id="1-3-2-七层IP地址透传"><a href="#1-3-2-七层IP地址透传" class="headerlink" title="1.3.2 七层IP地址透传"></a>1.3.2 七层IP地址透传</h3><p>官方文档：<a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-option%20forwardfor">https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-option%20forwardfor</a></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#配置选项</span>
@@ -549,16 +543,14 @@ http <span class="token punctuation">&#123;</span>
 <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
 <span class="token punctuation">&#125;</span></code></pre></div></figure>
 
-
-
 <h2 id="1-4-报文修改"><a href="#1-4-报文修改" class="headerlink" title="1.4 报文修改"></a>1.4 报文修改</h2><h3 id="1-4-1-HAProxy2-1版本前"><a href="#1-4-1-HAProxy2-1版本前" class="headerlink" title="1.4.1 HAProxy2.1版本前"></a>1.4.1 HAProxy2.1版本前</h3><p>2.1版本以下通过rspadd与rspidel在响应报文中添加与删除字段。</p>
 <p>官方文档：</p>
-<p>​		<a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.0/snapshot/configuration.html#4-reqadd">https://cbonte.github.io/haproxy-dconv/2.0/snapshot/configuration.html#4-reqadd</a></p>
-<p>​		<a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.0/snapshot/configuration.html#4-reqdel">https://cbonte.github.io/haproxy-dconv/2.0/snapshot/configuration.html#4-reqdel</a></p>
+<p><a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.0/snapshot/configuration.html#4-reqadd">https://cbonte.github.io/haproxy-dconv/2.0/snapshot/configuration.html#4-reqadd</a></p>
+<p><a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.0/snapshot/configuration.html#4-reqdel">https://cbonte.github.io/haproxy-dconv/2.0/snapshot/configuration.html#4-reqdel</a></p>
 <h3 id="1-4-2-HAProxy2-1版本后"><a href="#1-4-2-HAProxy2-1版本后" class="headerlink" title="1.4.2 HAProxy2.1版本后"></a>1.4.2 HAProxy2.1版本后</h3><p>2.1版本以上用下面指令http-request和http-response代替</p>
 <p>官方文档：</p>
-<p>​		<a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-http-request">https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-http-request</a></p>
-<p>​        <a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-http-response">https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-http-response</a></p>
+<p><a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-http-request">https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-http-request</a></p>
+<p><a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-http-response">https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-http-response</a></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#配置选项</span>
 http-response add-header <span class="token operator">&lt;</span>name<span class="token operator">></span> <span class="token operator">&lt;</span>fmt<span class="token operator">></span> <span class="token punctuation">[</span> <span class="token punctuation">&#123;</span> <span class="token keyword">if</span> <span class="token operator">|</span> unless <span class="token punctuation">&#125;</span> <span class="token operator">&lt;</span>condition<span class="token operator">></span> <span class="token punctuation">]</span>
 http-response del-header <span class="token operator">&lt;</span>name<span class="token operator">></span> <span class="token punctuation">[</span> <span class="token parameter variable">-m</span> <span class="token operator">&lt;</span>meth<span class="token operator">></span> <span class="token punctuation">]</span> <span class="token punctuation">[</span> <span class="token punctuation">&#123;</span> <span class="token keyword">if</span> <span class="token operator">|</span> unless <span class="token punctuation">&#125;</span> <span class="token operator">&lt;</span>condition<span class="token operator">></span> <span class="token punctuation">]</span>
@@ -574,8 +566,6 @@ listen web_host
   http-response del-header server                   <span class="token comment">#删除首部</span>
   server web1 <span class="token number">192.168</span>.1.13:80 check inter <span class="token number">3000</span> fall <span class="token number">2</span> rise <span class="token number">5</span>
   server web2 <span class="token number">192.168</span>.1.14:80 check inter <span class="token number">3000</span> fall <span class="token number">2</span> rise <span class="token number">5</span></code></pre></div></figure>
-
-
 
 <h2 id="1-5-自定义日志格式"><a href="#1-5-自定义日志格式" class="headerlink" title="1.5  自定义日志格式"></a>1.5  自定义日志格式</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方文档：https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4.2-log%20global</span>
 log global                                  <span class="token comment">#开启记录日志，默认不开启</span>
@@ -613,8 +603,6 @@ listen web_host
 <span class="token punctuation">[</span>root@node11 ~<span class="token punctuation">]</span><span class="token comment"># tail -f /var/log/haproxy.log </span>
 Feb <span class="token number">15</span> <span class="token number">23</span>:37:06 localhost haproxy<span class="token punctuation">[</span><span class="token number">9677</span><span class="token punctuation">]</span>: <span class="token number">192.168</span>.1.200:60614 <span class="token punctuation">[</span><span class="token number">15</span>/Feb/2023:23:37:06.269<span class="token punctuation">]</span> web_host web_host/web1 <span class="token number">0</span>/0/1/0/1 <span class="token number">200</span> <span class="token number">211</span> - - ---- <span class="token number">3</span>/1/0/0/0 <span class="token number">0</span>/0 <span class="token punctuation">&#123;</span>Mozilla/5.0 <span class="token punctuation">(</span>Windows NT <span class="token number">10.0</span><span class="token punctuation">;</span> Win64<span class="token punctuation">;</span> x64<span class="token punctuation">)</span> AppleWebKit/537.36 <span class="token punctuation">(</span>KHTML, like Gecko<span class="token punctuation">)</span> Chrome/110.0.0.0 Safari/537.36<span class="token operator">|</span><span class="token number">192.168</span>.1.11<span class="token punctuation">&#125;</span> <span class="token string">"GET / HTTP/1.1"</span>
 Feb <span class="token number">15</span> <span class="token number">23</span>:37:34 localhost haproxy<span class="token punctuation">[</span><span class="token number">9677</span><span class="token punctuation">]</span>: <span class="token number">192.168</span>.1.200:60614 <span class="token punctuation">[</span><span class="token number">15</span>/Feb/2023:23:37:34.155<span class="token punctuation">]</span> web_host web_host/web1 <span class="token number">0</span>/0/0/2/2 <span class="token number">304</span> <span class="token number">153</span> - - ---- <span class="token number">3</span>/2/0/0/0 <span class="token number">0</span>/0 <span class="token punctuation">&#123;</span>Mozilla/5.0 <span class="token punctuation">(</span>Windows NT <span class="token number">10.0</span><span class="token punctuation">;</span> Win64<span class="token punctuation">;</span> x64<span class="token punctuation">)</span> AppleWebKit/537.36 <span class="token punctuation">(</span>KHTML, like Gecko<span class="token punctuation">)</span> Chrome/110.0.0.0 Safari/537.36<span class="token operator">|</span><span class="token number">192.168</span>.1.11<span class="token punctuation">&#125;</span> <span class="token string">"GET / HTTP/1.1"</span></code></pre></div></figure>
-
-
 
 <h2 id="1-6-压缩功能"><a href="#1-6-压缩功能" class="headerlink" title="1.6 压缩功能"></a>1.6 压缩功能</h2><p>对响应给客户端的报文进行压缩</p>
 <p>官方文档：<a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4.2-compression%20algo">https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4.2-compression%20algo</a></p>
@@ -654,8 +642,6 @@ listen web_http
 <span class="token comment">#验证压缩功能</span>
 <span class="token punctuation">[</span>root@node10 ~<span class="token punctuation">]</span><span class="token comment"># curl -is --compressed 192.168.1.11/test.txt | grep "content-encoding"</span>
 content-encoding: <span class="token function">gzip</span></code></pre></div></figure>
-
-
 
 <h2 id="1-7-Web服务器状态监测"><a href="#1-7-Web服务器状态监测" class="headerlink" title="1.7 Web服务器状态监测"></a>1.7 Web服务器状态监测</h2><p>官方文档：<a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-option%20httpchk">https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4-option%20httpchk</a></p>
 <p><strong>三种状态监测方式：</strong></p>
@@ -706,8 +692,6 @@ listen web_check
 <span class="token comment">#在所有后端服务建立检测页面</span>
 <span class="token punctuation">[</span>root@node13 ~<span class="token punctuation">]</span><span class="token comment"># mkdir /usr/share/nginx/html/monitor</span>
 <span class="token punctuation">[</span>root@node13 ~<span class="token punctuation">]</span><span class="token comment"># echo "monitor" > /usr/share/nginx/html/monitor/check.html</span></code></pre></div></figure>
-
-
 
 <h2 id="1-8-自定义HAProxy错误页面"><a href="#1-8-自定义HAProxy错误页面" class="headerlink" title="1.8 自定义HAProxy错误页面"></a>1.8 自定义HAProxy错误页面</h2><p>对指定的报错进行重定向。</p>
 <p>官方文档：<a target="_blank" rel="noopener" href="https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4.2-errorfile">https://cbonte.github.io/haproxy-dconv/2.4/snapshot/configuration.html#4.2-errorfile</a></p>
@@ -770,8 +754,6 @@ Content-Type:text/html<span class="token punctuation">;</span><span class="token
 <span class="token operator">&lt;</span>center<span class="token operator">></span><span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">3</span>></span><span class="token number">503</span> Service Unavailable<span class="token operator">&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">3</span>></span><span class="token operator">&lt;</span>/center<span class="token operator">></span>
 <span class="token operator">&lt;</span>/body<span class="token operator">></span></code></pre></div></figure>
 
-
-
 <h2 id="1-9-HAProxy四层负载"><a href="#1-9-HAProxy四层负载" class="headerlink" title="1.9 HAProxy四层负载"></a>1.9 HAProxy四层负载</h2><p>针对除HTTP以外的TCP协议应用服务访问的应用场景：</p>
 <ul>
 <li>MySQL</li>
@@ -813,8 +795,6 @@ Copyright <span class="token punctuation">(</span>c<span class="token punctuatio
 Type <span class="token string">'help;'</span> or <span class="token string">'\h'</span> <span class="token keyword">for</span> help. Type <span class="token string">'\c'</span> to <span class="token function">clear</span> the current input statement.
 
 MariaDB <span class="token punctuation">[</span><span class="token punctuation">(</span>none<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">></span> </code></pre></div></figure>
-
-
 
 <h2 id="1-10-HAProxy配置HTTPS"><a href="#1-10-HAProxy配置HTTPS" class="headerlink" title="1.10 HAProxy配置HTTPS"></a>1.10 HAProxy配置HTTPS</h2><p>​		HAProxy可以实现https的证书安全,从用户到HAProxy为HTTPS,从HAProxy到后端服务器用HTTP通信但基于性能考虑,生产中证书都是在后端服务器比如Nginx上实现。</p>
 <p><strong>配置选项：</strong></p>
