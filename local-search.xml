@@ -58,48 +58,6 @@
   
   
   <entry>
-    <title>Goの学习笔记(大纲)</title>
-    <link href="/2023/03/12/StudyNotes/Go/"/>
-    <url>/2023/03/12/StudyNotes/Go/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    <categories>
-      
-      <category>Go</category>
-      
-      <category>Go学习大纲</category>
-      
-    </categories>
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Pythonの学习笔记(大纲)</title>
-    <link href="/2023/03/12/StudyNotes/Python/"/>
-    <url>/2023/03/12/StudyNotes/Python/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    <categories>
-      
-      <category>Python</category>
-      
-      <category>Python学习大纲</category>
-      
-    </categories>
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>(1).Git常用命令</title>
     <link href="/2023/03/12/CI%E3%81%AECD/Git/git01/"/>
     <url>/2023/03/12/CI%E3%81%AECD/Git/git01/</url>
