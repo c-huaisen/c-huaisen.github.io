@@ -27,7 +27,7 @@
 <meta property="og:image" content="http://chsblogs.com/2023/03/12/CI%E3%81%AECD/JG/jg02/image-20230318155351364.png">
 <meta property="og:image" content="http://chsblogs.com/2023/03/12/CI%E3%81%AECD/JG/jg02/image-20230318161128345.png">
 <meta property="article:published_time" content="2023-03-12T15:36:27.000Z">
-<meta property="article:modified_time" content="2023-03-18T13:09:39.215Z">
+<meta property="article:modified_time" content="2023-03-18T14:36:19.738Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="CI&#x2F;CD">
 <meta name="twitter:card" content="summary_large_image">
@@ -236,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          10k 字
+          7.9k 字
         
       </span>
     
@@ -247,7 +247,7 @@
         
         
         
-          8 分钟
+          6 分钟
         
       </span>
     
@@ -418,88 +418,7 @@ root@node31:~<span class="token comment"># vim /etc/default/jenkins</span>
 root@jenkins:~<span class="token comment"># systemctl start jenkins</span>
 
 <span class="token comment">#3.访问测试</span>
-http://192.168.1.31:8080/
-
-<span class="token comment">#4.Jenkins安装插件加速</span>
-root@jenkins:~<span class="token comment"># cd /var/lib/jenkins/updates/</span>
-root@jenkins:/var/lib/jenkins/updates<span class="token comment"># sed -i 's#updates.jenkins.io/download#mirrors.tuna.tsinghua.edu.cn/jenkins#g' default.json &amp;&amp; sed -i 's#www.google.com#www.baidu.com#g' default.json</span>
-root@jenkins:/var/lib/jenkins/updates<span class="token comment"># systemctl restart jenkins</span>
-
-
-<span class="token builtin class-name">cd</span> /var/lib/jenkins/
-<span class="token function">curl</span> <span class="token parameter variable">-Lo</span> update-center.json https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
-<span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'s#https://updates.jenkins.io/download#https://mirrors.tuna.tsinghua.edu.cn/jenkins#g'</span> update-center.json <span class="token operator">&amp;&amp;</span> <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">'s#https://www.google.com#https://www.baidu.com#g'</span> update-center.json
-<span class="token function">apt</span> <span class="token function">install</span> nginx <span class="token parameter variable">-y</span>
-<span class="token function">mv</span> update-center.json /var/www/html/
-<span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token string">"s#https://updates.jenkins.io/update-center.json#http://192.168.1.31/update-center.json#g"</span> hudson.model.UpdateCenter.xml
-
-
-<span class="token comment">#反向代理Jenkins华为源</span>
-<span class="token function">vim</span> /etc/nginx/nginx.conf
-root@node31:/etc/nginx/conf.d<span class="token comment"># vim jenkins.conf</span>
-server <span class="token punctuation">&#123;</span>
-        listen       <span class="token number">80</span><span class="token punctuation">;</span>
-        root   html/jenkins<span class="token punctuation">;</span>
-        server_name  updates.jenkins.io<span class="token punctuation">;</span>
-        location /download/plugins
-        <span class="token punctuation">&#123;</span>
-        proxy_next_upstream http_502 http_504 error <span class="token function">timeout</span> invalid_header<span class="token punctuation">;</span>
-        proxy_set_header Host mirrors.huaweicloud.com<span class="token punctuation">;</span>
-        proxy_set_header X-Real-IP <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>
-        proxy_set_header X-Forwarded-For <span class="token variable">$proxy_add_x_forwarded_for</span><span class="token punctuation">;</span>
-        rewrite /download/plugins<span class="token punctuation">(</span>.*<span class="token punctuation">)</span> /jenkins/plugins/<span class="token variable">$1</span> <span class="token builtin class-name">break</span><span class="token punctuation">;</span>
-        proxy_pass https://mirrors.huaweicloud.com<span class="token punctuation">;</span>
-        proxy_connect_timeout <span class="token number">300</span><span class="token punctuation">;</span>
-        proxy_set_header Accept-Encoding <span class="token string">""</span><span class="token punctuation">;</span>
-        proxy_set_header Accept-Language <span class="token string">"zh-CN"</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-server <span class="token punctuation">&#123;</span>
-        listen <span class="token number">80</span><span class="token punctuation">;</span>
-        server_name mirrors.jenkins.io<span class="token punctuation">;</span>
-        root   html/jenkins<span class="token punctuation">;</span>
-        location / <span class="token punctuation">&#123;</span>
-            proxy_redirect off<span class="token punctuation">;</span>
-            proxy_pass https://mirrors.tuna.tsinghua.edu.cn/jenkins/<span class="token punctuation">;</span>
-            proxy_set_header Host mirrors.tuna.tsinghua.edu.cn<span class="token punctuation">;</span>
-            proxy_set_header X-Real-IP <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>
-            proxy_next_upstream http_502 http_504 error <span class="token function">timeout</span> invalid_header<span class="token punctuation">;</span>
-            proxy_set_header X-Forwarded-For <span class="token variable">$proxy_add_x_forwarded_for</span><span class="token punctuation">;</span>
-            proxy_set_header Accept-Encoding <span class="token string">""</span><span class="token punctuation">;</span>
-            proxy_set_header Accept-Language <span class="token string">"zh-CN"</span><span class="token punctuation">;</span>
-            proxy_connect_timeout <span class="token number">300</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-server <span class="token punctuation">&#123;</span>
-        listen <span class="token number">80</span><span class="token punctuation">;</span>
-        server_name www.google.com<span class="token punctuation">;</span>
-        root   html/jenkins<span class="token punctuation">;</span>
-        location / <span class="token punctuation">&#123;</span>
-            proxy_redirect off<span class="token punctuation">;</span>
-            proxy_pass https://www.baidu.com<span class="token punctuation">;</span>
-            proxy_set_header Host www.baidu.com<span class="token punctuation">;</span>
-            proxy_set_header X-Real-IP <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>
-            proxy_next_upstream http_502 http_504 error <span class="token function">timeout</span> invalid_header<span class="token punctuation">;</span>
-            proxy_set_header X-Forwarded-For <span class="token variable">$proxy_add_x_forwarded_for</span><span class="token punctuation">;</span>
-            proxy_set_header Accept-Encoding <span class="token string">""</span><span class="token punctuation">;</span>
-            proxy_set_header Accept-Language <span class="token string">"zh-CN"</span><span class="token punctuation">;</span>
-            proxy_connect_timeout <span class="token number">300</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token comment">#配置域名解析本地</span>
-<span class="token builtin class-name">echo</span> <span class="token string">'127.0.0.1 updates.jenkins.io'</span> <span class="token operator">>></span> /etc/hosts
-<span class="token builtin class-name">echo</span> <span class="token string">'127.0.0.1 mirrors.jenkins.io'</span> <span class="token operator">>></span> /etc/hosts
-
-
-
-
-
-
-
-</code></pre></div></figure>
+http://192.168.1.31:8080/</code></pre></div></figure>
 
 <p><img src="/2023/03/12/CI%E3%81%AECD/JG/jg02/image-20230318155225321.png" srcset="/img/loading.gif" lazyload alt="image-20230318155225321"> </p>
 <p><img src="/2023/03/12/CI%E3%81%AECD/JG/jg02/image-20230318155351364.png" srcset="/img/loading.gif" lazyload alt="image-20230318155351364"> </p>
