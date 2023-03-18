@@ -16,12 +16,12 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.GitLab简介及安装1.1 GitLab简介极狐GitLab 是支持并发 DevOps 的软件开发、安全和操作的单一应用程序，使软件生命周期更快，并从根本上提高了业务速度。 1.2 GitLab安装#官方文档 https:&#x2F;&#x2F;docs.gitlab.cn&#x2F;jh&#x2F;index.html  主机清单：    主机名 IP地址 操作系统 服务    node30 192.168.1.30 Ubunt">
+    <meta name="description" content="1.GitLab简介及安装1.1 GitLab简介极狐GitLab 是支持并发 DevOps 的软件开发、安全和操作的单一应用程序，使软件生命周期更快，并从根本上提高了业务速度。 1.2 GitLab安装#官网文档 https:&#x2F;&#x2F;docs.gitlab.cn&#x2F;jh&#x2F;index.html  主机清单：    主机名 IP地址 操作系统 服务    gitlab 192.168.1.30 Ubunt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(1).CI&#x2F;CD-GitLab简介及安装">
 <meta property="og:url" content="http://chsblogs.com/2023/03/12/CI%E3%81%AECD/JG/jg01/index.html">
 <meta property="og:site_name" content="陈怀森の学习笔记">
-<meta property="og:description" content="1.GitLab简介及安装1.1 GitLab简介极狐GitLab 是支持并发 DevOps 的软件开发、安全和操作的单一应用程序，使软件生命周期更快，并从根本上提高了业务速度。 1.2 GitLab安装#官方文档 https:&#x2F;&#x2F;docs.gitlab.cn&#x2F;jh&#x2F;index.html  主机清单：    主机名 IP地址 操作系统 服务    node30 192.168.1.30 Ubunt">
+<meta property="og:description" content="1.GitLab简介及安装1.1 GitLab简介极狐GitLab 是支持并发 DevOps 的软件开发、安全和操作的单一应用程序，使软件生命周期更快，并从根本上提高了业务速度。 1.2 GitLab安装#官网文档 https:&#x2F;&#x2F;docs.gitlab.cn&#x2F;jh&#x2F;index.html  主机清单：    主机名 IP地址 操作系统 服务    gitlab 192.168.1.30 Ubunt">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/03/12/CI%E3%81%AECD/JG/jg01/image-20230313214045730.png">
 <meta property="og:image" content="http://chsblogs.com/2023/03/12/CI%E3%81%AECD/JG/jg01/image-20230313220050696.png">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://chsblogs.com/2023/03/12/CI%E3%81%AECD/JG/jg01/image-20230314203608925.png">
 <meta property="og:image" content="http://chsblogs.com/2023/03/12/CI%E3%81%AECD/JG/jg01/image-20230314203507713.png">
 <meta property="article:published_time" content="2023-03-12T15:20:22.000Z">
-<meta property="article:modified_time" content="2023-03-14T17:52:03.663Z">
+<meta property="article:modified_time" content="2023-03-18T00:15:41.360Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="CI&#x2F;CD">
 <meta name="twitter:card" content="summary_large_image">
@@ -318,7 +318,7 @@
               <div class="markdown-body">
                 
                 <h1 id="1-GitLab简介及安装"><a href="#1-GitLab简介及安装" class="headerlink" title="1.GitLab简介及安装"></a>1.GitLab简介及安装</h1><h2 id="1-1-GitLab简介"><a href="#1-1-GitLab简介" class="headerlink" title="1.1 GitLab简介"></a>1.1 GitLab简介</h2><p>极狐GitLab 是支持并发 DevOps 的软件开发、安全和操作的单一应用程序，使软件生命周期更快，并从根本上提高了业务速度。</p>
-<h2 id="1-2-GitLab安装"><a href="#1-2-GitLab安装" class="headerlink" title="1.2 GitLab安装"></a>1.2 GitLab安装</h2><figure><div class="code-wrapper"><pre class="language-http" data-language="http"><code class="language-http">#官方文档
+<h2 id="1-2-GitLab安装"><a href="#1-2-GitLab安装" class="headerlink" title="1.2 GitLab安装"></a>1.2 GitLab安装</h2><figure><div class="code-wrapper"><pre class="language-http" data-language="http"><code class="language-http">#官网文档
 <span class="token header"><span class="token header-name keyword">https</span><span class="token punctuation">:</span><span class="token header-value">//docs.gitlab.cn/jh/index.html</span></span></code></pre></div></figure>
 
 <p><strong>主机清单：</strong></p>
@@ -332,24 +332,24 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>node30</td>
+<td>gitlab</td>
 <td>192.168.1.30</td>
 <td>Ubuntu20.04</td>
-<td>GitLab</td>
+<td>GitLab 13.11.3-ce</td>
 </tr>
 </tbody></table>
 <h3 id="1-2-1-GitLab下载"><a href="#1-2-1-GitLab下载" class="headerlink" title="1.2.1 GitLab下载"></a>1.2.1 GitLab下载</h3><figure><div class="code-wrapper"><pre class="language-http" data-language="http"><code class="language-http"><span class="token header"><span class="token header-name keyword">https</span><span class="token punctuation">:</span><span class="token header-value">//packages.gitlab.com/gitlab/gitlab-ce</span></span>
 <span class="token header"><span class="token header-name keyword">https</span><span class="token punctuation">:</span><span class="token header-value">//mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu/pool/focal/main/g/gitlab-ce/</span></span></code></pre></div></figure>
 
 <h3 id="1-2-2-GitLab安装"><a href="#1-2-2-GitLab安装" class="headerlink" title="1.2.2 GitLab安装"></a>1.2.2 GitLab安装</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.上传安装包</span>
-root@node30:~<span class="token comment"># ll gitlab-ce_13.11.3-ce.0_amd64.deb </span>
+root@gitlab:~<span class="token comment"># ll gitlab-ce_13.11.3-ce.0_amd64.deb </span>
 -rw-r--r-- <span class="token number">1</span> root root <span class="token number">899088542</span> Mar <span class="token number">13</span> <span class="token number">10</span>:27 gitlab-ce_13.11.3-ce.0_amd64.deb
 
 <span class="token comment">#2.安装GitLab</span>
-root@node30:~<span class="token comment"># dpkg -i gitlab-ce_13.11.3-ce.0_amd64.deb </span></code></pre></div></figure>
+root@gitlab:~<span class="token comment"># dpkg -i gitlab-ce_13.11.3-ce.0_amd64.deb </span></code></pre></div></figure>
 
 <h3 id="1-2-3-GitLab配置"><a href="#1-2-3-GitLab配置" class="headerlink" title="1.2.3 GitLab配置"></a>1.2.3 GitLab配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.修改配置文件</span>
-root@node30:~<span class="token comment"># vim /etc/gitlab/gitlab.rb</span>
+root@gitlab:~<span class="token comment"># vim /etc/gitlab/gitlab.rb</span>
 external_url <span class="token string">'http://192.168.1.30'</span>
 gitlab_rails<span class="token punctuation">[</span><span class="token string">'smtp_enable'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span>
 gitlab_rails<span class="token punctuation">[</span><span class="token string">'smtp_address'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"smtp.qq.com"</span>
@@ -364,7 +364,7 @@ gitlab_rails<span class="token punctuation">[</span><span class="token string">'
 user<span class="token punctuation">[</span><span class="token string">'git_user_email'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"804214916@qq.com"</span>
 
 <span class="token comment">#2.初始化服务,修改完配置文件要执行此操作</span>
-root@node30:~<span class="token comment"># gitlab-ctl reconfigure</span>
+root@gitlab:~<span class="token comment"># gitlab-ctl reconfigure</span>
 
 <span class="token comment">#3.访问测试</span>
 http://192.168.1.30/</code></pre></div></figure>
@@ -494,30 +494,30 @@ To http://192.168.1.30/chsblogs/web1.git
 <p><img src="/2023/03/12/CI%E3%81%AECD/JG/jg01/image-20230313233656946.png" srcset="/img/loading.gif" lazyload alt="image-20230313233656946"> </p>
 <p><img src="/2023/03/12/CI%E3%81%AECD/JG/jg01/image-20230313233752467.png" srcset="/img/loading.gif" lazyload alt="image-20230313233752467"> </p>
 <h2 id="1-4-GitLab数据备份与恢复"><a href="#1-4-GitLab数据备份与恢复" class="headerlink" title="1.4 GitLab数据备份与恢复"></a>1.4 GitLab数据备份与恢复</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.停止GitLab数据服务</span>
-root@node30:~<span class="token comment"># gitlab-ctl stop unicorn</span>
-root@node30:~<span class="token comment"># gitlab-ctl stop sidekiq</span>
+root@gitlab:~<span class="token comment"># gitlab-ctl stop unicorn</span>
+root@gitlab:~<span class="token comment"># gitlab-ctl stop sidekiq</span>
 ok: down: sidekiq: 0s, normally up
 
 <span class="token comment">#2.手动备份数据，在任意目录即可备份当前GitLab数据，备份完成后启动GitLab。</span>
-root@node30:~<span class="token comment"># gitlab-rake gitlab:backup:create</span>
-root@node30:~<span class="token comment"># gitlab-ctl start </span>
+root@gitlab:~<span class="token comment"># gitlab-rake gitlab:backup:create</span>
+root@gitlab:~<span class="token comment"># gitlab-ctl start </span>
 
 <span class="token comment">#3.查看要恢复的文件</span>
 /var/opt/gitlab/backups/        <span class="token comment">#GitLab数据备份目录，需要使用命令备份的</span>
 /var/opt/gitlab/nginx/conf      <span class="token comment">#nginx 配置文件</span>
 /etc/gitlab/gitlab.rb           <span class="token comment">#GitLab配置文件</span>
 /etc/gitlab/gitlab-secrets.json <span class="token comment">#key文件</span>
-root@node30:~<span class="token comment"># ll /var/opt/gitlab/backups/</span>
+root@gitlab:~<span class="token comment"># ll /var/opt/gitlab/backups/</span>
 total <span class="token number">284</span>
 drwx------  <span class="token number">2</span> <span class="token function">git</span>  root     <span class="token number">61</span> Mar <span class="token number">13</span> <span class="token number">23</span>:52 ./
 drwxr-xr-x <span class="token number">21</span> root root   <span class="token number">4096</span> Mar <span class="token number">13</span> <span class="token number">15</span>:07 <span class="token punctuation">..</span>/
 -rw-------  <span class="token number">1</span> <span class="token function">git</span>  <span class="token function">git</span>  <span class="token number">286720</span> Mar <span class="token number">13</span> <span class="token number">23</span>:52 1678722762_2023_03_13_13.11.3_gitlab_backup.tar
 
 <span class="token comment">#4.恢复GitLab数据服务</span>
-root@node30:~<span class="token comment"># gitlab-ctl stop unicorn</span>
-root@node30:~<span class="token comment"># gitlab-ctl stop sidekiq</span>
-root@node30:~<span class="token comment"># gitlab-rake gitlab:backup:restore BACKUP=1678722762_2023_03_13_13.11.3</span>
-root@node30:~<span class="token comment"># gitlab-ctl start </span></code></pre></div></figure>
+root@gitlab:~<span class="token comment"># gitlab-ctl stop unicorn</span>
+root@gitlab:~<span class="token comment"># gitlab-ctl stop sidekiq</span>
+root@gitlab:~<span class="token comment"># gitlab-rake gitlab:backup:restore BACKUP=1678722762_2023_03_13_13.11.3</span>
+root@gitlab:~<span class="token comment"># gitlab-ctl start </span></code></pre></div></figure>
 
 <h1 id="2-常见的代码部署方式"><a href="#2-常见的代码部署方式" class="headerlink" title="2.常见的代码部署方式"></a>2.常见的代码部署方式</h1><h2 id="2-1-蓝绿部署"><a href="#2-1-蓝绿部署" class="headerlink" title="2.1 蓝绿部署"></a>2.1 蓝绿部署</h2><p>蓝绿部署（Blue&#x2F;Green Deployment）：不停老版本代码(不影响上一个版本访问)，而是在另外一套环境部署新 版本然后进行测试，测试通过后将用户流量切到新版本。</p>
 <p><img src="/2023/03/12/CI%E3%81%AECD/JG/jg01/image-20230314203310707.png" srcset="/img/loading.gif" lazyload alt="image-20230314203310707"> </p>
