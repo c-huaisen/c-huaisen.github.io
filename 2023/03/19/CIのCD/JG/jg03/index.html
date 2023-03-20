@@ -16,16 +16,23 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="1.SonarQube简介及安装前文已经安装完了GitLab和Jenkins，接下来就开始安装和使用SonarQube： 主机清单：    主机名 IP地址 操作系统 服务 VIP    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    j">
+<meta property="og:type" content="article">
 <meta property="og:title" content="(3).CI&#x2F;CD-SonarQube简介及安装">
 <meta property="og:url" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/index.html">
 <meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.SonarQube简介及安装前文已经安装完了GitLab和Jenkins，接下来就开始安装和使用SonarQube： 主机清单：    主机名 IP地址 操作系统 服务 VIP    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    j">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000302252.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000348068.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000517485.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321001230603.png">
 <meta property="article:published_time" content="2023-03-19T14:19:44.000Z">
-<meta property="article:modified_time" content="2023-03-19T14:22:20.013Z">
+<meta property="article:modified_time" content="2023-03-20T16:12:42.465Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="CI&#x2F;CD">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000302252.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -232,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          2.7k 字
         
       </span>
     
@@ -243,7 +250,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -307,7 +314,171 @@
             
               <div class="markdown-body">
                 
-                
+                <h1 id="1-SonarQube简介及安装"><a href="#1-SonarQube简介及安装" class="headerlink" title="1.SonarQube简介及安装"></a>1.SonarQube简介及安装</h1><p>前文已经安装完了GitLab和Jenkins，接下来就开始安装和使用SonarQube：</p>
+<p><strong>主机清单：</strong></p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP地址</th>
+<th>操作系统</th>
+<th>服务</th>
+<th>VIP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gitlab</td>
+<td>192.168.1.30</td>
+<td>Ubuntu20.04</td>
+<td>GitLab 13.11.3-ce</td>
+<td></td>
+</tr>
+<tr>
+<td>jenkins</td>
+<td>192.168.1.31</td>
+<td>Ubuntu20.04</td>
+<td>Jenkins 2.277.4</td>
+<td></td>
+</tr>
+<tr>
+<td>jenkins-slave</td>
+<td>192.168.1.32</td>
+<td>Ubuntu20.04</td>
+<td>Jenkins Slave 2.277.4</td>
+<td></td>
+</tr>
+<tr>
+<td>ha1</td>
+<td>192.168.1.33</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66</td>
+</tr>
+<tr>
+<td>ha2</td>
+<td>192.168.1.34</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66</td>
+</tr>
+<tr>
+<td>web1</td>
+<td>192.168.1.35</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72</td>
+<td></td>
+</tr>
+<tr>
+<td>web2</td>
+<td>192.168.1.36</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72</td>
+<td></td>
+</tr>
+<tr>
+<td>web3</td>
+<td>192.168.1.37</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72</td>
+<td></td>
+</tr>
+<tr>
+<td>sonarqube</td>
+<td>192.168.1.38</td>
+<td>Ubuntu20.04</td>
+<td>SonarQube 8.9.0.43852</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="1-1-SonarQube简介"><a href="#1-1-SonarQube简介" class="headerlink" title="1.1 SonarQube简介"></a>1.1 SonarQube简介</h2><p>SonarQube是一个用于代码质量管理的开放平台，通过插件机制，SonarQube可以集成不同的测试工具，代码分析工具，以及持续集成工具，例如Jenkins等。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方网站：</span>
+http://www.sonarqube.org/
+https://docs.sonarqube.org/8.9/</code></pre></div></figure>
+
+<h2 id="1-2-SonarQube安装"><a href="#1-2-SonarQube安装" class="headerlink" title="1.2 SonarQube安装"></a>1.2 SonarQube安装</h2><h3 id="1-2-1-SonarQube下载"><a href="#1-2-1-SonarQube下载" class="headerlink" title="1.2.1 SonarQube下载"></a>1.2.1 SonarQube下载</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">https://www.sonarqube.org/downloads/</code></pre></div></figure>
+
+<h3 id="1-2-2-SonarQube安装"><a href="#1-2-2-SonarQube安装" class="headerlink" title="1.2.2 SonarQube安装"></a>1.2.2 SonarQube安装</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装jdk11</span>
+root@sonarqube:~<span class="token comment"># apt update &amp;&amp; apt install openjdk-11-jdk</span>
+
+<span class="token comment">#2.安装PostgreSQL</span>
+root@sonarqube:~<span class="token comment"># apt install postgresql -y</span>
+root@sonarqube:~<span class="token comment"># vim /etc/postgresql/12/main/postgresql.conf</span>
+listen_addresses <span class="token operator">=</span> <span class="token string">'0.0.0.0'</span>
+max_connections <span class="token operator">=</span> <span class="token number">1000</span>
+
+root@sonarqube:~<span class="token comment"># vim /etc/postgresql/12/main/pg_hba.conf</span>
+<span class="token function">host</span>    all             all             <span class="token number">0.0</span>.0.0/0            md5
+
+root@sonarqube:~<span class="token comment"># systemctl restart postgresql</span>
+root@sonarqube:~<span class="token comment"># su - postgres</span>
+postgres@sonarqube:~$ psql <span class="token parameter variable">-U</span> postgres
+psql <span class="token punctuation">(</span><span class="token number">12.14</span> <span class="token punctuation">(</span>Ubuntu <span class="token number">12.14</span>-0ubuntu0.20.04.1<span class="token punctuation">))</span>
+Type <span class="token string">"help"</span> <span class="token keyword">for</span> help.
+
+<span class="token assign-left variable">postgres</span><span class="token operator">=</span><span class="token comment">#</span>
+<span class="token assign-left variable">postgres</span><span class="token operator">=</span><span class="token comment"># CREATE DATABASE sonar; #创建数据库</span>
+CREATE DATABASE
+<span class="token assign-left variable">postgres</span><span class="token operator">=</span><span class="token comment"># CREATE USER sonar WITH ENCRYPTED PASSWORD '123456'; #创建用户</span>
+CREATE ROLE
+<span class="token assign-left variable">postgres</span><span class="token operator">=</span><span class="token comment"># GRANT ALL PRIVILEGES ON DATABASE sonar TO sonar; #授权用户</span>
+GRANT
+<span class="token assign-left variable">postgres</span><span class="token operator">=</span><span class="token comment"># ALTER DATABASE sonar OWNER TO sonar; #执行变更</span>
+ALTER DATABASE
+<span class="token assign-left variable">postgres</span><span class="token operator">=</span><span class="token comment"># \q #退出</span>
+
+<span class="token comment">#3.系统优化</span>
+root@sonarqube:~<span class="token comment"># vim /etc/sysctl.conf</span>
+<span class="token assign-left variable">vm.max_map_count</span><span class="token operator">=</span><span class="token number">524288</span>
+fs.file-max<span class="token operator">=</span><span class="token number">131072</span>
+root@sonarqube:~<span class="token comment"># sysctl -p</span>
+
+root@sonarqube:~<span class="token comment"># vim /etc/security/limits.conf</span>
+sonarqube - nofile <span class="token number">100000</span>
+sonarqube - nproc <span class="token number">100000</span>
+
+<span class="token comment">#4.创建sonarqube用户，不能用root账号启动</span>
+root@sonarqube:~<span class="token comment"># useradd -s /bin/bash -m sonarqube</span>
+
+<span class="token comment">#5.上传安装包</span>
+root@sonarqube:~<span class="token comment"># mkdir /apps</span>
+root@sonarqube:~<span class="token comment"># cd /apps/</span>
+root@sonarqube:/apps<span class="token comment"># ls</span>
+sonarqube-8.9.0.43852.zip
+root@sonarqube:/apps<span class="token comment"># chown sonarqube.sonarqube /apps/ -R</span>
+root@sonarqube:/apps<span class="token comment"># su - sonarqube</span>
+
+sonarqube@sonarqube:~$ <span class="token builtin class-name">cd</span> /apps/
+sonarqube@sonarqube:/apps$ <span class="token function">ls</span>
+sonarqube-8.9.0.43852.zip
+sonarqube@sonarqube:/apps$ <span class="token function">unzip</span> sonarqube-8.9.0.43852.zip
+sonarqube@sonarqube:/apps$ <span class="token function">ln</span> <span class="token parameter variable">-sv</span> sonarqube-8.9.0.43852 sonarqube
+
+<span class="token comment">#6.配置sonarqube</span>
+sonarqube@sonarqube:/apps$ <span class="token builtin class-name">cd</span> sonarqube
+sonarqube@sonarqube:/apps/sonarqube$ <span class="token function">vim</span> conf/sonar.properties
+<span class="token assign-left variable">sonar.jdbc.username</span><span class="token operator">=</span>sonar
+<span class="token assign-left variable">sonar.jdbc.password</span><span class="token operator">=</span><span class="token number">123456</span>
+<span class="token assign-left variable">sonar.jdbc.url</span><span class="token operator">=</span>jdbc:postgresql://192.168.1.38/sonar
+
+<span class="token comment">#7.启动sonarqube</span>
+sonarqube@sonarqube:/apps/sonarqube$ ./bin/linux-x86-64/sonar.sh start
+
+<span class="token comment">#8.访问测试</span>
+<span class="token comment">#账号密码 admin</span>
+http://192.168.1.38:9000/</code></pre></div></figure>
+
+
+
+<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000302252.png" srcset="/img/loading.gif" lazyload alt="image-20230321000302252"> </p>
+<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000348068.png" srcset="/img/loading.gif" lazyload alt="image-20230321000348068"> </p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#更改中文，可以直接去github下载，放到/apps/sonarqube/extensions/plugins目录下，重启sonarqube服务</span>
+https://github.com/xuhuisheng/sonar-l10n-zh/releases/tag/sonar-l10n-zh-plugin-8.9</code></pre></div></figure>
+
+
+
+<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000517485.png" srcset="/img/loading.gif" lazyload alt="image-20230321000517485"> </p>
+<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321001230603.png" srcset="/img/loading.gif" lazyload alt="image-20230321001230603"> </p>
+<h2 id="1-3-SonarQube代码扫描"><a href="#1-3-SonarQube代码扫描" class="headerlink" title="1.3 SonarQube代码扫描"></a>1.3 SonarQube代码扫描</h2>
                 
               </div>
             
