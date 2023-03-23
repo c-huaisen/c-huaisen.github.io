@@ -16,22 +16,26 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="(4).CI&#x2F;CD-代码部署案例">
+    <meta name="description" content="1.基于Jenkins实现灰度部署1.1 主机清单   主机名 IP地址 操作系统 服务 VIP    client 192.168.1.10 CentOS7.9 开发人员    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    jenki">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(4).CI&#x2F;CD-代码部署实战">
 <meta property="og:url" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg04/index.html">
 <meta property="og:site_name" content="陈怀森の学习笔记">
+<meta property="og:description" content="1.基于Jenkins实现灰度部署1.1 主机清单   主机名 IP地址 操作系统 服务 VIP    client 192.168.1.10 CentOS7.9 开发人员    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    jenki">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg04/image-20230323214949585.png">
 <meta property="article:published_time" content="2023-03-19T14:30:21.000Z">
-<meta property="article:modified_time" content="2023-03-19T14:31:57.643Z">
+<meta property="article:modified_time" content="2023-03-23T13:52:51.449Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="CI&#x2F;CD">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg04/image-20230323214949585.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>(4).CI/CD-代码部署案例 - 陈怀森の学习笔记</title>
+  <title>(4).CI/CD-代码部署实战 - 陈怀森の学习笔记</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -209,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="(4).CI/CD-代码部署案例"></span>
+            <span id="subtitle" data-typed-text="(4).CI/CD-代码部署实战"></span>
           
         </div>
 
@@ -232,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          668 字
         
       </span>
     
@@ -302,12 +306,115 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">(4).CI/CD-代码部署案例</h1>
+            <h1 style="display: none">(4).CI/CD-代码部署实战</h1>
             
             
               <div class="markdown-body">
                 
-                
+                <h1 id="1-基于Jenkins实现灰度部署"><a href="#1-基于Jenkins实现灰度部署" class="headerlink" title="1.基于Jenkins实现灰度部署"></a>1.基于Jenkins实现灰度部署</h1><h2 id="1-1-主机清单"><a href="#1-1-主机清单" class="headerlink" title="1.1 主机清单"></a>1.1 主机清单</h2><table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP地址</th>
+<th>操作系统</th>
+<th>服务</th>
+<th>VIP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>client</td>
+<td>192.168.1.10</td>
+<td>CentOS7.9</td>
+<td>开发人员</td>
+<td></td>
+</tr>
+<tr>
+<td>gitlab</td>
+<td>192.168.1.30</td>
+<td>Ubuntu20.04</td>
+<td>GitLab 13.11.3-ce</td>
+<td></td>
+</tr>
+<tr>
+<td>jenkins</td>
+<td>192.168.1.31</td>
+<td>Ubuntu20.04</td>
+<td>Jenkins 2.277.4</td>
+<td></td>
+</tr>
+<tr>
+<td>jenkins-slave</td>
+<td>192.168.1.32</td>
+<td>Ubuntu20.04</td>
+<td>Jenkins Slave 2.277.4</td>
+<td></td>
+</tr>
+<tr>
+<td>ha1</td>
+<td>192.168.1.33</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66&#x2F;67&#x2F;77</td>
+</tr>
+<tr>
+<td>ha2</td>
+<td>192.168.1.34</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66&#x2F;67&#x2F;77</td>
+</tr>
+<tr>
+<td>web1</td>
+<td>192.168.1.35</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72</td>
+<td></td>
+</tr>
+<tr>
+<td>web2</td>
+<td>192.168.1.36</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72</td>
+<td></td>
+</tr>
+<tr>
+<td>web3</td>
+<td>192.168.1.37</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72</td>
+<td></td>
+</tr>
+<tr>
+<td>sonarqube</td>
+<td>192.168.1.38</td>
+<td>Ubuntu20.04</td>
+<td>SonarQube 8.9.0.43852</td>
+<td></td>
+</tr>
+<tr>
+<td>test-web1</td>
+<td>192.168.1.39</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72</td>
+<td></td>
+</tr>
+<tr>
+<td>test-web2</td>
+<td>192.168.1.40</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72</td>
+<td></td>
+</tr>
+<tr>
+<td>test-web3</td>
+<td>192.168.1.41</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="1-2-部署拓扑图"><a href="#1-2-部署拓扑图" class="headerlink" title="1.2 部署拓扑图"></a>1.2 部署拓扑图</h2><p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg04/image-20230323214949585.png" srcset="/img/loading.gif" lazyload alt="image-20230323214949585"> </p>
+
                 
               </div>
             
@@ -359,7 +466,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(4).CI/CD-代码部署案例</div>
+      <div>(4).CI/CD-代码部署实战</div>
       <div>http://chsblogs.com/2023/03/19/CIのCD/JG/jg04/</div>
     </div>
     <div class="license-meta">
@@ -522,10 +629,10 @@
     
       
       
-        <a href="/2023/03/19/CI%E3%81%AECD/JG/jg04/" title="(4).CI/CD-代码部署案例"
+        <a href="/2023/03/19/CI%E3%81%AECD/JG/jg04/" title="(4).CI/CD-代码部署实战"
            class="list-group-item list-group-item-action
            active">
-          <span class="category-post">(4).CI/CD-代码部署案例</span>
+          <span class="category-post">(4).CI/CD-代码部署实战</span>
         </a>
       
     
