@@ -4,33 +4,6 @@
   
   
   <entry>
-    <title>(1).Zookeeper简介及安装</title>
-    <link href="/2023/03/25/Service/Zookeeper/zookeeper01/"/>
-    <url>/2023/03/25/Service/Zookeeper/zookeeper01/</url>
-    
-    <content type="html"><![CDATA[<h1 id="1-Zookeeper简介及安装"><a href="#1-Zookeeper简介及安装" class="headerlink" title="1.Zookeeper简介及安装"></a>1.Zookeeper简介及安装</h1><p><strong>主机清单：</strong></p><table><thead><tr><th>主机名</th><th>IP地址</th><th>操作系统</th><th>服务</th><th>备注</th></tr></thead><tbody><tr><td>zookeeper1</td><td>192.168.1.30</td><td>Ubuntu20.04</td><td>Zookeeper</td><td></td></tr><tr><td>zookeeper2</td><td>192.168.1.31</td><td>Ubuntu20.04</td><td>Zookeeper</td><td></td></tr><tr><td>zookeeper3</td><td>192.168.1.32</td><td>Ubuntu20.04</td><td>Zookeeper</td><td></td></tr></tbody></table>]]></content>
-    
-    
-    <categories>
-      
-      <category>Linux</category>
-      
-      <category>Zookeeper</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>Zookeeper</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>(1).Nexus简介及安装</title>
     <link href="/2023/03/25/Service/Nexus/nexus01/"/>
     <url>/2023/03/25/Service/Nexus/nexus01/</url>
@@ -104,6 +77,33 @@
     <tags>
       
       <tag>Kafka</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(1).Zookeeper简介及安装</title>
+    <link href="/2023/03/25/Service/Zookeeper/zookeeper01/"/>
+    <url>/2023/03/25/Service/Zookeeper/zookeeper01/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1-Zookeeper简介及安装"><a href="#1-Zookeeper简介及安装" class="headerlink" title="1.Zookeeper简介及安装"></a>1.Zookeeper简介及安装</h1><p><strong>主机清单：</strong></p><table><thead><tr><th>主机名</th><th>IP地址</th><th>操作系统</th><th>服务</th><th>备注</th></tr></thead><tbody><tr><td>zookeeper1</td><td>192.168.1.30</td><td>Ubuntu20.04</td><td>Zookeeper</td><td></td></tr><tr><td>zookeeper2</td><td>192.168.1.31</td><td>Ubuntu20.04</td><td>Zookeeper</td><td></td></tr><tr><td>zookeeper3</td><td>192.168.1.32</td><td>Ubuntu20.04</td><td>Zookeeper</td><td></td></tr></tbody></table>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Zookeeper</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Zookeeper</tag>
       
     </tags>
     
