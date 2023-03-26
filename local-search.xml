@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>(1).ELK简介及安装</title>
+    <link href="/2023/03/26/Log/ELK/elk01/"/>
+    <url>/2023/03/26/Log/ELK/elk01/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1-ELK简介及安装"><a href="#1-ELK简介及安装" class="headerlink" title="1.ELK简介及安装"></a>1.ELK简介及安装</h1><h2 id="1-1-ELK简介"><a href="#1-1-ELK简介" class="headerlink" title="1.1 ELK简介"></a>1.1 ELK简介</h2><h2 id="1-2-ELK安装"><a href="#1-2-ELK安装" class="headerlink" title="1.2 ELK安装"></a>1.2 ELK安装</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>ELK</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ELK</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>(1).Nexus简介及安装</title>
     <link href="/2023/03/25/Service/Nexus/nexus01/"/>
     <url>/2023/03/25/Service/Nexus/nexus01/</url>
