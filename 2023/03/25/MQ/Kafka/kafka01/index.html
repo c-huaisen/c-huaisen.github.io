@@ -16,15 +16,15 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.Kafka简介及安装">
+    <meta name="description" content="1.Kafka简介及安装主机清单：    主机名 IP地址 操作系统 服务 备注    kafka1 192.168.1.30 Ubuntu20.04 Kafka 2.7.1 &amp; Zookeeper 3.6.4    kafka2 192.168.1.31 Ubuntu20.04 Kafka 2.7.1 &amp; Zookeeper 3.6.4    kafka3 192.168.1.3">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(1).Kafka简介及安装">
 <meta property="og:url" content="http://chsblogs.com/2023/03/25/MQ/Kafka/kafka01/index.html">
 <meta property="og:site_name" content="陈怀森の学习笔记">
-<meta property="og:description" content="1.Kafka简介及安装">
+<meta property="og:description" content="1.Kafka简介及安装主机清单：    主机名 IP地址 操作系统 服务 备注    kafka1 192.168.1.30 Ubuntu20.04 Kafka 2.7.1 &amp; Zookeeper 3.6.4    kafka2 192.168.1.31 Ubuntu20.04 Kafka 2.7.1 &amp; Zookeeper 3.6.4    kafka3 192.168.1.3">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-03-25T05:13:36.000Z">
-<meta property="article:modified_time" content="2023-03-25T06:05:14.398Z">
+<meta property="article:modified_time" content="2023-03-26T10:23:13.145Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          12 字
+          1.7k 字
         
       </span>
     
@@ -245,7 +245,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -309,7 +309,82 @@
             
               <div class="markdown-body">
                 
-                <h1 id="1-Kafka简介及安装"><a href="#1-Kafka简介及安装" class="headerlink" title="1.Kafka简介及安装"></a>1.Kafka简介及安装</h1>
+                <h1 id="1-Kafka简介及安装"><a href="#1-Kafka简介及安装" class="headerlink" title="1.Kafka简介及安装"></a>1.Kafka简介及安装</h1><p><strong>主机清单：</strong></p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP地址</th>
+<th>操作系统</th>
+<th>服务</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>kafka1</td>
+<td>192.168.1.30</td>
+<td>Ubuntu20.04</td>
+<td>Kafka 2.7.1 &amp; Zookeeper 3.6.4</td>
+<td></td>
+</tr>
+<tr>
+<td>kafka2</td>
+<td>192.168.1.31</td>
+<td>Ubuntu20.04</td>
+<td>Kafka 2.7.1 &amp; Zookeeper 3.6.4</td>
+<td></td>
+</tr>
+<tr>
+<td>kafka3</td>
+<td>192.168.1.32</td>
+<td>Ubuntu20.04</td>
+<td>Kafka 2.7.1 &amp; Zookeeper 3.6.4</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="1-1-Kafka简介"><a href="#1-1-Kafka简介" class="headerlink" title="1.1 Kafka简介"></a>1.1 Kafka简介</h2><p>Kafka是由Apache软件基金会开发的一个开源流处理平台，由Scala和Java编写。Kafka是一种高吞吐量的分布式发布订阅消息系统，它可以处理消费者在网站中的所有动作流数据。</p>
+<h2 id="1-2-Kafka集群部署"><a href="#1-2-Kafka集群部署" class="headerlink" title="1.2 Kafka集群部署"></a>1.2 Kafka集群部署</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方地址</span>
+https://kafka.apache.org/downloads
+
+<span class="token comment">#1.三台主机安装Zookeeper</span>
+参考链接：https://chsblogs.com/2023/03/25/Service/Zookeeper/zookeeper01/
+
+<span class="token comment">#2.三台主机安装Kafka</span>
+root@zookeeper1:~<span class="token comment"># cd /apps/</span>
+root@zookeeper1:/apps<span class="token comment"># wget https://archive.apache.org/dist/kafka/2.7.1/kafka_2.13-2.7.1.tgz</span>
+root@zookeeper1:/apps<span class="token comment"># tar -xvf kafka_2.13-2.7.1.tgz </span>
+root@zookeeper1:/apps<span class="token comment"># ln -sv /apps/kafka_2.13-2.7.1 /apps/kafka</span>
+root@zookeeper1:/apps<span class="token comment"># cd kafka</span>
+root@zookeeper1:/apps/kafka<span class="token comment"># mkdir /data/kafka -p</span>
+
+<span class="token comment">#3.三台主机配置Kafka</span>
+root@zookeeper1:/apps/kafka<span class="token comment"># vim config/server.properties</span>
+<span class="token assign-left variable">broker.id</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">listeners</span><span class="token operator">=</span>PLAINTEXT://192.168.1.30:9092
+<span class="token assign-left variable">log.dirs</span><span class="token operator">=</span>/data/kafka
+<span class="token assign-left variable">num.partitions</span><span class="token operator">=</span><span class="token number">3</span>
+<span class="token assign-left variable">zookeeper.connect</span><span class="token operator">=</span><span class="token number">192.168</span>.1.30:2181,192.168.1.31:2181,192.168.1.32:2181
+
+root@zookeeper2:/apps/kafka<span class="token comment"># vim config/server.properties</span>
+<span class="token assign-left variable">broker.id</span><span class="token operator">=</span><span class="token number">2</span>
+<span class="token assign-left variable">listeners</span><span class="token operator">=</span>PLAINTEXT://192.168.1.30:9092
+<span class="token assign-left variable">log.dirs</span><span class="token operator">=</span>/data/kafka
+<span class="token assign-left variable">num.partitions</span><span class="token operator">=</span><span class="token number">3</span>
+<span class="token assign-left variable">zookeeper.connect</span><span class="token operator">=</span><span class="token number">192.168</span>.1.30:2181,192.168.1.31:2181,192.168.1.32:2181
+
+root@zookeeper3:/apps/kafka<span class="token comment"># vim config/server.properties</span>
+<span class="token assign-left variable">broker.id</span><span class="token operator">=</span><span class="token number">3</span>
+<span class="token assign-left variable">listeners</span><span class="token operator">=</span>PLAINTEXT://192.168.1.30:9092
+<span class="token assign-left variable">log.dirs</span><span class="token operator">=</span>/data/kafka
+<span class="token assign-left variable">num.partitions</span><span class="token operator">=</span><span class="token number">3</span>
+<span class="token assign-left variable">zookeeper.connect</span><span class="token operator">=</span><span class="token number">192.168</span>.1.30:2181,192.168.1.31:2181,192.168.1.32:2181
+
+<span class="token comment">#4.三台主机启动Kafka</span>
+root@zookeeper1:/apps/kafka<span class="token comment"># /apps/kafka/bin/kafka-server-start.sh /apps/kafka/config/server.properties &amp;</span>
+root@zookeeper2:/apps/kafka<span class="token comment"># /apps/kafka/bin/kafka-server-start.sh /apps/kafka/config/server.properties &amp;</span>
+root@zookeeper3:/apps/kafka<span class="token comment"># /apps/kafka/bin/kafka-server-start.sh /apps/kafka/config/server.properties &amp;</span></code></pre></div></figure>
+
+
                 
               </div>
             
