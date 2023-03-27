@@ -8,7 +8,7 @@
     <link href="/2023/03/26/Log/ELK/elk01/"/>
     <url>/2023/03/26/Log/ELK/elk01/</url>
     
-    <content type="html"><![CDATA[<h1 id="1-ELK简介及安装"><a href="#1-ELK简介及安装" class="headerlink" title="1.ELK简介及安装"></a>1.ELK简介及安装</h1><h2 id="1-1-ELK简介"><a href="#1-1-ELK简介" class="headerlink" title="1.1 ELK简介"></a>1.1 ELK简介</h2><h2 id="1-2-ELK安装"><a href="#1-2-ELK安装" class="headerlink" title="1.2 ELK安装"></a>1.2 ELK安装</h2>]]></content>
+    <content type="html"><![CDATA[<h1 id="1-ELK简介及安装"><a href="#1-ELK简介及安装" class="headerlink" title="1.ELK简介及安装"></a>1.ELK简介及安装</h1><p><strong>主机清单：</strong></p><table><thead><tr><th>主机名</th><th>IP地址</th><th>操作系统</th><th>服务</th><th>备注</th></tr></thead><tbody><tr><td>es1</td><td>192.168.1.30</td><td>Ubuntu20.04</td><td>Elasticsearch 7.12.1</td><td></td></tr><tr><td>es2</td><td>192.168.1.31</td><td>Ubuntu20.04</td><td>Elasticsearch 7.12.1</td><td></td></tr><tr><td>es3</td><td>192.168.1.32</td><td>Ubuntu20.04</td><td>Elasticsearch 7.12.1</td><td></td></tr></tbody></table><h2 id="1-1-ELK简介"><a href="#1-1-ELK简介" class="headerlink" title="1.1 ELK简介"></a>1.1 ELK简介</h2><h2 id="1-2-ELK安装"><a href="#1-2-ELK安装" class="headerlink" title="1.2 ELK安装"></a>1.2 ELK安装</h2>]]></content>
     
     
     <categories>
