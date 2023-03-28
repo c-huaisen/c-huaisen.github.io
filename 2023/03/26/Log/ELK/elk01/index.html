@@ -16,24 +16,22 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.ELK简介及安装主机清单：    主机名 IP地址 操作系统 服务 备注    es1 192.168.1.30 Ubuntu20.04 Elasticsearch 7.12.1    es2 192.168.1.31 Ubuntu20.04 Elasticsearch 7.12.1    es3 192.168.1.32 Ubuntu20.04 Elasticsearch 7.12.1">
+    <meta name="description" content="1.Elasticsearch简介及安装主机清单：    主机名 IP地址 操作系统 服务 备注    es1 192.168.1.30 Ubuntu20.04 Elasticsearch 7.12.1    es2 192.168.1.31 Ubuntu20.04 Elasticsearch 7.12.1    es3 192.168.1.32 Ubuntu20.04 Elasticsearch">
 <meta property="og:type" content="article">
-<meta property="og:title" content="(1).ELK简介及安装">
+<meta property="og:title" content="(1).ELK-Elasticsearch简介及集群部署">
 <meta property="og:url" content="http://chsblogs.com/2023/03/26/Log/ELK/elk01/index.html">
 <meta property="og:site_name" content="陈怀森の学习笔记">
-<meta property="og:description" content="1.ELK简介及安装主机清单：    主机名 IP地址 操作系统 服务 备注    es1 192.168.1.30 Ubuntu20.04 Elasticsearch 7.12.1    es2 192.168.1.31 Ubuntu20.04 Elasticsearch 7.12.1    es3 192.168.1.32 Ubuntu20.04 Elasticsearch 7.12.1">
+<meta property="og:description" content="1.Elasticsearch简介及安装主机清单：    主机名 IP地址 操作系统 服务 备注    es1 192.168.1.30 Ubuntu20.04 Elasticsearch 7.12.1    es2 192.168.1.31 Ubuntu20.04 Elasticsearch 7.12.1    es3 192.168.1.32 Ubuntu20.04 Elasticsearch">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-03-26T11:58:33.000Z">
-<meta property="article:modified_time" content="2023-03-26T12:59:56.076Z">
+<meta property="article:modified_time" content="2023-03-27T11:45:05.633Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
   
   
-    <meta name="referrer" content="no-referrer-when-downgrade">
   
-  
-  <title>(1).ELK简介及安装 - 陈怀森の学习笔记</title>
+  <title>(1).ELK-Elasticsearch简介及集群部署 - 陈怀森の学习笔记</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -211,7 +209,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="(1).ELK简介及安装"></span>
+            <span id="subtitle" data-typed-text="(1).ELK-Elasticsearch简介及集群部署"></span>
           
         </div>
 
@@ -234,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          181 字
+          211 字
         
       </span>
     
@@ -251,14 +249,6 @@
     
 
     
-    
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-      
     
   </div>
 
@@ -304,12 +294,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">(1).ELK简介及安装</h1>
+            <h1 style="display: none">(1).ELK-Elasticsearch简介及集群部署</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="1-ELK简介及安装"><a href="#1-ELK简介及安装" class="headerlink" title="1.ELK简介及安装"></a>1.ELK简介及安装</h1><p><strong>主机清单：</strong></p>
+                <h1 id="1-Elasticsearch简介及安装"><a href="#1-Elasticsearch简介及安装" class="headerlink" title="1.Elasticsearch简介及安装"></a>1.Elasticsearch简介及安装</h1><p><strong>主机清单：</strong></p>
 <table>
 <thead>
 <tr>
@@ -342,7 +332,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<h2 id="1-1-ELK简介"><a href="#1-1-ELK简介" class="headerlink" title="1.1 ELK简介"></a>1.1 ELK简介</h2><h2 id="1-2-ELK安装"><a href="#1-2-ELK安装" class="headerlink" title="1.2 ELK安装"></a>1.2 ELK安装</h2>
+<h2 id="1-1-Elasticsearch简介"><a href="#1-1-Elasticsearch简介" class="headerlink" title="1.1 Elasticsearch简介"></a>1.1 Elasticsearch简介</h2><h2 id="1-2-Elasticsearch安装"><a href="#1-2-Elasticsearch安装" class="headerlink" title="1.2 Elasticsearch安装"></a>1.2 Elasticsearch安装</h2>
                 
               </div>
             
@@ -394,7 +384,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(1).ELK简介及安装</div>
+      <div>(1).ELK-Elasticsearch简介及集群部署</div>
       <div>http://chsblogs.com/2023/03/26/Log/ELK/elk01/</div>
     </div>
     <div class="license-meta">
@@ -524,10 +514,10 @@
     
       
       
-        <a href="/2023/03/26/Log/ELK/elk01/" title="(1).ELK简介及安装"
+        <a href="/2023/03/26/Log/ELK/elk01/" title="(1).ELK-Elasticsearch简介及集群部署"
            class="list-group-item list-group-item-action
            active">
-          <span class="category-post">(1).ELK简介及安装</span>
+          <span class="category-post">(1).ELK-Elasticsearch简介及集群部署</span>
         </a>
       
     
@@ -787,8 +777,6 @@
   <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
