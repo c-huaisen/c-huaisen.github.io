@@ -24,7 +24,7 @@
 <meta property="og:description" content="1.Elasticsearch简介及安装主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubun">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-03-26T11:58:33.000Z">
-<meta property="article:modified_time" content="2023-04-05T03:55:40.830Z">
+<meta property="article:modified_time" content="2023-04-05T12:54:25.926Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
@@ -232,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          616 字
+          848 字
         
       </span>
     
@@ -328,14 +328,14 @@
 <td>es1</td>
 <td>192.168.1.32</td>
 <td>Ubuntu20.04</td>
-<td>Elasticsearch 7.12.1 &amp; Kibana 7.12.1</td>
+<td>Elasticsearch 7.12.1 &amp; Kibana 7.12.1 &amp; Nginx 1.22.1</td>
 <td></td>
 </tr>
 <tr>
 <td>es2</td>
 <td>192.168.1.33</td>
 <td>Ubuntu20.04</td>
-<td>Elasticsearch 7.12.1</td>
+<td>Elasticsearch 7.12.1 &amp; Kibana 7.12.1 &amp; Nginx 1.22.1</td>
 <td></td>
 </tr>
 <tr>
@@ -346,7 +346,7 @@
 <td></td>
 </tr>
 <tr>
-<td>logstash</td>
+<td>logstash1</td>
 <td>192.168.1.35</td>
 <td>Ubuntu20.04</td>
 <td>Logstash 7.12.1</td>
@@ -360,22 +360,43 @@
 <td></td>
 </tr>
 <tr>
-<td>kafka</td>
+<td>kafka1</td>
 <td>192.168.1.37</td>
 <td>Ubuntu20.04</td>
-<td>Kafka 2.7.1</td>
+<td>Kafka 2.7.1 &amp; Zookeeper 3.6.4</td>
+<td></td>
+</tr>
+<tr>
+<td>kafka2</td>
+<td>192.168.1.38</td>
+<td>Ubuntu20.04</td>
+<td>Kafka 2.7.1 &amp; Zookeeper 3.6.4</td>
+<td></td>
+</tr>
+<tr>
+<td>kafka3</td>
+<td>192.168.1.39</td>
+<td>Ubuntu20.04</td>
+<td>Kafka 2.7.1 &amp; Zookeeper 3.6.4</td>
+<td></td>
+</tr>
+<tr>
+<td>logstash2</td>
+<td>192.168.1.40</td>
+<td>Ubuntu20.04</td>
+<td>Logstash 7.12.1</td>
 <td></td>
 </tr>
 <tr>
 <td>web1</td>
-<td>192.168.1.38</td>
+<td>192.168.1.41</td>
 <td>Ubuntu20.04</td>
 <td>Tomcat 9.0.72 &amp; Nginx 1.22.1 &amp; Logstash | FileBeat</td>
 <td></td>
 </tr>
 <tr>
 <td>web2</td>
-<td>192.168.1.39</td>
+<td>192.168.1.42</td>
 <td>Ubuntu20.04</td>
 <td>Tomcat 9.0.72 &amp; Nginx 1.22.1 &amp; Logstash | FileBeat</td>
 <td></td>
@@ -555,7 +576,7 @@
         aria-expanded="true"
       >
         ELK
-        <span class="list-group-count">(6)</span>
+        <span class="list-group-count">(7)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -618,6 +639,15 @@
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(6).ELK-Logstash基于Kafka收集日志</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/05/Log/ELK/elk07/" title="(7).ELK-FileBeat部署及使用"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(7).ELK-FileBeat部署及使用</span>
         </a>
       
     
