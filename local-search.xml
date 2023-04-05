@@ -4,6 +4,60 @@
   
   
   <entry>
+    <title>(6).ELK-Logstash基于Kafka收集日志</title>
+    <link href="/2023/04/05/Log/ELK/elk06/"/>
+    <url>/2023/04/05/Log/ELK/elk06/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1-Logstash基于Kafka收集日志"><a href="#1-Logstash基于Kafka收集日志" class="headerlink" title="1.Logstash基于Kafka收集日志"></a>1.Logstash基于Kafka收集日志</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>ELK</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ELK</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(5).ELK-Logstash基于Redis收集日志</title>
+    <link href="/2023/04/05/Log/ELK/elk05/"/>
+    <url>/2023/04/05/Log/ELK/elk05/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1-Logstash基于Redis收集日志"><a href="#1-Logstash基于Redis收集日志" class="headerlink" title="1.Logstash基于Redis收集日志"></a>1.Logstash基于Redis收集日志</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>ELK</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ELK</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>(4).ELK-基于Logstash收集日志</title>
     <link href="/2023/04/05/Log/ELK/elk04/"/>
     <url>/2023/04/05/Log/ELK/elk04/</url>
