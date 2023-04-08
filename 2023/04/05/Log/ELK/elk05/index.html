@@ -24,8 +24,9 @@
 <meta property="og:description" content="1.Logstash基于Redis收集日志主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubu">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk05/image-20230408180550190.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk05/image-20230408234034737.png">
 <meta property="article:published_time" content="2023-04-05T02:56:58.000Z">
-<meta property="article:modified_time" content="2023-04-08T10:05:51.442Z">
+<meta property="article:modified_time" content="2023-04-08T15:46:30.339Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          548 字
+          3.3k 字
         
       </span>
     
@@ -245,7 +246,7 @@
         
         
         
-          1 分钟
+          3 分钟
         
       </span>
     
@@ -351,7 +352,7 @@
 <td>redis</td>
 <td>192.168.1.36</td>
 <td>Ubuntu20.04</td>
-<td>Redis 6.2.9</td>
+<td>Redis 5.0.7</td>
 <td></td>
 </tr>
 <tr>
@@ -378,6 +379,128 @@
 </tbody></table>
 <p><strong>部署拓扑图：</strong></p>
 <p><img src="/2023/04/05/Log/ELK/elk05/image-20230408180550190.png" srcset="/img/loading.gif" lazyload alt="image-20230408180550190"> </p>
+<h2 id="1-1-环境初始化"><a href="#1-1-环境初始化" class="headerlink" title="1.1 环境初始化"></a>1.1 环境初始化</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.主机名配置</span>
+hostnamectl set-hostname redis.chsblogs.com
+hostnamectl set-hostname logstash2.chsblogs.com</code></pre></div></figure>
+
+
+
+<h2 id="1-2-安装Redis服务"><a href="#1-2-安装Redis服务" class="headerlink" title="1.2 安装Redis服务"></a>1.2 安装Redis服务</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@redis:~<span class="token comment"># apt update &amp;&amp; apt install redis</span>
+root@redis:~<span class="token comment"># sed -i -e 's/^bind .*/bind 0.0.0.0/' -e 's@protected-mode yes@protected-mode no@' -e 's/# requirepass foobared/requirepass 123456/' /etc/redis/redis.conf</span>
+root@redis:~<span class="token comment"># systemctl start redis</span></code></pre></div></figure>
+
+
+
+<h2 id="1-3-安装配置Logstash"><a href="#1-3-安装配置Logstash" class="headerlink" title="1.3 安装配置Logstash"></a>1.3 安装配置Logstash</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#主机logstash2安装Logstash</span>
+<span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">apt</span> <span class="token function">install</span> openjdk-8-jdk
+dpkg <span class="token parameter variable">-i</span> logstash-7.12.1-amd64.deb
+<span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token parameter variable">-e</span> <span class="token string">'s/User=logstash/User=root/'</span> <span class="token parameter variable">-e</span> <span class="token string">'s@Group=logstash@Group=root@'</span> /etc/systemd/system/logstash.service
+systemctl daemon-reload</code></pre></div></figure>
+
+
+
+<h2 id="1-4-基于Redis收集日志"><a href="#1-4-基于Redis收集日志" class="headerlink" title="1.4 基于Redis收集日志"></a>1.4 基于Redis收集日志</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.两台web主机编写Logstash配置</span>
+<span class="token comment">#官方文档：https://www.elastic.co/guide/en/logstash/7.12/plugins-outputs-redis.html</span>
+root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/nginx-to-redis.conf</span>
+input <span class="token punctuation">&#123;</span>
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/apps/nginx/logs/access.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"nginx-access-log"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+    codec <span class="token operator">=</span><span class="token operator">></span> json
+  <span class="token punctuation">&#125;</span>
+  
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/apps/nginx/logs/error.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"nginx-error-log"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+    codec <span class="token operator">=</span><span class="token operator">></span> json
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-access-log"</span> <span class="token punctuation">&#123;</span>
+    redis <span class="token punctuation">&#123;</span>
+      data_type <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"list"</span>
+      key <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-access-log"</span>
+      <span class="token function">host</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"192.168.1.36"</span>
+      port <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"6379"</span>
+      db <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"0"</span>
+      password <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"123456"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-error-log"</span> <span class="token punctuation">&#123;</span>
+    redis <span class="token punctuation">&#123;</span>
+      data_type <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"list"</span>
+      key <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-error-log"</span>
+      <span class="token function">host</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"192.168.1.36"</span>
+      port <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"6379"</span>
+      db <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"0"</span>
+      password <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"123456"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@web1:~<span class="token comment"># systemctl restart logstash</span>
+
+<span class="token comment">#2.验证redis数据</span>
+root@redis:~<span class="token comment"># redis-cli</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> AUTH <span class="token number">123456</span>
+OK
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> KEYS *
+<span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"chsblogs-nginx-error-log"</span>
+<span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">"chsblogs-nginx-access-log"</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> LPOP chsblogs-nginx-access-log
+<span class="token string">"&#123;<span class="token entity" title="\&quot;">\"</span>size<span class="token entity" title="\&quot;">\"</span>:0,<span class="token entity" title="\&quot;">\"</span>xff<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>-<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>type<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>nginx-access-log<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>responsetime<span class="token entity" title="\&quot;">\"</span>:0.0,<span class="token entity" title="\&quot;">\"</span>host<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>192.168.1.41<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>@version<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>1<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>upstreamtime<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>-<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>domain<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>192.168.1.41<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>referer<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>-<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>upstreamhost<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>-<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>http_host<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>192.168.1.41<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>clientip<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>192.168.1.200<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>url<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>/index.html<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>status<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>304<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>path<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>/apps/nginx/logs/access.log<span class="token entity" title="\&quot;">\"</span>,<span class="token entity" title="\&quot;">\"</span>@timestamp<span class="token entity" title="\&quot;">\"</span>:<span class="token entity" title="\&quot;">\"</span>2023-04-08T15:29:26.000Z<span class="token entity" title="\&quot;">\"</span>&#125;"</span>
+
+<span class="token comment">#3.配置logstash2将redis中的日志写入es集群</span>
+root@logstash2:~<span class="token comment"># vim /etc/logstash/conf.d/redis-to-es.conf</span>
+input <span class="token punctuation">&#123;</span>
+  redis <span class="token punctuation">&#123;</span>
+      data_type <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"list"</span>
+      key <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-access-log"</span>
+      <span class="token function">host</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"192.168.1.36"</span>
+      port <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"6379"</span>
+      db <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"0"</span>
+      password <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"123456"</span>
+      codec <span class="token operator">=</span><span class="token operator">></span> json
+  <span class="token punctuation">&#125;</span>
+  
+  redis <span class="token punctuation">&#123;</span>
+      data_type <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"list"</span>
+      key <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-error-log"</span>
+      <span class="token function">host</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"192.168.1.36"</span>
+      port <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"6379"</span>
+      db <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"0"</span>
+      password <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"123456"</span>
+      codec <span class="token operator">=</span><span class="token operator">></span> json
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-access-log"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-redis-nginx-access-log-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-error-log"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-redis-nginx-error-log-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@logstash2:~<span class="token comment"># systemctl restart logstash</span>
+
+<span class="token comment">#4.kibana创建索引查看</span></code></pre></div></figure>
+
+<p><img src="/2023/04/05/Log/ELK/elk05/image-20230408234034737.png" srcset="/img/loading.gif" lazyload alt="image-20230408234034737"> </p>
 
                 
               </div>

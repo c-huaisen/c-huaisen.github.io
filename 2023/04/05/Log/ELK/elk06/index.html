@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk06/image-20230408180634922.png">
 <meta property="article:published_time" content="2023-04-05T02:57:04.000Z">
-<meta property="article:modified_time" content="2023-04-08T10:06:49.492Z">
+<meta property="article:modified_time" content="2023-04-08T15:46:39.137Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          684 字
+          2.5k 字
         
       </span>
     
@@ -245,7 +245,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -392,6 +392,121 @@
 </tbody></table>
 <p><strong>部署拓扑图：</strong></p>
 <p><img src="/2023/04/05/Log/ELK/elk06/image-20230408180634922.png" srcset="/img/loading.gif" lazyload alt="image-20230408180634922"> </p>
+<h2 id="1-1-环境初始化"><a href="#1-1-环境初始化" class="headerlink" title="1.1 环境初始化"></a>1.1 环境初始化</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.主机名配置</span>
+hostnamectl set-hostname kafka1.chsblogs.com
+hostnamectl set-hostname kafka2.chsblogs.com
+hostnamectl set-hostname kafka3.chsblogs.com</code></pre></div></figure>
+
+
+
+<h2 id="1-2-安装Kafka服务"><a href="#1-2-安装Kafka服务" class="headerlink" title="1.2 安装Kafka服务"></a>1.2 安装Kafka服务</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#参考前文kafka章节</span>
+https://chsblogs.com/2023/03/25/MQ/Kafka/kafka01/</code></pre></div></figure>
+
+
+
+<h3 id="1-3-基于Kafka收集日志"><a href="#1-3-基于Kafka收集日志" class="headerlink" title="1.3 基于Kafka收集日志"></a>1.3 基于Kafka收集日志</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.两台web主机编写Logstash配置</span>
+<span class="token comment">#官方文档：https://www.elastic.co/guide/en/logstash/7.12/plugins-outputs-kafka.html</span>
+root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/nginx-to-kafka.conf</span>
+input <span class="token punctuation">&#123;</span>
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/apps/nginx/logs/access.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"nginx-access-log"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+    codec <span class="token operator">=</span><span class="token operator">></span> json
+  <span class="token punctuation">&#125;</span>
+  
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/apps/nginx/logs/error.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"nginx-error-log"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+    codec <span class="token operator">=</span><span class="token operator">></span> json
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-access-log"</span> <span class="token punctuation">&#123;</span>
+    redis <span class="token punctuation">&#123;</span>
+      data_type <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"list"</span>
+      key <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-access-log"</span>
+      <span class="token function">host</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"192.168.1.36"</span>
+      port <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"6379"</span>
+      db <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"0"</span>
+      password <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"123456"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-error-log"</span> <span class="token punctuation">&#123;</span>
+    redis <span class="token punctuation">&#123;</span>
+      data_type <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"list"</span>
+      key <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-error-log"</span>
+      <span class="token function">host</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"192.168.1.36"</span>
+      port <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"6379"</span>
+      db <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"0"</span>
+      password <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"123456"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@web1:~<span class="token comment"># systemctl restart logstash</span>
+
+<span class="token comment">#3.配置logstash2将kafka中的日志写入es集群</span>
+root@logstash2:~<span class="token comment"># vim /etc/logstash/conf.d/kafka-to-es.conf</span>
+input <span class="token punctuation">&#123;</span>
+  redis <span class="token punctuation">&#123;</span>
+      data_type <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"list"</span>
+      key <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-access-log"</span>
+      <span class="token function">host</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"192.168.1.36"</span>
+      port <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"6379"</span>
+      db <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"0"</span>
+      password <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"123456"</span>
+      codec <span class="token operator">=</span><span class="token operator">></span> json
+  <span class="token punctuation">&#125;</span>
+  
+  redis <span class="token punctuation">&#123;</span>
+      data_type <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"list"</span>
+      key <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-error-log"</span>
+      <span class="token function">host</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"192.168.1.36"</span>
+      port <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"6379"</span>
+      db <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"0"</span>
+      password <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"123456"</span>
+      codec <span class="token operator">=</span><span class="token operator">></span> json
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-access-log"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-redis-nginx-access-log-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-error-log"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-redis-nginx-error-log-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@logstash2:~<span class="token comment"># systemctl restart logstash</span>
+
+<span class="token comment">#4.kibana创建索引查看</span></code></pre></div></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 
               </div>
