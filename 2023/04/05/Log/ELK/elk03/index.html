@@ -16,18 +16,26 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.Kibana部署及使用">
+    <meta name="description" content="1.Kibana部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.04">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(3).ELK-Kibana部署及使用">
 <meta property="og:url" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.Kibana部署及使用">
+<meta property="og:description" content="1.Kibana部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.04">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408115532569.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408105601043.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110001537.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110051391.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110129323.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110240493.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408114131494.png">
 <meta property="article:published_time" content="2023-04-05T02:47:23.000Z">
-<meta property="article:modified_time" content="2023-04-05T06:29:33.300Z">
+<meta property="article:modified_time" content="2023-04-08T03:55:46.235Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408115532569.png">
   
   
   
@@ -232,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          13 字
+          2.4k 字
         
       </span>
     
@@ -243,7 +251,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -299,7 +307,153 @@
             
               <div class="markdown-body">
                 
-                <h1 id="1-Kibana部署及使用"><a href="#1-Kibana部署及使用" class="headerlink" title="1.Kibana部署及使用"></a>1.Kibana部署及使用</h1>
+                <h1 id="1-Kibana部署及使用"><a href="#1-Kibana部署及使用" class="headerlink" title="1.Kibana部署及使用"></a>1.Kibana部署及使用</h1><p><strong>主机清单：</strong></p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP地址</th>
+<th>操作系统</th>
+<th>服务</th>
+<th>VIP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ha1</td>
+<td>192.168.1.30</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66</td>
+</tr>
+<tr>
+<td>ha2</td>
+<td>192.168.1.31</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66</td>
+</tr>
+<tr>
+<td>es1</td>
+<td>192.168.1.32</td>
+<td>Ubuntu20.04</td>
+<td>Elasticsearch 7.12.1 &amp; Kibana 7.12.1 &amp; Nginx 1.22.1</td>
+<td></td>
+</tr>
+<tr>
+<td>es2</td>
+<td>192.168.1.33</td>
+<td>Ubuntu20.04</td>
+<td>Elasticsearch 7.12.1</td>
+<td></td>
+</tr>
+<tr>
+<td>es3</td>
+<td>192.168.1.34</td>
+<td>Ubuntu20.04</td>
+<td>Elasticsearch 7.12.1</td>
+<td></td>
+</tr>
+<tr>
+<td>web1</td>
+<td>192.168.1.41</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72 &amp; Nginx 1.22.1 &amp; Logstash</td>
+<td></td>
+</tr>
+<tr>
+<td>web2</td>
+<td>192.168.1.42</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72 &amp; Nginx 1.22.1 &amp; Logstash</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>部署拓扑图：</strong></p>
+<p><img src="/2023/04/05/Log/ELK/elk03/image-20230408115532569.png" srcset="/img/loading.gif" lazyload alt="image-20230408115532569">  </p>
+<h2 id="1-1-安装Kibana"><a href="#1-1-安装Kibana" class="headerlink" title="1.1 安装Kibana"></a>1.1 安装Kibana</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.上传安装包</span>
+root@es1:~<span class="token comment"># ll kibana-7.12.1-amd64.deb </span>
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">285027022</span> Apr  <span class="token number">8</span> <span class="token number">10</span>:47 kibana-7.12.1-amd64.deb
+
+<span class="token comment">#2.安装Kibana</span>
+root@es1:~<span class="token comment"># dpkg -i kibana-7.12.1-amd64.deb</span>
+
+<span class="token comment">#3.修改配置文件</span>
+root@es1:~<span class="token comment"># vim /etc/kibana/kibana.yml</span>
+server.host: <span class="token string">"192.168.1.32"</span>
+elasticsearch.hosts: <span class="token punctuation">[</span><span class="token string">"http://192.168.1.32:9200"</span><span class="token punctuation">]</span>
+i18n.locale: <span class="token string">"zh-CN"</span>
+
+<span class="token comment">#4.启动kibana</span>
+root@es1:~<span class="token comment"># systemctl restart kibana</span>
+
+<span class="token comment">#5.访问测试</span>
+http://192.168.1.32:5601/</code></pre></div></figure>
+
+<p><img src="/2023/04/05/Log/ELK/elk03/image-20230408105601043.png" srcset="/img/loading.gif" lazyload alt="image-20230408105601043"> </p>
+<h2 id="1-2-创建索引模式"><a href="#1-2-创建索引模式" class="headerlink" title="1.2 创建索引模式"></a>1.2 创建索引模式</h2><p><img src="/2023/04/05/Log/ELK/elk03/image-20230408110001537.png" srcset="/img/loading.gif" lazyload alt="image-20230408110001537"> </p>
+<p><img src="/2023/04/05/Log/ELK/elk03/image-20230408110051391.png" srcset="/img/loading.gif" lazyload alt="image-20230408110051391"> </p>
+<p><img src="/2023/04/05/Log/ELK/elk03/image-20230408110129323.png" srcset="/img/loading.gif" lazyload alt="image-20230408110129323"> </p>
+<p><img src="/2023/04/05/Log/ELK/elk03/image-20230408110240493.png" srcset="/img/loading.gif" lazyload alt="image-20230408110240493"> </p>
+<h2 id="1-3-反向代理Kibana"><a href="#1-3-反向代理Kibana" class="headerlink" title="1.3 反向代理Kibana"></a>1.3 反向代理Kibana</h2><h3 id="1-3-1-Haproxy反向代理"><a href="#1-3-1-Haproxy反向代理" class="headerlink" title="1.3.1 Haproxy反向代理"></a>1.3.1 Haproxy反向代理</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@ha1:~<span class="token comment"># vim /etc/haproxy/haproxy.cfg</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+listen 5601_port
+  <span class="token builtin class-name">bind</span> <span class="token number">0.0</span>.0.0:80
+  mode tcp
+  log global
+  server kibana1 <span class="token number">192.168</span>.1.32:5601 check inter <span class="token number">3000</span> fall <span class="token number">2</span> rise <span class="token number">5</span></code></pre></div></figure>
+
+<h3 id="1-3-2-Nginx反向代理"><a href="#1-3-2-Nginx反向代理" class="headerlink" title="1.3.2 Nginx反向代理"></a>1.3.2 Nginx反向代理</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装配置nginx</span>
+root@es1:~<span class="token comment"># wget http://nginx.org/download/nginx-1.22.1.tar.gz</span>
+root@es1:~<span class="token comment"># mkdir /apps</span>
+root@es1:~<span class="token comment"># mv nginx-1.22.1.tar.gz /apps/</span>
+root@es1:~<span class="token comment"># cd /apps/</span>
+root@es1:/apps<span class="token comment"># tar -xvf nginx-1.22.1.tar.gz</span>
+root@es1:/apps<span class="token comment"># cd nginx-1.22.1/</span>
+root@es1:/apps/nginx-1.22.1<span class="token comment"># ./configure --with-http_ssl_module --prefix=/apps/nginx</span>
+root@es1:/apps/nginx-1.22.1<span class="token comment"># make &amp;&amp; make install</span>
+root@es1:/apps/nginx-1.22.1<span class="token comment"># cd /apps/nginx/conf/</span>
+root@es1:/apps/nginx/conf<span class="token comment"># mkdir conf.d</span>
+root@es1:/apps/nginx/conf<span class="token comment"># vim nginx.conf</span>
+include /apps/nginx/conf/conf.d/*.conf<span class="token punctuation">;</span>
+
+<span class="token comment">#实现登录认证</span>
+root@es1:/apps/nginx/conf<span class="token comment"># apt install apache2-utils</span>
+<span class="token comment">#第一次加上-c参数添加用户</span>
+root@es1:/apps/nginx/conf<span class="token comment"># htpasswd -bc /apps/nginx/.kibana.users zhangsan 123456</span>
+Adding password <span class="token keyword">for</span> user zhangsan
+root@es1:/apps/nginx/conf<span class="token comment"># htpasswd -b /apps/nginx/.kibana.users lisi 123456</span>
+Adding password <span class="token keyword">for</span> user lisi
+
+root@es1:/apps/nginx/conf<span class="token comment"># vim conf.d/kibana.conf</span>
+upstream kibana_server <span class="token punctuation">&#123;</span>
+  server <span class="token number">127.0</span>.0.1:5601 <span class="token assign-left variable">weight</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">max_fails</span><span class="token operator">=</span><span class="token number">3</span> <span class="token assign-left variable">fail_timeout</span><span class="token operator">=</span><span class="token number">60</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+server <span class="token punctuation">&#123;</span>
+  listen <span class="token number">80</span><span class="token punctuation">;</span>
+  server_name kibana.chsblogs.com<span class="token punctuation">;</span>
+  auth_basic <span class="token string">"Restricted Access"</span><span class="token punctuation">;</span>
+  auth_basic_user_file /apps/nginx/.kibana.users<span class="token punctuation">;</span>
+
+  location / <span class="token punctuation">&#123;</span>
+    proxy_pass http://kibana_server<span class="token punctuation">;</span>
+    proxy_http_version <span class="token number">1.1</span><span class="token punctuation">;</span>
+    proxy_set_header Upgrade <span class="token variable">$http_upgrade</span><span class="token punctuation">;</span>
+    proxy_set_header Connection <span class="token string">'upgrade'</span><span class="token punctuation">;</span>
+    proxy_set_header Host <span class="token variable">$host</span><span class="token punctuation">;</span>
+    proxy_cache_bypass <span class="token variable">$http_upgrade</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#2.配置kibana本机访问</span>
+root@es1:~<span class="token comment"># vim /etc/kibana/kibana.yml</span>
+server.host: <span class="token string">"127.0.0.1"</span>
+root@es1:~<span class="token comment"># systemctl restart kibana</span>
+
+<span class="token comment">#3.访问测试</span>
+http://kibana.chsblogs.com/</code></pre></div></figure>
+
+<p><img src="/2023/04/05/Log/ELK/elk03/image-20230408114131494.png" srcset="/img/loading.gif" lazyload alt="image-20230408114131494"> </p>
+
                 
               </div>
             

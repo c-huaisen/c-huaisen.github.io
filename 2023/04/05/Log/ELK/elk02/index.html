@@ -16,18 +16,22 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.Logstash部署及使用">
+    <meta name="description" content="1.Logstash部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(2).ELK-Logstash部署及使用">
 <meta property="og:url" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.Logstash部署及使用">
+<meta property="og:description" content="1.Logstash部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/image-20230408084214092.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/image-20230408095741094.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/image-20230408104431723.png">
 <meta property="article:published_time" content="2023-04-05T02:47:14.000Z">
-<meta property="article:modified_time" content="2023-04-05T02:49:53.450Z">
+<meta property="article:modified_time" content="2023-04-08T02:46:06.326Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/image-20230408084214092.png">
   
   
   
@@ -232,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          15 字
+          6.8k 字
         
       </span>
     
@@ -243,7 +247,7 @@
         
         
         
-          1 分钟
+          5 分钟
         
       </span>
     
@@ -299,7 +303,206 @@
             
               <div class="markdown-body">
                 
-                <h1 id="1-Logstash部署及使用"><a href="#1-Logstash部署及使用" class="headerlink" title="1.Logstash部署及使用"></a>1.Logstash部署及使用</h1>
+                <h1 id="1-Logstash部署及使用"><a href="#1-Logstash部署及使用" class="headerlink" title="1.Logstash部署及使用"></a>1.Logstash部署及使用</h1><p><strong>主机清单：</strong></p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP地址</th>
+<th>操作系统</th>
+<th>服务</th>
+<th>VIP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ha1</td>
+<td>192.168.1.30</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66</td>
+</tr>
+<tr>
+<td>ha2</td>
+<td>192.168.1.31</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66</td>
+</tr>
+<tr>
+<td>es1</td>
+<td>192.168.1.32</td>
+<td>Ubuntu20.04</td>
+<td>Elasticsearch 7.12.1</td>
+<td></td>
+</tr>
+<tr>
+<td>es2</td>
+<td>192.168.1.33</td>
+<td>Ubuntu20.04</td>
+<td>Elasticsearch 7.12.1</td>
+<td></td>
+</tr>
+<tr>
+<td>es3</td>
+<td>192.168.1.34</td>
+<td>Ubuntu20.04</td>
+<td>Elasticsearch 7.12.1</td>
+<td></td>
+</tr>
+<tr>
+<td>web1</td>
+<td>192.168.1.41</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72 &amp; Nginx 1.22.1 &amp; Logstash</td>
+<td></td>
+</tr>
+<tr>
+<td>web2</td>
+<td>192.168.1.42</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72 &amp; Nginx 1.22.1 &amp; Logstash</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>部署拓扑图：</strong></p>
+<p><img src="/2023/04/05/Log/ELK/elk02/image-20230408084214092.png" srcset="/img/loading.gif" lazyload alt="image-20230408084214092"> </p>
+<h2 id="1-1-环境初始化"><a href="#1-1-环境初始化" class="headerlink" title="1.1 环境初始化"></a>1.1 环境初始化</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.主机名配置</span>
+hostnamectl set-hostname web1.chsblogs.com
+hostnamectl set-hostname web2.chsblogs.com</code></pre></div></figure>
+
+<h2 id="1-2-安装Logstash"><a href="#1-2-安装Logstash" class="headerlink" title="1.2 安装Logstash"></a>1.2 安装Logstash</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装JDK</span>
+root@web1:~<span class="token comment"># apt update &amp;&amp; apt install openjdk-8-jdk</span>
+root@web2:~<span class="token comment"># apt update &amp;&amp; apt install openjdk-8-jdk</span>
+
+
+<span class="token comment">#2.安装Logstash</span>
+root@web1:~<span class="token comment"># ll logstash-7.12.1-amd64.deb </span>
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">370433202</span> Apr  <span class="token number">8</span> 09:27 logstash-7.12.1-amd64.deb
+root@web1:~<span class="token comment"># dpkg -i logstash-7.12.1-amd64.deb</span>
+
+root@web2:~<span class="token comment"># ll logstash-7.12.1-amd64.deb </span>
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">370433202</span> Apr  <span class="token number">8</span> 09:27 logstash-7.12.1-amd64.deb
+root@web2:~<span class="token comment"># dpkg -i logstash-7.12.1-amd64.deb</span>
+
+<span class="token comment">#3.修改配置文件以root启动</span>
+root@web1:~<span class="token comment"># vim /etc/systemd/system/logstash.service</span>
+<span class="token assign-left variable">User</span><span class="token operator">=</span>root
+<span class="token assign-left variable">Group</span><span class="token operator">=</span>root
+root@web1:~<span class="token comment"># systemctl daemon-reload</span></code></pre></div></figure>
+
+
+
+<h2 id="1-3-测试Logstash"><a href="#1-3-测试Logstash" class="headerlink" title="1.3 测试Logstash"></a>1.3 测试Logstash</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.测试Logstash</span>
+<span class="token comment">#官方文档：stdin和stdout命令</span>
+<span class="token comment">#https://www.elastic.co/guide/en/logstash/7.12/plugins-inputs-stdin.html</span>
+<span class="token comment">#https://www.elastic.co/guide/en/logstash/7.12/plugins-outputs-stdout.html</span>
+root@web1:~<span class="token comment"># /usr/share/logstash/bin/logstash -e 'input &#123; stdin &#123;&#125; &#125; output &#123; stdout &#123;&#125; &#125;'</span>
+Using bundled JDK: /usr/share/logstash/jdk
+OpenJDK <span class="token number">64</span>-Bit Server VM warning: Option UseConcMarkSweepGC was deprecated <span class="token keyword">in</span> version <span class="token number">9.0</span> and will likely be removed <span class="token keyword">in</span> a future release.
+WARNING: Could not <span class="token function">find</span> logstash.yml <span class="token function">which</span> is typically located <span class="token keyword">in</span> <span class="token variable">$LS_HOME</span>/config or /etc/logstash. You can specify the path using --path.settings. Continuing using the defaults
+Could not <span class="token function">find</span> log4j2 configuration at path /usr/share/logstash/config/log4j2.properties. Using default config <span class="token function">which</span> logs errors to the console
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:45.638 <span class="token punctuation">[</span>main<span class="token punctuation">]</span> runner - Starting Logstash <span class="token punctuation">&#123;</span><span class="token string">"logstash.version"</span><span class="token operator">=</span><span class="token operator">></span><span class="token string">"7.12.1"</span>, <span class="token string">"jruby.version"</span><span class="token operator">=</span><span class="token operator">></span><span class="token string">"jruby 9.2.13.0 (2.5.7) 2020-08-03 9a89c94bcc OpenJDK 64-Bit Server VM 11.0.10+9 on 11.0.10+9 +indy +jit [linux-x86_64]"</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:45.783 <span class="token punctuation">[</span>main<span class="token punctuation">]</span> writabledirectory - Creating directory <span class="token punctuation">&#123;</span>:setting<span class="token operator">=</span><span class="token operator">></span><span class="token string">"path.queue"</span>, :path<span class="token operator">=</span><span class="token operator">></span><span class="token string">"/usr/share/logstash/data/queue"</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:45.799 <span class="token punctuation">[</span>main<span class="token punctuation">]</span> writabledirectory - Creating directory <span class="token punctuation">&#123;</span>:setting<span class="token operator">=</span><span class="token operator">></span><span class="token string">"path.dead_letter_queue"</span>, :path<span class="token operator">=</span><span class="token operator">></span><span class="token string">"/usr/share/logstash/data/dead_letter_queue"</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">[</span>WARN <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:46.397 <span class="token punctuation">[</span>LogStash::Runner<span class="token punctuation">]</span> multilocal - Ignoring the <span class="token string">'pipelines.yml'</span> <span class="token function">file</span> because modules or <span class="token builtin class-name">command</span> line options are specified
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:46.440 <span class="token punctuation">[</span>LogStash::Runner<span class="token punctuation">]</span> agent - No persistent UUID <span class="token function">file</span> found. Generating new UUID <span class="token punctuation">&#123;</span>:uuid<span class="token operator">=</span><span class="token operator">></span><span class="token string">"838cf2e0-923c-40e9-af48-60c683833d74"</span>, :path<span class="token operator">=</span><span class="token operator">></span><span class="token string">"/usr/share/logstash/data/uuid"</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:47.960 <span class="token punctuation">[</span>Api Webserver<span class="token punctuation">]</span> agent - Successfully started Logstash API endpoint <span class="token punctuation">&#123;</span>:port<span class="token operator">=</span><span class="token operator">></span><span class="token number">9600</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:49.274 <span class="token punctuation">[</span>Converge PipelineAction::Create<span class="token operator">&lt;</span>main<span class="token operator">></span><span class="token punctuation">]</span> Reflections - Reflections took <span class="token number">72</span> ms to scan <span class="token number">1</span> urls, producing <span class="token number">23</span> keys and <span class="token number">47</span> values 
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:50.230 <span class="token punctuation">[</span><span class="token punctuation">[</span>main<span class="token punctuation">]</span>-pipeline-manager<span class="token punctuation">]</span> javapipeline - Starting pipeline <span class="token punctuation">&#123;</span>:pipeline_id<span class="token operator">=</span><span class="token operator">></span><span class="token string">"main"</span>, <span class="token string">"pipeline.workers"</span><span class="token operator">=</span><span class="token operator">></span><span class="token number">2</span>, <span class="token string">"pipeline.batch.size"</span><span class="token operator">=</span><span class="token operator">></span><span class="token number">125</span>, <span class="token string">"pipeline.batch.delay"</span><span class="token operator">=</span><span class="token operator">></span><span class="token number">50</span>, <span class="token string">"pipeline.max_inflight"</span><span class="token operator">=</span><span class="token operator">></span><span class="token number">250</span>, <span class="token string">"pipeline.sources"</span><span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">[</span><span class="token string">"config string"</span><span class="token punctuation">]</span>, :thread<span class="token operator">=</span><span class="token operator">></span><span class="token string">"#&lt;Thread:0x6f6798e1 run>"</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:51.766 <span class="token punctuation">[</span><span class="token punctuation">[</span>main<span class="token punctuation">]</span>-pipeline-manager<span class="token punctuation">]</span> javapipeline - Pipeline Java execution initialization <span class="token function">time</span> <span class="token punctuation">&#123;</span><span class="token string">"seconds"</span><span class="token operator">=</span><span class="token operator">></span><span class="token number">1.53</span><span class="token punctuation">&#125;</span>
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.jrubystdinchannel.StdinChannelLibrary<span class="token variable">$Reader</span> <span class="token punctuation">(</span>file:/usr/share/logstash/vendor/bundle/jruby/2.5.0/gems/jruby-stdin-channel-0.2.0-java/lib/jruby_stdin_channel/jruby_stdin_channel.jar<span class="token punctuation">)</span> to field java.io.FilterInputStream.in
+WARNING: Please consider reporting this to the maintainers of com.jrubystdinchannel.StdinChannelLibrary<span class="token variable">$Reader</span>
+WARNING: Use --illegal-access<span class="token operator">=</span>warn to <span class="token builtin class-name">enable</span> warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied <span class="token keyword">in</span> a future release
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:51.865 <span class="token punctuation">[</span><span class="token punctuation">[</span>main<span class="token punctuation">]</span>-pipeline-manager<span class="token punctuation">]</span> javapipeline - Pipeline started <span class="token punctuation">&#123;</span><span class="token string">"pipeline.id"</span><span class="token operator">=</span><span class="token operator">></span><span class="token string">"main"</span><span class="token punctuation">&#125;</span>
+The stdin plugin is now waiting <span class="token keyword">for</span> input:
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:41:52.068 <span class="token punctuation">[</span>Agent thread<span class="token punctuation">]</span> agent - Pipelines running <span class="token punctuation">&#123;</span>:count<span class="token operator">=</span><span class="token operator">></span><span class="token number">1</span>, :running_pipelines<span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">[</span>:main<span class="token punctuation">]</span>, :non_running_pipelines<span class="token operator">=</span><span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span>
+Hello World
+<span class="token punctuation">&#123;</span>
+    <span class="token string">"@timestamp"</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token number">2023</span>-04-08T01:42:22.612Z,
+       <span class="token string">"message"</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"Hello World"</span>,
+      <span class="token string">"@version"</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"1"</span>,
+          <span class="token string">"host"</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"web1.chsblogs.com"</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#2.编写Logstash配置文件测试</span>
+root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/test.conf</span>
+input <span class="token punctuation">&#123;</span> 
+  stdin <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span> 
+  stdout <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> 
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#-t检查配置</span>
+root@web1:~<span class="token comment"># /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/test.conf -t</span>
+Using bundled JDK: /usr/share/logstash/jdk
+OpenJDK <span class="token number">64</span>-Bit Server VM warning: Option UseConcMarkSweepGC was deprecated <span class="token keyword">in</span> version <span class="token number">9.0</span> and will likely be removed <span class="token keyword">in</span> a future release.
+WARNING: Could not <span class="token function">find</span> logstash.yml <span class="token function">which</span> is typically located <span class="token keyword">in</span> <span class="token variable">$LS_HOME</span>/config or /etc/logstash. You can specify the path using --path.settings. Continuing using the defaults
+Could not <span class="token function">find</span> log4j2 configuration at path /usr/share/logstash/config/log4j2.properties. Using default config <span class="token function">which</span> logs errors to the console
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:47:40.320 <span class="token punctuation">[</span>main<span class="token punctuation">]</span> runner - Starting Logstash <span class="token punctuation">&#123;</span><span class="token string">"logstash.version"</span><span class="token operator">=</span><span class="token operator">></span><span class="token string">"7.12.1"</span>, <span class="token string">"jruby.version"</span><span class="token operator">=</span><span class="token operator">></span><span class="token string">"jruby 9.2.13.0 (2.5.7) 2020-08-03 9a89c94bcc OpenJDK 64-Bit Server VM 11.0.10+9 on 11.0.10+9 +indy +jit [linux-x86_64]"</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">[</span>WARN <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:47:41.193 <span class="token punctuation">[</span>LogStash::Runner<span class="token punctuation">]</span> multilocal - Ignoring the <span class="token string">'pipelines.yml'</span> <span class="token function">file</span> because modules or <span class="token builtin class-name">command</span> line options are specified
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:47:42.645 <span class="token punctuation">[</span>LogStash::Runner<span class="token punctuation">]</span> Reflections - Reflections took <span class="token number">94</span> ms to scan <span class="token number">1</span> urls, producing <span class="token number">23</span> keys and <span class="token number">47</span> values 
+Configuration OK
+<span class="token punctuation">[</span>INFO <span class="token punctuation">]</span> <span class="token number">2023</span>-04-08 09:47:43.333 <span class="token punctuation">[</span>LogStash::Runner<span class="token punctuation">]</span> runner - Using config.test_and_exit mode. Config Validation Result: OK. Exiting Logstash
+
+<span class="token comment">#启动Logstash测试</span>
+root@web1:~<span class="token comment"># /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/test.conf</span>
+
+<span class="token comment">#3.日志输出至elasticsearch</span>
+<span class="token comment">#官方文档：https://www.elastic.co/guide/en/logstash/7.12/plugins-outputs-elasticsearch.html</span>
+root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/test.conf</span>
+input <span class="token punctuation">&#123;</span>
+  stdin <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  elasticsearch <span class="token punctuation">&#123;</span>
+    hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+    index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-test-%&#123;+YYYY.MM.dd&#125;"</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@web1:~<span class="token comment"># /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/test.conf</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+www.chsblogs.com
+Hello World
+
+<span class="token comment">#查看数据</span></code></pre></div></figure>
+
+<p><img src="/2023/04/05/Log/ELK/elk02/image-20230408095741094.png" srcset="/img/loading.gif" lazyload alt="image-20230408095741094"> </p>
+<h2 id="1-4-Logstash收集指定文件"><a href="#1-4-Logstash收集指定文件" class="headerlink" title="1.4 Logstash收集指定文件"></a>1.4 Logstash收集指定文件</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.Logstash收集/var/log/vmware-vmsvc-root日志</span>
+<span class="token comment">#官方文档：https://www.elastic.co/guide/en/logstash/7.12/plugins-inputs-file.html</span>
+root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/test.conf</span>
+input <span class="token punctuation">&#123;</span>
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/var/log/vmware-vmsvc-root*.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"vmware-vmsvc-root"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span> <span class="token comment">#从开始收集日志</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span> <span class="token comment">#每隔3秒收集一次</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  elasticsearch <span class="token punctuation">&#123;</span>
+    hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+    index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-vmware-vmsvc-root-%&#123;+YYYY.MM.dd&#125;"</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#2.重启logstash</span>
+root@web1:~<span class="token comment"># systemctl restart logstash</span>
+
+<span class="token comment">#3.生成测试数据</span>
+root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test1" >> /var/log/vmware-vmsvc-root.log </span>
+root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var/log/vmware-vmsvc-root.log</span>
+
+<span class="token comment">#4.查看数据</span></code></pre></div></figure>
+
+<p><img src="/2023/04/05/Log/ELK/elk02/image-20230408104431723.png" srcset="/img/loading.gif" lazyload alt="image-20230408104431723"> </p>
+
                 
               </div>
             
