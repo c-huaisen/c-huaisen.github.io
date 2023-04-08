@@ -16,18 +16,25 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.基于Logstash收集日志1.1 Logstash收集系统日志1.2 Logstash收集Tomcat日志1.3 Logstash收集Nginx日志">
+    <meta name="description" content="1.基于Logstash收集日志主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(4).ELK-基于Logstash收集日志">
 <meta property="og:url" content="http://chsblogs.com/2023/04/05/Log/ELK/elk04/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.基于Logstash收集日志1.1 Logstash收集系统日志1.2 Logstash收集Tomcat日志1.3 Logstash收集Nginx日志">
+<meta property="og:description" content="1.基于Logstash收集日志主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk04/image-20230408175516557.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk04/image-20230408154914886.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk04/image-20230408162004952.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk04/image-20230408165223819.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk04/image-20230408174615436.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk04/image-20230408175009831.png">
 <meta property="article:published_time" content="2023-04-05T02:47:34.000Z">
-<meta property="article:modified_time" content="2023-04-07T01:08:40.849Z">
+<meta property="article:modified_time" content="2023-04-08T10:05:01.459Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk04/image-20230408175516557.png">
   
   
   
@@ -232,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          74 字
+          4.8k 字
         
       </span>
     
@@ -243,7 +250,7 @@
         
         
         
-          1 分钟
+          4 分钟
         
       </span>
     
@@ -299,7 +306,253 @@
             
               <div class="markdown-body">
                 
-                <h1 id="1-基于Logstash收集日志"><a href="#1-基于Logstash收集日志" class="headerlink" title="1.基于Logstash收集日志"></a>1.基于Logstash收集日志</h1><h2 id="1-1-Logstash收集系统日志"><a href="#1-1-Logstash收集系统日志" class="headerlink" title="1.1 Logstash收集系统日志"></a>1.1 Logstash收集系统日志</h2><h2 id="1-2-Logstash收集Tomcat日志"><a href="#1-2-Logstash收集Tomcat日志" class="headerlink" title="1.2 Logstash收集Tomcat日志"></a>1.2 Logstash收集Tomcat日志</h2><h2 id="1-3-Logstash收集Nginx日志"><a href="#1-3-Logstash收集Nginx日志" class="headerlink" title="1.3 Logstash收集Nginx日志"></a>1.3 Logstash收集Nginx日志</h2>
+                <h1 id="1-基于Logstash收集日志"><a href="#1-基于Logstash收集日志" class="headerlink" title="1.基于Logstash收集日志"></a>1.基于Logstash收集日志</h1><p><strong>主机清单：</strong></p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>IP地址</th>
+<th>操作系统</th>
+<th>服务</th>
+<th>VIP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ha1</td>
+<td>192.168.1.30</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66</td>
+</tr>
+<tr>
+<td>ha2</td>
+<td>192.168.1.31</td>
+<td>Ubuntu20.04</td>
+<td>Haproxy+Keepalived</td>
+<td>192.168.1.66</td>
+</tr>
+<tr>
+<td>es1</td>
+<td>192.168.1.32</td>
+<td>Ubuntu20.04</td>
+<td>Elasticsearch 7.12.1 &amp; Kibana 7.12.1 &amp; Nginx 1.22.1</td>
+<td></td>
+</tr>
+<tr>
+<td>es2</td>
+<td>192.168.1.33</td>
+<td>Ubuntu20.04</td>
+<td>Elasticsearch 7.12.1</td>
+<td></td>
+</tr>
+<tr>
+<td>es3</td>
+<td>192.168.1.34</td>
+<td>Ubuntu20.04</td>
+<td>Elasticsearch 7.12.1</td>
+<td></td>
+</tr>
+<tr>
+<td>web1</td>
+<td>192.168.1.41</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72 &amp; Nginx 1.22.1 &amp; Logstash</td>
+<td></td>
+</tr>
+<tr>
+<td>web2</td>
+<td>192.168.1.42</td>
+<td>Ubuntu20.04</td>
+<td>Tomcat 9.0.72 &amp; Nginx 1.22.1 &amp; Logstash</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>部署拓扑图：</strong></p>
+<p><img src="/2023/04/05/Log/ELK/elk04/image-20230408175516557.png" srcset="/img/loading.gif" lazyload alt="image-20230408175516557"> </p>
+<h2 id="1-1-Logstash收集系统日志"><a href="#1-1-Logstash收集系统日志" class="headerlink" title="1.1 Logstash收集系统日志"></a>1.1 Logstash收集系统日志</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.两台web主机编写Logstash配置</span>
+root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/system.conf</span>
+input <span class="token punctuation">&#123;</span>
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/var/log/vmware-vmsvc-root*.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"vmware-vmsvc-root"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/var/log/syslog"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"syslog"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"vmware-vmsvc-root"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-vmware-vmsvc-root-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"syslog"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-syslog-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@web1:~<span class="token comment"># systemctl restart logstash</span>
+
+<span class="token comment">#2.kibana创建索引查看</span></code></pre></div></figure>
+
+<p><img src="/2023/04/05/Log/ELK/elk04/image-20230408154914886.png" srcset="/img/loading.gif" lazyload alt="image-20230408154914886"> </p>
+<h2 id="1-2-Logstash收集Tomcat日志"><a href="#1-2-Logstash收集Tomcat日志" class="headerlink" title="1.2 Logstash收集Tomcat日志"></a>1.2 Logstash收集Tomcat日志</h2><h3 id="1-2-1-收集Tomcat访问日志"><a href="#1-2-1-收集Tomcat访问日志" class="headerlink" title="1.2.1 收集Tomcat访问日志"></a>1.2.1 收集Tomcat访问日志</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.两台web主机安装Tomcat</span>
+<span class="token function">mkdir</span> /apps
+<span class="token builtin class-name">cd</span> /apps/
+<span class="token function">tar</span> <span class="token parameter variable">-xvf</span> apache-tomcat-9.0.72.tar.gz
+<span class="token function">ln</span> <span class="token parameter variable">-sv</span> apache-tomcat-9.0.72 tomcat
+<span class="token builtin class-name">echo</span> <span class="token string">'PATH=/apps/tomcat/bin:$PATH'</span> <span class="token operator">></span> /etc/profile.d/tomcat.sh
+<span class="token builtin class-name">.</span> /etc/profile.d/tomcat.sh
+
+root@web1:/apps<span class="token comment"># vim tomcat/conf/server.xml</span>
+        <span class="token operator">&lt;</span>Valve <span class="token assign-left variable">className</span><span class="token operator">=</span><span class="token string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="token assign-left variable">directory</span><span class="token operator">=</span><span class="token string">"logs"</span>
+               <span class="token assign-left variable">prefix</span><span class="token operator">=</span><span class="token string">"tomcat_access_log"</span> <span class="token assign-left variable">suffix</span><span class="token operator">=</span><span class="token string">".log"</span>
+               <span class="token assign-left variable">pattern</span><span class="token operator">=</span><span class="token string">"&#123;&amp;quot;clientip&amp;quot;:&amp;quot;%h&amp;quot;,&amp;quot;ClientUser&amp;quot;:&amp;quot;%l&amp;quot;,&amp;quot;authenticated&amp;quot;:&amp;quot;%u&amp;quot;,&amp;quot;AccessTime&amp;quot;:&amp;quot;%t&amp;quot;,&amp;quot;method&amp;quot;:&amp;quot;%r&amp;quot;,&amp;quot;status&amp;quot;:&amp;quot;%s&amp;quot;,&amp;quot;SendBytes&amp;quot;:&amp;quot;%b&amp;quot;,&amp;quot;Query?string&amp;quot;:&amp;quot; %q&amp;quot;,&amp;quot;partner&amp;quot;:&amp;quot;%&#123;Referer&#125;i&amp;quot;,&amp;quot;AgentVersion&amp;quot;:&amp;quot;%&#123;User-Agent&#125;i&amp;quot;&#125;"</span>/<span class="token operator">></span>
+
+root@web1:/apps<span class="token comment"># catalina.sh start</span>
+
+<span class="token comment">#2.两台web主机编写Logstash配置</span>
+root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/tomcat.conf</span>
+input <span class="token punctuation">&#123;</span>
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/apps/tomcat/logs/tomcat_access_log.*.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"tomcat-access-log"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"tomcat-access-log"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-tomcat-access-log-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@web1:~<span class="token comment"># systemctl restart logstash</span>
+
+<span class="token comment">#3.kibana创建索引查看</span></code></pre></div></figure>
+
+<p><img src="/2023/04/05/Log/ELK/elk04/image-20230408162004952.png" srcset="/img/loading.gif" lazyload alt="image-20230408162004952">  </p>
+<h3 id="1-2-2-收集Java日志"><a href="#1-2-2-收集Java日志" class="headerlink" title="1.2.2 收集Java日志"></a>1.2.2 收集Java日志</h3><p>使用codec的multiline插件实现多行匹配，这是一个可以将多行进行合并的插件，而且可以使用what指定将匹配到的行与前面的行合并还是和后面的行合并。</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/logstash/current/plugins-codecs-multiline.html">https://www.elastic.co/guide/en/logstash/current/plugins-codecs-multiline.html</a></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.两台web主机编写Logstash配置</span>
+root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/java_log.conf</span>
+input <span class="token punctuation">&#123;</span>
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/var/log/logstash/logstash-plain.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"java-log"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+    codec <span class="token operator">=</span><span class="token operator">></span> multiline <span class="token punctuation">&#123;</span>
+      pattern <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"^\["</span>   <span class="token comment">#当遇到[开头的行时候将多行进行合并</span>
+      negate <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"true"</span>   <span class="token comment">#true为匹配成功进行操作，false为不成功进行操作。</span>
+      what <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"previous"</span> <span class="token comment">#与以前的行合并，如果是下面的行合并就是next。</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"java-log"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-java-log-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@web1:~<span class="token comment"># systemctl restart logstash</span>
+
+<span class="token comment">#3.kibana创建索引查看</span></code></pre></div></figure>
+
+<p><img src="/2023/04/05/Log/ELK/elk04/image-20230408165223819.png" srcset="/img/loading.gif" lazyload alt="image-20230408165223819"> </p>
+<h2 id="1-3-Logstash收集Nginx日志"><a href="#1-3-Logstash收集Nginx日志" class="headerlink" title="1.3 Logstash收集Nginx日志"></a>1.3 Logstash收集Nginx日志</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.两台web主机安装Nginx</span>
+<span class="token function">wget</span> http://nginx.org/download/nginx-1.22.1.tar.gz
+<span class="token function">tar</span> <span class="token parameter variable">-xvf</span> nginx-1.22.1.tar.gz
+<span class="token builtin class-name">cd</span> nginx-1.22.1/
+./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/apps/nginx
+<span class="token function">make</span> <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token function">install</span>
+
+<span class="token comment">#配置nginx为json日志</span>
+root@web1:/apps<span class="token comment"># vim /apps/nginx/conf/nginx.conf</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+http <span class="token punctuation">&#123;</span>
+    include       mime.types<span class="token punctuation">;</span>
+    default_type  application/octet-stream<span class="token punctuation">;</span>
+    log_format access_json <span class="token string">'&#123;"@timestamp":"$time_iso8601",'</span>
+    <span class="token string">'"host":"$server_addr",'</span>
+    <span class="token string">'"clientip":"$remote_addr",'</span>
+    <span class="token string">'"size":$body_bytes_sent,'</span>
+    <span class="token string">'"responsetime":$request_time,'</span>
+    <span class="token string">'"upstreamtime":"$upstream_response_time",'</span>
+    <span class="token string">'"upstreamhost":"$upstream_addr",'</span>
+    <span class="token string">'"http_host":"$host",'</span>
+    <span class="token string">'"url":"$uri",'</span>
+    <span class="token string">'"domain":"$host",'</span>
+    <span class="token string">'"xff":"$http_x_forwarded_for",'</span>
+    <span class="token string">'"referer":"$http_referer",'</span>
+    <span class="token string">'"status":"$status"&#125;'</span><span class="token punctuation">;</span>
+    access_log  logs/access.log  access_json<span class="token punctuation">;</span>
+    access_log  logs/error.log  access_json<span class="token punctuation">;</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+
+<span class="token comment">#2.两台web主机编写Logstash配置</span>
+root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/nginx.conf</span>
+input <span class="token punctuation">&#123;</span>
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/apps/nginx/logs/access.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"nginx-access-log"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+    codec <span class="token operator">=</span><span class="token operator">></span> json
+  <span class="token punctuation">&#125;</span>
+  
+  <span class="token function">file</span> <span class="token punctuation">&#123;</span>
+    path <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"/apps/nginx/logs/error.log"</span>
+    <span class="token builtin class-name">type</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"nginx-error-log"</span>
+    start_position <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"beginning"</span>
+    stat_interval <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"3"</span>
+    codec <span class="token operator">=</span><span class="token operator">></span> json <span class="token comment">#解析json日志</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-access-log"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-access-log-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  
+  <span class="token keyword">if</span> <span class="token punctuation">[</span>type<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"nginx-error-log"</span> <span class="token punctuation">&#123;</span>
+    elasticsearch <span class="token punctuation">&#123;</span>
+      hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.32:9200"</span><span class="token punctuation">]</span>
+      index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"chsblogs-nginx-error-log-%&#123;+YYYY.MM.dd&#125;"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@web1:~<span class="token comment"># systemctl restart logstash</span>
+
+<span class="token comment">#3.kibana创建索引查看</span></code></pre></div></figure>
+
+<p><img src="/2023/04/05/Log/ELK/elk04/image-20230408174615436.png" srcset="/img/loading.gif" lazyload alt="image-20230408174615436"> </p>
+<p><img src="/2023/04/05/Log/ELK/elk04/image-20230408175009831.png" srcset="/img/loading.gif" lazyload alt="image-20230408175009831"> </p>
+
                 
               </div>
             
