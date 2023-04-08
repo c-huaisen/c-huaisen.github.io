@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Kibana部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.04">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408115532569.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408120402052.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408105601043.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110001537.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110051391.png">
@@ -31,11 +31,11 @@
 <meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110240493.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408114131494.png">
 <meta property="article:published_time" content="2023-04-05T02:47:23.000Z">
-<meta property="article:modified_time" content="2023-04-08T03:55:46.235Z">
+<meta property="article:modified_time" content="2023-04-08T04:04:03.728Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408115532569.png">
+<meta name="twitter:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408120402052.png">
   
   
   
@@ -369,7 +369,7 @@
 </tr>
 </tbody></table>
 <p><strong>部署拓扑图：</strong></p>
-<p><img src="/2023/04/05/Log/ELK/elk03/image-20230408115532569.png" srcset="/img/loading.gif" lazyload alt="image-20230408115532569">  </p>
+<p><img src="/2023/04/05/Log/ELK/elk03/image-20230408120402052.png" srcset="/img/loading.gif" lazyload alt="image-20230408120402052"> </p>
 <h2 id="1-1-安装Kibana"><a href="#1-1-安装Kibana" class="headerlink" title="1.1 安装Kibana"></a>1.1 安装Kibana</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.上传安装包</span>
 root@es1:~<span class="token comment"># ll kibana-7.12.1-amd64.deb </span>
 -rw-r--r-- <span class="token number">1</span> root root <span class="token number">285027022</span> Apr  <span class="token number">8</span> <span class="token number">10</span>:47 kibana-7.12.1-amd64.deb
