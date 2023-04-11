@@ -4,6 +4,60 @@
   
   
   <entry>
+    <title>(2).Ceph集群部署</title>
+    <link href="/2023/04/11/Storage/Ceph/ceph02/"/>
+    <url>/2023/04/11/Storage/Ceph/ceph02/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Ceph</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ceph</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(1).Ceph简介</title>
+    <link href="/2023/04/11/Storage/Ceph/ceph01/"/>
+    <url>/2023/04/11/Storage/Ceph/ceph01/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Ceph</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ceph</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>(7).ELK-FileBeat部署及使用</title>
     <link href="/2023/04/05/Log/ELK/elk07/"/>
     <url>/2023/04/05/Log/ELK/elk07/</url>
