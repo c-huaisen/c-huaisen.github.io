@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/04/15/Storage/Ceph/ceph02/image-20230415224113313.png">
 <meta property="article:published_time" content="2023-04-15T13:35:41.000Z">
-<meta property="article:modified_time" content="2023-04-16T03:44:57.486Z">
+<meta property="article:modified_time" content="2023-04-16T08:22:09.849Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Ceph">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          40k 字
+          41k 字
         
       </span>
     
@@ -245,7 +245,7 @@
         
         
         
-          28 分钟
+          29 分钟
         
       </span>
     
@@ -456,11 +456,11 @@ hostnamectl set-hostname ceph-client3.chsblogs.com
 <span class="token comment">#各服务器主机名解析</span>
 <span class="token function">vi</span> /etc/hosts
 <span class="token number">172.31</span>.1.10 ceph-deploy.chsblogs.com ceph-deploy
-<span class="token number">172.31</span>.1.11 ceph-mon1-mgr1.chsblogs.com ceph-mon1
-<span class="token number">172.31</span>.1.12 ceph-mon2-mgr2.chsblogs.com ceph-mon2
-<span class="token number">172.31</span>.1.13 ceph-mon3-mgr3.chsblogs.com ceph-mon3
-<span class="token number">172.31</span>.1.14 ceph-mon2-mgr2.chsblogs.com ceph-mgr1
-<span class="token number">172.31</span>.1.15 ceph-mon3-mgr3.chsblogs.com ceph-mgr2
+<span class="token number">172.31</span>.1.11 ceph-mon1.chsblogs.com ceph-mon1
+<span class="token number">172.31</span>.1.12 ceph-mon2.chsblogs.com ceph-mon2
+<span class="token number">172.31</span>.1.13 ceph-mon3.chsblogs.com ceph-mon3
+<span class="token number">172.31</span>.1.14 ceph-mgr1.chsblogs.com ceph-mgr1
+<span class="token number">172.31</span>.1.15 ceph-mgr2.chsblogs.com ceph-mgr2
 <span class="token number">172.31</span>.1.16 ceph-node1.chsblogs.com ceph-node1
 <span class="token number">172.31</span>.1.17 ceph-node2.chsblogs.com ceph-node2
 <span class="token number">172.31</span>.1.18 ceph-node3.chsblogs.com ceph-node3</code></pre></div></figure>
@@ -601,7 +601,9 @@ yum <span class="token function">install</span> epel-release <span class="token 
 
 
 
-<h3 id="1-4-6-配置sudo"><a href="#1-4-6-配置sudo" class="headerlink" title="1.4.6 配置sudo"></a>1.4.6 配置sudo</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#在ceph-deploy、ceph-mon-mg、OSD存储服务器创建ceph用户</span>
+<h3 id="1-4-6-配置sudo"><a href="#1-4-6-配置sudo" class="headerlink" title="1.4.6 配置sudo"></a>1.4.6 配置sudo</h3><p>推荐使用指定的普通用户部署和运行 ceph 集群，普通用户只要能以非交互方式执行 sudo命令执行一些特权命令即可，新版的 ceph-deploy 可以指定包含 root 的在内只要可以执行 sudo 命令的用户，不过仍然推荐使用普通用户，<strong>ceph 集群安装完成后会自动创建ceph 用户(ceph 集群默认会使用 ceph 用户运行各服务进程,如 ceph-osd 等)，因此推荐使用除了ceph 之外的比如 cephuser、cephadmin 这样的普通用户去部署和管理ceph集群。</strong></p>
+<p>cephadmin 仅用于通过 ceph-deploy 部署和管理 ceph 集群的时候使用，比如首次初始化集群和部署集群、添加节点、删除节点等，ceph 集群在 node 节点、mgr 等节点会使用ceph 用户启动服务进程。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#在ceph-deploy、ceph-mon-mg、OSD存储服务器创建ceph用户</span>
 <span class="token function">groupadd</span> ceph <span class="token parameter variable">-g</span> <span class="token number">2023</span> <span class="token operator">&amp;&amp;</span> <span class="token function">useradd</span> <span class="token parameter variable">-u</span> <span class="token number">2023</span> <span class="token parameter variable">-g</span> <span class="token number">2023</span> ceph <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">echo</span> <span class="token string">"123456"</span> <span class="token operator">|</span> <span class="token function">passwd</span> <span class="token parameter variable">--stdin</span> ceph
 
 <span class="token comment">#echo "ceph    ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers</span>
@@ -673,6 +675,9 @@ pkg                 <span class="token comment">#管理远端主机的安装包�
 calamari            <span class="token comment">#安装并配置一个 calamari web 节点，calamari 是一个 web 监控平台。</span></code></pre></div></figure>
 
 <h3 id="1-5-2-初始化Mon节点"><a href="#1-5-2-初始化Mon节点" class="headerlink" title="1.5.2 初始化Mon节点"></a>1.5.2 初始化Mon节点</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#业务网络：192.168.0.0/21，存储网络：172.31.0.0/21</span>
+<span class="token comment">#--cluster-network 指定ceph集群管理网络</span>
+<span class="token comment">#--public-network 指定ceph后端存储业务网络</span>
+<span class="token comment">#ceph-mon1 指定mon1节点的域名\主机名</span>
 <span class="token punctuation">[</span>ceph@ceph-deploy ~<span class="token punctuation">]</span>$ <span class="token function">mkdir</span> ceph-cluster
 <span class="token punctuation">[</span>ceph@ceph-deploy ~<span class="token punctuation">]</span>$ <span class="token builtin class-name">cd</span> ceph-cluster/
 <span class="token punctuation">[</span>ceph@ceph-deploy ceph-cluster<span class="token punctuation">]</span>$ ceph-deploy new --cluster-network <span class="token number">172.31</span>.0.0/21 --public-network <span class="token number">192.168</span>.0.0/21 ceph-mon1
@@ -983,7 +988,7 @@ total <span class="token number">12</span>
 <h3 id="1-5-6-部署mgr节点"><a href="#1-5-6-部署mgr节点" class="headerlink" title="1.5.6 部署mgr节点"></a>1.5.6 部署mgr节点</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.mgr节点安装ceph-mgr服务</span>
 <span class="token punctuation">[</span>root@ceph-mgr1 ~<span class="token punctuation">]</span><span class="token comment"># yum -y install ceph-mgr</span>
 
-<span class="token comment">#2.部署mgr节点，mgr节点需要读取ceph的配置文件。即/etc/ceph目录中的配置文件。</span>
+<span class="token comment">#2.部署mgr节点，mgr节点需要读取ceph的配置文件。即/etc/ceph目录中的配置文件。ceph的Luminious及以上版本有manager节点，早期的版本没有。</span>
 <span class="token punctuation">[</span>ceph@ceph-deploy ceph-cluster<span class="token punctuation">]</span>$ ceph-deploy mgr create ceph-mgr1
 <span class="token punctuation">[</span>ceph_deploy.conf<span class="token punctuation">]</span><span class="token punctuation">[</span>DEBUG <span class="token punctuation">]</span> found configuration <span class="token function">file</span> at: /home/ceph/.cephdeploy.conf
 <span class="token punctuation">[</span>ceph_deploy.cli<span class="token punctuation">]</span><span class="token punctuation">[</span>INFO  <span class="token punctuation">]</span> Invoked <span class="token punctuation">(</span><span class="token number">2.0</span>.1<span class="token punctuation">)</span>: /bin/ceph-deploy mgr create ceph-mgr1
@@ -1476,12 +1481,6 @@ ceph:x:2023:2023::/home/ceph:/bin/bash
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/16/Storage/Ceph/ceph03/" title="(3).基于ceph-deploy在Ubuntu20.04部署Ceph 16.2.x集群">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(3).基于ceph-deploy在Ubuntu20.04部署Ceph 16.2.x集群</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
@@ -1553,7 +1552,7 @@ ceph:x:2023:2023::/home/ceph:/bin/bash
         aria-expanded="true"
       >
         Ceph
-        <span class="list-group-count">(3)</span>
+        <span class="list-group-count">(2)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -1580,15 +1579,6 @@ ceph:x:2023:2023::/home/ceph:/bin/bash
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(2).基于ceph-deploy在CentOS7.9部署Ceph 13.2.x集群</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2023/04/16/Storage/Ceph/ceph03/" title="(3).基于ceph-deploy在Ubuntu20.04部署Ceph 16.2.x集群"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">(3).基于ceph-deploy在Ubuntu20.04部署Ceph 16.2.x集群</span>
         </a>
       
     
