@@ -16,26 +16,20 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.Ceph核心组件介绍1.1 Ceph简介Ceph是一个开源的分布式存储系统，同时支持对象存储、块存储、文件系统。 #官方网址 https:&#x2F;&#x2F;docs.ceph.com&#x2F;  #github地址 https:&#x2F;&#x2F;github.com&#x2F;ceph&#x2F;ceph    1.2 Ceph架构  1.2.1 Ceph集群组成部分 若干个Ceph OSD（对象存储守护程序），每台存储服务器的磁盘组成的存储空间。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="(1).Ceph核心组件介绍">
-<meta property="og:url" content="http://chsblogs.com/2023/04/15/Storage/Ceph/ceph01/index.html">
+    <meta property="og:type" content="article">
+<meta property="og:title" content="(5).CephFS部署和使用">
+<meta property="og:url" content="http://chsblogs.com/2023/04/17/Storage/Ceph/ceph05/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.Ceph核心组件介绍1.1 Ceph简介Ceph是一个开源的分布式存储系统，同时支持对象存储、块存储、文件系统。 #官方网址 https:&#x2F;&#x2F;docs.ceph.com&#x2F;  #github地址 https:&#x2F;&#x2F;github.com&#x2F;ceph&#x2F;ceph    1.2 Ceph架构  1.2.1 Ceph集群组成部分 若干个Ceph OSD（对象存储守护程序），每台存储服务器的磁盘组成的存储空间。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/04/15/Storage/Ceph/ceph01/image-20230415210051524.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/15/Storage/Ceph/ceph01/image-20230415210307289.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/15/Storage/Ceph/ceph01/image-20230415213129659.png">
-<meta property="article:published_time" content="2023-04-15T13:32:36.000Z">
-<meta property="article:modified_time" content="2023-04-15T13:48:51.817Z">
+<meta property="article:published_time" content="2023-04-17T01:46:35.000Z">
+<meta property="article:modified_time" content="2023-04-17T01:47:45.063Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Ceph">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/04/15/Storage/Ceph/ceph01/image-20230415210051524.png">
   
   
   
-  <title>(1).Ceph核心组件介绍 - 陈怀森の运维笔记</title>
+  <title>(5).CephFS部署和使用 - 陈怀森の运维笔记</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +207,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="(1).Ceph核心组件介绍"></span>
+            <span id="subtitle" data-typed-text="(5).CephFS部署和使用"></span>
           
         </div>
 
@@ -224,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-15 21:32" pubdate>
-          2023年4月15日 晚上
+        <time datetime="2023-04-17 09:46" pubdate>
+          2023年4月17日 上午
         </time>
       </span>
     
@@ -236,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          0 字
         
       </span>
     
@@ -247,7 +241,7 @@
         
         
         
-          2 分钟
+          1 分钟
         
       </span>
     
@@ -298,57 +292,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">(1).Ceph核心组件介绍</h1>
+            <h1 style="display: none">(5).CephFS部署和使用</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="1-Ceph核心组件介绍"><a href="#1-Ceph核心组件介绍" class="headerlink" title="1.Ceph核心组件介绍"></a>1.Ceph核心组件介绍</h1><h2 id="1-1-Ceph简介"><a href="#1-1-Ceph简介" class="headerlink" title="1.1 Ceph简介"></a>1.1 Ceph简介</h2><p>Ceph是一个开源的分布式存储系统，同时支持对象存储、块存储、文件系统。</p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方网址</span>
-https://docs.ceph.com/
-
-<span class="token comment">#github地址</span>
-https://github.com/ceph/ceph</code></pre></div></figure>
-
-<p><img src="/2023/04/15/Storage/Ceph/ceph01/image-20230415210051524.png" srcset="/img/loading.gif" lazyload alt="image-20230415210051524"> </p>
-<h2 id="1-2-Ceph架构"><a href="#1-2-Ceph架构" class="headerlink" title="1.2 Ceph架构"></a>1.2 Ceph架构</h2><p><img src="/2023/04/15/Storage/Ceph/ceph01/image-20230415210307289.png" srcset="/img/loading.gif" lazyload alt="image-20230415210307289"> </p>
-<h3 id="1-2-1-Ceph集群组成部分"><a href="#1-2-1-Ceph集群组成部分" class="headerlink" title="1.2.1 Ceph集群组成部分"></a>1.2.1 Ceph集群组成部分</h3><ul>
-<li><p>若干个Ceph OSD（对象存储守护程序），每台存储服务器的磁盘组成的存储空间。</p>
-</li>
-<li><p>至少需要一个Ceph Monitors，Ceph的监视器，维护OSD和PG的集群状态，可以是一三五七等奇数个。</p>
-</li>
-<li><p>至少需要一个Ceph Managers，负责跟踪运行时指标和Ceph集群的当前状态，包括存储利用率，当前性能指标和系统负载等。</p>
-</li>
-<li><p>运行Ceph文件系统客户端时还需要高可用的Ceph Metedata Server（文件系统元数据服务器）</p>
-</li>
-</ul>
-<p><strong>Ceph监视器：Monitor(ceph-mon)：</strong></p>
-<p>在一个主机上运行的一个守护进程，用于维护集群状态映射（maintains maps of the cluster state），比如ceph集群中有多少存储池，每个存储池有多少PG以及存储池和PG的映射关系等，monitor map，manager map，the OSD map，the MDS map，and the CRUSH map，这些映射是Ceph守护程序相互协调所需的关键集群状态，此外监视器还负责管理守护程序和客户端之间的身份验证（认证使用CephX协议），通常至少需要三个监视器才能实现冗余和高可用性。</p>
-<p><strong>Ceph管理器：Managers(ceph-mgr)：</strong></p>
-<p>在一个主机上运行的一个守护进程，Ceph Manager守护程序(ceph-mgr)负责追踪运行时指标和Ceph集群的当前状态，包括存储利用率，当前性能指标和系统负载，Ceph manager守护程序还托管基于python的模块来管理和公开Ceph集群信息，包括基于Web的Ceph仪表板和REST API，高可用性通常至少需要两个管理器。</p>
-<p><strong>Ceph OSDs：对象存储守护程序(ceph-osd)：</strong></p>
-<p>提供存储数据，操作系统上的一个磁盘就是一个OSD守护程序，OSD用于处理Ceph集群数据复制，恢复，重新平衡，并通过检查其他Ceph OSD守护程序的心跳来向Ceph监视器和管理器提供一些监视信息。通常至少需要3个Ceph OSD才能实现冗余和高可用性。</p>
-<p><strong>MDS：Ceph元数据服务器(ceph-mds)：</strong></p>
-<p>代表ceph文件系统（NFS&#x2F;CIFS）存储元数据，（即Ceph块设备和Ceph对象存储不使用MDS）</p>
-<p>**Ceph的管理节点(ceph-deploy)**：</p>
-<p>Ceph的常用管理接口是一组命令行工具程序，例如rados、ceph、rbd等命令，ceph管理员可以从，某个特定的ceph-mon节点执行管理操作。推荐使用部署专用的管理节点对ceph进行配置管理、升级与后期维护，方便后期权限管理，管理节点的权限只对管理人员开放，可以避免一些不必要的误操作的发生。</p>
-<p><strong>CRUSH算法[Controllers Replication Under Scalable Hashing]：</strong></p>
-<p>可控的、可复制的、可伸缩的一致性hash算法。是Ceph使用的数据分布算法，类似一致性哈希，让数据分配到预期的地方。Ceph使用CURSH算法来存放和管理数据，它是Ceph的智能数据分发机制。Ceph使用CRUSH算法来准确计算数据应该被保存到哪里，以及应该从哪里读取,和保存元数据不同的是,CRUSH按需计算出元数据，因此它就消除了对中心式的服务器／网关的需求,它使得 Ceph客户端能够计算出元数据，该过程也称为CRUSH查找，然后和OSD直接通信。</p>
-<ul>
-<li>如果是把对象直接映射到 OSD 之上会导致对象与 OSD 的对应关系过于紧密和耦合，当OSD由于故障发生变更时将会对整个Ceph集群产生影响。</li>
-<li>于是Ceph将一个对象映射到RADOS集群的时候分为两步走：首先使用一致性hash算法将对象名称映射到PG然后将PG ID基于CRUSH算法映射到OSD即可查到对象。</li>
-<li>以上两个过程都是以”实时计算”的方式完成，而没有使用传统的查询数据与块设备的对应表的方式，这样有效避免了组件的”中心化”问题，也解决了查询性能和冗余问题。使得 Ceph集群扩展不再受查询的性能限制。</li>
-</ul>
-<h3 id="1-2-2-Ceph逻辑组织架构"><a href="#1-2-2-Ceph逻辑组织架构" class="headerlink" title="1.2.2 Ceph逻辑组织架构"></a>1.2.2 Ceph逻辑组织架构</h3><p>Pool：存储池，分区，存储池的大小取决于底层的存储空间。</p>
-<p>PG（placement group）：一个pool内部可以有多个PG存在，pool和PG都是抽象的逻辑概念，一个Pool中有多少个PG可以通过公式计算。</p>
-<p>OSD（Object Storage Daemon，对象存储设备）：每一块磁盘都是一个OSD，一个主机由一个或多个OSD组成。</p>
-<p>RADOS：RADOS全称Reliable Autonomic Distributed Object Store，是Ceph集群的精华，用户实现数据分配、Failover等集群操作。</p>
-<p>RBD：RADOS block device，是Ceph对外提供的块设备服务。</p>
-<p>RGW：RADOS gateway，是Ceph对外提供的对象存储服务，接口与S3和Swift兼容</p>
-<p>CephFS：Ceph File System，是Ceph对外提供的文件系统服务。</p>
-<p>Ceph集群部署好之后，要先创建存储池才能向ceph写入数据，文件在向ceph保存之前要进行一致性hash计算，计算后会把文件保存在某个对应的PG的，此文件一定属于某个pool的一个PG，在通过PG保存在OSD上。数据对象在写到OSD之后再同步对从OSD以实现数据的高可用。</p>
-<p><img src="/2023/04/15/Storage/Ceph/ceph01/image-20230415213129659.png" srcset="/img/loading.gif" lazyload alt="image-20230415213129659"> </p>
-
+                
                 
               </div>
             
@@ -400,8 +349,8 @@ https://github.com/ceph/ceph</code></pre></div></figure>
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(1).Ceph核心组件介绍</div>
-      <div>http://chsblogs.com/2023/04/15/Storage/Ceph/ceph01/</div>
+      <div>(5).CephFS部署和使用</div>
+      <div>http://chsblogs.com/2023/04/17/Storage/Ceph/ceph05/</div>
     </div>
     <div class="license-meta">
       
@@ -413,7 +362,7 @@ https://github.com/ceph/ceph</code></pre></div></figure>
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年4月15日</div>
+          <div>2023年4月17日</div>
         </div>
       
       
@@ -445,9 +394,9 @@ https://github.com/ceph/ceph</code></pre></div></figure>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/15/Storage/Ceph/ceph02/" title="(2).基于ceph-deploy在CentOS7.9部署Ceph 13.2.x集群">
+                      <a href="/2023/04/17/Storage/Ceph/ceph06/" title="(6).Ceph-RadosGW部署和使用">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(2).基于ceph-deploy在CentOS7.9部署Ceph 13.2.x集群</span>
+                        <span class="hidden-mobile">(6).Ceph-RadosGW部署和使用</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -455,8 +404,8 @@ https://github.com/ceph/ceph</code></pre></div></figure>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/05/Log/ELK/elk07/" title="(7).ELK-FileBeat部署及使用">
-                        <span class="hidden-mobile">(7).ELK-FileBeat部署及使用</span>
+                      <a href="/2023/04/17/Storage/Ceph/ceph04/" title="(4).Ceph-RBD部署和使用">
+                        <span class="hidden-mobile">(4).Ceph-RBD部署和使用</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -476,8 +425,8 @@ https://github.com/ceph/ceph</code></pre></div></figure>
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2023/04/15/Storage/Ceph/ceph01/';
-          this.page.identifier = '/2023/04/15/Storage/Ceph/ceph01/';
+          this.page.url = 'http://chsblogs.com/2023/04/17/Storage/Ceph/ceph05/';
+          this.page.identifier = '/2023/04/17/Storage/Ceph/ceph05/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -538,7 +487,7 @@ https://github.com/ceph/ceph</code></pre></div></figure>
       
         <a href="/2023/04/15/Storage/Ceph/ceph01/" title="(1).Ceph核心组件介绍"
            class="list-group-item list-group-item-action
-           active">
+           ">
           <span class="category-post">(1).Ceph核心组件介绍</span>
         </a>
       
@@ -574,7 +523,7 @@ https://github.com/ceph/ceph</code></pre></div></figure>
       
         <a href="/2023/04/17/Storage/Ceph/ceph05/" title="(5).CephFS部署和使用"
            class="list-group-item list-group-item-action
-           ">
+           active">
           <span class="category-post">(5).CephFS部署和使用</span>
         </a>
       

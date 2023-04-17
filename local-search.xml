@@ -4,6 +4,114 @@
   
   
   <entry>
+    <title>(6).Ceph-RadosGW部署和使用</title>
+    <link href="/2023/04/17/Storage/Ceph/ceph06/"/>
+    <url>/2023/04/17/Storage/Ceph/ceph06/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Ceph</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ceph</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(5).CephFS部署和使用</title>
+    <link href="/2023/04/17/Storage/Ceph/ceph05/"/>
+    <url>/2023/04/17/Storage/Ceph/ceph05/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Ceph</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ceph</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(4).Ceph-RBD部署和使用</title>
+    <link href="/2023/04/17/Storage/Ceph/ceph04/"/>
+    <url>/2023/04/17/Storage/Ceph/ceph04/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Ceph</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ceph</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(3).CephX认证机制</title>
+    <link href="/2023/04/17/Storage/Ceph/ceph03/"/>
+    <url>/2023/04/17/Storage/Ceph/ceph03/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Ceph</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ceph</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>(2).基于ceph-deploy在CentOS7.9部署Ceph 13.2.x集群</title>
     <link href="/2023/04/15/Storage/Ceph/ceph02/"/>
     <url>/2023/04/15/Storage/Ceph/ceph02/</url>
