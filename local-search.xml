@@ -4,7 +4,88 @@
   
   
   <entry>
-    <title>(6).Ceph-RadosGW部署和使用</title>
+    <title>(9).基于Ceph RBD和CephFS实现Kubernetes存储</title>
+    <link href="/2023/04/17/Storage/Ceph/ceph09/"/>
+    <url>/2023/04/17/Storage/Ceph/ceph09/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Ceph</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ceph</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(8).启用Ceph Dashboard并通过Prometheus监控Ceph集群状态</title>
+    <link href="/2023/04/17/Storage/Ceph/ceph08/"/>
+    <url>/2023/04/17/Storage/Ceph/ceph08/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Ceph</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ceph</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(7).Ceph集群管理及工作原理</title>
+    <link href="/2023/04/17/Storage/Ceph/ceph07/"/>
+    <url>/2023/04/17/Storage/Ceph/ceph07/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Ceph</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Ceph</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(6).Ceph RadosGW部署和使用</title>
     <link href="/2023/04/17/Storage/Ceph/ceph06/"/>
     <url>/2023/04/17/Storage/Ceph/ceph06/</url>
     
@@ -58,7 +139,7 @@
   
   
   <entry>
-    <title>(4).Ceph-RBD部署和使用</title>
+    <title>(4).Ceph RBD部署和使用</title>
     <link href="/2023/04/17/Storage/Ceph/ceph04/"/>
     <url>/2023/04/17/Storage/Ceph/ceph04/</url>
     
