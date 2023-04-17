@@ -4,6 +4,87 @@
   
   
   <entry>
+    <title>(3).Zabbix配置文件详解</title>
+    <link href="/2023/04/17/Monitor/Zabbix/zabbix03/"/>
+    <url>/2023/04/17/Monitor/Zabbix/zabbix03/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Zabbix</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Zabbix</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(2).基于Ubuntu20.04部署Zabbix6.0.x</title>
+    <link href="/2023/04/17/Monitor/Zabbix/zabbix02/"/>
+    <url>/2023/04/17/Monitor/Zabbix/zabbix02/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Zabbix</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Zabbix</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(1).Zabbix简介</title>
+    <link href="/2023/04/17/Monitor/Zabbix/zabbix01/"/>
+    <url>/2023/04/17/Monitor/Zabbix/zabbix01/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Zabbix</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Zabbix</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>(9).基于Ceph RBD和CephFS实现Kubernetes存储</title>
     <link href="/2023/04/17/Storage/Ceph/ceph09/"/>
     <url>/2023/04/17/Storage/Ceph/ceph09/</url>
