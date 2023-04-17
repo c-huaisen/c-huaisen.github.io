@@ -4,6 +4,87 @@
   
   
   <entry>
+    <title>(6).Zabbix事件通知机制</title>
+    <link href="/2023/04/17/Monitor/Zabbix/zabbix06/"/>
+    <url>/2023/04/17/Monitor/Zabbix/zabbix06/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Zabbix</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Zabbix</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(5).Zabbix监控案例</title>
+    <link href="/2023/04/17/Monitor/Zabbix/zabbix05/"/>
+    <url>/2023/04/17/Monitor/Zabbix/zabbix05/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Zabbix</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Zabbix</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(4).Zabbix分布式监控Proxy</title>
+    <link href="/2023/04/17/Monitor/Zabbix/zabbix04/"/>
+    <url>/2023/04/17/Monitor/Zabbix/zabbix04/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Zabbix</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Zabbix</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>(3).Zabbix配置文件详解</title>
     <link href="/2023/04/17/Monitor/Zabbix/zabbix03/"/>
     <url>/2023/04/17/Monitor/Zabbix/zabbix03/</url>
