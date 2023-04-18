@@ -16,13 +16,15 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="1.Zabbix简介Zabbix 是一个企业级的开源分布式监控解决方案。   Zabbix 是一款监控网络的众多参数以及服务器、虚拟机、应用程序、服务、数据库、网站、云等的健康和完整性的软件。 Zabbix 使用灵活的通知机制，允许用户为几乎任何事件配置基于电子邮件的告警，以实现对服务器问题做出快速反应。 Zabbix 基于存储的数据提供出色的报告和数据可视化功能。这使得 Zabbix 成为容量规">
+<meta property="og:type" content="article">
 <meta property="og:title" content="(1).Zabbix简介">
 <meta property="og:url" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix01/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
+<meta property="og:description" content="1.Zabbix简介Zabbix 是一个企业级的开源分布式监控解决方案。   Zabbix 是一款监控网络的众多参数以及服务器、虚拟机、应用程序、服务、数据库、网站、云等的健康和完整性的软件。 Zabbix 使用灵活的通知机制，允许用户为几乎任何事件配置基于电子邮件的告警，以实现对服务器问题做出快速反应。 Zabbix 基于存储的数据提供出色的报告和数据可视化功能。这使得 Zabbix 成为容量规">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-17T02:37:24.000Z">
-<meta property="article:modified_time" content="2023-04-17T02:38:56.839Z">
+<meta property="article:modified_time" content="2023-04-18T01:31:59.247Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Zabbix">
 <meta name="twitter:card" content="summary_large_image">
@@ -230,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          949 字
         
       </span>
     
@@ -297,7 +299,116 @@
             
               <div class="markdown-body">
                 
-                
+                <h1 id="1-Zabbix简介"><a href="#1-Zabbix简介" class="headerlink" title="1.Zabbix简介"></a>1.Zabbix简介</h1><p>Zabbix 是一个企业级的开源分布式监控解决方案。  </p>
+<p>Zabbix 是一款监控网络的众多参数以及服务器、虚拟机、应用程序、服务、数据库、网站、云等的健康和完整性的软件。 Zabbix 使用灵活的通知机制，允许用户为几乎任何事件配置基于电子邮件的告警，以实现对服务器问题做出快速反应。 Zabbix 基于存储的数据提供出色的报告和数据可视化功能。这使得 Zabbix 成为容量规划的理想选择。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方地址</span>
+https://www.zabbix.com/cn/
+
+<span class="token comment">#zabbix官方手册</span>
+https://www.zabbix.com/documentation/6.0/zh/manual</code></pre></div></figure>
+
+
+
+<h2 id="1-1-常见的监控方案"><a href="#1-1-常见的监控方案" class="headerlink" title="1.1 常见的监控方案"></a>1.1 常见的监控方案</h2><ul>
+<li><p>老牌监控</p>
+</li>
+<li><ul>
+<li>Cacti</li>
+<li>Nagios</li>
+<li>smokeping</li>
+</ul>
+</li>
+<li><p>流行监控</p>
+</li>
+<li><ul>
+<li>Zabbix</li>
+<li>OpenFalcon</li>
+<li>Prometheus+Grafana</li>
+<li>滴滴开源夜莺Nightingale</li>
+<li>smartping(专用于网络监控)</li>
+<li>LEPUS天兔(专用于监控数据库)</li>
+<li>自研</li>
+</ul>
+</li>
+<li><p>第三方监控</p>
+</li>
+<li><ul>
+<li>监控宝</li>
+<li>听云</li>
+<li>newrelic</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-2-监控流程"><a href="#1-2-监控流程" class="headerlink" title="1.2 监控流程"></a>1.2 监控流程</h2><ul>
+<li><p>数据采集：通过SNMP、Agent、ICMP、SSH、IPMI等对系统进行数据采集。</p>
+</li>
+<li><p>数据存储：各类数据库服务，MySQL、PostgreSQL等。</p>
+</li>
+<li><p>数据分析：提供图形及时间线情况信息，方便我们定位故障所在</p>
+</li>
+<li><p>数据展示：指标信息、指标趋势展示。</p>
+</li>
+<li><p>报警机制：电话、邮件、微信、短信、报警升级机制</p>
+</li>
+<li><p>报警处理：故障级别判定，找响应人员进行快速处理</p>
+</li>
+</ul>
+<h2 id="1-3-监控指标"><a href="#1-3-监控指标" class="headerlink" title="1.3 监控指标"></a>1.3 监控指标</h2><p><strong>硬件监控</strong></p>
+<ul>
+<li>机器硬件:CPU温度、物理磁盘、虚拟磁盘、主板温度、磁盘阵列</li>
+</ul>
+<p><strong>系统监控</strong></p>
+<ul>
+<li>主机存活</li>
+<li>CPU、内存、硬盘、使用率</li>
+<li>inode</li>
+<li>负载</li>
+<li>网卡出入带宽</li>
+<li>TCP连接数</li>
+<li>磁盘读写、只读</li>
+</ul>
+<p><strong>应用监控</strong></p>
+<ul>
+<li>MySQL</li>
+<li>Redis</li>
+<li>Nginx</li>
+</ul>
+<p><strong>网络监控</strong></p>
+<ul>
+<li>网络质量</li>
+<li>公网出口</li>
+<li>专线带宽</li>
+<li>网络设备</li>
+</ul>
+<p><strong>流量分析</strong></p>
+<p><strong>日志监控</strong></p>
+<p><strong>安全监控</strong></p>
+<p><strong>性能监控(APM)java|php|go|nodejs|分布式链路追踪</strong></p>
+<ul>
+<li>PinPoint</li>
+<li>Zipkin</li>
+<li>SkyWalking</li>
+<li>CAT、Jaeger</li>
+</ul>
+<p><strong>业务监控</strong></p>
+<p>电商业务为例：</p>
+<ul>
+<li>每分钟产生多少订单</li>
+<li>每分钟注册多少用户</li>
+<li>每分钟多少活跃用户</li>
+<li>每天有多少推广活动</li>
+<li>推广活动引入多少用户</li>
+<li>推广活动引入多少流量</li>
+<li>推广活动引入多少利润</li>
+</ul>
+<p><strong>其他</strong></p>
+<ul>
+<li>SSL证书监控</li>
+<li>存活性 进程是否还在，端口监听、Log滚动</li>
+<li>健康指标 MQ消息堆积量</li>
+<li>接口监控 API成功率，延迟情况，QPS等等</li>
+</ul>
+
                 
               </div>
             
@@ -394,9 +505,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/17/Monitor/Zabbix/zabbix02/" title="(2).基于Ubuntu20.04部署Zabbix6.0.x">
+                      <a href="/2023/04/17/Monitor/Zabbix/zabbix02/" title="(2).Zabbix安装">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(2).基于Ubuntu20.04部署Zabbix6.0.x</span>
+                        <span class="hidden-mobile">(2).Zabbix安装</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -404,8 +515,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/17/Storage/Ceph/ceph09/" title="(9).基于Ceph RBD和CephFS实现Kubernetes存储">
-                        <span class="hidden-mobile">(9).基于Ceph RBD和CephFS实现Kubernetes存储</span>
+                      <a href="/2023/04/17/Monitor/Grafana/grafana01/" title="(1).Grafana简介及安装">
+                        <span class="hidden-mobile">(1).Grafana简介及安装</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -494,10 +605,10 @@
     
       
       
-        <a href="/2023/04/17/Monitor/Zabbix/zabbix02/" title="(2).基于Ubuntu20.04部署Zabbix6.0.x"
+        <a href="/2023/04/17/Monitor/Zabbix/zabbix02/" title="(2).Zabbix安装"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">(2).基于Ubuntu20.04部署Zabbix6.0.x</span>
+          <span class="category-post">(2).Zabbix安装</span>
         </a>
       
     
