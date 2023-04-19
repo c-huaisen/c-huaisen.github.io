@@ -16,12 +16,12 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.Zabbix规划及部署1.1 主机清单CentOS7.9主机清单：    主机名 IP地址 操作系统 服务    zabbix-server 192.168.1.60 CentOS7.9 Zabbix Server服务   zabbix-active 192.168.1.61 CentOS7.9 Zabbix Agent服务   zabbix-passive 192.168.1.62 Cent">
+    <meta name="description" content="1.Zabbix规划及部署1.1 主机清单CentOS7.9主机清单：    主机名 IP地址 操作系统 服务    zabbix-server 192.168.1.60 CentOS7.9 Zabbix Server服务   mysql-master 192.168.1.61 CentOS7.9 MySQL5.7   mysql-slave 192.168.1.62 CentOS7.9 MySQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(2).Zabbix安装">
 <meta property="og:url" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix02/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.Zabbix规划及部署1.1 主机清单CentOS7.9主机清单：    主机名 IP地址 操作系统 服务    zabbix-server 192.168.1.60 CentOS7.9 Zabbix Server服务   zabbix-active 192.168.1.61 CentOS7.9 Zabbix Agent服务   zabbix-passive 192.168.1.62 Cent">
+<meta property="og:description" content="1.Zabbix规划及部署1.1 主机清单CentOS7.9主机清单：    主机名 IP地址 操作系统 服务    zabbix-server 192.168.1.60 CentOS7.9 Zabbix Server服务   mysql-master 192.168.1.61 CentOS7.9 MySQL5.7   mysql-slave 192.168.1.62 CentOS7.9 MySQ">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix02/image-20230418163005521.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix02/image-20230418163023896.png">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix02/image-20230418161724013.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix02/image-20230418162737149.png">
 <meta property="article:published_time" content="2023-04-17T02:37:41.000Z">
-<meta property="article:modified_time" content="2023-04-18T08:49:43.865Z">
+<meta property="article:modified_time" content="2023-04-19T01:27:25.786Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Zabbix">
 <meta name="twitter:card" content="summary_large_image">
@@ -334,58 +334,58 @@
 <td>Zabbix Server服务</td>
 </tr>
 <tr>
-<td>zabbix-active</td>
-<td>192.168.1.61</td>
-<td>CentOS7.9</td>
-<td>Zabbix Agent服务</td>
-</tr>
-<tr>
-<td>zabbix-passive</td>
-<td>192.168.1.62</td>
-<td>CentOS7.9</td>
-<td>Zabbix Agent服务</td>
-</tr>
-<tr>
-<td>zabbix-proxy</td>
-<td>192.168.1.63</td>
-<td>CentOS7.9</td>
-<td>Zabbix Proxy服务</td>
-</tr>
-<tr>
 <td>mysql-master</td>
-<td>192.168.1.64</td>
+<td>192.168.1.61</td>
 <td>CentOS7.9</td>
 <td>MySQL5.7</td>
 </tr>
 <tr>
 <td>mysql-slave</td>
-<td>192.168.1.65</td>
+<td>192.168.1.62</td>
 <td>CentOS7.9</td>
 <td>MySQL5.7</td>
 </tr>
 <tr>
-<td>test1</td>
+<td>zabbix-agent-active</td>
+<td>192.168.1.63</td>
+<td>CentOS7.9</td>
+<td>Zabbix Agent服务</td>
+</tr>
+<tr>
+<td>zabbix-agent-passive</td>
+<td>192.168.1.64</td>
+<td>CentOS7.9</td>
+<td>Zabbix Agent服务</td>
+</tr>
+<tr>
+<td>zabbix-proxy-active</td>
+<td>192.168.1.65</td>
+<td>CentOS7.9</td>
+<td>Zabbix Proxy服务</td>
+</tr>
+<tr>
+<td>zabbix-proxy-passive</td>
 <td>192.168.1.66</td>
 <td>CentOS7.9</td>
-<td>测试监控项服务器</td>
+<td>Zabbix Proxy服务</td>
 </tr>
 <tr>
-<td>test2</td>
+<td>agent-node1</td>
 <td>192.168.1.67</td>
 <td>CentOS7.9</td>
-<td>测试监控项服务器</td>
+<td>Zabbix Agent服务</td>
 </tr>
 <tr>
-<td>test3</td>
+<td>agent-node2</td>
 <td>192.168.1.68</td>
 <td>CentOS7.9</td>
-<td>测试监控项服务器</td>
+<td>Zabbix Agent服务</td>
 </tr>
 <tr>
-<td>test4</td>
+<td>agent-node3</td>
 <td>192.168.1.69</td>
 <td>CentOS7.9</td>
-<td>测试监控项服务器</td>
+<td>Zabbix Agent服务</td>
 </tr>
 </tbody></table>
 <p><strong>Ubuntu20.04主机清单：</strong></p>
@@ -405,58 +405,58 @@
 <td>Zabbix Server服务</td>
 </tr>
 <tr>
-<td>zabbix-active</td>
+<td>mysql-master</td>
 <td>192.168.1.31</td>
 <td>Ubuntu20.04</td>
-<td>Zabbix Agent服务</td>
+<td>MySQL8.0</td>
 </tr>
 <tr>
-<td>zabbix-passive</td>
+<td>mysql-slave</td>
 <td>192.168.1.32</td>
+<td>Ubuntu20.04</td>
+<td>MySQL8.0</td>
+</tr>
+<tr>
+<td>zabbix-agent-active</td>
+<td>192.168.1.33</td>
 <td>Ubuntu20.04</td>
 <td>Zabbix Agent服务</td>
 </tr>
 <tr>
-<td>zabbix-proxy</td>
-<td>192.168.1.33</td>
+<td>zabbix-agent-passive</td>
+<td>192.168.1.34</td>
+<td>Ubuntu20.04</td>
+<td>Zabbix Agent服务</td>
+</tr>
+<tr>
+<td>zabbix-proxy-active</td>
+<td>192.168.1.35</td>
 <td>Ubuntu20.04</td>
 <td>Zabbix Proxy服务</td>
 </tr>
 <tr>
-<td>mysql-master</td>
-<td>192.168.1.34</td>
-<td>Ubuntu20.04</td>
-<td>MySQL5.7</td>
-</tr>
-<tr>
-<td>mysql-slave</td>
-<td>192.168.1.35</td>
-<td>Ubuntu20.04</td>
-<td>MySQL5.7</td>
-</tr>
-<tr>
-<td>test1</td>
+<td>zabbix-proxy-passive</td>
 <td>192.168.1.36</td>
 <td>Ubuntu20.04</td>
-<td>测试监控项服务器</td>
+<td>Zabbix Proxy服务</td>
 </tr>
 <tr>
-<td>test2</td>
+<td>agent-node1</td>
 <td>192.168.1.37</td>
 <td>Ubuntu20.04</td>
-<td>测试监控项服务器</td>
+<td>Zabbix Agent服务</td>
 </tr>
 <tr>
-<td>test3</td>
+<td>agent-node2</td>
 <td>192.168.1.38</td>
 <td>Ubuntu20.04</td>
-<td>测试监控项服务器</td>
+<td>Zabbix Agent服务</td>
 </tr>
 <tr>
-<td>test4</td>
+<td>agent-node3</td>
 <td>192.168.1.39</td>
 <td>Ubuntu20.04</td>
-<td>测试监控项服务器</td>
+<td>Zabbix Agent服务</td>
 </tr>
 </tbody></table>
 <h1 id="2-部署Zabbix5-0-x"><a href="#2-部署Zabbix5-0-x" class="headerlink" title="2.部署Zabbix5.0.x"></a>2.部署Zabbix5.0.x</h1><p><strong>基于CentOS7.9部署Zabbix5.0.x</strong></p>
