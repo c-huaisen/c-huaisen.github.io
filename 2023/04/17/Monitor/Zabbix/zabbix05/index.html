@@ -16,19 +16,21 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.Zabbix监控Tomcat服务1.1 安装配置Tomcat#1.安装JDK root@zabbix-agent-active:~# apt install openjdk-8-jdk  #2.安装Tomcat wget https:&#x2F;&#x2F;dlcdn.apache.org&#x2F;tomcat&#x2F;tomcat-9&#x2F;v9.0.72&#x2F;bin&#x2F;apache-tomcat-9.0.72.tar.gz tar -x">
+    <meta name="description" content="1.Zabbix监控Tomcat服务#官方tomcat模板地址 https:&#x2F;&#x2F;www.zabbix.com&#x2F;cn&#x2F;integrations&#x2F;tomcat  1.1 安装配置Tomcat#1.安装JDK root@zabbix-agent-active:~# apt install openjdk-8-jdk  #2.安装Tomcat wget https:&#x2F;&#x2F;dlcdn.apache.org&#x2F;t">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(5).Zabbix监控案例">
 <meta property="og:url" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix05/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.Zabbix监控Tomcat服务1.1 安装配置Tomcat#1.安装JDK root@zabbix-agent-active:~# apt install openjdk-8-jdk  #2.安装Tomcat wget https:&#x2F;&#x2F;dlcdn.apache.org&#x2F;tomcat&#x2F;tomcat-9&#x2F;v9.0.72&#x2F;bin&#x2F;apache-tomcat-9.0.72.tar.gz tar -x">
+<meta property="og:description" content="1.Zabbix监控Tomcat服务#官方tomcat模板地址 https:&#x2F;&#x2F;www.zabbix.com&#x2F;cn&#x2F;integrations&#x2F;tomcat  1.1 安装配置Tomcat#1.安装JDK root@zabbix-agent-active:~# apt install openjdk-8-jdk  #2.安装Tomcat wget https:&#x2F;&#x2F;dlcdn.apache.org&#x2F;t">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422222136677.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422222219702.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix05/image-20230423000954298.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix05/image-20230423001016900.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422230130711.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422230217173.png">
 <meta property="article:published_time" content="2023-04-17T03:31:07.000Z">
-<meta property="article:modified_time" content="2023-04-22T15:23:41.031Z">
+<meta property="article:modified_time" content="2023-04-22T16:33:45.795Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Zabbix">
 <meta name="twitter:card" content="summary_large_image">
@@ -237,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4k 字
+          5.9k 字
         
       </span>
     
@@ -248,7 +250,7 @@
         
         
         
-          3 分钟
+          5 分钟
         
       </span>
     
@@ -304,7 +306,10 @@
             
               <div class="markdown-body">
                 
-                <h1 id="1-Zabbix监控Tomcat服务"><a href="#1-Zabbix监控Tomcat服务" class="headerlink" title="1.Zabbix监控Tomcat服务"></a>1.Zabbix监控Tomcat服务</h1><h2 id="1-1-安装配置Tomcat"><a href="#1-1-安装配置Tomcat" class="headerlink" title="1.1 安装配置Tomcat"></a>1.1 安装配置Tomcat</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装JDK</span>
+                <h1 id="1-Zabbix监控Tomcat服务"><a href="#1-Zabbix监控Tomcat服务" class="headerlink" title="1.Zabbix监控Tomcat服务"></a>1.Zabbix监控Tomcat服务</h1><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方tomcat模板地址</span>
+https://www.zabbix.com/cn/integrations/tomcat</code></pre></div></figure>
+
+<h2 id="1-1-安装配置Tomcat"><a href="#1-1-安装配置Tomcat" class="headerlink" title="1.1 安装配置Tomcat"></a>1.1 安装配置Tomcat</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装JDK</span>
 root@zabbix-agent-active:~<span class="token comment"># apt install openjdk-8-jdk</span>
 
 <span class="token comment">#2.安装Tomcat</span>
@@ -366,7 +371,86 @@ root@zabbix-server:~<span class="token comment"># systemctl restart zabbix-serve
 
 <h2 id="1-4-Zabbix-Server添加JMX监控"><a href="#1-4-Zabbix-Server添加JMX监控" class="headerlink" title="1.4 Zabbix Server添加JMX监控"></a>1.4 Zabbix Server添加JMX监控</h2><p><img src="/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422222136677.png" srcset="/img/loading.gif" lazyload alt="image-20230422222136677"> </p>
 <p><img src="/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422222219702.png" srcset="/img/loading.gif" lazyload alt="image-20230422222219702"> </p>
-<h1 id="2-Zabbix监控Linux-TCP连接状态"><a href="#2-Zabbix监控Linux-TCP连接状态" class="headerlink" title="2.Zabbix监控Linux TCP连接状态"></a>2.Zabbix监控Linux TCP连接状态</h1><h1 id="3-Zabbix监控Memcache服务"><a href="#3-Zabbix监控Memcache服务" class="headerlink" title="3.Zabbix监控Memcache服务"></a>3.Zabbix监控Memcache服务</h1><h1 id="4-Zabbix监控Redis服务"><a href="#4-Zabbix监控Redis服务" class="headerlink" title="4.Zabbix监控Redis服务"></a>4.Zabbix监控Redis服务</h1><h1 id="5-Zabbix监控Nginx服务"><a href="#5-Zabbix监控Nginx服务" class="headerlink" title="5.Zabbix监控Nginx服务"></a>5.Zabbix监控Nginx服务</h1><h1 id="6-Zabbix基于SNMP监控"><a href="#6-Zabbix基于SNMP监控" class="headerlink" title="6.Zabbix基于SNMP监控"></a>6.Zabbix基于SNMP监控</h1><h2 id="6-1-SNMP简介"><a href="#6-1-SNMP简介" class="headerlink" title="6.1 SNMP简介"></a>6.1 SNMP简介</h2><h2 id="6-2-基于SNMP监控打印机"><a href="#6-2-基于SNMP监控打印机" class="headerlink" title="6.2 基于SNMP监控打印机"></a>6.2 基于SNMP监控打印机</h2><p>基于SNMP监控打印机耗材状况，当打印机耗材余量不足5%时，触发告警。</p>
+<h1 id="2-Zabbix监控Linux-TCP连接状态"><a href="#2-Zabbix监控Linux-TCP连接状态" class="headerlink" title="2.Zabbix监控Linux TCP连接状态"></a>2.Zabbix监控Linux TCP连接状态</h1><h1 id="3-Zabbix监控Memcache服务"><a href="#3-Zabbix监控Memcache服务" class="headerlink" title="3.Zabbix监控Memcache服务"></a>3.Zabbix监控Memcache服务</h1><h1 id="4-Zabbix监控Redis服务"><a href="#4-Zabbix监控Redis服务" class="headerlink" title="4.Zabbix监控Redis服务"></a>4.Zabbix监控Redis服务</h1><h1 id="5-Zabbix监控Nginx服务"><a href="#5-Zabbix监控Nginx服务" class="headerlink" title="5.Zabbix监控Nginx服务"></a>5.Zabbix监控Nginx服务</h1><p>对nginx的活动连接和当前状态等运行状态进行监控</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">Active connections: <span class="token number">3</span> 
+server accepts handled requests
+ <span class="token number">3</span> <span class="token number">3</span> <span class="token number">4</span> 
+Reading: <span class="token number">0</span> Writing: <span class="token number">1</span> Waiting: <span class="token number">2</span>
+
+Active connections：当前处于活动状态的客户端连接数，包括连接等待空闲连接数。
+accepts：统计总值，nginx自启动后已经接受的客户端请求的总数。
+handled：统计总值，nginx自启动后已经处理完成的客户端请求总数，通常等于accepts，除非有因为worker_connections限制等被拒绝的连接。
+requests：统计总值，nginx自启动后客户端发来的总的请求数。
+Reading: 当前状态，正在读取客户端请求报文首部的连接的连接数。
+Writing: 当前状态，正在向客户端发送响应报文过程中的连接数。
+Waiting: 正在等待客户端发出请求的空闲连接数，开启keep-alive的情况下，这个值等于active - （reading + writing）</code></pre></div></figure>
+
+<h2 id="5-1-zabbix官方模板说明"><a href="#5-1-zabbix官方模板说明" class="headerlink" title="5.1 zabbix官方模板说明"></a>5.1 zabbix官方模板说明</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方nginx模板说明地址</span>
+https://www.zabbix.com/cn/integrations/nginx
+
+<span class="token comment">#1.Overview</span>
+For Zabbix version: <span class="token number">6.0</span> and higher
+The template to monitor Nginx by Zabbix that work without any external scripts. Most of the metrics are collected <span class="token keyword">in</span> one go, thanks to Zabbix bulk data collection.
+
+Template Nginx by Zabbix agent collects metrics by polling ngx_http_stub_status_module locally with Zabbix agent:
+    Active connections: <span class="token number">291</span>
+    server accepts handled requests
+    <span class="token number">16630948</span> <span class="token number">16630948</span> <span class="token number">31070465</span>
+    Reading: <span class="token number">6</span> Writing: <span class="token number">179</span> Waiting: <span class="token number">106</span>
+Note that this template doesn<span class="token string">'t support https and redirects (limitations of web.page.get).
+
+It also uses Zabbix agent to collect nginx Linux process stats like CPU usage, memory usage and whether process is running or not.
+
+This template was tested on:
+
+Nginx, version 1.17.2
+
+#2.Setup
+See Zabbix template operation for basic instructions.
+
+Setup ngx_http_stub_status_module. Test availability of http_stub_status module with nginx -V 2>&amp;1 | grep -o with-http_stub_status_module.
+
+Example configuration of Nginx:
+    location = /basic_status &#123;
+        stub_status;
+        allow 127.0.0.1;
+        allow ::1;
+        deny all;
+    &#125;
+    
+If you use another location, then don'</span>t forget to change <span class="token punctuation">&#123;</span><span class="token variable">$NGINX</span>.STUB_STATUS.<span class="token environment constant">PATH</span><span class="token punctuation">&#125;</span> macro. Install and setup Zabbix agent.</code></pre></div></figure>
+
+
+
+<h2 id="5-2-配置监控nginx"><a href="#5-2-配置监控nginx" class="headerlink" title="5.2 配置监控nginx"></a>5.2 配置监控nginx</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装nginx，在主机[192.168.1.31]上安装nginx测试</span>
+root@mysql-master:~<span class="token comment"># apt install nginx</span>
+
+<span class="token comment">#2.配置nginx</span>
+root@mysql-master:~<span class="token comment"># vim /etc/nginx/sites-enabled/default</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+server <span class="token punctuation">&#123;</span>
+        listen <span class="token number">80</span> default_server<span class="token punctuation">;</span>
+        listen <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:80 default_server<span class="token punctuation">;</span>
+        
+        <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+        
+        location <span class="token operator">=</span> /basic_status <span class="token punctuation">&#123;</span>
+          stub_status<span class="token punctuation">;</span>
+          allow <span class="token number">127.0</span>.0.1<span class="token punctuation">;</span>
+          allow ::1<span class="token punctuation">;</span>
+          deny all<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        
+        <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#3.Zabbix Server添加nginx模板：</span></code></pre></div></figure>
+
+
+
+<p><img src="/2023/04/17/Monitor/Zabbix/zabbix05/image-20230423000954298.png" srcset="/img/loading.gif" lazyload alt="image-20230423000954298"> </p>
+<p><img src="/2023/04/17/Monitor/Zabbix/zabbix05/image-20230423001016900.png" srcset="/img/loading.gif" lazyload alt="image-20230423001016900"> </p>
+<h1 id="6-Zabbix基于SNMP监控"><a href="#6-Zabbix基于SNMP监控" class="headerlink" title="6.Zabbix基于SNMP监控"></a>6.Zabbix基于SNMP监控</h1><h2 id="6-1-SNMP简介"><a href="#6-1-SNMP简介" class="headerlink" title="6.1 SNMP简介"></a>6.1 SNMP简介</h2><h2 id="6-2-基于SNMP监控打印机"><a href="#6-2-基于SNMP监控打印机" class="headerlink" title="6.2 基于SNMP监控打印机"></a>6.2 基于SNMP监控打印机</h2><p>基于SNMP监控打印机耗材状况，当打印机耗材余量不足5%时，触发告警。</p>
 <table>
 <thead>
 <tr>
@@ -448,7 +532,7 @@ root@mysql-master:~<span class="token comment"># systemctl restart zabbix-agent<
 <p><strong>Zabbix Server添加mysql模板：</strong></p>
 <p><img src="/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422230130711.png" srcset="/img/loading.gif" lazyload alt="image-20230422230130711"> </p>
 <p><img src="/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422230217173.png" srcset="/img/loading.gif" lazyload alt="image-20230422230217173"> </p>
-<h1 id="8-Zabbix监控之故障自愈"><a href="#8-Zabbix监控之故障自愈" class="headerlink" title="8.Zabbix监控之故障自愈"></a>8.Zabbix监控之故障自愈</h1><h1 id="9-Zabbix基于Grafana实现图形显示"><a href="#9-Zabbix基于Grafana实现图形显示" class="headerlink" title="9.Zabbix基于Grafana实现图形显示"></a>9.Zabbix基于Grafana实现图形显示</h1>
+<h1 id="8-Zabbix监控HAProxy服务"><a href="#8-Zabbix监控HAProxy服务" class="headerlink" title="8.Zabbix监控HAProxy服务"></a>8.Zabbix监控HAProxy服务</h1><h1 id="9-Zabbix监控之故障自愈"><a href="#9-Zabbix监控之故障自愈" class="headerlink" title="9.Zabbix监控之故障自愈"></a>9.Zabbix监控之故障自愈</h1><h1 id="10-Zabbix基于Grafana实现图形显示"><a href="#10-Zabbix基于Grafana实现图形显示" class="headerlink" title="10.Zabbix基于Grafana实现图形显示"></a>10.Zabbix基于Grafana实现图形显示</h1><h1 id="11-Zabbix监控Elasticsearch服务"><a href="#11-Zabbix监控Elasticsearch服务" class="headerlink" title="11.Zabbix监控Elasticsearch服务"></a>11.Zabbix监控Elasticsearch服务</h1><h1 id="12-Zabbix监控Ceph服务"><a href="#12-Zabbix监控Ceph服务" class="headerlink" title="12.Zabbix监控Ceph服务"></a>12.Zabbix监控Ceph服务</h1>
                 
               </div>
             
