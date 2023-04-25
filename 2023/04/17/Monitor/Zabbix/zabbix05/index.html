@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422230130711.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/17/Monitor/Zabbix/zabbix05/image-20230422230217173.png">
 <meta property="article:published_time" content="2023-04-17T03:31:07.000Z">
-<meta property="article:modified_time" content="2023-04-22T16:33:45.795Z">
+<meta property="article:modified_time" content="2023-04-22T16:35:33.089Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Zabbix">
 <meta name="twitter:card" content="summary_large_image">
@@ -332,10 +332,7 @@ root@zabbix-agent-active:~<span class="token comment"># vim /usr/local/tomcat/bi
 -Dcom.sun.management.jmxremote.port=12345 \
 -Dcom.sun.management.jmxremote.authenticate=false \
 -Dcom.sun.management.jmxremote.ssl=false \
--Djava.rmi.server.hostname=192.168.1.33"</span>
-
-
-</code></pre></div></figure>
+-Djava.rmi.server.hostname=192.168.1.33"</span></code></pre></div></figure>
 
 
 
@@ -355,8 +352,6 @@ root@zabbix-agent-active:~<span class="token comment"># grep -Ev "^#|^$" /etc/za
 
 root@zabbix-agent-active:~<span class="token comment"># systemctl restart zabbix-java-gateway</span>
 root@zabbix-agent-active:~<span class="token comment"># systemctl enable zabbix-java-gateway</span></code></pre></div></figure>
-
-
 
 
 
