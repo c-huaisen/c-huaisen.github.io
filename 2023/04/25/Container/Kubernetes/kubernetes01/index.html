@@ -16,20 +16,24 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="(1).kubernetes核心组件介绍">
+    <meta name="description" content="1.云原生简介1.1 CNCF简介官网：https:&#x2F;&#x2F;www.cncf.io&#x2F; CNCF，英文全称为Cloud Native Computing Foundation，中文译为“云原生计算基金会”。成立于2015年12月11日。 CNCF基于著名的鸿沟理论开展项目管理，将项目分为**沙盒项目(Sandbox)、孵化项目(Incubating)、毕业项目(Graduated)**。基于该理论，CN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(1).k8s核心组件介绍">
 <meta property="og:url" content="http://chsblogs.com/2023/04/25/Container/Kubernetes/kubernetes01/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
+<meta property="og:description" content="1.云原生简介1.1 CNCF简介官网：https:&#x2F;&#x2F;www.cncf.io&#x2F; CNCF，英文全称为Cloud Native Computing Foundation，中文译为“云原生计算基金会”。成立于2015年12月11日。 CNCF基于著名的鸿沟理论开展项目管理，将项目分为**沙盒项目(Sandbox)、孵化项目(Incubating)、毕业项目(Graduated)**。基于该理论，CN">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/04/25/Container/Kubernetes/kubernetes01/image-20230426103126980.png">
 <meta property="article:published_time" content="2023-04-25T12:51:34.000Z">
-<meta property="article:modified_time" content="2023-04-25T12:52:28.079Z">
+<meta property="article:modified_time" content="2023-04-26T03:30:41.604Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/04/25/Container/Kubernetes/kubernetes01/image-20230426103126980.png">
   
   
   
-  <title>(1).kubernetes核心组件介绍 - 陈怀森の运维笔记</title>
+  <title>(1).k8s核心组件介绍 - 陈怀森の运维笔记</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -207,7 +211,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="(1).kubernetes核心组件介绍"></span>
+            <span id="subtitle" data-typed-text="(1).k8s核心组件介绍"></span>
           
         </div>
 
@@ -230,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          5.8k 字
         
       </span>
     
@@ -241,7 +245,7 @@
         
         
         
-          1 分钟
+          4 分钟
         
       </span>
     
@@ -292,12 +296,139 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">(1).kubernetes核心组件介绍</h1>
+            <h1 style="display: none">(1).k8s核心组件介绍</h1>
             
             
               <div class="markdown-body">
                 
-                
+                <h1 id="1-云原生简介"><a href="#1-云原生简介" class="headerlink" title="1.云原生简介"></a>1.云原生简介</h1><h2 id="1-1-CNCF简介"><a href="#1-1-CNCF简介" class="headerlink" title="1.1 CNCF简介"></a>1.1 CNCF简介</h2><p><strong>官网：</strong><a target="_blank" rel="noopener" href="https://www.cncf.io/">https://www.cncf.io/</a></p>
+<p>CNCF，英文全称为<strong>Cloud Native Computing Foundation</strong>，中文译为“<strong>云原生计算基金会</strong>”。成立于2015年12月11日。</p>
+<p>CNCF基于著名的鸿沟理论开展项目管理，将项目分为**沙盒项目(Sandbox)<strong>、</strong>孵化项目(Incubating)<strong>、</strong>毕业项目(Graduated)**。基于该理论，CNCF技术监督委员会制定了严格的项目管理制度和项目毕业标准，保证毕业的项目具有采用率、健康的变化率以及来自多个组织的提交人等。</p>
+<p><strong>发展历程：</strong></p>
+<p>2004年开始，Google已在内部大规模的使用容器技术。</p>
+<p>2008年，Google将Cgroups合并进入了Linux内核。</p>
+<p>2013年，Docker项目正式发布。</p>
+<p>2014年，kubernetes项目正式发布。</p>
+<p>2015年，由Google、Redhat 以及微软等大型云计算厂商以及一些开源公司共同牵头成立了CNCF(Cloud Native Computing Foundation)云原生计算基金会。 </p>
+<p>2017年，CNCF达到170个成员和14个基金项目。</p>
+<p>2018年，CNCF成立三周年有了195个成员，19个基金会项目和11个孵化项目。</p>
+<p>2022年，全球187国家、820+企业成员、130+项目、16万以上开发者。</p>
+<p><strong>云原生定义：</strong></p>
+<p>云原生(Cloud Native)是一种构建和运行应用程序的方法，是一套技术体系和方法论，方便企业快速运行应用程序，企业不需要将人效用于放在底层运行环境，而是主要聚焦在业务层功能开发，从而实现产品快速交付、迭代以及稳定性，降低整体成本支出并提高交付效率。</p>
+<h2 id="1-2-CNCF云原生全景图"><a href="#1-2-CNCF云原生全景图" class="headerlink" title="1.2 CNCF云原生全景图"></a>1.2 CNCF云原生全景图</h2><p>CNCF Landscape路线图从实践步骤上帮助用户梳理了整个云原生应用的最佳流程。然而整个实践过程中的每个环节，用户都需要了解有哪些具体的软件和产品选择。</p>
+<p><a target="_blank" rel="noopener" href="https://landscape.cncf.io/">https://landscape.cncf.io/</a></p>
+<ul>
+<li><strong>Special</strong></li>
+</ul>
+<p>图中最底层是Cloud（公有云，包括AWS、Google、Azure、Ali、Baidu、Tencent等）以及Kubernetes认证的服务提供商（主要是私有云，包括谐云、灵雀云、博云、才云、DaoCloud、Rancher等提供商）</p>
+<ul>
+<li><p><strong>Provisioning</strong></p>
+<p>有了物理机或虚拟机后，在运行容器化服务之前，需要为容器准备标准化的基础环境，这就是Provisioning这一层的作用。在Provisioning这一层中，分为以下几个功能组成模块：</p>
+<ul>
+<li><p><strong>Automation &amp; Configuration：</strong>用于自动化部署和配置容器运行平台和环境，代表工具和厂商包括Ansible、Chef、Puppet、VMware、OpenStack。</p>
+</li>
+<li><p><strong>Container Registry：</strong>容器镜像库是整个CNCF云原生中的核心部件之一，因为基于容器的运行环境中，所有的应用都需要借助容器镜像库来进行安装和部署。容器镜像库又分为公有和私有，公有的容器镜像库包括docker官方的registry，AWS的Elastic Container Registry，Google的Container Registry等。在私有镜像库中，VMware中国团队主导的Harbor得到了广泛的应用，大量的容器平台目前都基于Harbor构建其镜像仓库。</p>
+</li>
+<li><p><strong>Security &amp; Compliance：</strong>Notary和TUF（The Upgrade Framework）是这个领域两个主要的项目，其中TUF是一个开源的安全标准，Notary是其中一个实现。Notary软件除了确保软件的出处外，它还能保证在未经容器镜像提供者批准的情况下，不会在镜像供应链的任何地方修改镜像内的内容，从而确保从开发到运营的过程中，安全都被无缝统一地嵌入到整个工作流中。</p>
+</li>
+<li><p><strong>Key Management：</strong>主要用于在整个容器平台中进行秘钥管理。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Runtime</strong></p>
+<p>这一层可以理解为容器的整个运行环境，是云原生中最核心的部分，它包括了计算、存储、网络三大块</p>
+<ul>
+<li><strong>Cloud Native Storage：</strong>起初，容器为无状态的运行单元，容器最上一层文件系统无法保存其在运行时写入的文件或数据，容器重建或重启后，这些写入的数据将丢失。但随着数据库、消息队列等中间件逐步在容器环境中得到应用，如今用户对容器持久化存储的理解和需求也更加深入和迫切。</li>
+<li><strong>Container Runtime：</strong>Docker是最广为人知的容器运行环境，但生产环境下也有一些其他的容器环境在运行。Containerd是满足OCI规范的核心容器运行时，从设计上就是为了嵌入大型系统的。它由Docker Inc公司启动，并且在2017年3月份捐赠给了CNCF。此外，CoreOS的RKT是一个用于在Linux上运行应用程序容器的CLI，也可以作为安全、可组合和基于标准的容器虚拟化运行环境。</li>
+<li><strong>Cloud Native Network：</strong>网络历来是虚拟化技术中最灵活多变的部分，目前，大多数客户使用的主要包括Calico、Flannel、Open vSwitch等方案。</li>
+</ul>
+</li>
+<li><p><strong>Orchestration &amp; Management</strong></p>
+<p>这一层主要负责容器平台的编排和调度，包括服务的发现和治理，远程调用，服务代理，微服务治理等组件，包括：</p>
+<ul>
+<li><strong>Scheduling &amp; Orchestration：</strong>在这个领域，Kubernetes是当仁不让的头号玩家，目前基于Kubernetes的容器生态得到了迅速发展。其它的编排工具还包括Mesos、Docker Swarm等。</li>
+<li><strong>Coordination &amp; Service Discovery</strong>：分布式计算中很重要的一点就是各个服务之间的协同以及服务发现（或节点发现的问题），从老牌的Zookeeper到近年来在很多互联网厂商和应用中流行的Consul（Docker Swarm默认使用），都可以用于分布式服务的发现和配置，Kubernetes默认使用的则是CoreOS旗下的Etcd。</li>
+<li><strong>Remote Procedure Call</strong>：微服务间进行通信，通常有两种方式，其一为HTTP REST-JSON的方式，另一种为RPC 方式，相比起来RPC方式效率更高。常用的包括 Google 开源的 GRPC 、apache 旗下的 thrift 框架、Netflix 开源的自带负载均衡的 ribbon 和 avra 数据序列化框架。</li>
+<li>Service Proxy：</li>
+<li>API Gateway：</li>
+<li>Service Mesh：</li>
+</ul>
+</li>
+<li><p><strong>App Definition and Development</strong></p>
+</li>
+</ul>
+<p>这一层就是容器平台上运行的具体应用和工具了，可以理解为容器平台的应用商店。根据应用的不同作用的使用场景，可以大致分为以下几种类型：数据库（例如MySQL、MariaDB、mongoDB、PostgreSQL、Cassandra、TiDB等）、流处理和消息队列（例如Spark、Storm、RocketMQ、Kafka、RabbitMQ等）、应用和镜像制作（用于将应用封装成标准镜像，使应用能在标准的容器平台上运行，例如Helm、Docker Composer、Packer等）、CI&#x2F;CD（最常见的Jenkins、Atlassian公司开发的Bamboo等）。</p>
+<ul>
+<li><strong>Platform</strong></li>
+</ul>
+<p>从横向上看，整个云原生还包括众多的经过认证的平台供应商。</p>
+<ul>
+<li><strong>Observability and Analysis</strong></li>
+</ul>
+<p>这个部分包含了大量用于对平台进行监控（Prometheus、Nagios、Grafana、Zabbix等）、日志（Fluentd、ElasticSearch、Logstash）、以及追踪（Jaeger）的工具。</p>
+<h1 id="2-k8s核心组件介绍"><a href="#2-k8s核心组件介绍" class="headerlink" title="2.k8s核心组件介绍"></a>2.k8s核心组件介绍</h1><p>kubernetes官网：</p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/">https://kubernetes.io/zh-cn/</a></p>
+<p>kubernetes github开源项目：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/kubernetes/kubernetes">https://github.com/kubernetes/kubernetes</a></p>
+<p><img src="/2023/04/25/Container/Kubernetes/kubernetes01/image-20230426103126980.png" srcset="/img/loading.gif" lazyload alt="image-20230426103126980"> </p>
+<ul>
+<li><strong>kube-apiserver：</strong>Kubernetes API 服务器验证并配置 API 对象的数据， 这些对象包括 pods、services、replicationcontrollers 等。 API 服务器为 REST 操作提供服务，并为集群的共享状态提供前端， 所有其他组件都通过该前端进行交互。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-apiserver/">https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-apiserver/</a></p>
+<ul>
+<li><strong>kube-scheduler：</strong>是Kubernetes的pod调度器，负责将Pods指派到合法的节点上，调度器基于约束和可用资源为调度队列中每个Pod确定其可合法放置的节点，调度器是一个拥有丰富策略，能够感知拓扑变化，支持特定负载的功能组件，调度器需要考虑独立的和集体的资源需求，服务质量需求，硬件&#x2F;软件&#x2F;策略限制，亲和与反亲和规范等需求。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-scheduler/">https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-scheduler/</a></p>
+<ul>
+<li><p><strong>kube-controller-manager：</strong>作为集群内部的管理控制中心，负责集群的Node Pod副本，服务端点(Endpoint)，命名空间(Namespace)，服务账号(ServiceAccount)，资源定额(ResourceQuota)的管理，当某个Node意外宕机时，Controller-manager会及时发现并执行自动化修复流程，确保集群中的Pod副本始终处于预期的工作状态。</p>
+</li>
+<li><p><strong>kube-proxy：</strong>k8s网络代理运行在Node上，它反映了Node上k8s API中定义的服务，并可以通过一组后端进行简单的TCP、UDP和SCTP流转发或者在一组后端进行循环TCP、UDP和SCTP转发，用户必须使用apiserver API创建一个服务来配置代理，其实就是kube-proxy通过在主机上维护网络规则并执行连接转发来实现k8s服务访问。</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-proxy/">https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-proxy/</a></p>
+<ul>
+<li><strong>kubelet：</strong>是运行在每个worker节点的代理组件，它会监视已经分配给节点的Pod，具体功能有向Master汇报Node节点状态信息，接受指令并在Pod中创建容器，准备Pod所需要的数据卷，返回Pod的运行状态，在Node节点执行容器的健康检查。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kubelet/">https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kubelet/</a></p>
+<ul>
+<li>etcd：是CoreOS公司开发目前是k8s默认使用的key-value数据存储系统，用于保存所有集群数据，支持分布式集群功能，生产环境使用时需要为etcd数据提供定期备份机制。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/configure-upgrade-etcd/">https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/configure-upgrade-etcd/</a></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#k8s组件预览</span>
+https://kubernetes.io/zh-cn/docs/concepts/overview/components/
+
+<span class="token comment">#核心组件</span>
+apiserver:         <span class="token comment">#提供资源操作的唯一入口，并提供认证，授权，访问控制，API注册和发现等机制。</span>
+controller manager:<span class="token comment">#负责维护集群的状态，比如故障检测，自动扩展，滚动更新等。</span>
+scheduler:         <span class="token comment">#负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上。</span>
+kubelet:           <span class="token comment">#负责维护容器的生命周期，同时也负责Volume(CVI)和网络(CNI)的管理。</span>
+container runtime: <span class="token comment">#负责镜像管理以及Pod和容器的真正运行(CRI)。</span>
+kuber-proxy:       <span class="token comment">#负责为service提供cluster内部的服务发现和负载均衡。</span>
+etcd:              <span class="token comment">#保存了整个集群的状态。</span>
+
+<span class="token comment">#可选组件</span>
+kube-dns:             <span class="token comment">#负责为整个集群提供DNS服务。</span>
+ingress controller:   <span class="token comment">#为服务提供外网入口。</span>
+heapster:             <span class="token comment">#提供资源监控。</span>
+dashboard:            <span class="token comment">#提供GUI</span>
+federation:           <span class="token comment">#提供跨可用区的集群。</span>
+fluentd-elasticsearch:<span class="token comment">#提供集群日志采集，存储与查询。</span></code></pre></div></figure>
+
+
+
+<h1 id="3-k8s网络模型介绍"><a href="#3-k8s网络模型介绍" class="headerlink" title="3.k8s网络模型介绍"></a>3.k8s网络模型介绍</h1><p><strong>三种IP：</strong></p>
+<ol>
+<li><strong>Node IP：</strong>Node节点的IP地址，即物理机(虚拟机)的IP地址。每个Service都会在Node节点上开通一个端口，外部可以通过<a href="http://NodeIP:NodePort即可访问Service里的Pod提供的服务。">http://NodeIP:NodePort即可访问Service里的Pod提供的服务。</a></li>
+<li><strong>Pod IP：</strong>Pod的IP地址，即docker容器的IP地址，此为虚拟IP地址。是每个Pod的IP地址，Docker Engine根据docker网桥的IP地址段进行分配的，通常是一个虚拟的二层网络。同Service下的pod可以直接根据PodIP相互通信，不同Service下的pod在集群间pod通信要借助于cluster ip，pod和集群外通信，要借助于node ip</li>
+<li><strong>Cluster IP：</strong>Service的IP地址，此为虚拟IP地址。外部网络无法ping通，只有k8s集群内部访问使用。Cluster IP仅仅作用于K8s Service这个对象，并由K8es管理和分配IP地址。ClusterIP无法被ping，他没有一个“实体网络对象”来响应。Cluster IP只能结合ServicePort组成一个具体的通信端口，单独的Cluster IP不具备通信的基础，并且他们属于K8s集群这样一个封闭的空间。在不同Service下的pod节点在集群间相互访问可以通过Cluster IP</li>
+</ol>
+<p><strong>三种网络：</strong></p>
+<ol>
+<li><strong>Node Network：</strong>承载k8s集群中各个物理机&#x2F;虚拟机(Master和Node)通信的网络。</li>
+<li><strong>Pod Network：</strong>集群中承载各个Pod相互通信的网络。</li>
+<li><strong>Service Network：</strong>由k8s集群中的Service所组成的”网络”。</li>
+</ol>
+
                 
               </div>
             
@@ -349,7 +480,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(1).kubernetes核心组件介绍</div>
+      <div>(1).k8s核心组件介绍</div>
       <div>http://chsblogs.com/2023/04/25/Container/Kubernetes/kubernetes01/</div>
     </div>
     <div class="license-meta">
@@ -393,6 +524,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/04/26/Container/Kubernetes/kubernetes02/" title="(2).基于手动部署k8s高可用集群">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">(2).基于手动部署k8s高可用集群</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
@@ -465,7 +602,7 @@
         aria-expanded="true"
       >
         Kubernetes
-        <span class="list-group-count">(1)</span>
+        <span class="list-group-count">(4)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -479,10 +616,37 @@
     
       
       
-        <a href="/2023/04/25/Container/Kubernetes/kubernetes01/" title="(1).kubernetes核心组件介绍"
+        <a href="/2023/04/25/Container/Kubernetes/kubernetes01/" title="(1).k8s核心组件介绍"
            class="list-group-item list-group-item-action
            active">
-          <span class="category-post">(1).kubernetes核心组件介绍</span>
+          <span class="category-post">(1).k8s核心组件介绍</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes02/" title="(2).基于手动部署k8s高可用集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(2).基于手动部署k8s高可用集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes03/" title="(3).基于kubeadm工具部署k8s高可用集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(3).基于kubeadm工具部署k8s高可用集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes04/" title="(4).基于kubeasz工具部署k8s高可用集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(4).基于kubeasz工具部署k8s高可用集群</span>
         </a>
       
     
