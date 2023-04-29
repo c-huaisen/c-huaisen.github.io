@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/04/25/Container/Kubernetes/kubernetes01/image-20230426193632453.png">
 <meta property="article:published_time" content="2023-04-25T12:51:34.000Z">
-<meta property="article:modified_time" content="2023-04-29T00:16:55.855Z">
+<meta property="article:modified_time" content="2023-04-29T00:19:50.675Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
@@ -366,7 +366,7 @@
 <li><strong>Observability and Analysis</strong></li>
 </ul>
 <p>这个部分包含了大量用于对平台进行监控（Prometheus、Nagios、Grafana、Zabbix等）、日志（Fluentd、ElasticSearch、Logstash）、以及追踪（Jaeger）的工具。</p>
-<h1 id="2-k8s核心组件介绍"><a href="#2-k8s核心组件介绍" class="headerlink" title="2.k8s核心组件介绍"></a>2.k8s核心组件介绍</h1><p>kubernetes官网：</p>
+<h1 id="2-K8S核心组件介绍"><a href="#2-K8S核心组件介绍" class="headerlink" title="2.K8S核心组件介绍"></a>2.K8S核心组件介绍</h1><p>kubernetes官网：</p>
 <p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/">https://kubernetes.io/zh-cn/</a></p>
 <p>kubernetes github开源项目：</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/kubernetes/kubernetes">https://github.com/kubernetes/kubernetes</a></p>
@@ -416,7 +416,7 @@ fluentd-elasticsearch:<span class="token comment">#提供集群日志采集，�
 
 
 
-<h1 id="3-k8s网络模型介绍"><a href="#3-k8s网络模型介绍" class="headerlink" title="3.k8s网络模型介绍"></a>3.k8s网络模型介绍</h1><p><strong>三种IP：</strong></p>
+<h1 id="3-K8S网络模型介绍"><a href="#3-K8S网络模型介绍" class="headerlink" title="3.K8S网络模型介绍"></a>3.K8S网络模型介绍</h1><p><strong>三种IP：</strong></p>
 <ol>
 <li><strong>Node IP：</strong>Node节点的IP地址，即物理机(虚拟机)的IP地址。每个Service都会在Node节点上开通一个端口，外部可以通过<a href="http://NodeIP:NodePort即可访问Service里的Pod提供的服务。">http://NodeIP:NodePort即可访问Service里的Pod提供的服务。</a></li>
 <li><strong>Pod IP：</strong>Pod的IP地址，即docker容器的IP地址，此为虚拟IP地址。是每个Pod的IP地址，Docker Engine根据docker网桥的IP地址段进行分配的，通常是一个虚拟的二层网络。同Service下的pod可以直接根据PodIP相互通信，不同Service下的pod在集群间pod通信要借助于cluster ip，pod和集群外通信，要借助于node ip</li>

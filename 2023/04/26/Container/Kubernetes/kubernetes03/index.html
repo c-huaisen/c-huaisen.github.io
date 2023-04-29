@@ -16,12 +16,12 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.基于kubeadm工具部署k8s高可用集群1.1 环境准备1.1.1 主机清单   主机名 IP地址 操作系统 服务 VIP    k8s-master1.chsblogs.com 192.168.1.40 Ubuntu20.04 K8s Master1    k8s-master2.chsblogs.com 192.168.1.41 Ubuntu20.04 K8s Master2    k8">
+    <meta name="description" content="1.基于kubeadm工具部署K8S高可用集群1.1 环境准备1.1.1 主机清单   主机名 IP地址 操作系统 服务 VIP    k8s-master1.chsblogs.com 192.168.1.40 Ubuntu20.04 K8s Master1    k8s-master2.chsblogs.com 192.168.1.41 Ubuntu20.04 K8s Master2    k8">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(3).基于kubeadm工具部署K8S高可用集群">
 <meta property="og:url" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.基于kubeadm工具部署k8s高可用集群1.1 环境准备1.1.1 主机清单   主机名 IP地址 操作系统 服务 VIP    k8s-master1.chsblogs.com 192.168.1.40 Ubuntu20.04 K8s Master1    k8s-master2.chsblogs.com 192.168.1.41 Ubuntu20.04 K8s Master2    k8">
+<meta property="og:description" content="1.基于kubeadm工具部署K8S高可用集群1.1 环境准备1.1.1 主机清单   主机名 IP地址 操作系统 服务 VIP    k8s-master1.chsblogs.com 192.168.1.40 Ubuntu20.04 K8s Master1    k8s-master2.chsblogs.com 192.168.1.41 Ubuntu20.04 K8s Master2    k8">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230426214814190.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230427225417813.png">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230428000416279.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230428000523903.png">
 <meta property="article:published_time" content="2023-04-26T03:29:34.000Z">
-<meta property="article:modified_time" content="2023-04-29T00:17:03.920Z">
+<meta property="article:modified_time" content="2023-04-29T00:20:20.708Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
@@ -305,7 +305,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="1-基于kubeadm工具部署k8s高可用集群"><a href="#1-基于kubeadm工具部署k8s高可用集群" class="headerlink" title="1.基于kubeadm工具部署k8s高可用集群"></a>1.基于kubeadm工具部署k8s高可用集群</h1><h2 id="1-1-环境准备"><a href="#1-1-环境准备" class="headerlink" title="1.1 环境准备"></a>1.1 环境准备</h2><h3 id="1-1-1-主机清单"><a href="#1-1-1-主机清单" class="headerlink" title="1.1.1 主机清单"></a>1.1.1 主机清单</h3><table>
+                <h1 id="1-基于kubeadm工具部署K8S高可用集群"><a href="#1-基于kubeadm工具部署K8S高可用集群" class="headerlink" title="1.基于kubeadm工具部署K8S高可用集群"></a>1.基于kubeadm工具部署K8S高可用集群</h1><h2 id="1-1-环境准备"><a href="#1-1-环境准备" class="headerlink" title="1.1 环境准备"></a>1.1 环境准备</h2><h3 id="1-1-1-主机清单"><a href="#1-1-1-主机清单" class="headerlink" title="1.1.1 主机清单"></a>1.1.1 主机清单</h3><table>
 <thead>
 <tr>
 <th>主机名</th>
@@ -1645,7 +1645,7 @@ http://192.168.1.66/chsblogs/index.jsp</code></pre></div></figure>
 
 
 
-<h2 id="1-9-k8s版本升级"><a href="#1-9-k8s版本升级" class="headerlink" title="1.9 k8s版本升级"></a>1.9 k8s版本升级</h2>
+<h2 id="1-9-K8S版本升级"><a href="#1-9-K8S版本升级" class="headerlink" title="1.9 K8S版本升级"></a>1.9 K8S版本升级</h2>
                 
               </div>
             
