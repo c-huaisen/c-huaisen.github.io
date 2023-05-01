@@ -27,7 +27,7 @@
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501194232560.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501202001881.png">
 <meta property="article:published_time" content="2023-04-26T03:29:42.000Z">
-<meta property="article:modified_time" content="2023-05-01T14:01:02.836Z">
+<meta property="article:modified_time" content="2023-05-01T15:27:16.301Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
@@ -869,7 +869,7 @@ root@k8s-ha2:~<span class="token comment"># systemctl enable haproxy</span></cod
 <span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg <span class="token operator">|</span> <span class="token function">sudo</span> apt-key <span class="token function">add</span> -
 <span class="token function">sudo</span> add-apt-repository <span class="token string">"deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu <span class="token variable"><span class="token variable">$(</span>lsb_release <span class="token parameter variable">-cs</span><span class="token variable">)</span></span> stable"</span>
 <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> update
-<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span class="token operator">=</span><span class="token number">5</span>:20.10.16~3-0~ubuntu-focal docker-ce-cli<span class="token operator">=</span><span class="token number">5</span>:20.10.16~3-0~ubuntu-focal
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span class="token operator">=</span><span class="token number">5</span>:19.03.15~3-0~ubuntu-focal docker-ce-cli<span class="token operator">=</span><span class="token number">5</span>:19.03.15~3-0~ubuntu-focal
 
 <span class="token comment">#2.安装Docker-Compose</span>
 root@harbor1:/usr/local/src<span class="token comment"># curl -L https://github.com/docker/compose/releases/download/v2.15.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose</span>
@@ -1113,14 +1113,18 @@ https://github.com/easzlab/kubeasz</code></pre></div></figure>
 
 
 <p><strong>下载kubeasz工具：</strong></p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># export release=3.2.0</span>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># export release=3.1.1</span>
 root@deploy:~<span class="token comment"># wget https://github.com/easzlab/kubeasz/releases/download/$&#123;release&#125;/ezdown</span>
-root@deploy:~<span class="token comment"># chmod a+x ezdown</span></code></pre></div></figure>
+root@deploy:~<span class="token comment"># chmod a+x ezdown</span>
+
+<span class="token comment">#修改ezdown配置</span>
+root@deploy:~<span class="token comment"># vim ezdown</span>
+<span class="token assign-left variable">DOCKER_VER</span><span class="token operator">=</span><span class="token number">19.03</span>.15
+<span class="token assign-left variable">K8S_BIN_VER</span><span class="token operator">=</span>v1.20.14</code></pre></div></figure>
 
 
 
 <h2 id="1-9-准备镜像"><a href="#1-9-准备镜像" class="headerlink" title="1.9 准备镜像"></a>1.9 准备镜像</h2><h3 id="1-9-1-下载镜像"><a href="#1-9-1-下载镜像" class="headerlink" title="1.9.1 下载镜像"></a>1.9.1 下载镜像</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#查看脚本，可以选择自定义kubernetes组件版本号；查看安装镜像手动拉去镜像到本地。该脚本以包含docker安装，如果本机如果已经安装docker则直接使用。</span>
-root@deploy:~<span class="token comment"># cat ezdown | grep "docker pull"</span>
 root@deploy:~<span class="token comment"># cat ezdown | grep "docker pull"</span>
   <span class="token function">docker</span> pull easzlab/kubeasz-k8s-bin:<span class="token string">"<span class="token variable">$K8S_BIN_VER</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
   <span class="token function">docker</span> pull <span class="token string">"easzlab/kubeasz-ext-bin:<span class="token variable">$EXT_BIN_VER</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
@@ -1136,7 +1140,7 @@ root@deploy:~<span class="token comment"># cat ezdown | grep "docker pull"</span
     <span class="token function">docker</span> pull <span class="token string">"easzlab/flannel:<span class="token variable">$flannelVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
     <span class="token function">docker</span> pull <span class="token string">"kubernetesui/metrics-scraper:<span class="token variable">$dashboardMetricsScraperVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
     <span class="token function">docker</span> pull <span class="token string">"easzlab/metrics-server:<span class="token variable">$metricsVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
-    <span class="token function">docker</span> pull <span class="token string">"easzlab/pause:<span class="token variable">$pauseVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"easzlab/pause-amd64:<span class="token variable">$pauseVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
     <span class="token function">docker</span> pull <span class="token string">"easzlab/nfs-subdir-external-provisioner:<span class="token variable">$nfsProvisionerVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
     <span class="token function">docker</span> pull <span class="token string">"easzlab/kubeasz:<span class="token variable">$KUBEASZ_VER</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
 
@@ -1154,7 +1158,7 @@ root@master1:~<span class="token comment"># ./ezdown -D</span></code></pre></div
 
 
 
-<h3 id="1-10-2-创建集群配置"><a href="#1-10-2-创建集群配置" class="headerlink" title="1.10.2 创建集群配置"></a>1.10.2 创建集群配置</h3><h3 id="1-10-3-初始化集群安装"><a href="#1-10-3-初始化集群安装" class="headerlink" title="1.10.3 初始化集群安装"></a>1.10.3 初始化集群安装</h3><h3 id="1-10-4-部署etcd集群"><a href="#1-10-4-部署etcd集群" class="headerlink" title="1.10.4 部署etcd集群"></a>1.10.4 部署etcd集群</h3><h3 id="1-10-5-部署集群runtime"><a href="#1-10-5-部署集群runtime" class="headerlink" title="1.10.5 部署集群runtime"></a>1.10.5 部署集群runtime</h3><h3 id="1-10-6-部署k8s-master"><a href="#1-10-6-部署k8s-master" class="headerlink" title="1.10.6 部署k8s master"></a>1.10.6 部署k8s master</h3><h3 id="1-10-7-部署k8s-node"><a href="#1-10-7-部署k8s-node" class="headerlink" title="1.10.7 部署k8s node"></a>1.10.7 部署k8s node</h3><h3 id="1-10-8-部署网络插件calico"><a href="#1-10-8-部署网络插件calico" class="headerlink" title="1.10.8 部署网络插件calico"></a>1.10.8 部署网络插件calico</h3><h3 id="1-10-9-测试集群网络"><a href="#1-10-9-测试集群网络" class="headerlink" title="1.10.9 测试集群网络"></a>1.10.9 测试集群网络</h3>
+<h3 id="1-10-2-创建集群配置"><a href="#1-10-2-创建集群配置" class="headerlink" title="1.10.2 创建集群配置"></a>1.10.2 创建集群配置</h3><h3 id="1-10-3-初始化集群安装"><a href="#1-10-3-初始化集群安装" class="headerlink" title="1.10.3 初始化集群安装"></a>1.10.3 初始化集群安装</h3><h3 id="1-10-4-部署etcd集群"><a href="#1-10-4-部署etcd集群" class="headerlink" title="1.10.4 部署etcd集群"></a>1.10.4 部署etcd集群</h3><h3 id="1-10-5-部署集群runtime"><a href="#1-10-5-部署集群runtime" class="headerlink" title="1.10.5 部署集群runtime"></a>1.10.5 部署集群runtime</h3><h3 id="1-10-6-部署k8s-master"><a href="#1-10-6-部署k8s-master" class="headerlink" title="1.10.6 部署k8s master"></a>1.10.6 部署k8s master</h3><h3 id="1-10-7-部署k8s-node"><a href="#1-10-7-部署k8s-node" class="headerlink" title="1.10.7 部署k8s node"></a>1.10.7 部署k8s node</h3><h3 id="1-10-8-部署网络插件calico"><a href="#1-10-8-部署网络插件calico" class="headerlink" title="1.10.8 部署网络插件calico"></a>1.10.8 部署网络插件calico</h3><h3 id="1-10-9-测试集群网络"><a href="#1-10-9-测试集群网络" class="headerlink" title="1.10.9 测试集群网络"></a>1.10.9 测试集群网络</h3><h2 id="1-11-集群维护与管理"><a href="#1-11-集群维护与管理" class="headerlink" title="1.11 集群维护与管理"></a>1.11 集群维护与管理</h2><h2 id="1-12-K8S-Web组件"><a href="#1-12-K8S-Web组件" class="headerlink" title="1.12 K8S Web组件"></a>1.12 K8S Web组件</h2>
                 
               </div>
             
