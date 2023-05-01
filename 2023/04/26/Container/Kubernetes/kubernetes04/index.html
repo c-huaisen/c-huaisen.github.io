@@ -16,18 +16,22 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.基于kubeasz工具部署K8S高可用集群1.1 部署主机清单基于kubeasz工具二进制部署K8S高可用集群，熟悉K8S。基于Jenkins+Gitlab自动发布项目，Ceph存储数据，ELK收集日志，Prometheus监控。 K8S集群主机清单：    主机名 IP地址 操作系统 服务 VIP    K8S集群主机清单：       master1.chsblogs.com 192.16">
+    <meta name="description" content="1.基于kubeasz工具部署K8S高可用集群1.1 部署主机清单基于kubeasz工具二进制部署K8S高可用集群，熟悉K8S。基于Jenkins+Gitlab自动发布项目，Ceph存储数据，ELK收集日志，Prometheus监控。 K8S集群主机清单：    主机名 IP地址 操作系统 服务 VIP    K8S集群主机清单：       deploy.chsblogs.com 192.168">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(4).基于kubeasz工具部署K8S高可用集群">
 <meta property="og:url" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.基于kubeasz工具部署K8S高可用集群1.1 部署主机清单基于kubeasz工具二进制部署K8S高可用集群，熟悉K8S。基于Jenkins+Gitlab自动发布项目，Ceph存储数据，ELK收集日志，Prometheus监控。 K8S集群主机清单：    主机名 IP地址 操作系统 服务 VIP    K8S集群主机清单：       master1.chsblogs.com 192.16">
+<meta property="og:description" content="1.基于kubeasz工具部署K8S高可用集群1.1 部署主机清单基于kubeasz工具二进制部署K8S高可用集群，熟悉K8S。基于Jenkins+Gitlab自动发布项目，Ceph存储数据，ELK收集日志，Prometheus监控。 K8S集群主机清单：    主机名 IP地址 操作系统 服务 VIP    K8S集群主机清单：       deploy.chsblogs.com 192.168">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501100346878.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501194232560.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501202001881.png">
 <meta property="article:published_time" content="2023-04-26T03:29:42.000Z">
-<meta property="article:modified_time" content="2023-04-30T10:48:01.379Z">
+<meta property="article:modified_time" content="2023-05-01T12:48:28.747Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501100346878.png">
   
   
   
@@ -232,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.3k 字
+          16k 字
         
       </span>
     
@@ -243,7 +247,7 @@
         
         
         
-          4 分钟
+          12 分钟
         
       </span>
     
@@ -319,25 +323,32 @@
 <td></td>
 </tr>
 <tr>
+<td>deploy.chsblogs.com</td>
+<td>192.168.1.39</td>
+<td>Ubuntu20.04</td>
+<td>k8s集群部署服务器</td>
+<td></td>
+</tr>
+<tr>
 <td>master1.chsblogs.com</td>
 <td>192.168.1.40</td>
 <td>Ubuntu20.04</td>
 <td>K8s Master1</td>
-<td>192.168.1.88</td>
+<td>192.168.1.90</td>
 </tr>
 <tr>
 <td>master2.chsblogs.com</td>
 <td>192.168.1.41</td>
 <td>Ubuntu20.04</td>
 <td>K8s Master2</td>
-<td>192.168.1.88</td>
+<td>192.168.1.90</td>
 </tr>
 <tr>
 <td>master3.chsblogs.com</td>
 <td>192.168.1.42</td>
 <td>Ubuntu20.04</td>
 <td>K8s Master3</td>
-<td>192.168.1.88</td>
+<td>192.168.1.90</td>
 </tr>
 <tr>
 <td>ha1.chsblogs.com</td>
@@ -354,62 +365,62 @@
 <td></td>
 </tr>
 <tr>
-<td>harbor1.chsblogs.com</td>
-<td>192.168.1.45</td>
-<td>Ubuntu20.04</td>
-<td>Harbor1</td>
-<td>192.168.1.99</td>
-</tr>
-<tr>
-<td>harbor2.chsblogs.com</td>
-<td>192.168.1.46</td>
-<td>Ubuntu20.04</td>
-<td>Harbor2</td>
-<td>192.168.1.99</td>
-</tr>
-<tr>
 <td>etcd1.chsblogs.com</td>
-<td>192.168.1.47</td>
+<td>192.168.1.45</td>
 <td>Ubuntu20.04</td>
 <td>Etcd节点1</td>
 <td></td>
 </tr>
 <tr>
 <td>etcd2.chsblogs.com</td>
-<td>192.168.1.48</td>
+<td>192.168.1.46</td>
 <td>Ubuntu20.04</td>
 <td>Etcd节点2</td>
 <td></td>
 </tr>
 <tr>
 <td>etcd3.chsblogs.com</td>
-<td>192.168.1.49</td>
+<td>192.168.1.47</td>
 <td>Ubuntu20.04</td>
 <td>Etcd节点3</td>
 <td></td>
 </tr>
 <tr>
-<td>node1.chsblogs.com</td>
-<td>192.168.1.50</td>
+<td>harbor1.chsblogs.com</td>
+<td>192.168.1.48</td>
 <td>Ubuntu20.04</td>
-<td>Node节点1</td>
+<td>Harbor1</td>
+<td></td>
+</tr>
+<tr>
+<td>node1.chsblogs.com</td>
+<td>192.168.1.49</td>
+<td>Ubuntu20.04</td>
+<td>Etcd节点1</td>
 <td></td>
 </tr>
 <tr>
 <td>node2.chsblogs.com</td>
-<td>192.168.1.51</td>
+<td>192.168.1.50</td>
 <td>Ubuntu20.04</td>
 <td>Node节点2</td>
 <td></td>
 </tr>
 <tr>
 <td>node3.chsblogs.com</td>
-<td>192.168.1.52</td>
+<td>192.168.1.51</td>
 <td>Ubuntu20.04</td>
 <td>Node节点3</td>
 <td></td>
 </tr>
 <tr>
+<td>node4.chsblogs.com</td>
+<td>192.168.1.52</td>
+<td>Ubuntu20.04</td>
+<td>Node节点4</td>
+<td></td>
+</tr>
+<tr>
 <td></td>
 <td></td>
 <td></td>
@@ -417,7 +428,7 @@
 <td></td>
 </tr>
 <tr>
-<td><strong>Jenkins+Gitlab主机清单：</strong></td>
+<td><strong>Jenkins主机清单：</strong></td>
 <td></td>
 <td></td>
 <td></td>
@@ -428,6 +439,20 @@
 <td>192.168.1.53</td>
 <td>Ubuntu20.04</td>
 <td>Jenkins 2.277.4</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Gitlab主机清单：</strong></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -515,6 +540,27 @@
 <td></td>
 </tr>
 <tr>
+<td><strong>Prometheus主机清单：</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>prometheus</td>
+<td>192.168.1.61</td>
+<td>Ubuntu20.04</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td><strong>Ceph集群主机清单：</strong></td>
 <td></td>
 <td></td>
@@ -525,7 +571,7 @@
 <td>eph-deploy</td>
 <td>192.168.1.10&#x2F;172.31.1.10</td>
 <td>CentOS7.9</td>
-<td>ceph-deploy集群部署服务器</td>
+<td>ceph集群部署服务器</td>
 <td></td>
 </tr>
 <tr>
@@ -662,28 +708,468 @@ vm.overcommit_memory <span class="token operator">=</span> <span class="token nu
 vm.swappiness <span class="token operator">=</span> <span class="token number">10</span>
 fs.file-max <span class="token operator">=</span> <span class="token number">1000000</span></code></pre></div></figure>
 
-<h3 id="1-2-3-配置主机名"><a href="#1-2-3-配置主机名" class="headerlink" title="1.2.3 配置主机名"></a>1.2.3 配置主机名</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">hostnamectl set-hostname k8s-master1.chsblogs.com
-hostnamectl set-hostname k8s-master2.chsblogs.com
-hostnamectl set-hostname k8s-master3.chsblogs.com
+<h3 id="1-2-3-配置主机名"><a href="#1-2-3-配置主机名" class="headerlink" title="1.2.3 配置主机名"></a>1.2.3 配置主机名</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">hostnamectl set-hostname deploy.chsblogs.com
 
-hostnamectl set-hostname k8s-ha1.chsblogs.com
-hostnamectl set-hostname k8s-ha2.chsblogs.com
+hostnamectl set-hostname master1.chsblogs.com
+hostnamectl set-hostname master2.chsblogs.com
+hostnamectl set-hostname master3.chsblogs.com
 
-hostnamectl set-hostname k8s-etcd1.chsblogs.com
-hostnamectl set-hostname k8s-etcd2.chsblogs.com
-hostnamectl set-hostname k8s-etcd3.chsblogs.com
+hostnamectl set-hostname ha1.chsblogs.com
+hostnamectl set-hostname ha2.chsblogs.com
 
-hostnamectl set-hostname k8s-harbor1.chsblogs.com
-hostnamectl set-hostname k8s-harbor2.chsblogs.com
+hostnamectl set-hostname etcd1.chsblogs.com
+hostnamectl set-hostname etcd2.chsblogs.com
+hostnamectl set-hostname etcd3.chsblogs.com
 
-hostnamectl set-hostname k8s-node1.chsblogs.com
-hostnamectl set-hostname k8s-node2.chsblogs.com
-hostnamectl set-hostname k8s-node3.chsblogs.com</code></pre></div></figure>
+hostnamectl set-hostname harbor1.chsblogs.com
+
+hostnamectl set-hostname node1.chsblogs.com
+hostnamectl set-hostname node2.chsblogs.com
+hostnamectl set-hostname node3.chsblogs.com
+hostnamectl set-hostname node4.chsblogs.com</code></pre></div></figure>
 
 
 
-<h2 id="1-3-安装配置Haproxy"><a href="#1-3-安装配置Haproxy" class="headerlink" title="1.3 安装配置Haproxy"></a>1.3 安装配置Haproxy</h2><p>主机k8s-ha1.chsblogs.com【192.168.1.30】安装配置Haproxy：</p>
-<h2 id="1-4-安装配置Ansible"><a href="#1-4-安装配置Ansible" class="headerlink" title="1.4 安装配置Ansible"></a>1.4 安装配置Ansible</h2><h2 id="1-5-安装配置Harbor"><a href="#1-5-安装配置Harbor" class="headerlink" title="1.5 安装配置Harbor"></a>1.5 安装配置Harbor</h2><h2 id="1-6-安装配置Ansible"><a href="#1-6-安装配置Ansible" class="headerlink" title="1.6 安装配置Ansible"></a>1.6 安装配置Ansible</h2><h2 id="1-7-kubeasz工具介绍"><a href="#1-7-kubeasz工具介绍" class="headerlink" title="1.7 kubeasz工具介绍"></a>1.7 kubeasz工具介绍</h2>
+<h2 id="1-3-安装配置Haproxy"><a href="#1-3-安装配置Haproxy" class="headerlink" title="1.3 安装配置Haproxy"></a>1.3 安装配置Haproxy</h2><p>主机k8s-ha1.chsblogs.com【192.168.1.43】安装配置Keepalived及Haproxy：</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装keepalived</span>
+root@k8s-ha1:~<span class="token comment"># apt update &amp;&amp; apt -y install keepalived</span>
+
+<span class="token comment">#2.配置keepalived</span>
+root@k8s-ha1:~<span class="token comment"># cp /usr/share/doc/keepalived/samples/keepalived.conf.vrrp /etc/keepalived/keepalived.conf</span>
+root@k8s-ha1:~<span class="token comment"># vim /etc/keepalived/keepalived.conf</span>
+<span class="token operator">!</span> Configuration File <span class="token keyword">for</span> keepalived
+  
+global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id LVS_DEVEL
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state MASTER
+    interface ens33 <span class="token comment">#注意网卡名称</span>
+    garp_master_delay <span class="token number">10</span>
+    smtp_alert
+    virtual_router_id <span class="token number">51</span>
+    priority <span class="token number">100</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.90 dev ens33 label ens33:1
+        <span class="token number">192.168</span>.1.91 dev ens33 label ens33:2
+        <span class="token number">192.168</span>.1.92 dev ens33 label ens33:3
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@k8s-ha1:~<span class="token comment"># systemctl enable --now keepalived</span>
+
+<span class="token comment">#3.安装haproxy</span>
+root@k8s-ha1:~<span class="token comment"># apt update &amp;&amp; apt -y install haproxy</span>
+
+<span class="token comment">#4.配置haproxy</span>
+root@k8s-ha1:~<span class="token comment"># vim /etc/haproxy/haproxy.cfg</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+listen stats
+  mode http
+  <span class="token builtin class-name">bind</span> <span class="token number">0.0</span>.0.0:8888
+  stats <span class="token builtin class-name">enable</span>
+  log global
+  stats uri /haproxy-status
+  stats auth admin:admin
+
+listen k8s-api-6443
+  <span class="token builtin class-name">bind</span> <span class="token number">192.168</span>.1.90:6443
+  mode tcp
+  server <span class="token number">192.168</span>.1.40 <span class="token number">192.168</span>.1.40:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.1.41 <span class="token number">192.168</span>.1.41:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.1.42 <span class="token number">192.168</span>.1.42:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  
+root@k8s-ha1:~<span class="token comment"># systemctl restart haproxy</span>
+root@k8s-ha1:~<span class="token comment"># systemctl enable haproxy</span></code></pre></div></figure>
+
+
+
+<p>主机k8s-ha1.chsblogs.com【192.168.1.44】安装配置Keepalived及Haproxy：</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装keepalived</span>
+root@k8s-ha2:~<span class="token comment"># apt update &amp;&amp; apt -y install keepalived</span>
+
+<span class="token comment">#2.配置keepalived</span>
+root@k8s-ha2:~<span class="token comment"># cp /usr/share/doc/keepalived/samples/keepalived.conf.vrrp /etc/keepalived/keepalived.conf</span>
+root@k8s-ha2:~<span class="token comment"># vim /etc/keepalived/keepalived.conf</span>
+<span class="token operator">!</span> Configuration File <span class="token keyword">for</span> keepalived
+  
+global_defs <span class="token punctuation">&#123;</span>
+   notification_email <span class="token punctuation">&#123;</span>
+     acassen
+   <span class="token punctuation">&#125;</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server <span class="token number">192.168</span>.200.1
+   smtp_connect_timeout <span class="token number">30</span>
+   router_id LVS_DEVEL
+<span class="token punctuation">&#125;</span>
+
+vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
+    state BACKUP
+    interface ens33 <span class="token comment">#注意网卡名称</span>
+    garp_master_delay <span class="token number">10</span>
+    smtp_alert
+    virtual_router_id <span class="token number">51</span>
+    priority <span class="token number">80</span>
+    advert_int <span class="token number">1</span>
+    authentication <span class="token punctuation">&#123;</span>
+        auth_type PASS
+        auth_pass <span class="token number">1111</span>
+    <span class="token punctuation">&#125;</span>
+    virtual_ipaddress <span class="token punctuation">&#123;</span>
+        <span class="token number">192.168</span>.1.90 dev ens33 label ens33:1
+        <span class="token number">192.168</span>.1.91 dev ens33 label ens33:2
+        <span class="token number">192.168</span>.1.92 dev ens33 label ens33:3
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@k8s-ha2:~<span class="token comment"># systemctl enable --now keepalived</span>
+
+<span class="token comment">#3.安装haproxy</span>
+root@k8s-ha2:~<span class="token comment"># apt update &amp;&amp; apt -y install haproxy</span>
+
+<span class="token comment">#4.配置haproxy</span>
+root@k8s-ha2:~<span class="token comment"># vim /etc/haproxy/haproxy.cfg</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+listen stats
+  mode http
+  <span class="token builtin class-name">bind</span> <span class="token number">0.0</span>.0.0:8888
+  stats <span class="token builtin class-name">enable</span>
+  log global
+  stats uri /haproxy-status
+  stats auth admin:admin
+
+listen k8s-api-6443
+  <span class="token builtin class-name">bind</span> <span class="token number">192.168</span>.1.90:6443
+  mode tcp
+  server <span class="token number">192.168</span>.1.40 <span class="token number">192.168</span>.1.40:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.1.41 <span class="token number">192.168</span>.1.41:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.1.42 <span class="token number">192.168</span>.1.42:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  
+<span class="token comment">#注意开启内核参数net.ipv4.ip_nonlocal_bind = 1，否则本机没有监听192.168.1.66地址无法启动haproxy</span>
+root@k8s-ha2:~<span class="token comment"># systemctl restart haproxy</span>
+root@k8s-ha2:~<span class="token comment"># systemctl enable haproxy</span></code></pre></div></figure>
+
+
+
+<h2 id="1-4-安装配置Harbor"><a href="#1-4-安装配置Harbor" class="headerlink" title="1.4 安装配置Harbor"></a>1.4 安装配置Harbor</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装docker</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> update
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> apt-transport-https ca-certificates <span class="token function">curl</span> software-properties-common
+<span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg <span class="token operator">|</span> <span class="token function">sudo</span> apt-key <span class="token function">add</span> -
+<span class="token function">sudo</span> add-apt-repository <span class="token string">"deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu <span class="token variable"><span class="token variable">$(</span>lsb_release <span class="token parameter variable">-cs</span><span class="token variable">)</span></span> stable"</span>
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> update
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span class="token operator">=</span><span class="token number">5</span>:20.10.16~3-0~ubuntu-focal docker-ce-cli<span class="token operator">=</span><span class="token number">5</span>:20.10.16~3-0~ubuntu-focal
+
+<span class="token comment">#2.安装Docker-Compose</span>
+root@harbor1:/usr/local/src<span class="token comment"># curl -L https://github.com/docker/compose/releases/download/v2.15.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose</span>
+root@harbor1:/usr/local/src<span class="token comment"># chmod +x /usr/local/bin/docker-compose</span>
+
+<span class="token comment">#3.下载Harbor安装包</span>
+root@harbor1:~<span class="token comment"># cd /usr/local/src/</span>
+root@harbor1:/usr/local/src<span class="token comment"># wget https://github.com/goharbor/harbor/releases/download/v2.5.0/harbor-offline-installer-v2.5.0.tgz</span>
+root@harbor1:/usr/local/src<span class="token comment"># ls</span>
+harbor-offline-installer-v2.5.0.tgz
+
+<span class="token comment">#4.安装Harbor并创建自签发SSL</span>
+root@harbor1:/usr/local/src<span class="token comment"># tar -xvf harbor-offline-installer-v2.5.0.tgz</span>
+root@harbor1:/usr/local/src<span class="token comment"># cd harbor/</span>
+root@harbor1:/usr/local/src/harbor<span class="token comment"># cp harbor.yml.tmpl harbor.yml</span>
+root@harbor1:/usr/local/src/harbor<span class="token comment"># mkdir certs</span>
+root@harbor1:/usr/local/src/harbor<span class="token comment"># cd certs/</span>
+<span class="token comment">#创建CA私钥</span>
+root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># openssl genrsa -out ca.key 4096</span>
+ 
+<span class="token comment">#自签名机构生成CA证书</span>
+root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># openssl req -x509 -new -nodes -sha512 -days 7300 \</span>
+<span class="token parameter variable">-subj</span> <span class="token string">"/C=CN/ST=Jangxi/L=GanZhou/O=example/OU=Personal/CN=harbor.chsblogs.local"</span> <span class="token punctuation">\</span>
+<span class="token parameter variable">-key</span> ca.key <span class="token punctuation">\</span>
+<span class="token parameter variable">-out</span> ca.crt
+ 
+<span class="token comment">#参数说明：</span>
+<span class="token comment">## C，Country，代表国家</span>
+<span class="token comment">## ST，STate，代表省份</span>
+<span class="token comment">## L，Location，代表城市</span>
+<span class="token comment">## O，Organization，代表组织，公司</span>
+<span class="token comment">## OU，Organization Unit，代表部门</span>
+<span class="token comment">## CN，Common Name，代表服务器域名</span>
+<span class="token comment">## emailAddress，代表联系人邮箱地址。</span>
+ 
+<span class="token comment">#客户端私钥证书生成</span>
+root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># openssl genrsa -out harbor.chsblogs.local.key 4096</span>
+ 
+root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># openssl req -sha512 -new \</span>
+<span class="token parameter variable">-subj</span> <span class="token string">"/C=CN/ST=Jangsu/L=Nanjing/O=example/OU=Personal/CN=cncf.net"</span> <span class="token punctuation">\</span>
+<span class="token parameter variable">-key</span> harbor.chsblogs.local.key <span class="token punctuation">\</span>
+<span class="token parameter variable">-out</span> harbor.chsblogs.local.csr
+ 
+<span class="token comment">#生成多个域名请求</span>
+<span class="token function">cat</span> <span class="token operator">></span> v3.ext <span class="token operator">&lt;&lt;-</span><span class="token string">EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+ 
+[alt_names]
+DNS.1=harbor.chsblogs.com
+DNS.2=harbor.chsblogs.net
+DNS.3=harbor.chsblogs.local
+EOF</span>
+ 
+<span class="token comment">#使用自签名CA签发证书</span>
+root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># openssl x509 -req -sha512 -days 7300 \</span>
+<span class="token parameter variable">-extfile</span> v3.ext <span class="token punctuation">\</span>
+<span class="token parameter variable">-CA</span> ca.crt <span class="token parameter variable">-CAkey</span> ca.key <span class="token parameter variable">-CAcreateserial</span> <span class="token punctuation">\</span>
+<span class="token parameter variable">-in</span> harbor.chsblogs.local.csr <span class="token punctuation">\</span>
+<span class="token parameter variable">-out</span> harbor.chsblogs.local.crt
+
+root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># ll</span>
+total <span class="token number">28</span>
+drwxr-xr-x <span class="token number">2</span> root root  <span class="token number">161</span> May  <span class="token number">1</span> <span class="token number">20</span>:09 ./
+drwxr-xr-x <span class="token number">4</span> root root  <span class="token number">193</span> May  <span class="token number">1</span> <span class="token number">20</span>:11 <span class="token punctuation">..</span>/
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">2069</span> May  <span class="token number">1</span> <span class="token number">20</span>:09 ca.crt
+-rw------- <span class="token number">1</span> root root <span class="token number">3243</span> May  <span class="token number">1</span> <span class="token number">20</span>:09 ca.key
+-rw-r--r-- <span class="token number">1</span> root root   <span class="token number">41</span> May  <span class="token number">1</span> <span class="token number">20</span>:09 ca.srl
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">2155</span> May  <span class="token number">1</span> <span class="token number">20</span>:09 harbor.chsblogs.local.crt
+-rw-r--r-- <span class="token number">1</span> root root <span class="token number">1700</span> May  <span class="token number">1</span> <span class="token number">20</span>:09 harbor.chsblogs.local.csr
+-rw------- <span class="token number">1</span> root root <span class="token number">3243</span> May  <span class="token number">1</span> <span class="token number">20</span>:09 harbor.chsblogs.local.key
+-rw-r--r-- <span class="token number">1</span> root root  <span class="token number">293</span> May  <span class="token number">1</span> <span class="token number">20</span>:09 v3.ext
+
+root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># cd ..</span>
+
+<span class="token comment">#5.创建Harbor数据目录，并使用数据盘挂载到/data目录</span>
+root@harbor1:/usr/local/src/harbor<span class="token comment"># mkdir /data</span>
+
+<span class="token comment">#6.配置Harbor</span>
+root@harbor1:/usr/local/src/harbor<span class="token comment"># vim harbor.yml</span>
+hostname: harbor.chsblogs.local
+<span class="token comment"># http related config</span>
+http:
+  <span class="token comment"># port for http, default is 80. If https enabled, this port will redirect to https port</span>
+  port: <span class="token number">80</span>
+
+<span class="token comment"># https related config</span>
+https:
+  <span class="token comment"># https port for harbor, default is 443</span>
+  port: <span class="token number">443</span>
+  <span class="token comment"># The path of cert and key files for nginx</span>
+  certificate: /usr/local/src/harbor/certs/harbor-ca.crt
+  private_key: /usr/local/src/harbor/certs/harbor-ca.key
+harbor_admin_password: <span class="token number">123456</span>
+data_volume: /data
+
+<span class="token comment">#7.执行install.sh脚本安装</span>
+root@harbor1:/usr/local/src/harbor<span class="token comment"># ./install.sh --with-trivy --with-chartmuseum</span></code></pre></div></figure>
+
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501100346878.png" srcset="/img/loading.gif" lazyload alt="image-20230501100346878"> </p>
+<p><strong>创建baseimages项目：</strong></p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501194232560.png" srcset="/img/loading.gif" lazyload alt="image-20230501194232560"> </p>
+<p><strong>docker客户端配置证书验证，并推送镜像到Harbor：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.docker客户端创建证书保留位置，创建证书的名称必须是harbor域名的名称</span>
+root@deploy:~<span class="token comment"># mkdir /etc/docker/certs.d/harbor.chsblogs.local -p</span>
+
+<span class="token comment">#2.Harbor将证书发送给客户端</span>
+root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># scp harbor.chsblogs.local.crt 192.168.1.39:/etc/docker/certs.d/harbor.chsblogs.local</span>
+
+<span class="token comment">#3.docker客户端配置hosts域名解析Harbor</span>
+root@deploy:~<span class="token comment"># vim /etc/hosts</span>
+<span class="token number">192.168</span>.1.48 harbor.chsblogs.local
+
+<span class="token comment">#4.测试docker登录Harbor</span>
+root@deploy:~<span class="token comment"># docker login harbor.chsblogs.local</span>
+Username: admin
+Password: 
+WARNING<span class="token operator">!</span> Your password will be stored unencrypted <span class="token keyword">in</span> /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/<span class="token comment">#credentials-store</span>
+
+Login Succeeded
+
+<span class="token comment">#5.测试docker push推送镜像到Harbor</span>
+root@deploy:~<span class="token comment"># docker pull centos:7.9.2009</span>
+<span class="token number">7.9</span>.2009: Pulling from library/centos
+2d473b07cdd5: Pull complete 
+Digest: sha256:9d4bcbbb213dfd745b58be38b13b996ebb5ac315fe75711bd618426a630e0987
+Status: Downloaded newer image <span class="token keyword">for</span> centos:7.9.2009
+docker.io/library/centos:7.9.2009
+root@deploy:~<span class="token comment"># docker images</span>
+REPOSITORY   TAG        IMAGE ID       CREATED         SIZE
+centos       <span class="token number">7.9</span>.2009   eeb6ee3f44bd   <span class="token number">19</span> months ago   204MB
+root@deploy:~<span class="token comment"># docker tag centos:7.9.2009 harbor.chsblogs.local/baseimages/centos:7.9.2009</span>
+root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/centos:7.9.2009</span>
+The push refers to repository <span class="token punctuation">[</span>harbor.chsblogs.local/baseimages/centos<span class="token punctuation">]</span>
+174f56854903: Pushed 
+<span class="token number">7.9</span>.2009: digest: sha256:dead07b4d8ed7e29e98de0f4504d87e8880d4347859d839686a31da35a3b532f size: <span class="token number">529</span>
+
+<span class="token comment">#6.查看Harbor</span></code></pre></div></figure>
+
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501202001881.png" srcset="/img/loading.gif" lazyload alt="image-20230501202001881"> </p>
+<h2 id="1-7-安装配置Ansible"><a href="#1-7-安装配置Ansible" class="headerlink" title="1.7 安装配置Ansible"></a>1.7 安装配置Ansible</h2><p><strong>主机deploy.chsblogs.com【192.168.1.39】安装Ansible</strong>：</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># apt update &amp;&amp; apt -y install ansible git</span></code></pre></div></figure>
+
+
+
+<h3 id="1-7-1-配置免密钥认证"><a href="#1-7-1-配置免密钥认证" class="headerlink" title="1.7.1 配置免密钥认证"></a>1.7.1 配置免密钥认证</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#设置所有节点都能够免密登录，并为每个节点设置python的软连接</span>
+root@deploy:~<span class="token comment"># apt install sshpass</span>
+root@deploy:~<span class="token comment"># ssh-keygen</span>
+root@deploy:~<span class="token comment"># ln -sv /usr/bin/python3 /usr/bin/python</span>
+root@deploy:~<span class="token comment"># vim key.sh</span>
+<span class="token comment">#!/bin/bash</span>
+<span class="token assign-left variable">IP</span><span class="token operator">=</span><span class="token string">"
+192.168.1.40
+192.168.1.41
+192.168.1.42
+192.168.1.43
+192.168.1.44
+192.168.1.45
+192.168.1.46
+192.168.1.47
+192.168.1.48
+192.168.1.49
+192.168.1.50
+192.168.1.51
+192.168.1.52
+"</span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">n</span> <span class="token keyword">in</span> <span class="token variable">$&#123;IP&#125;</span><span class="token punctuation">;</span><span class="token keyword">do</span>
+  sshpass <span class="token parameter variable">-p</span> <span class="token number">123456</span> ssh-copy-id <span class="token variable">$&#123;n&#125;</span> <span class="token parameter variable">-o</span> <span class="token assign-left variable">StrictHostKeyChecking</span><span class="token operator">=</span>no
+  <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$&#123;n&#125;</span> done"</span>
+  <span class="token function">ssh</span> <span class="token variable">$&#123;n&#125;</span> <span class="token string">"ln -sv /usr/bin/python3 /usr/bin/python"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$&#123;n&#125;</span> /usr/bin/python3 done"</span>
+<span class="token keyword">done</span>
+
+root@deploy:~<span class="token comment"># bash key.sh</span></code></pre></div></figure>
+
+
+
+<h3 id="1-7-2-配置hosts文件"><a href="#1-7-2-配置hosts文件" class="headerlink" title="1.7.2 配置hosts文件"></a>1.7.2 配置hosts文件</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># vim /etc/hosts</span>
+<span class="token number">127.0</span>.0.1 localhost
+<span class="token number">127.0</span>.1.1 ubuntu2004
+
+<span class="token comment"># The following lines are desirable for IPv6 capable hosts</span>
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+<span class="token number">192.168</span>.1.40 master1.chsblogs.com master1
+<span class="token number">192.168</span>.1.41 master2.chsblogs.com master2
+<span class="token number">192.168</span>.1.42 master3.chsblogs.com master3
+
+<span class="token number">192.168</span>.1.45 etcd1.chsblogs.com etcd1
+<span class="token number">192.168</span>.1.46 etcd2.chsblogs.com etcd2
+<span class="token number">192.168</span>.1.47 etcd3.chsblogs.com etcd3
+
+<span class="token number">192.168</span>.1.49 node1.chsblogs.com node1
+<span class="token number">192.168</span>.1.50 node2.chsblogs.com node2
+<span class="token number">192.168</span>.1.51 node3.chsblogs.com node3
+<span class="token number">192.168</span>.1.52 node4.chsblogs.com node4
+
+<span class="token number">192.168</span>.1.48 harbor.chsblogs.local
+
+<span class="token comment">#分发hosts文件到所有集群节点</span>
+root@deploy:~<span class="token comment"># for n in &#123;40..52&#125;;do scp /etc/hosts 192.168.1.$n:/etc/;done</span></code></pre></div></figure>
+
+
+
+<h3 id="1-7-3-配置时间同步"><a href="#1-7-3-配置时间同步" class="headerlink" title="1.7.3 配置时间同步"></a>1.7.3 配置时间同步</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># for n in &#123;40..52&#125;;do ssh 192.168.1.$n "apt update &amp;&amp; apt install chrony -y;systemctl enable chrony --now";done</span></code></pre></div></figure>
+
+
+
+<h3 id="1-7-4-同步docker证书"><a href="#1-7-4-同步docker证书" class="headerlink" title="1.7.4 同步docker证书"></a>1.7.4 同步docker证书</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># vim scp.sh</span>
+<span class="token comment">#!/bin/bash</span>
+<span class="token assign-left variable">IP</span><span class="token operator">=</span><span class="token string">"
+192.168.1.40
+192.168.1.41
+192.168.1.42
+192.168.1.49
+192.168.1.50
+192.168.1.51
+192.168.1.52
+"</span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">n</span> <span class="token keyword">in</span> <span class="token variable">$&#123;IP&#125;</span><span class="token punctuation">;</span><span class="token keyword">do</span>
+  sshpass <span class="token parameter variable">-p</span> <span class="token number">123456</span> ssh-copy-id <span class="token variable">$&#123;n&#125;</span> <span class="token parameter variable">-o</span> <span class="token assign-left variable">StrictHostKeyChecking</span><span class="token operator">=</span>no
+  <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$&#123;n&#125;</span> done"</span>
+  <span class="token function">ssh</span> <span class="token variable">$&#123;n&#125;</span> <span class="token string">"mkdir /etc/docker/certs.d/harbor.chsblogs.local -p"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$&#123;n&#125;</span> Harbor证书创建完成"</span>
+  <span class="token function">scp</span> /etc/docker/certs.d/harbor.chsblogs.local/harbor.chsblogs.local.crt <span class="token variable">$n</span>:/etc/docker/certs.d/harbor.chsblogs.local/harbor.chsblogs.local.crt
+  <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$&#123;n&#125;</span> Harbor证书复制完成"</span>
+<span class="token keyword">done</span>
+
+root@deploy:~<span class="token comment"># bash scp.sh</span></code></pre></div></figure>
+
+
+
+<h2 id="1-8-kubeasz工具介绍"><a href="#1-8-kubeasz工具介绍" class="headerlink" title="1.8 kubeasz工具介绍"></a>1.8 kubeasz工具介绍</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#kubeasz github地址：</span>
+https://github.com/easzlab/kubeasz</code></pre></div></figure>
+
+
+
+<p><strong>下载kubeasz工具：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># export release=3.3.1</span>
+root@deploy:~<span class="token comment"># wget https://github.com/easzlab/kubeasz/releases/download/$&#123;release&#125;/ezdown</span>
+root@deploy:~<span class="token comment"># chmod a+x ezdown</span></code></pre></div></figure>
+
+
+
+<h2 id="1-9-准备镜像"><a href="#1-9-准备镜像" class="headerlink" title="1.9 准备镜像"></a>1.9 准备镜像</h2><h3 id="1-9-1-下载镜像"><a href="#1-9-1-下载镜像" class="headerlink" title="1.9.1 下载镜像"></a>1.9.1 下载镜像</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#查看脚本，可以选择自定义kubernetes组件版本号；查看安装镜像手动拉去镜像到本地。该脚本以包含docker安装，如果本机如果已经安装docker则直接使用。</span>
+root@deploy:~<span class="token comment"># cat ezdown | grep "docker pull"</span>
+  <span class="token function">docker</span> pull easzlab/kubeasz-k8s-bin:<span class="token string">"<span class="token variable">$K8S_BIN_VER</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+  <span class="token function">docker</span> pull <span class="token string">"easzlab/kubeasz-ext-bin:<span class="token variable">$EXT_BIN_VER</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+  <span class="token function">docker</span> pull <span class="token string">"easzlab/kubeasz-sys-pkg:<span class="token variable">$SYS_PKG_VER</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+  <span class="token function">docker</span> pull <span class="token string">"easzlab/harbor-offline:<span class="token variable">$HARBOR_VER</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"calico/cni:<span class="token variable">$calicoVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"calico/pod2daemon-flexvol:<span class="token variable">$calicoVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"calico/kube-controllers:<span class="token variable">$calicoVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"calico/node:<span class="token variable">$calicoVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"coredns/coredns:<span class="token variable">$corednsVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"easzlab/k8s-dns-node-cache:<span class="token variable">$dnsNodeCacheVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"kubernetesui/dashboard:<span class="token variable">$dashboardVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"kubernetesui/metrics-scraper:<span class="token variable">$dashboardMetricsScraperVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"easzlab/metrics-server:<span class="token variable">$metricsVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"easzlab/pause:<span class="token variable">$pauseVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"easzlab/kubeasz:<span class="token variable">$KUBEASZ_VER</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"easzlab/flannel:<span class="token variable">$flannelVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"easzlab/nfs-subdir-external-provisioner:<span class="token variable">$nfsProvisionerVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"quay.io/cilium/cilium:v<span class="token variable">$ciliumVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"quay.io/cilium/operator-generic:v<span class="token variable">$ciliumVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"quay.io/cilium/hubble-relay:v<span class="token variable">$ciliumVer</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/cilium/hubble-ui-backend:v0.9.0 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/cilium/hubble-ui:v0.9.0 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/cilium/json-mock:v1.3.0 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/cilium/alpine-curl:v1.3.0
+    <span class="token function">docker</span> pull easzlab/kube-state-metrics:v2.4.1 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull easzlab/kube-webhook-certgen:v1.1.1 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull grafana/grafana:8.5.3 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/kiwigrid/k8s-sidecar:1.15.6 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/prometheus-operator/prometheus-config-reloader:v0.56.3 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/prometheus-operator/prometheus-operator:v0.56.3 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/prometheus/alertmanager:v0.24.0 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/prometheus/node-exporter:v1.3.1 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull quay.io/prometheus/prometheus:v2.35.0 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+    <span class="token function">docker</span> pull <span class="token string">"registry:2"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+
+<span class="token comment">#下载kubeasz代码、二进制、默认容器镜像</span>
+root@master1:~<span class="token comment"># ./ezdown -D</span></code></pre></div></figure>
+
+
+
+<h3 id="1-9-2-上传镜像至Harbor"><a href="#1-9-2-上传镜像至Harbor" class="headerlink" title="1.9.2 上传镜像至Harbor"></a>1.9.2 上传镜像至Harbor</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"></code></pre></div></figure>
+
+
+
+<h2 id="1-10-部署K8S集群"><a href="#1-10-部署K8S集群" class="headerlink" title="1.10 部署K8S集群"></a>1.10 部署K8S集群</h2>
                 
               </div>
             
