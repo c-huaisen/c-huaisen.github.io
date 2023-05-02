@@ -37,8 +37,17 @@
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502130837378.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502131727996.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502132407963.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502154313000.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502160542081.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161048045.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161305210.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161654410.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163853667.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163913502.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163952162.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502170504365.png">
 <meta property="article:published_time" content="2023-04-26T03:29:42.000Z">
-<meta property="article:modified_time" content="2023-05-02T07:17:38.019Z">
+<meta property="article:modified_time" content="2023-05-02T09:21:15.281Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
@@ -247,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          43k 字
+          49k 字
         
       </span>
     
@@ -258,7 +267,7 @@
         
         
         
-          30 分钟
+          34 分钟
         
       </span>
     
@@ -2145,7 +2154,171 @@ kube-system   coredns-b7db84f9f-9dgwj                    <span class="token numb
 kube-system   coredns-b7db84f9f-b9699                    <span class="token number">1</span>/1     Running   <span class="token number">0</span>          14m
 kube-system   coredns-b7db84f9f-fk48m                    <span class="token number">1</span>/1     Running   <span class="token number">0</span>          18s</code></pre></div></figure>
 
-<h2 id="1-13-部署K8S-Web组件"><a href="#1-13-部署K8S-Web组件" class="headerlink" title="1.13 部署K8S Web组件"></a>1.13 部署K8S Web组件</h2><h3 id="1-13-1-部署dashboard"><a href="#1-13-1-部署dashboard" class="headerlink" title="1.13.1 部署dashboard"></a>1.13.1 部署dashboard</h3><h3 id="1-13-2-部署rancher"><a href="#1-13-2-部署rancher" class="headerlink" title="1.13.2 部署rancher"></a>1.13.2 部署rancher</h3>
+<h2 id="1-13-部署K8S-Web组件"><a href="#1-13-部署K8S-Web组件" class="headerlink" title="1.13 部署K8S Web组件"></a>1.13 部署K8S Web组件</h2><h3 id="1-13-1-部署dashboard"><a href="#1-13-1-部署dashboard" class="headerlink" title="1.13.1 部署dashboard"></a>1.13.1 部署dashboard</h3><p><a target="_blank" rel="noopener" href="https://github.com/kubernetes/dashboard">https://github.com/kubernetes/dashboard</a></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">https://github.com/kubernetes/dashboard/releases/tag/v2.4.0
+
+<span class="token comment">#1.下载官方yaml文件</span>
+root@deploy:~<span class="token comment"># cd /k8s/</span>
+root@deploy:/k8s<span class="token comment"># mkdir dashboard</span>
+root@deploy:/k8s<span class="token comment"># cd dashboard/</span>
+root@deploy:/k8s/dashboard<span class="token comment"># wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml</span>
+root@deploy:/k8s/dashboard<span class="token comment"># mv recommended.yaml dashboard-2.4.0.yaml</span>
+
+<span class="token comment">#2.下载镜像</span>
+root@deploy:/k8s/dashboard<span class="token comment"># docker pull kubernetesui/dashboard:v2.4.0</span>
+root@deploy:/k8s/dashboard<span class="token comment"># docker pull kubernetesui/metrics-scraper:v1.0.7</span>
+
+<span class="token comment">#3.将镜像上传至harbor仓库</span>
+root@deploy:/k8s/dashboard<span class="token comment"># docker tag kubernetesui/dashboard:v2.4.0 harbor.chsblogs.local/baseimages/dashboard:v2.4.0</span>
+root@deploy:/k8s/dashboard<span class="token comment"># docker push harbor.chsblogs.local/baseimages/dashboard:v2.4.0</span>
+
+root@deploy:/k8s/dashboard<span class="token comment"># docker tag kubernetesui/metrics-scraper:v1.0.7 harbor.chsblogs.local/baseimages/metrics-scraper:v1.0.7</span>
+root@deploy:/k8s/dashboard<span class="token comment"># docker push harbor.chsblogs.local/baseimages/metrics-scraper:v1.0.7</span>
+
+<span class="token comment">#4.修改ashboard-2.4.0.yaml</span>
+root@deploy:/k8s/dashboard<span class="token comment"># vim dashboard-2.4.0.yaml</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+spec:
+  type: NodePort
+  ports:
+    - port: <span class="token number">443</span>
+      targetPort: <span class="token number">8443</span>
+      nodePort: <span class="token number">32000</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+    spec:
+      containers:
+        - name: kubernetes-dashboard
+          image: harbor.chsblogs.local/baseimages/dashboard:v2.4.0
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+   spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: dashboard-metrics-scraper
+          image: harbor.chsblogs.local/baseimages/metrics-scraper:v1.0.7
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+
+<span class="token comment">#5.创建容器</span>
+root@deploy:/k8s/dashboard<span class="token comment"># kubectl apply -f dashboard-2.4.0.yaml</span>
+
+<span class="token comment">#6.验证容器</span>
+root@deploy:/k8s/dashboard<span class="token comment"># kubectl get pod -A | grep kubernetes-dashboard</span>
+kubernetes-dashboard   dashboard-metrics-scraper-85c7b5b9bf-6ffs2   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          15s
+kubernetes-dashboard   kubernetes-dashboard-6c4c7dcdc-l8b75         <span class="token number">1</span>/1     Running   <span class="token number">0</span>          15s
+
+<span class="token comment">#7.验证宿主机是否监听32000端口，master和node节点都会监听</span>
+root@master1:~<span class="token comment"># ss -tnl | grep 32000</span>
+LISTEN  <span class="token number">0</span>        <span class="token number">32768</span>            <span class="token number">0.0</span>.0.0:32000          <span class="token number">0.0</span>.0.0:*
+
+root@node1:~<span class="token comment"># ss -tnl | grep 32000</span>
+LISTEN  <span class="token number">0</span>        <span class="token number">32768</span>            <span class="token number">0.0</span>.0.0:32000          <span class="token number">0.0</span>.0.0:*
+
+<span class="token comment">#8.访问测试</span>
+https://192.168.1.40:32000
+
+<span class="token comment">#9.创建用户</span>
+root@deploy:/k8s/dashboard<span class="token comment"># vim admin-user.yaml</span>
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+
+root@deploy:/k8s/dashboard<span class="token comment"># kubectl apply -f admin-user.yaml </span>
+serviceaccount/admin-user created
+clusterrolebinding.rbac.authorization.k8s.io/admin-user created
+
+<span class="token comment">#10.获取登录token</span>
+root@deploy:/k8s/dashboard<span class="token comment"># kubectl get secret -A | grep admin</span>
+kubernetes-dashboard   admin-user-token-8thrc                           kubernetes.io/service-account-token   <span class="token number">3</span>      6s
+
+
+root@deploy:/k8s/dashboard<span class="token comment"># kubectl describe secret admin-user-token-8thrc -n kubernetes-dashboard</span>
+Name:         admin-user-token-8thrc
+Namespace:    kubernetes-dashboard
+Labels:       <span class="token operator">&lt;</span>none<span class="token operator">></span>
+Annotations:  kubernetes.io/service-account.name: admin-user
+              kubernetes.io/service-account.uid: 1e2f1838-df44-4481-a992-daf1ed257473
+
+Type:  kubernetes.io/service-account-token
+
+Data
+<span class="token operator">==</span><span class="token operator">==</span>
+namespace:  <span class="token number">20</span> bytes
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IktmaWZfcS1FRnFGYS1hMVhTVkF6SGlQVlVGQjJYQmJQU0xrS0VoY0trMEkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTh0aHJjIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIxZTJmMTgzOC1kZjQ0LTQ0ODEtYTk5Mi1kYWYxZWQyNTc0NzMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.grf7QMwvSDmMczsCan9cBBE-Fp6cW43jquJVnJmFzseLAs8tS0kMiXl8CkjhgoAaLW1hpjB5MDEtWCRbPJ4MpooMsDIa_Z9HdTcpBuRYLOlMd3cYPbcS0axgek0Gaxj647nLFa1SUiyqy6DWKJw1B_0RHeIzIqOYRlmuUTNXsB8zsCwyMpDqMxwcV1Pru0WeugorCCwme5qtuz8CpMiZESCUbt6wc3xJ3Q4DsARWfH_SeIiALZjtspyfUzaBllcM6eZEza1aBrY0waOuBUfPdHhGikgBllIrnRYcqqQEQnadLtsmkuAVRtV0TPWIMFZRJ2jdl_QayGSiT-IgHlo98A
+ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></figure>
+
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502154313000.png" srcset="/img/loading.gif" lazyload alt="image-20230502154313000"> </p>
+<h3 id="1-13-2-部署rancher"><a href="#1-13-2-部署rancher" class="headerlink" title="1.13.2 部署rancher"></a>1.13.2 部署rancher</h3><p><a target="_blank" rel="noopener" href="https://ranchermanager.docs.rancher.com/zh/v2.7">https://ranchermanager.docs.rancher.com/zh/v2.7</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.rancher.com/quick-start">https://www.rancher.com/quick-start</a></p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502160542081.png" srcset="/img/loading.gif" lazyload alt="image-20230502160542081"> </p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装rancher</span>
+root@deploy:~<span class="token comment"># docker pull rancher/rancher</span>
+root@deploy:~<span class="token comment"># sudo docker run --privileged -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher</span>
+
+<span class="token comment">#2.访问测试</span>
+https://192.168.1.39/
+
+root@deploy:~<span class="token comment"># docker  ps</span>
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                      NAMES
+e86366447a45        rancher/rancher     <span class="token string">"entrypoint.sh"</span>     <span class="token number">3</span> minutes ago       Up <span class="token number">2</span> minutes        <span class="token number">0.0</span>.0.0:80-<span class="token operator">></span><span class="token number">80</span>/tcp, <span class="token number">0.0</span>.0.0:443-<span class="token operator">></span><span class="token number">443</span>/tcp   reverent_montalcini
+root@deploy:~<span class="token comment"># docker logs e86366447a45  2>&amp;1 | grep "Bootstrap Password:"</span>
+<span class="token number">2023</span>/05/02 08:08:26 <span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> Bootstrap Password: 4xzw6g86zwf86qr88ds2gbpq6hqn288rbznj2zbmj6clwr2cvgb9fn</code></pre></div></figure>
+
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161048045.png" srcset="/img/loading.gif" lazyload alt="image-20230502161048045"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161305210.png" srcset="/img/loading.gif" lazyload> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161654410.png" srcset="/img/loading.gif" lazyload alt="image-20230502161654410"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163853667.png" srcset="/img/loading.gif" lazyload alt="image-20230502163853667"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163913502.png" srcset="/img/loading.gif" lazyload alt="image-20230502163913502"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163952162.png" srcset="/img/loading.gif" lazyload alt="image-20230502163952162"> </p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># curl --insecure -sfL https://192.168.1.39/v3/import/m67rkzzk85bjz2j2j655j6tqc5xplr7ktbdgkpzffjd87kgpqqz8p4_c-m-vv4qf9bw.yaml | kubectl apply -f -clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created</span>
+clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created
+namespace/cattle-system created
+serviceaccount/cattle created
+clusterrolebinding.rbac.authorization.k8s.io/cattle-admin-binding created
+secret/cattle-credentials-e650b3d created
+clusterrole.rbac.authorization.k8s.io/cattle-admin created
+deployment.apps/cattle-cluster-agent created
+service/cattle-cluster-agent created</code></pre></div></figure>
+
+
+
+<h3 id="1-13-3-部署kuboard"><a href="#1-13-3-部署kuboard" class="headerlink" title="1.13.3 部署kuboard"></a>1.13.3 部署kuboard</h3><p><a target="_blank" rel="noopener" href="https://kuboard.cn/">https://kuboard.cn/</a></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># docker pull swr.cn-east-2.myhuaweicloud.com/kuboard/kuboard:v3</span>
+root@deploy:~<span class="token comment"># sudo docker run -d \</span>
+<span class="token operator">></span>   <span class="token parameter variable">--restart</span><span class="token operator">=</span>unless-stopped <span class="token punctuation">\</span>
+<span class="token operator">></span>   <span class="token parameter variable">--name</span><span class="token operator">=</span>kuboard <span class="token punctuation">\</span>
+<span class="token operator">></span>   <span class="token parameter variable">-p</span> <span class="token number">80</span>:80/tcp <span class="token punctuation">\</span>
+<span class="token operator">></span>   <span class="token parameter variable">-p</span> <span class="token number">10081</span>:10081/tcp <span class="token punctuation">\</span>
+<span class="token operator">></span>   <span class="token parameter variable">-e</span> <span class="token assign-left variable">KUBOARD_ENDPOINT</span><span class="token operator">=</span><span class="token string">"http://192.168.1.39:80"</span> <span class="token punctuation">\</span>
+<span class="token operator">></span>   <span class="token parameter variable">-e</span> <span class="token assign-left variable">KUBOARD_AGENT_SERVER_TCP_PORT</span><span class="token operator">=</span><span class="token string">"10081"</span> <span class="token punctuation">\</span>
+<span class="token operator">></span>   <span class="token parameter variable">-v</span> /root/kuboard-data:/data <span class="token punctuation">\</span>
+<span class="token operator">></span>   swr.cn-east-2.myhuaweicloud.com/kuboard/kuboard:v3
+b2627d9cb853c10548f9df2403e262add548ba7a562c3a49a235e6a218ce8ee5
+
+<span class="token comment">#访问测试</span>
+http://192.168.1.39/
+
+用户名：admin
+密码：Kuboard123</code></pre></div></figure>
+
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502170504365.png" srcset="/img/loading.gif" lazyload alt="image-20230502170504365"> </p>
+
                 
               </div>
             
