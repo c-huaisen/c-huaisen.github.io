@@ -4,34 +4,7 @@
   
   
   <entry>
-    <title>(26).K8S基于Skywalking 实现微服务链路跟踪</title>
-    <link href="/2023/05/02/Container/Kubernetes/kubernetes26/"/>
-    <url>/2023/05/02/Container/Kubernetes/kubernetes26/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    <categories>
-      
-      <category>Linux</category>
-      
-      <category>Kubernetes</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>Kubernetes</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>(25).K8S之资源对象</title>
+    <title>(25).K8S基于Skywalking实现微服务链路跟踪</title>
     <link href="/2023/05/02/Container/Kubernetes/kubernetes25/"/>
     <url>/2023/05/02/Container/Kubernetes/kubernetes25/</url>
     
@@ -598,7 +571,7 @@
   
   
   <entry>
-    <title>(4).基于kubeasz工具部署K8S高可用集群</title>
+    <title>(04).基于kubeasz工具部署K8S高可用集群</title>
     <link href="/2023/04/26/Container/Kubernetes/kubernetes04/"/>
     <url>/2023/04/26/Container/Kubernetes/kubernetes04/</url>
     
@@ -625,7 +598,7 @@
   
   
   <entry>
-    <title>(3).基于kubeadm工具部署K8S高可用集群</title>
+    <title>(03).基于kubeadm工具部署K8S高可用集群</title>
     <link href="/2023/04/26/Container/Kubernetes/kubernetes03/"/>
     <url>/2023/04/26/Container/Kubernetes/kubernetes03/</url>
     
@@ -652,7 +625,7 @@
   
   
   <entry>
-    <title>(2).基于手动二进制部署K8S高可用集群</title>
+    <title>(02).基于手动二进制部署K8S高可用集群</title>
     <link href="/2023/04/26/Container/Kubernetes/kubernetes02/"/>
     <url>/2023/04/26/Container/Kubernetes/kubernetes02/</url>
     
@@ -679,7 +652,7 @@
   
   
   <entry>
-    <title>(1).K8S核心组件介绍</title>
+    <title>(01).K8S核心组件介绍</title>
     <link href="/2023/04/25/Container/Kubernetes/kubernetes01/"/>
     <url>/2023/04/25/Container/Kubernetes/kubernetes01/</url>
     
