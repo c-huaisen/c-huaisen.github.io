@@ -4,6 +4,600 @@
   
   
   <entry>
+    <title>(26).K8S基于Skywalking 实现微服务链路跟踪</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes26/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes26/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(25).K8S之资源对象</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes25/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes25/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(24).K8S基于Zookeeper实现微服务动态注册和发现</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes24/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes24/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(23).K8S基于LNMP部署Wordpress</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes23/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes23/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(22).K8S基于StatefulSet控制器运行MySQL一主多从</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes22/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes22/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(21).K8S基于StatefulSet控制器运行Redis Cluster</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes21/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes21/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(20).K8S基于Prometheus实现监控告警</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes20/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes20/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(19).K8S基于Ceph RBD和CephFS实现存储</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes19/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes19/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(18).K8S基于ELK实现日志收集</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes18/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes18/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(17).K8S基于Jenking和Gitlab实现版本升级与回滚</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes17/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes17/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(16).K8S之HPA控制器</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes16/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes16/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(15).K8S之Ingress</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes15/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes15/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(14).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes14/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes14/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(13).K8S之网络组件</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes13/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes13/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(12).K8S之Etcd</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes12/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes12/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(11).K8S之Pod</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes11/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes11/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(10).K8S之资源对象之ServiceAccount/RBAC</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes10/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes10/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(09).K8S之资源对象之ConfigMap</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes09/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes09/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(08).K8S之资源对象之Volume</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes08/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes08/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(07).K8S之资源对象之Service</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes07/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes07/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(06).K8S之资源对象之Controller</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes06/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes06/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>(05).K8S之资源对象简介</title>
+    <link href="/2023/05/02/Container/Kubernetes/kubernetes05/"/>
+    <url>/2023/05/02/Container/Kubernetes/kubernetes05/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>(4).基于kubeasz工具部署K8S高可用集群</title>
     <link href="/2023/04/26/Container/Kubernetes/kubernetes04/"/>
     <url>/2023/04/26/Container/Kubernetes/kubernetes04/</url>
@@ -58,7 +652,7 @@
   
   
   <entry>
-    <title>(2).基于手动部署K8S高可用集群</title>
+    <title>(2).基于手动二进制部署K8S高可用集群</title>
     <link href="/2023/04/26/Container/Kubernetes/kubernetes02/"/>
     <url>/2023/04/26/Container/Kubernetes/kubernetes02/</url>
     
@@ -328,7 +922,7 @@
   
   
   <entry>
-    <title>(9).基于Ceph RBD和CephFS实现Kubernetes存储</title>
+    <title>(09).启用Ceph Dashboard并通过Prometheus监控Ceph集群状态</title>
     <link href="/2023/04/17/Storage/Ceph/ceph09/"/>
     <url>/2023/04/17/Storage/Ceph/ceph09/</url>
     
@@ -355,7 +949,7 @@
   
   
   <entry>
-    <title>(8).启用Ceph Dashboard并通过Prometheus监控Ceph集群状态</title>
+    <title>(08).Ceph集群管理及工作原理</title>
     <link href="/2023/04/17/Storage/Ceph/ceph08/"/>
     <url>/2023/04/17/Storage/Ceph/ceph08/</url>
     
@@ -382,7 +976,7 @@
   
   
   <entry>
-    <title>(7).Ceph集群管理及工作原理</title>
+    <title>(07).Ceph-RadosGW部署和使用</title>
     <link href="/2023/04/17/Storage/Ceph/ceph07/"/>
     <url>/2023/04/17/Storage/Ceph/ceph07/</url>
     
@@ -409,7 +1003,7 @@
   
   
   <entry>
-    <title>(6).Ceph RadosGW部署和使用</title>
+    <title>(06).CephFS部署和使用</title>
     <link href="/2023/04/17/Storage/Ceph/ceph06/"/>
     <url>/2023/04/17/Storage/Ceph/ceph06/</url>
     
@@ -436,7 +1030,7 @@
   
   
   <entry>
-    <title>(5).CephFS部署和使用</title>
+    <title>(05).Ceph-RBD部署和使用</title>
     <link href="/2023/04/17/Storage/Ceph/ceph05/"/>
     <url>/2023/04/17/Storage/Ceph/ceph05/</url>
     
@@ -463,7 +1057,7 @@
   
   
   <entry>
-    <title>(4).Ceph RBD部署和使用</title>
+    <title>(04).CephX认证机制</title>
     <link href="/2023/04/17/Storage/Ceph/ceph04/"/>
     <url>/2023/04/17/Storage/Ceph/ceph04/</url>
     
@@ -490,7 +1084,7 @@
   
   
   <entry>
-    <title>(3).CephX认证机制</title>
+    <title>(03).基于ceph-deploy在Ubuntu18.04部署Ceph 16.2.x集群</title>
     <link href="/2023/04/17/Storage/Ceph/ceph03/"/>
     <url>/2023/04/17/Storage/Ceph/ceph03/</url>
     
@@ -517,7 +1111,7 @@
   
   
   <entry>
-    <title>(2).基于ceph-deploy在CentOS7.9部署Ceph 13.2.x集群</title>
+    <title>(02).基于ceph-deploy在CentOS7.9部署Ceph 13.2.x集群</title>
     <link href="/2023/04/15/Storage/Ceph/ceph02/"/>
     <url>/2023/04/15/Storage/Ceph/ceph02/</url>
     
@@ -544,7 +1138,7 @@
   
   
   <entry>
-    <title>(1).Ceph核心组件介绍</title>
+    <title>(01).Ceph核心组件介绍</title>
     <link href="/2023/04/15/Storage/Ceph/ceph01/"/>
     <url>/2023/04/15/Storage/Ceph/ceph01/</url>
     
