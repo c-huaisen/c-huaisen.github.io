@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes05/image-20230503172746619.png">
 <meta property="article:published_time" content="2023-05-03T09:10:14.000Z">
-<meta property="article:modified_time" content="2023-05-04T02:08:31.708Z">
+<meta property="article:modified_time" content="2023-05-05T02:17:59.452Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.6k 字
+          9.8k 字
         
       </span>
     
@@ -571,7 +571,10 @@ ADD index.html  /usr/local/nginx/html/index.html
 
 EXPOSE <span class="token number">80</span> <span class="token number">443</span>
  
-CMD <span class="token punctuation">[</span><span class="token string">"/usr/local/nginx/sbin/nginx"</span><span class="token punctuation">]</span></code></pre></div></figure>
+CMD <span class="token punctuation">[</span><span class="token string">"/usr/local/nginx/sbin/nginx"</span><span class="token punctuation">]</span>
+
+root@deploy:/opt/dockerfile/web/nginx<span class="token comment"># docker build -t harbor.chsblogs.local/system/nginx-web1:v1 .</span>
+root@deploy:/opt/dockerfile/web/nginx<span class="token comment"># docker push harbor.chsblogs.local/system/nginx-web1:v1</span></code></pre></div></figure>
 
 <h3 id="1-3-3-创建k8s业务资源文件"><a href="#1-3-3-创建k8s业务资源文件" class="headerlink" title="1.3.3 创建k8s业务资源文件"></a>1.3.3 创建k8s业务资源文件</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/nginx<span class="token comment"># vim nginx.yaml</span>
 kind: Deployment
