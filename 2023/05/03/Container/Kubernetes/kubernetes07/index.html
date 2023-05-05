@@ -16,15 +16,15 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.K8S基于Jenkins和Gitlab实现版本升级与回滚1.1 安装Jenkins   Jenkins主机清单：        主机名 IP地址 操作系统 服务    jenkins 192.168.1.53 Ubuntu20.04 Jenkins 2.277.4    #参考前文安装配置 https:&#x2F;&#x2F;chsblogs.com&#x2F;2023&#x2F;03&#x2F;12&#x2F;CI%E3%81%AECD&#x2F;JG&#x2F;jg0">
+    <meta name="description" content="1.K8S基于Jenkins和Gitlab实现版本升级与回滚1.1 安装Jenkins   Jenkins主机清单：       主机名 IP地址 操作系统 服务   jenkins 192.168.1.53 Ubuntu20.04 Jenkins 2.277.4   #参考前文安装配置 https:&#x2F;&#x2F;chsblogs.com&#x2F;2023&#x2F;03&#x2F;12&#x2F;CI%E3%81%AECD&#x2F;JG&#x2F;jg02&#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(07).K8S基于Jenkins和Gitlab实现版本升级与回滚">
 <meta property="og:url" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes07/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.K8S基于Jenkins和Gitlab实现版本升级与回滚1.1 安装Jenkins   Jenkins主机清单：        主机名 IP地址 操作系统 服务    jenkins 192.168.1.53 Ubuntu20.04 Jenkins 2.277.4    #参考前文安装配置 https:&#x2F;&#x2F;chsblogs.com&#x2F;2023&#x2F;03&#x2F;12&#x2F;CI%E3%81%AECD&#x2F;JG&#x2F;jg0">
+<meta property="og:description" content="1.K8S基于Jenkins和Gitlab实现版本升级与回滚1.1 安装Jenkins   Jenkins主机清单：       主机名 IP地址 操作系统 服务   jenkins 192.168.1.53 Ubuntu20.04 Jenkins 2.277.4   #参考前文安装配置 https:&#x2F;&#x2F;chsblogs.com&#x2F;2023&#x2F;03&#x2F;12&#x2F;CI%E3%81%AECD&#x2F;JG&#x2F;jg02&#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-03T11:47:22.000Z">
-<meta property="article:modified_time" content="2023-05-05T03:35:09.619Z">
+<meta property="article:modified_time" content="2023-05-05T03:46:22.716Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
@@ -306,7 +306,6 @@
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 </tr>
 </thead>
 <tbody><tr>
@@ -314,14 +313,12 @@
 <td><strong>IP地址</strong></td>
 <td><strong>操作系统</strong></td>
 <td><strong>服务</strong></td>
-<td></td>
 </tr>
 <tr>
 <td>jenkins</td>
 <td>192.168.1.53</td>
 <td>Ubuntu20.04</td>
 <td>Jenkins 2.277.4</td>
-<td></td>
 </tr>
 </tbody></table>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#参考前文安装配置</span>
@@ -336,7 +333,6 @@ https://chsblogs.com/2023/03/12/CI%E3%81%AECD/JG/jg02/</code></pre></div></figur
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 </tr>
 </thead>
 <tbody><tr>
@@ -344,14 +340,12 @@ https://chsblogs.com/2023/03/12/CI%E3%81%AECD/JG/jg02/</code></pre></div></figur
 <td><strong>IP地址</strong></td>
 <td><strong>操作系统</strong></td>
 <td><strong>服务</strong></td>
-<td></td>
 </tr>
 <tr>
 <td>gitlab</td>
 <td>192.168.1.54</td>
 <td>Ubuntu20.04</td>
 <td>GitLab 13.11.3-ce</td>
-<td></td>
 </tr>
 </tbody></table>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#参考前文安装配置</span>
