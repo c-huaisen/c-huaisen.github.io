@@ -18,30 +18,30 @@
   
     <meta name="description" content="1.SonarQube简介及安装前文已经安装完了GitLab和Jenkins，接下来就开始安装和使用SonarQube： 主机清单：    主机名 IP地址 操作系统 服务 VIP    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    j">
 <meta property="og:type" content="article">
-<meta property="og:title" content="(3).CI&#x2F;CD-SonarQube简介及安装">
-<meta property="og:url" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/index.html">
+<meta property="og:title" content="(03).SonarQube简介及安装">
+<meta property="og:url" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.SonarQube简介及安装前文已经安装完了GitLab和Jenkins，接下来就开始安装和使用SonarQube： 主机清单：    主机名 IP地址 操作系统 服务 VIP    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    j">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000302252.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000348068.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000517485.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321001230603.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322195439103.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322195818510.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322203027160.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322203756678.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322204414733.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230321000302252.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230321000348068.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230321000517485.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230321001230603.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230322195439103.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230322195818510.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230322203027160.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230322203756678.png">
+<meta property="og:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230322204414733.png">
 <meta property="article:published_time" content="2023-03-19T14:19:44.000Z">
-<meta property="article:modified_time" content="2023-03-22T12:47:05.759Z">
+<meta property="article:modified_time" content="2023-05-06T16:43:18.199Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="CI&#x2F;CD">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000302252.png">
+<meta name="twitter:image" content="http://chsblogs.com/2023/03/19/CICD/JG/jg03/image-20230321000302252.png">
   
   
   
-  <title>(3).CI/CD-SonarQube简介及安装 - 陈怀森の运维笔记</title>
+  <title>(03).SonarQube简介及安装 - 陈怀森の运维笔记</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -219,7 +219,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="(3).CI/CD-SonarQube简介及安装"></span>
+            <span id="subtitle" data-typed-text="(03).SonarQube简介及安装"></span>
           
         </div>
 
@@ -304,7 +304,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">(3).CI/CD-SonarQube简介及安装</h1>
+            <h1 style="display: none">(03).SonarQube简介及安装</h1>
             
             
               <div class="markdown-body">
@@ -464,15 +464,15 @@ http://192.168.1.38:9000/</code></pre></div></figure>
 
 
 
-<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000302252.png" srcset="/img/loading.gif" lazyload alt="image-20230321000302252"> </p>
-<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000348068.png" srcset="/img/loading.gif" lazyload alt="image-20230321000348068"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg03/image-20230321000302252.png" srcset="/img/loading.gif" lazyload alt="image-20230321000302252"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg03/image-20230321000348068.png" srcset="/img/loading.gif" lazyload alt="image-20230321000348068"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#更改中文，可以直接去github下载，放到/apps/sonarqube/extensions/plugins目录下，重启sonarqube服务</span>
 https://github.com/xuhuisheng/sonar-l10n-zh/releases/tag/sonar-l10n-zh-plugin-8.9</code></pre></div></figure>
 
 
 
-<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321000517485.png" srcset="/img/loading.gif" lazyload alt="image-20230321000517485"> </p>
-<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230321001230603.png" srcset="/img/loading.gif" lazyload alt="image-20230321001230603"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg03/image-20230321000517485.png" srcset="/img/loading.gif" lazyload alt="image-20230321000517485"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg03/image-20230321001230603.png" srcset="/img/loading.gif" lazyload alt="image-20230321001230603"> </p>
 <h2 id="1-3-Jenkins部署sonar-scanner"><a href="#1-3-Jenkins部署sonar-scanner" class="headerlink" title="1.3 Jenkins部署sonar-scanner"></a>1.3 Jenkins部署sonar-scanner</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#下载地址</span>
 https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/
 <span class="token comment">#官方文档</span>
@@ -500,7 +500,7 @@ root@jenkins:/opt<span class="token comment"># unzip sonar-examples-master.zip</
 
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#3.SonarQube服务关闭Force user authentication</span></code></pre></div></figure>
 
-<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322195439103.png" srcset="/img/loading.gif" lazyload alt="image-20230322195439103"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg03/image-20230322195439103.png" srcset="/img/loading.gif" lazyload alt="image-20230322195439103"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#4.测试代码扫描</span>
 root@jenkins:~<span class="token comment"># cd /opt/sonar-examples-master/projects/languages/python/python-sonar-runner</span>
 root@jenkins:/opt/sonar-examples-master/projects/languages/python/python-sonar-runner<span class="token comment"># /apps/sonar-scanner/bin/sonar-scanner</span>
@@ -512,7 +512,7 @@ INFO: Total time: <span class="token number">30</span>.165s
 INFO: Final Memory: 7M/27M
 INFO: ------------------------------------------------------------------------</code></pre></div></figure>
 
-<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322195818510.png" srcset="/img/loading.gif" lazyload alt="image-20230322195818510"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg03/image-20230322195818510.png" srcset="/img/loading.gif" lazyload alt="image-20230322195818510"> </p>
 <h3 id="1-3-1-脚本执行代码扫描"><a href="#1-3-1-脚本执行代码扫描" class="headerlink" title="1.3.1 脚本执行代码扫描"></a>1.3.1 脚本执行代码扫描</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.开发上传代码</span>
 <span class="token punctuation">[</span>root@client ~<span class="token punctuation">]</span><span class="token comment"># cd web2/</span>
 <span class="token punctuation">[</span>root@client web2<span class="token punctuation">]</span><span class="token comment"># ls</span>
@@ -549,11 +549,11 @@ root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/web2_depl
 <span class="token function">ssh</span> tomcat@192.168.1.36 <span class="token string">"/etc/init.d/tomcat start"</span>
 <span class="token function">ssh</span> tomcat@192.168.1.37 <span class="token string">"/etc/init.d/tomcat start"</span></code></pre></div></figure>
 
-<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322203027160.png" srcset="/img/loading.gif" lazyload alt="image-20230322203027160"> </p>
-<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322203756678.png" srcset="/img/loading.gif" lazyload alt="image-20230322203756678"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg03/image-20230322203027160.png" srcset="/img/loading.gif" lazyload alt="image-20230322203027160"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg03/image-20230322203756678.png" srcset="/img/loading.gif" lazyload alt="image-20230322203756678"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#3.立即构建，查看SonarQube扫描结果</span></code></pre></div></figure>
 
-<p><img src="/2023/03/19/CI%E3%81%AECD/JG/jg03/image-20230322204414733.png" srcset="/img/loading.gif" lazyload alt="image-20230322204414733"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg03/image-20230322204414733.png" srcset="/img/loading.gif" lazyload alt="image-20230322204414733"> </p>
 <h3 id="1-3-2-Jenkins执行代码扫描"><a href="#1-3-2-Jenkins执行代码扫描" class="headerlink" title="1.3.2 Jenkins执行代码扫描"></a>1.3.2 Jenkins执行代码扫描</h3>
                 
               </div>
@@ -606,8 +606,8 @@ root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/web2_depl
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(3).CI/CD-SonarQube简介及安装</div>
-      <div>http://chsblogs.com/2023/03/19/CIのCD/JG/jg03/</div>
+      <div>(03).SonarQube简介及安装</div>
+      <div>http://chsblogs.com/2023/03/19/CICD/JG/jg03/</div>
     </div>
     <div class="license-meta">
       
@@ -651,9 +651,9 @@ root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/web2_depl
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/03/19/CI%E3%81%AECD/JG/jg04/" title="(4).CI/CD-代码部署实战">
+                      <a href="/2023/03/19/CICD/JG/jg04/" title="(04).代码部署实战">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(4).CI/CD-代码部署实战</span>
+                        <span class="hidden-mobile">(04).代码部署实战</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -661,8 +661,8 @@ root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/web2_depl
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/03/12/CI%E3%81%AECD/JG/jg02/" title="(2).CI/CD-Jenkins简介及安装">
-                        <span class="hidden-mobile">(2).CI/CD-Jenkins简介及安装</span>
+                      <a href="/2023/03/12/CICD/JG/jg02/" title="(02).Jenkins简介及安装">
+                        <span class="hidden-mobile">(02).Jenkins简介及安装</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -682,8 +682,8 @@ root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/web2_depl
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2023/03/19/CI%E3%81%AECD/JG/jg03/';
-          this.page.identifier = '/2023/03/19/CI%E3%81%AECD/JG/jg03/';
+          this.page.url = 'http://chsblogs.com/2023/03/19/CICD/JG/jg03/';
+          this.page.identifier = '/2023/03/19/CICD/JG/jg03/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -728,7 +728,7 @@ root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/web2_depl
         aria-expanded="true"
       >
         CI/CD
-        <span class="list-group-count">(4)</span>
+        <span class="list-group-count">(5)</span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
@@ -742,37 +742,46 @@ root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/web2_depl
     
       
       
-        <a href="/2023/03/12/CI%E3%81%AECD/JG/jg01/" title="(1).CI/CD-GitLab简介及安装"
+        <a href="/2023/03/12/CICD/JG/jg01/" title="(01).GitLab简介及安装"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">(1).CI/CD-GitLab简介及安装</span>
+          <span class="category-post">(01).GitLab简介及安装</span>
         </a>
       
     
       
       
-        <a href="/2023/03/12/CI%E3%81%AECD/JG/jg02/" title="(2).CI/CD-Jenkins简介及安装"
+        <a href="/2023/03/12/CICD/JG/jg02/" title="(02).Jenkins简介及安装"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">(2).CI/CD-Jenkins简介及安装</span>
+          <span class="category-post">(02).Jenkins简介及安装</span>
         </a>
       
     
       
       
-        <a href="/2023/03/19/CI%E3%81%AECD/JG/jg03/" title="(3).CI/CD-SonarQube简介及安装"
+        <a href="/2023/03/19/CICD/JG/jg03/" title="(03).SonarQube简介及安装"
            class="list-group-item list-group-item-action
            active">
-          <span class="category-post">(3).CI/CD-SonarQube简介及安装</span>
+          <span class="category-post">(03).SonarQube简介及安装</span>
         </a>
       
     
       
       
-        <a href="/2023/03/19/CI%E3%81%AECD/JG/jg04/" title="(4).CI/CD-代码部署实战"
+        <a href="/2023/03/19/CICD/JG/jg04/" title="(04).代码部署实战"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">(4).CI/CD-代码部署实战</span>
+          <span class="category-post">(04).代码部署实战</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/03/19/CICD/JG/jg05/" title="(05).Git常用命令"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(05).Git常用命令</span>
         </a>
       
     
