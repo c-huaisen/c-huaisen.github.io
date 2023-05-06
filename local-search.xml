@@ -247,7 +247,7 @@
   
   
   <entry>
-    <title>(1).部署Prometheus</title>
+    <title>(1).部署Prometheus基于Grafana渲染数据</title>
     <link href="/2023/04/19/Monitor/Prometheus/prometheus01/"/>
     <url>/2023/04/19/Monitor/Prometheus/prometheus01/</url>
     
