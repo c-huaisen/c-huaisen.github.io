@@ -23,11 +23,19 @@
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.K8S基于Jenkins和Gitlab实现版本升级与回滚1.1 安装Jenkins   Jenkins主机清单：       主机名 IP地址 操作系统 服务   jenkins 192.168.1.53 Ubuntu20.04 Jenkins 2.277.4   #参考前文安装配置 https:&#x2F;&#x2F;chsblogs.com&#x2F;2023&#x2F;03&#x2F;12&#x2F;CI%E3%81%AECD&#x2F;JG&#x2F;jg02&#x2F;">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506095915804.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506100043115.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506103538967.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506103629905.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506103825197.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506104011295.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506104056880.png">
 <meta property="article:published_time" content="2023-05-03T11:47:22.000Z">
-<meta property="article:modified_time" content="2023-05-05T06:32:18.505Z">
+<meta property="article:modified_time" content="2023-05-06T02:40:58.550Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506095915804.png">
   
   
   
@@ -232,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.2k 字
+          12k 字
         
       </span>
     
@@ -243,7 +251,7 @@
         
         
         
-          6 分钟
+          9 分钟
         
       </span>
     
@@ -648,24 +656,147 @@ Branch <span class="token string">'master'</span> <span class="token builtin cla
 
 
 
+<h3 id="1-4-2-编写脚本"><a href="#1-4-2-编写脚本" class="headerlink" title="1.4.2 编写脚本"></a>1.4.2 编写脚本</h3><p><strong>SHELL脚本：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@jenkins:~<span class="token comment"># mkdir /data/scripts/chsblogs -p</span>
+root@jenkins:~<span class="token comment"># mkdir /data/gitdata/chsblogs -p</span>
+root@jenkins:~<span class="token comment"># cd /data/scripts/chsblogs/</span>
+root@jenkins:/data/scripts/chsblogs<span class="token comment"># vim chsblogs-nginx-deploy.sh</span>
+<span class="token comment">#!/bin/bash</span>
+
+<span class="token comment">#记录脚本开始执行时间</span>
+<span class="token assign-left variable">starttime</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">date</span> +<span class="token string">'%Y-%m-%d %H:%M:%S'</span><span class="token variable">`</span></span>
+
+<span class="token assign-left variable">SHELL_DIR</span><span class="token operator">=</span><span class="token string">"/data/scripts"</span>
+<span class="token assign-left variable">SHELL_NAME</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$0</span>"</span>
+<span class="token assign-left variable">K8S_DEPLOY</span><span class="token operator">=</span><span class="token string">"192.168.1.39"</span>
+<span class="token assign-left variable">DATE</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">date</span> +%Y-%m-%d_%H_%M_%S<span class="token variable">`</span></span>
+<span class="token assign-left variable">METHOD</span><span class="token operator">=</span><span class="token variable">$1</span>
+<span class="token assign-left variable">Branch</span><span class="token operator">=</span><span class="token variable">$2</span>
+
+<span class="token keyword">if</span> <span class="token builtin class-name">test</span> <span class="token parameter variable">-z</span> <span class="token variable">$Branch</span><span class="token punctuation">;</span><span class="token keyword">then</span>
+  <span class="token assign-left variable">Branch</span><span class="token operator">=</span>develop
+<span class="token keyword">fi</span>
+
+<span class="token comment">#从gitlab将代码克隆至jenkins</span>
+<span class="token keyword">function</span> <span class="token function-name function">Code_Clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  <span class="token assign-left variable">Git_URL</span><span class="token operator">=</span><span class="token string">"git@192.168.1.54:chsblogs/web1.git"</span>
+  <span class="token assign-left variable">DIR_NAME</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token builtin class-name">echo</span> $<span class="token punctuation">&#123;</span>Git_URL<span class="token punctuation">&#125;</span> <span class="token operator">|</span><span class="token function">awk</span> <span class="token parameter variable">-F</span> <span class="token string">"/"</span> <span class="token string">'&#123;print $2&#125;'</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token parameter variable">-F</span> <span class="token string">"."</span> <span class="token string">'&#123;print $1&#125;'</span><span class="token variable">`</span></span>
+  <span class="token assign-left variable">DATA_DIR</span><span class="token operator">=</span><span class="token string">"/data/gitdata/chsblogs"</span>
+  <span class="token assign-left variable">Git_Dir</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$&#123;DATA_DIR&#125;</span>/<span class="token variable">$&#123;DIR_NAME&#125;</span>"</span>
+  <span class="token builtin class-name">cd</span> <span class="token variable">$&#123;DATA_DIR&#125;</span> <span class="token operator">&amp;&amp;</span>  <span class="token builtin class-name">echo</span> <span class="token string">"即将清空上一版本代码并获取当前分支最新代码"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> <span class="token function">rm</span> <span class="token parameter variable">-rf</span> <span class="token variable">$&#123;DIR_NAME&#125;</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"即将开始从分支<span class="token variable">$&#123;Branch&#125;</span> 获取代码"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span>
+  <span class="token function">git</span> clone <span class="token parameter variable">-b</span> <span class="token variable">$&#123;Branch&#125;</span> <span class="token variable">$&#123;Git_URL&#125;</span> 
+  <span class="token builtin class-name">echo</span> <span class="token string">"分支<span class="token variable">$&#123;Branch&#125;</span> 克隆完成，即将进行代码编译!"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span>
+  <span class="token function">sleep</span> <span class="token number">1</span>
+  <span class="token builtin class-name">cd</span> <span class="token variable">$&#123;Git_Dir&#125;</span>
+  <span class="token function">tar</span> czf <span class="token variable">$&#123;DIR_NAME&#125;</span>.tar.gz  ./*
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#将打包好的压缩文件拷贝到K8S部署服务器，即192.168.1.39</span>
+<span class="token keyword">function</span> <span class="token function-name function">Copy_File</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"压缩文件打包完成，即将拷贝到K8S部署服务器<span class="token variable">$&#123;K8S_DEPLOY&#125;</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span>
+  <span class="token function">scp</span> <span class="token variable">$&#123;Git_Dir&#125;</span>/<span class="token variable">$&#123;DIR_NAME&#125;</span>.tar.gz root@<span class="token variable">$&#123;K8S_DEPLOY&#125;</span>:/opt/dockerfile/project/upgrade/
+  <span class="token builtin class-name">echo</span> <span class="token string">"压缩文件拷贝完成,服务器<span class="token variable">$&#123;K8S_DEPLOY&#125;</span>即将开始制作Docker镜像!"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#到K8S部署服务器执行脚本制作并上传镜像</span>
+<span class="token keyword">function</span> <span class="token function-name function">Make_Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"开始制作Docker镜像并上传到Harbor服务器"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span>
+  <span class="token function">ssh</span> root@<span class="token variable">$&#123;K8S_DEPLOY&#125;</span> <span class="token string">"cd /opt/dockerfile/project/upgrade  &amp;&amp; bash build-command.sh <span class="token variable">$&#123;DATE&#125;</span>"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"Docker镜像制作完成并已经上传到harbor服务器"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#到K8S部署服务器更新k8s yaml文件中的镜像版本号,从而保持yaml文件中的镜像版本号和k8s中版本号一致</span>
+<span class="token keyword">function</span> <span class="token function-name function">Update_k8s_yaml</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"即将更新k8s yaml文件中镜像版本"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span>
+  <span class="token function">ssh</span> root@<span class="token variable">$&#123;K8S_DEPLOY&#125;</span> <span class="token string">"cd /opt/dockerfile/project/upgrade  &amp;&amp; sed -i 's/image: harbor.chsblogs.*/image: harbor.chsblogs.local\/system\/nginx-upgrade:<span class="token variable">$&#123;DATE&#125;</span>/g' nginx.yaml"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"k8s yaml文件镜像版本更新完成,即将开始更新容器中镜像版本"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#到控制端更新k8s中容器的版本号,有两种更新办法，一是指定镜像版本更新，二是apply执行修改过的yaml文件</span>
+<span class="token keyword">function</span> <span class="token function-name function">Update_k8s_container</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  <span class="token comment">#第一种方法</span>
+  <span class="token function">ssh</span> root@<span class="token variable">$&#123;K8S_DEPLOY&#125;</span> <span class="token string">"kubectl set image deployment/nginx-deployment nginx=harbor.chsblogs.local/system/nginx-upgrade:<span class="token variable">$&#123;DATE&#125;</span> -n chsblogs-test3"</span>
+  <span class="token comment">#第二种方法,推荐使用第一种</span>
+  <span class="token comment">#ssh root@$&#123;K8S_DEPLOY&#125; "cd /opt/dockerfile/project/upgrade &amp;&amp; kubectl apply -f nginx.yaml --record=true" </span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"k8s 镜像更新完成"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sleep</span> <span class="token number">1</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"当前业务镜像版本: harbor.chsblogs.local/system/nginx-upgrade:<span class="token variable">$&#123;DATE&#125;</span>"</span>
+  <span class="token comment">#计算脚本累计执行时间，如果不需要的话可以去掉下面四行</span>
+  <span class="token assign-left variable">endtime</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">date</span> +<span class="token string">'%Y-%m-%d %H:%M:%S'</span><span class="token variable">`</span></span>
+  <span class="token assign-left variable">start_seconds</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> <span class="token parameter variable">--date</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$starttime</span>"</span> +%s<span class="token variable">)</span></span><span class="token punctuation">;</span>		
+  <span class="token assign-left variable">end_seconds</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> <span class="token parameter variable">--date</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$endtime</span>"</span> +%s<span class="token variable">)</span></span><span class="token punctuation">;</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"本次业务镜像更新总计耗时："</span><span class="token variable"><span class="token variable">$((</span>end_seconds<span class="token operator">-</span>start_seconds<span class="token variable">))</span></span><span class="token string">"s"</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#基于k8s内置版本管理回滚到上一个版本</span>
+<span class="token keyword">function</span> <span class="token function-name function">rollback_last_version</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"即将回滚之上一个版本"</span>
+  <span class="token function">ssh</span> root@<span class="token variable">$&#123;K8S_DEPLOY&#125;</span>  <span class="token string">"kubectl rollout undo deployment/nginx-deployment -n chsblogs-test3"</span>
+  <span class="token function">sleep</span> <span class="token number">1</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"已执行回滚至上一个版本"</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#使用帮助</span>
+<span class="token function-name function">usage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"部署使用方法为 <span class="token variable">$&#123;SHELL_DIR&#125;</span>/<span class="token variable">$&#123;SHELL_NAME&#125;</span> deploy"</span>
+  <span class="token builtin class-name">echo</span> <span class="token string">"回滚到上一版本使用方法为 <span class="token variable">$&#123;SHELL_DIR&#125;</span>/<span class="token variable">$&#123;SHELL_NAME&#125;</span> rollback_last_version"</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">#主函数</span>
+<span class="token function-name function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+  <span class="token keyword">case</span> <span class="token variable">$&#123;METHOD&#125;</span>  <span class="token keyword">in</span>
+  deploy<span class="token punctuation">)</span>
+    Code_Clone<span class="token punctuation">;</span>
+    Copy_File<span class="token punctuation">;</span>
+    Make_Image<span class="token punctuation">;</span> 
+    Update_k8s_yaml<span class="token punctuation">;</span>
+    Update_k8s_container<span class="token punctuation">;</span>
+  <span class="token punctuation">;</span><span class="token punctuation">;</span>
+  rollback_last_version<span class="token punctuation">)</span>
+    rollback_last_version<span class="token punctuation">;</span>
+  <span class="token punctuation">;</span><span class="token punctuation">;</span>
+  *<span class="token punctuation">)</span>
+    usage<span class="token punctuation">;</span>
+  <span class="token keyword">esac</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+main <span class="token variable">$1</span> <span class="token variable">$2</span></code></pre></div></figure>
 
 
 
+<h3 id="1-4-2-配置Jenkins"><a href="#1-4-2-配置Jenkins" class="headerlink" title="1.4.2 配置Jenkins"></a>1.4.2 配置Jenkins</h3><p><img src="/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506095915804.png" srcset="/img/loading.gif" lazyload alt="image-20230506095915804"> </p>
+<p>访问测试：<a target="_blank" rel="noopener" href="http://192.168.1.40:33015/">http://192.168.1.40:33015/</a></p>
+<p><img src="/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506100043115.png" srcset="/img/loading.gif" lazyload alt="image-20230506100043115"> </p>
+<h3 id="1-4-3-部署v2版本"><a href="#1-4-3-部署v2版本" class="headerlink" title="1.4.3 部署v2版本"></a>1.4.3 部署v2版本</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#开发提交v2代码</span>
+root@jenkins:~/web1<span class="token comment"># cat index.html </span>
+<span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>Pod jenkins/gitlab Upgrade Test www.chsblogs.com v<span class="token operator"><span class="token file-descriptor important">2</span>&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span>
+
+root@jenkins:~/web1<span class="token comment"># git add .</span>
+root@jenkins:~/web1<span class="token comment"># git commit -m "chsblogs v2"</span>
+<span class="token punctuation">[</span>master d951bb4<span class="token punctuation">]</span> chsblogs v2
+ <span class="token number">1</span> <span class="token function">file</span> changed, <span class="token number">1</span> insertion<span class="token punctuation">(</span>+<span class="token punctuation">)</span>, <span class="token number">1</span> deletion<span class="token punctuation">(</span>-<span class="token punctuation">)</span>
+root@jenkins:~/web1<span class="token comment"># git push </span>
+Username <span class="token keyword">for</span> <span class="token string">'http://192.168.1.54'</span><span class="token builtin class-name">:</span> chs
+Password <span class="token keyword">for</span> <span class="token string">'http://chs@192.168.1.54'</span><span class="token builtin class-name">:</span> 
+Enumerating objects: <span class="token number">5</span>, done.
+Counting objects: <span class="token number">100</span>% <span class="token punctuation">(</span><span class="token number">5</span>/5<span class="token punctuation">)</span>, done.
+Delta compression using up to <span class="token number">2</span> threads
+Compressing objects: <span class="token number">100</span>% <span class="token punctuation">(</span><span class="token number">3</span>/3<span class="token punctuation">)</span>, done.
+Writing objects: <span class="token number">100</span>% <span class="token punctuation">(</span><span class="token number">3</span>/3<span class="token punctuation">)</span>, <span class="token number">346</span> bytes <span class="token operator">|</span> <span class="token number">346.00</span> KiB/s, done.
+Total <span class="token number">3</span> <span class="token punctuation">(</span>delta <span class="token number">0</span><span class="token punctuation">)</span>, reused <span class="token number">0</span> <span class="token punctuation">(</span>delta <span class="token number">0</span><span class="token punctuation">)</span>
+To http://192.168.1.54/chsblogs/web1.git
+   af84a15<span class="token punctuation">..</span>d951bb4  master -<span class="token operator">></span> master</code></pre></div></figure>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+<p><strong>执行Jenkins Job:</strong></p>
+<p><img src="/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506103538967.png" srcset="/img/loading.gif" lazyload alt="image-20230506103538967"> </p>
+<p>访问测试：<a target="_blank" rel="noopener" href="http://192.168.1.40:33015/">http://192.168.1.40:33015/</a></p>
+<p><img src="/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506103629905.png" srcset="/img/loading.gif" lazyload alt="image-20230506103629905"> </p>
+<h3 id="1-4-4-回滚版本"><a href="#1-4-4-回滚版本" class="headerlink" title="1.4.4 回滚版本"></a>1.4.4 回滚版本</h3><p><img src="/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506103825197.png" srcset="/img/loading.gif" lazyload alt="image-20230506103825197"> </p>
+<p><img src="/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506104011295.png" srcset="/img/loading.gif" lazyload alt="image-20230506104011295"> </p>
+<p>访问测试：<a target="_blank" rel="noopener" href="http://192.168.1.40:33015/">http://192.168.1.40:33015/</a></p>
+<p> <img src="/2023/05/03/Container/Kubernetes/kubernetes07/image-20230506104056880.png" srcset="/img/loading.gif" lazyload alt="image-20230506104056880"> </p>
 
                 
               </div>
