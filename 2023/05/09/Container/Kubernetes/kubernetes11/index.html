@@ -1,0 +1,1508 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.K8S资源配额官方文档：https:&#x2F;&#x2F;kubernetes.io&#x2F;zh-cn&#x2F;docs&#x2F;concepts&#x2F;policy&#x2F;resource-quotas&#x2F; 资源配额：通过ResourceQuota对象来定义，对每个命名空间的资源消耗总量提供限制。它可以限制命名空间中某种类型的对象的总数目上限，也可以限制命名空间中的Pod可以使用的计算资源的总上限。 1.1 资源配额类型1.1.1 计算资源配额">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(11).K8S资源配额">
+<meta property="og:url" content="http://chsblogs.com/2023/05/09/Container/Kubernetes/kubernetes11/index.html">
+<meta property="og:site_name" content="陈怀森の运维笔记">
+<meta property="og:description" content="1.K8S资源配额官方文档：https:&#x2F;&#x2F;kubernetes.io&#x2F;zh-cn&#x2F;docs&#x2F;concepts&#x2F;policy&#x2F;resource-quotas&#x2F; 资源配额：通过ResourceQuota对象来定义，对每个命名空间的资源消耗总量提供限制。它可以限制命名空间中某种类型的对象的总数目上限，也可以限制命名空间中的Pod可以使用的计算资源的总上限。 1.1 资源配额类型1.1.1 计算资源配额">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-09T04:31:56.000Z">
+<meta property="article:modified_time" content="2023-05-09T09:39:15.739Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>(11).K8S资源配额 - 陈怀森の运维笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 运维笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(11).K8S资源配额"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-09 12:31" pubdate>
+          2023年5月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(11).K8S资源配额</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-K8S资源配额"><a href="#1-K8S资源配额" class="headerlink" title="1.K8S资源配额"></a>1.K8S资源配额</h1><p>官方文档：<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/">https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/</a></p>
+<p>资源配额：通过ResourceQuota对象来定义，对每个命名空间的资源消耗总量提供限制。它可以限制命名空间中某种类型的对象的总数目上限，也可以限制命名空间中的Pod可以使用的计算资源的总上限。</p>
+<h2 id="1-1-资源配额类型"><a href="#1-1-资源配额类型" class="headerlink" title="1.1 资源配额类型"></a>1.1 资源配额类型</h2><h3 id="1-1-1-计算资源配额"><a href="#1-1-1-计算资源配额" class="headerlink" title="1.1.1 计算资源配额"></a>1.1.1 计算资源配额</h3><p>可以对给定命名空间下的可被请求的计算资源总量进行限制。</p>
+<table>
+<thead>
+<tr>
+<th>资源名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>limits.cpu</td>
+<td>所有非终止状态的 Pod，其 CPU 限额总量不能超过该值。</td>
+</tr>
+<tr>
+<td>limits.memory</td>
+<td>所有非终止状态的 Pod，其内存限额总量不能超过该值。</td>
+</tr>
+<tr>
+<td>requests.cpu</td>
+<td>所有非终止状态的 Pod，其 CPU 需求总量不能超过该值。</td>
+</tr>
+<tr>
+<td>requests.memory</td>
+<td>所有非终止状态的 Pod，其内存需求总量不能超过该值。</td>
+</tr>
+<tr>
+<td>hugepages-<size></size></td>
+<td>对于所有非终止状态的 Pod，针对指定尺寸的巨页请求总数不能超过此值。</td>
+</tr>
+<tr>
+<td>cpu</td>
+<td>与 <code>requests.cpu</code> 相同。</td>
+</tr>
+<tr>
+<td>memory</td>
+<td>与 <code>requests.memory</code> 相同。</td>
+</tr>
+</tbody></table>
+<h3 id="1-1-2-存储资源配额"><a href="#1-1-2-存储资源配额" class="headerlink" title="1.1.2 存储资源配额"></a>1.1.2 存储资源配额</h3><p>可以对给定命名空间下的存储资源总量进行限制。</p>
+<table>
+<thead>
+<tr>
+<th>资源名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>requests.storage</td>
+<td>所有 PVC，存储资源的需求总量不能超过该值。</td>
+</tr>
+<tr>
+<td>persistentvolumeclaims</td>
+<td>在该命名空间中所允许的PVC总量。</td>
+</tr>
+<tr>
+<td><storage-class-name>.storageclass.storage.k8s.io&#x2F;requests.storage</storage-class-name></td>
+<td>在所有与 <code>&lt;storage-class-name&gt;</code> 相关的持久卷申领中，存储请求的总和不能超过该值。</td>
+</tr>
+<tr>
+<td><storage-class-name>.storageclass.storage.k8s.io&#x2F;persistentvolumeclaims</storage-class-name></td>
+<td>在与 storage-class-name 相关的所有持久卷申领中，命名空间中可以存在的<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims">持久卷申领</a>总数。</td>
+</tr>
+<tr>
+<td>requests.ephemeral-storage</td>
+<td>在命名空间的所有 Pod 中，本地临时存储请求的总和不能超过此值。</td>
+</tr>
+<tr>
+<td>limits.ephemeral-storage</td>
+<td>在命名空间的所有 Pod 中，本地临时存储限制值的总和不能超过此值。</td>
+</tr>
+<tr>
+<td>ephemeral-storage</td>
+<td>与 <code>requests.ephemeral-storage</code> 相同。</td>
+</tr>
+</tbody></table>
+<h3 id="1-1-3-对象数量配额"><a href="#1-1-3-对象数量配额" class="headerlink" title="1.1.3 对象数量配额"></a>1.1.3 对象数量配额</h3><p>可以使用以下语法对所有标准的、命名空间域的资源类型进行配额设置：</p>
+<table>
+<thead>
+<tr>
+<th>资源名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>configmaps</code></td>
+<td>在该命名空间中允许存在的 ConfigMap 总数上限。</td>
+</tr>
+<tr>
+<td><code>persistentvolumeclaims</code></td>
+<td>在该命名空间中允许存在的 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims">PVC</a> 的总数上限。</td>
+</tr>
+<tr>
+<td><code>pods</code></td>
+<td>在该命名空间中允许存在的非终止状态的 Pod 总数上限。Pod 终止状态等价于 Pod 的 <code>.status.phase in (Failed, Succeeded)</code> 为真。</td>
+</tr>
+<tr>
+<td><code>replicationcontrollers</code></td>
+<td>在该命名空间中允许存在的 ReplicationController 总数上限。</td>
+</tr>
+<tr>
+<td><code>resourcequotas</code></td>
+<td>在该命名空间中允许存在的 ResourceQuota 总数上限。</td>
+</tr>
+<tr>
+<td><code>services</code></td>
+<td>在该命名空间中允许存在的 Service 总数上限。</td>
+</tr>
+<tr>
+<td><code>services.loadbalancers</code></td>
+<td>在该命名空间中允许存在的 LoadBalancer 类型的 Service 总数上限。</td>
+</tr>
+<tr>
+<td><code>services.nodeports</code></td>
+<td>在该命名空间中允许存在的 NodePort 类型的 Service 总数上限。</td>
+</tr>
+<tr>
+<td><code>secrets</code></td>
+<td>在该命名空间中允许存在的 Secret 总数上限。</td>
+</tr>
+</tbody></table>
+<h2 id="1-2-配额配额示例"><a href="#1-2-配额配额示例" class="headerlink" title="1.2 配额配额示例"></a>1.2 配额配额示例</h2><p><strong>创建ResourceQuota对象：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.创建用于测试的名称空间</span>
+root@deploy:~<span class="token comment"># kubectl create ns quota</span>
+namespace/quota created
+
+root@deploy:/opt/yaml/quota<span class="token comment"># vim quota.yaml</span>
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota-test1
+  namespace: <span class="token function">quota</span>
+spec:
+  hard:
+    persistentvolumeclaims: <span class="token string">"10"</span>
+    requests.storage: <span class="token string">"5Gi"</span>
+    pods: <span class="token string">"5"</span>
+    requests.cpu: <span class="token string">"2"</span>
+    limits.cpu: <span class="token string">"4"</span>
+    requests.memory: 2Gi
+    limits.memory: 4Gi
+    secrets: <span class="token string">"5"</span>
+    services: <span class="token string">"3"</span>
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f quota.yaml </span>
+resourcequota/quota-test1 created
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl get resourcequotas -n quota</span>
+NAME          AGE   REQUEST                                                                                                                                    LIMIT
+quota-test1   32s   persistentvolumeclaims: <span class="token number">0</span>/10, pods: <span class="token number">0</span>/5, requests.cpu: <span class="token number">0</span>/2, requests.memory: <span class="token number">0</span>/2Gi, requests.storage: <span class="token number">0</span>/5Gi, secrets: <span class="token number">1</span>/5, services: <span class="token number">0</span>/3   limits.cpu: <span class="token number">0</span>/4, limits.memory: <span class="token number">0</span>/4Gi
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe resourcequotas -n quota</span>
+Name:                   quota-test1
+Namespace:              <span class="token function">quota</span>
+Resource                Used  Hard
+--------                ----  ----
+limits.cpu              <span class="token number">0</span>     <span class="token number">4</span>
+limits.memory           <span class="token number">0</span>     4Gi
+persistentvolumeclaims  <span class="token number">0</span>     <span class="token number">10</span>
+pods                    <span class="token number">0</span>     <span class="token number">5</span>
+requests.cpu            <span class="token number">0</span>     <span class="token number">2</span>
+requests.memory         <span class="token number">0</span>     2Gi
+requests.storage        <span class="token number">0</span>     5Gi
+secrets                 <span class="token number">1</span>     <span class="token number">5</span>
+services                <span class="token number">0</span>     <span class="token number">3</span></code></pre></div></figure>
+
+
+
+<p><strong>创建一个quota对deployment pod数量进行限制，上限为5副本：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.创建ResourceQuota对象，指定pods创建数量</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># vim quota.yaml</span>
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota-test1
+  namespace: <span class="token function">quota</span>
+spec:
+  hard:
+    persistentvolumeclaims: <span class="token string">"10"</span>
+    requests.storage: <span class="token string">"5Gi"</span>
+    pods: <span class="token string">"5"</span>
+    secrets: <span class="token string">"5"</span>
+    services: <span class="token string">"3"</span>
+
+<span class="token comment">#2.创建测试容器</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># vim nginx.yaml</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: <span class="token function">quota</span>
+spec:
+  replicas: <span class="token number">2</span>
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: harbor.chsblogs.local/baseimages/nginx:1.22.1
+        name: nginx
+        imagePullPolicy: IfNotPresent
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f nginx.yaml </span>
+deployment.apps/nginx unchanged
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl get pod -n quota</span>
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-5b4dd694d5-5wv49   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          69s
+nginx-5b4dd694d5-nz8fv   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          70s
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe quota -n quota</span>
+Name:                   quota-test1
+Namespace:              <span class="token function">quota</span>
+Resource                Used  Hard
+--------                ----  ----
+persistentvolumeclaims  <span class="token number">0</span>     <span class="token number">10</span>
+pods                    <span class="token number">2</span>     <span class="token number">5</span>
+requests.storage        <span class="token number">0</span>     5Gi
+secrets                 <span class="token number">1</span>     <span class="token number">5</span>
+services                <span class="token number">0</span>     <span class="token number">3</span>
+
+<span class="token comment">#3.将Pod副本数调整为5个</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl scale deployment nginx -n quota --replicas=5</span>
+deployment.apps/nginx scaled
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl get pod -n quota</span>
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-5b4dd694d5-5wv49   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          9m7s
+nginx-5b4dd694d5-9z4g6   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          5s
+nginx-5b4dd694d5-dvh2b   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          5s
+nginx-5b4dd694d5-ht2xx   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          5s
+nginx-5b4dd694d5-nz8fv   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          9m8s
+
+<span class="token comment">#4.将Pod副本数调整为7个，提示创建错误超出pod数量限制为5个上线</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl scale deployment nginx -n quota --replicas=7</span>
+deployment.apps/nginx scaled
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe rs -n quota | grep Error | tail -1</span>
+  Warning  FailedCreate      92s <span class="token punctuation">(</span>x15 over 26m<span class="token punctuation">)</span>  replicaset-controller  <span class="token punctuation">(</span>combined from similar events<span class="token punctuation">)</span>: Error creating: pods <span class="token string">"nginx-5b4dd694d5-j8tnr"</span> is forbidden: exceeded quota: quota-test1, requested: <span class="token assign-left variable">pods</span><span class="token operator">=</span><span class="token number">1</span>, used: <span class="token assign-left variable">pods</span><span class="token operator">=</span><span class="token number">5</span>, limited: <span class="token assign-left variable">pods</span><span class="token operator">=</span><span class="token number">5</span></code></pre></div></figure>
+
+
+
+<h2 id="1-3-request-x2F-limits"><a href="#1-3-request-x2F-limits" class="headerlink" title="1.3 request&#x2F;limits"></a>1.3 request&#x2F;limits</h2><p>Deployment.spec.template.spec.containers.resources定义包含两部分：requests和limits</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/yaml/quota<span class="token comment"># kubectl explain Deployment.spec.template.spec.containers.resources</span>
+KIND:     Deployment
+VERSION:  apps/v1
+
+RESOURCE: resources <span class="token operator">&lt;</span>Object<span class="token operator">></span>
+
+DESCRIPTION:
+     Compute Resources required by this container. Cannot be updated. More info:
+     https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+
+     ResourceRequirements describes the compute resource requirements.
+
+FIELDS:
+   limits	<span class="token operator">&lt;</span>map<span class="token punctuation">[</span>string<span class="token punctuation">]</span>string<span class="token operator">></span>
+     <span class="token comment">#限制描述了允许的最大计算资源量。</span>
+     info:
+     https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+
+   requests	<span class="token operator">&lt;</span>map<span class="token punctuation">[</span>string<span class="token punctuation">]</span>string<span class="token operator">></span>
+     <span class="token comment">#请求描述了所需的最小计算资源量。</span>
+     info:
+     https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/</code></pre></div></figure>
+
+
+
+<h3 id="1-3-1-requests"><a href="#1-3-1-requests" class="headerlink" title="1.3.1 requests"></a>1.3.1 requests</h3><p>限制cpu和内存</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.创建ResourceQuota对象，限制cpu和内存</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># vim quota.yaml</span>
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota-test1
+  namespace: <span class="token function">quota</span>
+spec:
+  hard:
+    cpu: <span class="token string">"1"</span>
+    memory: <span class="token string">"2G"</span>
+    persistentvolumeclaims: <span class="token string">"10"</span>
+    requests.storage: <span class="token string">"5Gi"</span>
+    pods: <span class="token string">"5"</span>
+    secrets: <span class="token string">"5"</span>
+    services: <span class="token string">"3"</span>
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f quota.yaml </span>
+resourcequota/quota-test1 configured
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe resourcequotas -n quota</span>
+Name:                   quota-test1
+Namespace:              <span class="token function">quota</span>
+Resource                Used  Hard
+--------                ----  ----
+cpu                     <span class="token number">0</span>     <span class="token number">1</span>
+memory                  <span class="token number">0</span>     2G
+persistentvolumeclaims  <span class="token number">0</span>     <span class="token number">10</span>
+pods                    <span class="token number">5</span>     <span class="token number">5</span>
+requests.storage        <span class="token number">0</span>     5Gi
+secrets                 <span class="token number">1</span>     <span class="token number">5</span>
+services                <span class="token number">0</span>     <span class="token number">3</span>
+
+<span class="token comment">#2.创建测试容器</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># vim nginx.yaml</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: <span class="token function">quota</span>
+spec:
+  replicas: <span class="token number">2</span>
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: harbor.chsblogs.local/baseimages/nginx:1.22.1
+        name: nginx
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: <span class="token string">"256Mi"</span>
+            cpu: <span class="token string">"500m"</span>
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f nginx.yaml </span>
+deployment.apps/nginx configured
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl get pod -n quota</span>
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-7d6497b859-rh272   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          19s
+nginx-7d6497b859-x459x   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          23s
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe resourcequotas -n quota</span>
+Name:                   quota-test1
+Namespace:              <span class="token function">quota</span>
+Resource                Used   Hard
+--------                ----   ----
+cpu                     <span class="token number">1</span>      <span class="token number">1</span>
+memory                  512Mi  2G
+persistentvolumeclaims  <span class="token number">0</span>      <span class="token number">10</span>
+pods                    <span class="token number">2</span>      <span class="token number">5</span>
+requests.storage        <span class="token number">0</span>      5Gi
+secrets                 <span class="token number">1</span>      <span class="token number">5</span>
+services                <span class="token number">0</span>      <span class="token number">3</span></code></pre></div></figure>
+
+<h3 id="1-3-2-limits"><a href="#1-3-2-limits" class="headerlink" title="1.3.2 limits"></a>1.3.2 limits</h3><p>限制cpu和内存的上限</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.quota限制namespace下的资源上限cpu不得超过1核，内存不得超过2G</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># vim quota.yaml</span>
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota-test1
+  namespace: <span class="token function">quota</span>
+spec:
+  hard:
+    cpu: <span class="token string">"1"</span>
+    memory: <span class="token string">"2G"</span>
+    limits.cpu: <span class="token string">"1"</span>
+    limits.memory: <span class="token string">"2G"</span>
+    persistentvolumeclaims: <span class="token string">"10"</span>
+    requests.storage: <span class="token string">"5Gi"</span>
+    pods: <span class="token string">"5"</span>
+    secrets: <span class="token string">"5"</span>
+    services: <span class="token string">"3"</span>
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f quota.yaml </span>
+resourcequota/quota-test1 configured
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe resourcequotas -n quota</span>
+Name:                   quota-test1
+Namespace:              <span class="token function">quota</span>
+Resource                Used   Hard
+--------                ----   ----
+cpu                     <span class="token number">1</span>      <span class="token number">1</span>
+limits.cpu              <span class="token number">0</span>      <span class="token number">1</span>
+limits.memory           <span class="token number">0</span>      2G
+memory                  512Mi  2G
+persistentvolumeclaims  <span class="token number">0</span>      <span class="token number">10</span>
+pods                    <span class="token number">2</span>      <span class="token number">5</span>
+requests.storage        <span class="token number">0</span>      5Gi
+secrets                 <span class="token number">1</span>      <span class="token number">5</span>
+services                <span class="token number">0</span>      <span class="token number">3</span>
+
+<span class="token comment">#deployment需要指定pods的cpu和内存最大使用上限</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># vim nginx.yaml</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: <span class="token function">quota</span>
+spec:
+  replicas: <span class="token number">2</span>
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: harbor.chsblogs.local/baseimages/nginx:1.22.1
+        name: nginx
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: <span class="token string">"256Mi"</span>
+            cpu: <span class="token string">"500m"</span>
+          limits:
+            memory: <span class="token string">"256Mi"</span>
+            cpu: <span class="token string">"500m"</span>
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f nginx.yaml </span>
+deployment.apps/nginx created
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl get pod -n quota</span>
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-7777889869-gljnx   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          4s
+nginx-7777889869-zdlq4   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          4s
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe resourcequotas -n quota</span>
+Name:                   quota-test1
+Namespace:              <span class="token function">quota</span>
+Resource                Used   Hard
+--------                ----   ----
+cpu                     <span class="token number">1</span>      <span class="token number">1</span>
+limits.cpu              <span class="token number">1</span>      <span class="token number">1</span>
+limits.memory           512Mi  2G
+memory                  512Mi  2G
+persistentvolumeclaims  <span class="token number">0</span>      <span class="token number">10</span>
+pods                    <span class="token number">2</span>      <span class="token number">5</span>
+requests.storage        <span class="token number">0</span>      5Gi
+secrets                 <span class="token number">1</span>      <span class="token number">5</span>
+services                <span class="token number">0</span>      <span class="token number">3</span></code></pre></div></figure>
+
+
+
+<h2 id="1-4-LimitRange"><a href="#1-4-LimitRange" class="headerlink" title="1.4 LimitRange"></a>1.4 LimitRange</h2><p>官方文档：<a target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/docs/concepts/policy/limit-range/">https://kubernetes.io/zh-cn/docs/concepts/policy/limit-range/</a></p>
+<p>LimitRange 是限制命名空间内可为每个适用的对象类别 （例如Pod或PersistentVolumeClaim指定的资源分配量（限制和请求）的策略对象。</p>
+<p>如果namespace设置了quota配额，那么创建不指定资源请求和资源限制的pod是不允许的。kubernetes中pod默认不指定资源请求和计算资源。为了在设定配额的namespace中使用pod，namespace还需要为pod资源请求设定默认范围。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">kind: LimitRange
+metadata:
+  name: limitrange
+  namespace: <span class="token function">quota</span>
+spec:
+  limits:
+  - type: Container       <span class="token comment">#限制的资源类型</span>
+    max:
+      cpu: <span class="token string">"2"</span>            <span class="token comment">#限制单个容器的最大CPU</span>
+      memory: <span class="token string">"2Gi"</span>       <span class="token comment">#限制单个容器的最大内存</span>
+    min:
+      cpu: <span class="token string">"500m"</span>         <span class="token comment">#限制单个容器的最小CPU</span>
+      memory: <span class="token string">"512Mi"</span>     <span class="token comment">#限制单个容器的最小内存</span>
+    default:
+      cpu: <span class="token string">"500m"</span>         <span class="token comment">#默认单个容器的CPU限制</span>
+      memory: <span class="token string">"512Mi"</span>     <span class="token comment">#默认单个容器的内存限制</span>
+    defaultRequest:
+      cpu: <span class="token string">"500m"</span>         <span class="token comment">#默认单个容器的CPU创建请求</span>
+      memory: <span class="token string">"512Mi"</span>     <span class="token comment">#默认单个容器的内存创建请求</span>
+    maxLimitRequestRatio:
+      cpu: <span class="token number">2</span>              <span class="token comment">#限制CPU limit/request比值最大为2  </span>
+      memory: <span class="token number">2</span>           <span class="token comment">#限制内存limit/request比值最大为2</span>
+  - type: Pod
+    max:
+      cpu: <span class="token string">"4"</span>            <span class="token comment">#限制单个Pod的最大CPU</span>
+      memory: <span class="token string">"4Gi"</span>       <span class="token comment">#限制单个Pod最大内存</span>
+  - type: PersistentVolumeClaim
+    max:
+      storage: 50Gi        <span class="token comment">#限制PVC最大的requests.storage</span>
+    min:
+      storage: 30Gi        <span class="token comment">#限制PVC最小的requests.storage</span></code></pre></div></figure>
+
+
+
+<h3 id="1-4-1-Pod未申请资源示例"><a href="#1-4-1-Pod未申请资源示例" class="headerlink" title="1.4.1 Pod未申请资源示例"></a>1.4.1 Pod未申请资源示例</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.quota限制namespace下的资源上限</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># vim quota.yaml</span>
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota-test1
+  namespace: <span class="token function">quota</span>
+spec:
+  hard:
+    limits.cpu: <span class="token string">"1"</span>
+    limits.memory: <span class="token string">"2G"</span>
+    requests.cpu: <span class="token string">"0.5"</span>
+    requests.memory: <span class="token string">"1Gi"</span>
+    persistentvolumeclaims: <span class="token string">"10"</span>
+    requests.storage: <span class="token string">"5Gi"</span>
+    pods: <span class="token string">"5"</span>
+    secrets: <span class="token string">"5"</span>
+    services: <span class="token string">"3"</span>
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f quota.yaml </span>
+resourcequota/quota-test1 configured
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe resourcequotas -n quota</span>
+Name:                   quota-test1
+Namespace:              <span class="token function">quota</span>
+Resource                Used  Hard
+--------                ----  ----
+limits.cpu              <span class="token number">0</span>     <span class="token number">1</span>
+limits.memory           <span class="token number">0</span>     2G
+persistentvolumeclaims  <span class="token number">0</span>     <span class="token number">10</span>
+pods                    <span class="token number">0</span>     <span class="token number">5</span>
+requests.cpu            <span class="token number">0</span>     500m
+requests.memory         <span class="token number">0</span>     1Gi
+requests.storage        <span class="token number">0</span>     5Gi
+secrets                 <span class="token number">1</span>     <span class="token number">5</span>
+services                <span class="token number">0</span>     <span class="token number">3</span>
+
+<span class="token comment">#2.配置limitrange</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># vim limitrange.yaml</span>
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limitrange-test1
+  namespace: <span class="token function">quota</span>
+spec:
+  limits:
+  - default:
+      cpu: <span class="token string">"500m"</span>
+      memory: <span class="token string">"700Mi"</span>
+    defaultRequest:
+      cpu: <span class="token string">"200m"</span>
+      memory: <span class="token string">"450Mi"</span>
+    max:
+      cpu: <span class="token string">"2"</span>
+      memory: <span class="token string">"2Gi"</span>
+    min:
+      cpu: <span class="token string">"100m"</span>
+      memory: <span class="token string">"128Mi"</span>
+    type: Container
+    
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f limitrange.yaml </span>
+limitrange/limitrange-test1 created
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe limitranges -n quota</span>
+Name:       limitrange-test1
+Namespace:  <span class="token function">quota</span>
+Type        Resource  Min    Max  Default Request  Default Limit  Max Limit/Request Ratio
+----        --------  ---    ---  ---------------  -------------  -----------------------
+Container   cpu       100m   <span class="token number">2</span>    200m             500m           -
+Container   memory    128Mi  2Gi  450Mi            1Gi            -
+
+<span class="token comment">#3.创建测试容器</span>
+root@deploy:/opt/yaml/quota<span class="token comment"># vim nginx.yaml</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: <span class="token function">quota</span>
+spec:
+  replicas: <span class="token number">2</span>
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: harbor.chsblogs.local/baseimages/nginx:1.22.1
+        name: nginx
+        imagePullPolicy: IfNotPresent
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f nginx.yaml </span>
+deployment.apps/nginx created
+
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl get pod -n quota</span>
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-5b4dd694d5-47kn6   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          5s
+nginx-5b4dd694d5-7jbn6   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          4s
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe resourcequotas -n quota</span>
+Name:                   quota-test1
+Namespace:              <span class="token function">quota</span>
+Resource                Used    Hard
+--------                ----    ----
+limits.cpu              <span class="token number">1</span>       <span class="token number">1</span>
+limits.memory           1400Mi  2G
+persistentvolumeclaims  <span class="token number">0</span>       <span class="token number">10</span>
+pods                    <span class="token number">2</span>       <span class="token number">5</span>
+requests.cpu            400m    500m
+requests.memory         900Mi   1Gi
+requests.storage        <span class="token number">0</span>       5Gi
+secrets                 <span class="token number">1</span>       <span class="token number">5</span>
+services                <span class="token number">0</span>       <span class="token number">3</span></code></pre></div></figure>
+
+
+
+<h3 id="1-4-2-Pod已申请资源示例"><a href="#1-4-2-Pod已申请资源示例" class="headerlink" title="1.4.2 Pod已申请资源示例"></a>1.4.2 Pod已申请资源示例</h3><p>创建的容器requests值必须满足条件：min值&lt;requests值&lt;limits值。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/yaml/quota<span class="token comment"># vim nginx.yaml</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx
+  namespace: <span class="token function">quota</span>
+spec:
+  replicas: <span class="token number">2</span>
+  selector:
+    matchLabels:
+      app: nginx
+  strategy: <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: harbor.chsblogs.local/baseimages/nginx:1.22.1
+        name: nginx
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: <span class="token string">"500Mi"</span>
+            cpu: <span class="token string">"0.25"</span>
+          limits:
+            memory: <span class="token string">"900Mi"</span>
+            cpu: <span class="token string">"400m"</span>
+            
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl apply -f nginx.yaml </span>
+deployment.apps/nginx created
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl get pod -n quota</span>
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-857b5465f8-d2nxm   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          3s
+nginx-857b5465f8-f6gjg   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          3s
+root@deploy:/opt/yaml/quota<span class="token comment"># kubectl describe resourcequotas -n quota</span>
+Name:                   quota-test1
+Namespace:              <span class="token function">quota</span>
+Resource                Used    Hard
+--------                ----    ----
+limits.cpu              800m    <span class="token number">1</span>
+limits.memory           1800Mi  2G
+persistentvolumeclaims  <span class="token number">0</span>       <span class="token number">10</span>
+pods                    <span class="token number">2</span>       <span class="token number">5</span>
+requests.cpu            500m    500m
+requests.memory         1000Mi  1Gi
+requests.storage        <span class="token number">0</span>       5Gi
+secrets                 <span class="token number">1</span>       <span class="token number">5</span>
+services                <span class="token number">0</span>       3s</code></pre></div></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/Kubernetes/" class="category-chain-item">Kubernetes</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Kubernetes/">#Kubernetes</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(11).K8S资源配额</div>
+      <div>http://chsblogs.com/2023/05/09/Container/Kubernetes/kubernetes11/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/09/Container/Kubernetes/kubernetes10/" title="(10).K8S账户授权RBAC">
+                        <span class="hidden-mobile">(10).K8S账户授权RBAC</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2023/05/09/Container/Kubernetes/kubernetes11/';
+          this.page.identifier = '/2023/05/09/Container/Kubernetes/kubernetes11/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Kubernetes"
+        id="heading-30136395f01879792198317c11831ea4" role="tab" data-toggle="collapse" href="#collapse-30136395f01879792198317c11831ea4"
+        aria-expanded="true"
+      >
+        Kubernetes
+        <span class="list-group-count">(11)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-30136395f01879792198317c11831ea4"
+           role="tabpanel" aria-labelledby="heading-30136395f01879792198317c11831ea4">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/04/25/Container/Kubernetes/kubernetes01/" title="(01).K8S核心组件介绍"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(01).K8S核心组件介绍</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes02/" title="(02).基于手动二进制部署K8S高可用集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(02).基于手动二进制部署K8S高可用集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes03/" title="(03).基于kubeadm工具部署K8S高可用集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(03).基于kubeadm工具部署K8S高可用集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes04/" title="(04).基于kubeasz工具部署K8S高可用集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(04).基于kubeasz工具部署K8S高可用集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/03/Container/Kubernetes/kubernetes05/" title="(05).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(05).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/03/Container/Kubernetes/kubernetes06/" title="(06).K8S基于HPA控制器实现Pod自动伸缩"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(06).K8S基于HPA控制器实现Pod自动伸缩</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/03/Container/Kubernetes/kubernetes07/" title="(07).K8S基于Jenkins和Gitlab实现版本升级与回滚"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(07).K8S基于Jenkins和Gitlab实现版本升级与回滚</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/03/Container/Kubernetes/kubernetes08/" title="(08).K8S基于ELK实现日志收集"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(08).K8S基于ELK实现日志收集</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/05/Container/Kubernetes/kubernetes09/" title="(09).K8S实现ZooKeeper集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(09).K8S实现ZooKeeper集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/09/Container/Kubernetes/kubernetes10/" title="(10).K8S账户授权RBAC"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(10).K8S账户授权RBAC</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/09/Container/Kubernetes/kubernetes11/" title="(11).K8S资源配额"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(11).K8S资源配额</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
