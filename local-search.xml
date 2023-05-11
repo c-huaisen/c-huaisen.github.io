@@ -112,11 +112,11 @@
   
   
   <entry>
-    <title>(08).K8S基于ELK实现日志收集</title>
+    <title>(08).K8S基于ELK及Kafka集群实现日志收集</title>
     <link href="/2023/05/03/Container/Kubernetes/kubernetes08/"/>
     <url>/2023/05/03/Container/Kubernetes/kubernetes08/</url>
     
-    <content type="html"><![CDATA[<h1 id="1-K8S基于ELK实现日志收集"><a href="#1-K8S基于ELK实现日志收集" class="headerlink" title="1.K8S基于ELK实现日志收集"></a>1.K8S基于ELK实现日志收集</h1>]]></content>
+    <content type="html"><![CDATA[<h1 id="1-K8S基于ELK及Kafka集群实现日志收集"><a href="#1-K8S基于ELK及Kafka集群实现日志收集" class="headerlink" title="1.K8S基于ELK及Kafka集群实现日志收集"></a>1.K8S基于ELK及Kafka集群实现日志收集</h1>]]></content>
     
     
     <categories>
