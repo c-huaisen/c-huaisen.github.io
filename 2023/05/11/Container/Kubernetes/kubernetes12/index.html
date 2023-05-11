@@ -1,0 +1,1367 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="陈怀森">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.基于StatefulSet控制器运行Redis ClusterRedis集群规划：    Redis服务 角色 备注    redis0 master    redis1 master    redis2 master    redis3 slave    redis4 slave    redis5 slave    1.1 构建Redis镜像1.1.1 创建redis.confroot@d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(12).基于StatefulSet控制器运行Redis Cluster">
+<meta property="og:url" content="http://chsblogs.com/2023/05/11/Container/Kubernetes/kubernetes12/index.html">
+<meta property="og:site_name" content="陈怀森の运维笔记">
+<meta property="og:description" content="1.基于StatefulSet控制器运行Redis ClusterRedis集群规划：    Redis服务 角色 备注    redis0 master    redis1 master    redis2 master    redis3 slave    redis4 slave    redis5 slave    1.1 构建Redis镜像1.1.1 创建redis.confroot@d">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-11T06:29:29.000Z">
+<meta property="article:modified_time" content="2023-05-11T07:57:34.011Z">
+<meta property="article:author" content="陈怀森">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>(12).基于StatefulSet控制器运行Redis Cluster - 陈怀森の运维笔记</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>陈怀森 の 运维笔记</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(12).基于StatefulSet控制器运行Redis Cluster"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-11 14:29" pubdate>
+          2023年5月11日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">(12).基于StatefulSet控制器运行Redis Cluster</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-基于StatefulSet控制器运行Redis-Cluster"><a href="#1-基于StatefulSet控制器运行Redis-Cluster" class="headerlink" title="1.基于StatefulSet控制器运行Redis Cluster"></a>1.基于StatefulSet控制器运行Redis Cluster</h1><p><strong>Redis集群规划：</strong></p>
+<table>
+<thead>
+<tr>
+<th>Redis服务</th>
+<th>角色</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>redis0</td>
+<td>master</td>
+<td></td>
+</tr>
+<tr>
+<td>redis1</td>
+<td>master</td>
+<td></td>
+</tr>
+<tr>
+<td>redis2</td>
+<td>master</td>
+<td></td>
+</tr>
+<tr>
+<td>redis3</td>
+<td>slave</td>
+<td></td>
+</tr>
+<tr>
+<td>redis4</td>
+<td>slave</td>
+<td></td>
+</tr>
+<tr>
+<td>redis5</td>
+<td>slave</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="1-1-构建Redis镜像"><a href="#1-1-构建Redis镜像" class="headerlink" title="1.1 构建Redis镜像"></a>1.1 构建Redis镜像</h2><h3 id="1-1-1-创建redis-conf"><a href="#1-1-1-创建redis-conf" class="headerlink" title="1.1.1 创建redis.conf"></a>1.1.1 创建redis.conf</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project<span class="token comment"># vim redis.conf</span>
+<span class="token builtin class-name">bind</span> <span class="token number">0.0</span>.0.0
+port <span class="token number">6379</span>
+daemonize no
+pidfile /var/run/redis_6379.pid
+loglevel warning
+logfile <span class="token string">"/usr/local/redis/logs/redis.log"</span>
+dbfilename dump.rdb
+<span class="token function">dir</span> /usr/local/redis/data
+save <span class="token number">900</span> <span class="token number">1</span>
+save <span class="token number">5</span> <span class="token number">1</span>
+save <span class="token number">300</span> <span class="token number">10</span>
+save <span class="token number">60</span> <span class="token number">10000</span>
+stop-writes-on-bgsave-error no
+requirepass <span class="token number">123456</span>
+cluster-enabled <span class="token function">yes</span>
+cluster-config-file /usr/local/redis/data/nodes.conf
+cluster-node-timeout <span class="token number">5000</span>
+appendonly <span class="token function">yes</span>
+appendfilename <span class="token string">"appendonly.aof"</span></code></pre></div></figure>
+
+
+
+<h3 id="1-1-2-创建构建镜像脚本"><a href="#1-1-2-创建构建镜像脚本" class="headerlink" title="1.1.2 创建构建镜像脚本"></a>1.1.2 创建构建镜像脚本</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># vim build-command.sh</span>
+<span class="token comment">#!/bin/bash</span>
+<span class="token assign-left variable">TAG</span><span class="token operator">=</span><span class="token variable">$1</span>
+<span class="token function">docker</span> build <span class="token parameter variable">-t</span> harbor.chsblogs.local/redis/redis:<span class="token variable">$&#123;TAG&#125;</span> <span class="token builtin class-name">.</span>
+ 
+<span class="token function">docker</span> push harbor.chsblogs.local/redis/redis:<span class="token variable">$&#123;TAG&#125;</span></code></pre></div></figure>
+
+
+
+<h3 id="1-1-3-创建Dockerfile"><a href="#1-1-3-创建Dockerfile" class="headerlink" title="1.1.3 创建Dockerfile"></a>1.1.3 创建Dockerfile</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># vim Dockerfile</span>
+FROM harbor.chsblogs.local/system/ubuntu-base:v1
+  
+ADD redis-6.2.9.tar.gz /usr/local/src
+
+RUN <span class="token builtin class-name">cd</span> /usr/local/src/redis-6.2.9 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">make</span> <span class="token assign-left variable">MALLOC</span><span class="token operator">=</span>jemalloc <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">make</span> <span class="token assign-left variable">PREFIX</span><span class="token operator">=</span>/usr/local/redis <span class="token function">install</span>
+
+RUN <span class="token builtin class-name">cd</span> /usr/local/redis <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">mkdir</span> /usr/local/redis/conf <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">mkdir</span> /usr/local/redis/logs <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
+<span class="token function">mkdir</span> /usr/local/redis/data
+
+ENV <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token environment constant">$PATH</span>:/usr/local/redis/bin
+
+ADD redis.conf /usr/local/redis/conf/redis.conf
+
+EXPOSE <span class="token number">6379</span>
+
+RUN <span class="token function">rm</span> <span class="token parameter variable">-f</span> /usr/local/src/redis-6.2.9.tar.gz
+
+
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># bash build-command.sh v6.2.9</span></code></pre></div></figure>
+
+
+
+
+
+<h2 id="1-2-配置NFS"><a href="#1-2-配置NFS" class="headerlink" title="1.2 配置NFS"></a>1.2 配置NFS</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@ha1:/data/k8sdata<span class="token comment"># mkdir redis-cluster/redis&#123;0..5&#125; -p</span>
+/data/k8sdata *<span class="token punctuation">(</span>rw,no_root_squash<span class="token punctuation">)</span></code></pre></div></figure>
+
+
+
+<h2 id="1-3-创建K8S资源"><a href="#1-3-创建K8S资源" class="headerlink" title="1.3 创建K8S资源"></a>1.3 创建K8S资源</h2><h3 id="1-3-1-创建PV"><a href="#1-3-1-创建PV" class="headerlink" title="1.3.1 创建PV"></a>1.3.1 创建PV</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># vim redis-cluster-pv.yaml</span>
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-cluster-pv0
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: <span class="token number">192.168</span>.1.43
+    path: /data/k8sdata/redis-cluster/redis0
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-cluster-pv1
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: <span class="token number">192.168</span>.1.43
+    path: /data/k8sdata/redis-cluster/redis1
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-cluster-pv2
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: <span class="token number">192.168</span>.1.43
+    path: /data/k8sdata/redis-cluster/redis2
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata: 
+  name: redis-cluster-pv3
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: <span class="token number">192.168</span>.1.43
+    path: /data/k8sdata/redis-cluster/redis3
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-cluster-pv4
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: <span class="token number">192.168</span>.1.43
+    path: /data/k8sdata/redis-cluster/redis4
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-cluster-pv5
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: <span class="token number">192.168</span>.1.43
+    path: /data/k8sdata/redis-cluster/redis5
+    
+
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl apply -f redis-cluster-pv.yaml </span>
+persistentvolume/redis-cluster-pv0 created
+persistentvolume/redis-cluster-pv1 created
+persistentvolume/redis-cluster-pv2 created
+persistentvolume/redis-cluster-pv3 created
+persistentvolume/redis-cluster-pv4 created
+persistentvolume/redis-cluster-pv5 created
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl get pv</span>
+NAME                CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+redis-cluster-pv0   5Gi        RWO            Retain           Available                                   13s
+redis-cluster-pv1   5Gi        RWO            Retain           Available                                   13s
+redis-cluster-pv2   5Gi        RWO            Retain           Available                                   13s
+redis-cluster-pv3   5Gi        RWO            Retain           Available                                   13s
+redis-cluster-pv4   5Gi        RWO            Retain           Available                                   13s
+redis-cluster-pv5   5Gi        RWO            Retain           Available                                   13s</code></pre></div></figure>
+
+
+
+<h3 id="1-3-2-创建redis-statefulset控制器"><a href="#1-3-2-创建redis-statefulset控制器" class="headerlink" title="1.3.2 创建redis statefulset控制器"></a>1.3.2 创建redis statefulset控制器</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl create ns redis</span>
+namespace/redis created
+
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># vim redis.yaml</span>
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: redis
+spec:
+  serviceName: redis
+  replicas: <span class="token number">6</span>
+  selector:
+    matchLabels:
+      app: redis
+      appCluster: redis-cluster
+  template:
+    metadata:
+      labels:
+        app: redis
+        appCluster: redis-cluster
+    spec:
+      terminationGracePeriodSeconds: <span class="token number">20</span>
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: <span class="token number">100</span>
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - redis
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: redis
+        image: harbor.chsblogs.local/redis/redis:v6.2.9
+        imagePullPolicy: Always
+        command: <span class="token punctuation">[</span><span class="token string">"redis-server"</span>, <span class="token string">"/usr/local/redis/conf/redis.conf"</span><span class="token punctuation">]</span>
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        resources:
+          requests:
+            cpu: <span class="token string">"500m"</span>
+            memory: <span class="token string">"500Mi"</span>
+        ports:
+        - containerPort: <span class="token number">6379</span>
+          name: redis
+          protocol: TCP
+        - containerPort: <span class="token number">16379</span>
+          name: cluster
+          protocol: TCP
+        volumeMounts:
+        - name: data
+          mountPath: /usr/local/redis/data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      namespace: redis
+    spec:
+      accessModes: <span class="token punctuation">[</span> <span class="token string">"ReadWriteOnce"</span> <span class="token punctuation">]</span>
+      resources:
+        requests:
+          storage: 5Gi
+
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl apply -f redis.yaml </span>
+statefulset.apps/redis created
+
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl get pod -n redis -o wide</span>
+NAME      READY   STATUS    RESTARTS   AGE     IP              NODE           NOMINATED NODE   READINESS GATES
+redis-0   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m48s   <span class="token number">10.20</span>.132.213   <span class="token number">192.168</span>.1.50   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-1   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m32s   <span class="token number">10.20</span>.39.232    <span class="token number">192.168</span>.1.49   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-2   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m18s   <span class="token number">10.20</span>.178.235   <span class="token number">192.168</span>.1.51   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-3   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m3s    <span class="token number">10.20</span>.132.214   <span class="token number">192.168</span>.1.50   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-4   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          118s    <span class="token number">10.20</span>.39.233    <span class="token number">192.168</span>.1.49   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-5   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          114s    <span class="token number">10.20</span>.178.236   <span class="token number">192.168</span>.1.51   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl get pvc -n redis</span>
+NAME           STATUS   VOLUME              CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+data-redis-0   Bound    redis-cluster-pv0   5Gi        RWO                           70s
+data-redis-1   Bound    redis-cluster-pv1   5Gi        RWO                           54s
+data-redis-2   Bound    redis-cluster-pv2   5Gi        RWO                           40s
+data-redis-3   Bound    redis-cluster-pv3   5Gi        RWO                           25s
+data-redis-4   Bound    redis-cluster-pv4   5Gi        RWO                           20s
+data-redis-5   Bound    redis-cluster-pv5   5Gi        RWO                           16s
+
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl get pv</span>
+NAME                CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                STORAGECLASS   REASON   AGE
+redis-cluster-pv0   5Gi        RWO            Retain           Bound    redis/data-redis-0                           39m
+redis-cluster-pv1   5Gi        RWO            Retain           Bound    redis/data-redis-1                           39m
+redis-cluster-pv2   5Gi        RWO            Retain           Bound    redis/data-redis-2                           39m
+redis-cluster-pv3   5Gi        RWO            Retain           Bound    redis/data-redis-3                           39m
+redis-cluster-pv4   5Gi        RWO            Retain           Bound    redis/data-redis-4                           39m
+redis-cluster-pv5   5Gi        RWO            Retain           Bound    redis/data-redis-5                           39m</code></pre></div></figure>
+
+
+
+<h3 id="1-3-3-创建redis-svc"><a href="#1-3-3-创建redis-svc" class="headerlink" title="1.3.3 创建redis svc"></a>1.3.3 创建redis svc</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># vim redis-svc.yaml</span>
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: redis
+  labels:
+    app: redis
+spec:
+  selector:
+    app: redis
+    appCluster: redis-cluster
+  ports:
+  - name: client
+    port: <span class="token number">6379</span>
+    targetPort: <span class="token number">6379</span>
+  - name: cluster
+    port: <span class="token number">16379</span>
+    targetPort: <span class="token number">16379</span>
+  clusterIP: None
+  
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl apply -f redis-svc.yaml </span>
+service/redis created
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl get svc -n redis</span>
+NAME    TYPE        CLUSTER-IP   EXTERNAL-IP   PORT<span class="token punctuation">(</span>S<span class="token punctuation">)</span>              AGE
+redis   ClusterIP   None         <span class="token operator">&lt;</span>none<span class="token operator">></span>        <span class="token number">6379</span>/TCP,16379/TCP   10s
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl get ep -n redis</span>
+NAME    ENDPOINTS                                                                 AGE
+redis   <span class="token number">10.20</span>.132.213:16379,10.20.132.214:16379,10.20.178.235:16379 + <span class="token number">9</span> more<span class="token punctuation">..</span>.   17s</code></pre></div></figure>
+
+
+
+<h3 id="1-3-4-初始化redis创建集群"><a href="#1-3-4-初始化redis创建集群" class="headerlink" title="1.3.4 初始化redis创建集群"></a>1.3.4 初始化redis创建集群</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.进入data-redis-0 pod</span>
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl exec -it -n redis redis-0 bash</span>
+
+<span class="token comment">#2.安装dig</span>
+root@redis-0:/<span class="token comment"># apt install dnsutils -y</span>
+
+<span class="token comment">#3.初始化命令</span>
+<span class="token comment">#redis-cli -a 123456 --cluster create --cluster-replicas 1 \</span>
+<span class="token comment">#`dig +short redis-0.redis.redis.svc.chsblogs.local`:6379 \</span>
+<span class="token comment">#`dig +short redis-1.redis.redis.svc.chsblogs.local`:6379 \</span>
+<span class="token comment">#`dig +short redis-2.redis.redis.svc.chsblogs.local`:6379 \</span>
+<span class="token comment">#`dig +short redis-3.redis.redis.svc.chsblogs.local`:6379 \</span>
+<span class="token comment">#`dig +short redis-4.redis.redis.svc.chsblogs.local`:6379 \</span>
+<span class="token comment">#`dig +short redis-5.redis.redis.svc.chsblogs.local`:6379</span>
+
+<span class="token comment">#4.创建redis集群</span>
+root@redis-0:/<span class="token comment"># redis-cli -a 123456 --cluster create --cluster-replicas 1 \</span>
+<span class="token operator">></span> <span class="token variable"><span class="token variable">`</span><span class="token function">dig</span> +short redis-0.redis.redis.svc.chsblogs.local<span class="token variable">`</span></span>:6379 <span class="token punctuation">\</span>
+<span class="token operator">></span> <span class="token variable"><span class="token variable">`</span><span class="token function">dig</span> +short redis-1.redis.redis.svc.chsblogs.local<span class="token variable">`</span></span>:6379 <span class="token punctuation">\</span>
+<span class="token operator">></span> <span class="token variable"><span class="token variable">`</span><span class="token function">dig</span> +short redis-2.redis.redis.svc.chsblogs.local<span class="token variable">`</span></span>:6379 <span class="token punctuation">\</span>
+<span class="token operator">></span> <span class="token variable"><span class="token variable">`</span><span class="token function">dig</span> +short redis-3.redis.redis.svc.chsblogs.local<span class="token variable">`</span></span>:6379 <span class="token punctuation">\</span>
+<span class="token operator">></span> <span class="token variable"><span class="token variable">`</span><span class="token function">dig</span> +short redis-4.redis.redis.svc.chsblogs.local<span class="token variable">`</span></span>:6379 <span class="token punctuation">\</span>
+<span class="token operator">></span> <span class="token variable"><span class="token variable">`</span><span class="token function">dig</span> +short redis-5.redis.redis.svc.chsblogs.local<span class="token variable">`</span></span>:6379
+Warning: Using a password with <span class="token string">'-a'</span> or <span class="token string">'-u'</span> option on the <span class="token builtin class-name">command</span> line interface may not be safe.
+<span class="token operator">>></span><span class="token operator">></span> Performing <span class="token builtin class-name">hash</span> slots allocation on <span class="token number">6</span> nodes<span class="token punctuation">..</span>.
+Master<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> -<span class="token operator">></span> Slots <span class="token number">0</span> - <span class="token number">5460</span>
+Master<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> -<span class="token operator">></span> Slots <span class="token number">5461</span> - <span class="token number">10922</span>
+Master<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> -<span class="token operator">></span> Slots <span class="token number">10923</span> - <span class="token number">16383</span>
+Adding replica <span class="token number">10.20</span>.39.233:6379 to <span class="token number">10.20</span>.132.213:6379
+Adding replica <span class="token number">10.20</span>.178.236:6379 to <span class="token number">10.20</span>.39.232:6379
+Adding replica <span class="token number">10.20</span>.132.214:6379 to <span class="token number">10.20</span>.178.235:6379
+M: ec76c8e7ab8f72b7ef27e67f69825c2f383b272b <span class="token number">10.20</span>.132.213:6379
+   slots:<span class="token punctuation">[</span><span class="token number">0</span>-5460<span class="token punctuation">]</span> <span class="token punctuation">(</span><span class="token number">5461</span> slots<span class="token punctuation">)</span> master
+M: e26f1dad00af4f65d418762d7336a89904830142 <span class="token number">10.20</span>.39.232:6379
+   slots:<span class="token punctuation">[</span><span class="token number">5461</span>-10922<span class="token punctuation">]</span> <span class="token punctuation">(</span><span class="token number">5462</span> slots<span class="token punctuation">)</span> master
+M: 792def011ca7acfa763940fa2671953ef4b5c253 <span class="token number">10.20</span>.178.235:6379
+   slots:<span class="token punctuation">[</span><span class="token number">10923</span>-16383<span class="token punctuation">]</span> <span class="token punctuation">(</span><span class="token number">5461</span> slots<span class="token punctuation">)</span> master
+S: c4562b4ae3fcc3ae4ee9b267113a32c838fd57c1 <span class="token number">10.20</span>.132.214:6379
+   replicates 792def011ca7acfa763940fa2671953ef4b5c253
+S: d44fd2d22b7e0f0f5d069dd1b556dbdd743a8cd1 <span class="token number">10.20</span>.39.233:6379
+   replicates ec76c8e7ab8f72b7ef27e67f69825c2f383b272b
+S: f434246abaaf8ea75713d563a14cd6d2513cce7b <span class="token number">10.20</span>.178.236:6379
+   replicates e26f1dad00af4f65d418762d7336a89904830142
+Can I <span class="token builtin class-name">set</span> the above configuration? <span class="token punctuation">(</span>type <span class="token string">'yes'</span> to accept<span class="token punctuation">)</span>: <span class="token function">yes</span>
+<span class="token operator">>></span><span class="token operator">></span> Nodes configuration updated
+<span class="token operator">>></span><span class="token operator">></span> Assign a different config epoch to each <span class="token function">node</span>
+<span class="token operator">>></span><span class="token operator">></span> Sending CLUSTER MEET messages to <span class="token function">join</span> the cluster
+Waiting <span class="token keyword">for</span> the cluster to <span class="token function">join</span>
+<span class="token builtin class-name">.</span>
+<span class="token operator">>></span><span class="token operator">></span> Performing Cluster Check <span class="token punctuation">(</span>using <span class="token function">node</span> <span class="token number">10.20</span>.132.213:6379<span class="token punctuation">)</span>
+M: ec76c8e7ab8f72b7ef27e67f69825c2f383b272b <span class="token number">10.20</span>.132.213:6379
+   slots:<span class="token punctuation">[</span><span class="token number">0</span>-5460<span class="token punctuation">]</span> <span class="token punctuation">(</span><span class="token number">5461</span> slots<span class="token punctuation">)</span> master
+   <span class="token number">1</span> additional replica<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+M: e26f1dad00af4f65d418762d7336a89904830142 <span class="token number">10.20</span>.39.232:6379
+   slots:<span class="token punctuation">[</span><span class="token number">5461</span>-10922<span class="token punctuation">]</span> <span class="token punctuation">(</span><span class="token number">5462</span> slots<span class="token punctuation">)</span> master
+   <span class="token number">1</span> additional replica<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+S: f434246abaaf8ea75713d563a14cd6d2513cce7b <span class="token number">10.20</span>.178.236:6379
+   slots: <span class="token punctuation">(</span><span class="token number">0</span> slots<span class="token punctuation">)</span> slave
+   replicates e26f1dad00af4f65d418762d7336a89904830142
+S: d44fd2d22b7e0f0f5d069dd1b556dbdd743a8cd1 <span class="token number">10.20</span>.39.233:6379
+   slots: <span class="token punctuation">(</span><span class="token number">0</span> slots<span class="token punctuation">)</span> slave
+   replicates ec76c8e7ab8f72b7ef27e67f69825c2f383b272b
+M: 792def011ca7acfa763940fa2671953ef4b5c253 <span class="token number">10.20</span>.178.235:6379
+   slots:<span class="token punctuation">[</span><span class="token number">10923</span>-16383<span class="token punctuation">]</span> <span class="token punctuation">(</span><span class="token number">5461</span> slots<span class="token punctuation">)</span> master
+   <span class="token number">1</span> additional replica<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+S: c4562b4ae3fcc3ae4ee9b267113a32c838fd57c1 <span class="token number">10.20</span>.132.214:6379
+   slots: <span class="token punctuation">(</span><span class="token number">0</span> slots<span class="token punctuation">)</span> slave
+   replicates 792def011ca7acfa763940fa2671953ef4b5c253
+<span class="token punctuation">[</span>OK<span class="token punctuation">]</span> All nodes agree about slots configuration.
+<span class="token operator">>></span><span class="token operator">></span> Check <span class="token keyword">for</span> <span class="token function">open</span> slots<span class="token punctuation">..</span>.
+<span class="token operator">>></span><span class="token operator">></span> Check slots coverage<span class="token punctuation">..</span>.
+<span class="token punctuation">[</span>OK<span class="token punctuation">]</span> All <span class="token number">16384</span> slots covered.
+
+<span class="token comment">#5.查看集群状态</span>
+root@redis-0:/<span class="token comment"># redis-cli -a 123456</span>
+Warning: Using a password with <span class="token string">'-a'</span> or <span class="token string">'-u'</span> option on the <span class="token builtin class-name">command</span> line interface may not be safe.
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> CLUSTER NODES
+e26f1dad00af4f65d418762d7336a89904830142 <span class="token number">10.20</span>.39.232:6379@16379 master - <span class="token number">0</span> <span class="token number">1683790387000</span> <span class="token number">2</span> connected <span class="token number">5461</span>-10922
+f434246abaaf8ea75713d563a14cd6d2513cce7b <span class="token number">10.20</span>.178.236:6379@16379 slave e26f1dad00af4f65d418762d7336a89904830142 <span class="token number">0</span> <span class="token number">1683790388378</span> <span class="token number">2</span> connected
+d44fd2d22b7e0f0f5d069dd1b556dbdd743a8cd1 <span class="token number">10.20</span>.39.233:6379@16379 slave ec76c8e7ab8f72b7ef27e67f69825c2f383b272b <span class="token number">0</span> <span class="token number">1683790387361</span> <span class="token number">1</span> connected
+792def011ca7acfa763940fa2671953ef4b5c253 <span class="token number">10.20</span>.178.235:6379@16379 master - <span class="token number">0</span> <span class="token number">1683790387000</span> <span class="token number">3</span> connected <span class="token number">10923</span>-16383
+ec76c8e7ab8f72b7ef27e67f69825c2f383b272b <span class="token number">10.20</span>.132.213:6379@16379 myself,master - <span class="token number">0</span> <span class="token number">1683790388000</span> <span class="token number">1</span> connected <span class="token number">0</span>-5460
+c4562b4ae3fcc3ae4ee9b267113a32c838fd57c1 <span class="token number">10.20</span>.132.214:6379@16379 slave 792def011ca7acfa763940fa2671953ef4b5c253 <span class="token number">0</span> <span class="token number">1683790387000</span> <span class="token number">3</span> connected</code></pre></div></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th>Redis服务</th>
+<th>角色</th>
+<th>IP</th>
+<th>从节点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>redis-0</td>
+<td>master</td>
+<td>10.20.132.213</td>
+<td>redis-4</td>
+</tr>
+<tr>
+<td>redis-1</td>
+<td>master</td>
+<td>10.20.39.232</td>
+<td>redis-5</td>
+</tr>
+<tr>
+<td>redis-2</td>
+<td>master</td>
+<td>10.20.178.235</td>
+<td>redis-3</td>
+</tr>
+<tr>
+<td>redis-3</td>
+<td>slave</td>
+<td>10.20.132.214</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>redis-4</td>
+<td>slave</td>
+<td>10.20.39.233</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>redis-5</td>
+<td>slave</td>
+<td>10.20.178.236</td>
+<td>&#x2F;</td>
+</tr>
+</tbody></table>
+<h3 id="1-3-5-测试写入数据"><a href="#1-3-5-测试写入数据" class="headerlink" title="1.3.5 测试写入数据"></a>1.3.5 测试写入数据</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@redis-0:/<span class="token comment"># redis-cli -a 123456 -h redis-1.redis.redis.svc.chsblogs.local</span>
+Warning: Using a password with <span class="token string">'-a'</span> or <span class="token string">'-u'</span> option on the <span class="token builtin class-name">command</span> line interface may not be safe.
+redis-1.redis.redis.svc.chsblogs.local:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> SET <span class="token string">"key1"</span> <span class="token string">"value1"</span>
+OK
+redis-1.redis.redis.svc.chsblogs.local:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> get key1
+<span class="token string">"value1"</span></code></pre></div></figure>
+
+
+
+<h3 id="1-3-6-模拟故障"><a href="#1-3-6-模拟故障" class="headerlink" title="1.3.6 模拟故障"></a>1.3.6 模拟故障</h3><p>删除slave节点pod，验证redis集群自动更换pod ip。这里我们删除redis-5从节点【10.20.178.236】</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl delete pod redis-5 -n redis</span>
+pod <span class="token string">"redis-5"</span> deleted
+
+<span class="token comment">#删除后验证新pod ip已经从新加入集群redis-5的IP地址已经变为10.20.178.237</span>
+root@deploy:/opt/dockerfile/project/redis-cluster<span class="token comment"># kubectl get pod -n redis -o wide</span>
+NAME      READY   STATUS    RESTARTS   AGE   IP              NODE           NOMINATED NODE   READINESS GATES
+redis-0   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          30m   <span class="token number">10.20</span>.132.213   <span class="token number">192.168</span>.1.50   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-1   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          30m   <span class="token number">10.20</span>.39.232    <span class="token number">192.168</span>.1.49   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-2   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          29m   <span class="token number">10.20</span>.178.235   <span class="token number">192.168</span>.1.51   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-3   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          29m   <span class="token number">10.20</span>.132.214   <span class="token number">192.168</span>.1.50   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-4   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          29m   <span class="token number">10.20</span>.39.233    <span class="token number">192.168</span>.1.49   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+redis-5   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          43s   <span class="token number">10.20</span>.178.237   <span class="token number">192.168</span>.1.51   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> CLUSTER NODES
+e26f1dad00af4f65d418762d7336a89904830142 <span class="token number">10.20</span>.39.232:6379@16379 master - <span class="token number">0</span> <span class="token number">1683791139788</span> <span class="token number">2</span> connected <span class="token number">5461</span>-10922
+f434246abaaf8ea75713d563a14cd6d2513cce7b <span class="token number">10.20</span>.178.237:6379@16379 slave e26f1dad00af4f65d418762d7336a89904830142 <span class="token number">0</span> <span class="token number">1683791141511</span> <span class="token number">2</span> connected
+d44fd2d22b7e0f0f5d069dd1b556dbdd743a8cd1 <span class="token number">10.20</span>.39.233:6379@16379 slave ec76c8e7ab8f72b7ef27e67f69825c2f383b272b <span class="token number">0</span> <span class="token number">1683791141000</span> <span class="token number">1</span> connected
+792def011ca7acfa763940fa2671953ef4b5c253 <span class="token number">10.20</span>.178.235:6379@16379 master - <span class="token number">0</span> <span class="token number">1683791140000</span> <span class="token number">3</span> connected <span class="token number">10923</span>-16383
+ec76c8e7ab8f72b7ef27e67f69825c2f383b272b <span class="token number">10.20</span>.132.213:6379@16379 myself,master - <span class="token number">0</span> <span class="token number">1683791140000</span> <span class="token number">1</span> connected <span class="token number">0</span>-5460
+c4562b4ae3fcc3ae4ee9b267113a32c838fd57c1 <span class="token number">10.20</span>.132.214:6379@16379 slave 792def011ca7acfa763940fa2671953ef4b5c253 <span class="token number">0</span> <span class="token number">1683791140110</span> <span class="token number">3</span> connected</code></pre></div></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Linux/Kubernetes/" class="category-chain-item">Kubernetes</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Kubernetes/">#Kubernetes</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(12).基于StatefulSet控制器运行Redis Cluster</div>
+      <div>http://chsblogs.com/2023/05/11/Container/Kubernetes/kubernetes12/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>陈怀森</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/09/Container/Kubernetes/kubernetes11/" title="(11).K8S资源配额">
+                        <span class="hidden-mobile">(11).K8S资源配额</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'http://chsblogs.com/2023/05/11/Container/Kubernetes/kubernetes12/';
+          this.page.identifier = '/2023/05/11/Container/Kubernetes/kubernetes12/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'fluid' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Kubernetes"
+        id="heading-30136395f01879792198317c11831ea4" role="tab" data-toggle="collapse" href="#collapse-30136395f01879792198317c11831ea4"
+        aria-expanded="true"
+      >
+        Kubernetes
+        <span class="list-group-count">(12)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-30136395f01879792198317c11831ea4"
+           role="tabpanel" aria-labelledby="heading-30136395f01879792198317c11831ea4">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2023/04/25/Container/Kubernetes/kubernetes01/" title="(01).K8S核心组件介绍"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(01).K8S核心组件介绍</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes02/" title="(02).基于手动二进制部署K8S高可用集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(02).基于手动二进制部署K8S高可用集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes03/" title="(03).基于kubeadm工具部署K8S高可用集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(03).基于kubeadm工具部署K8S高可用集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes04/" title="(04).基于kubeasz工具部署K8S高可用集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(04).基于kubeasz工具部署K8S高可用集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/03/Container/Kubernetes/kubernetes05/" title="(05).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(05).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/03/Container/Kubernetes/kubernetes06/" title="(06).K8S基于HPA控制器实现Pod自动伸缩"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(06).K8S基于HPA控制器实现Pod自动伸缩</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/03/Container/Kubernetes/kubernetes07/" title="(07).K8S基于Jenkins和Gitlab实现版本升级与回滚"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(07).K8S基于Jenkins和Gitlab实现版本升级与回滚</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/03/Container/Kubernetes/kubernetes08/" title="(08).K8S基于ELK实现日志收集"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(08).K8S基于ELK实现日志收集</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/05/Container/Kubernetes/kubernetes09/" title="(09).K8S实现ZooKeeper集群"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(09).K8S实现ZooKeeper集群</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/09/Container/Kubernetes/kubernetes10/" title="(10).K8S账户授权RBAC"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(10).K8S账户授权RBAC</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/09/Container/Kubernetes/kubernetes11/" title="(11).K8S资源配额"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">(11).K8S资源配额</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2023/05/11/Container/Kubernetes/kubernetes12/" title="(12).基于StatefulSet控制器运行Redis Cluster"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">(12).基于StatefulSet控制器运行Redis Cluster</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      Copyright © 2023 by 陈怀森
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20005950"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备20005950号-1</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
