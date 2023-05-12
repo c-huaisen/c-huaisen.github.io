@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>(13).K8S基于StatefulSet控制器运行MySQL一主多从</title>
+    <link href="/2023/05/12/Container/Kubernetes/kubernetes13/"/>
+    <url>/2023/05/12/Container/Kubernetes/kubernetes13/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1-K8S基于StatefulSet控制器运行MySQL一主多从"><a href="#1-K8S基于StatefulSet控制器运行MySQL一主多从" class="headerlink" title="1.K8S基于StatefulSet控制器运行MySQL一主多从"></a>1.K8S基于StatefulSet控制器运行MySQL一主多从</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Kubernetes</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Kubernetes</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>(12).基于StatefulSet控制器运行Redis Cluster集群</title>
     <link href="/2023/05/11/Container/Kubernetes/kubernetes12/"/>
     <url>/2023/05/11/Container/Kubernetes/kubernetes12/</url>
