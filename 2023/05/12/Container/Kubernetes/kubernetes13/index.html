@@ -16,15 +16,15 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.K8S基于StatefulSet控制器运行MySQL一主多从">
+    <meta name="description" content="1.K8S基于StatefulSet控制器运行MySQL一主多从1.1 准备xtrabackup镜像1.2 准备mysql镜像1.3 配置NFS1.4 创建PV">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(13).K8S基于StatefulSet控制器运行MySQL一主多从">
 <meta property="og:url" content="http://chsblogs.com/2023/05/12/Container/Kubernetes/kubernetes13/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.K8S基于StatefulSet控制器运行MySQL一主多从">
+<meta property="og:description" content="1.K8S基于StatefulSet控制器运行MySQL一主多从1.1 准备xtrabackup镜像1.2 准备mysql镜像1.3 配置NFS1.4 创建PV">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-12T12:09:21.000Z">
-<meta property="article:modified_time" content="2023-05-12T12:12:33.381Z">
+<meta property="article:modified_time" content="2023-05-12T12:29:54.127Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
@@ -232,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          32 字
+          76 字
         
       </span>
     
@@ -299,7 +299,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="1-K8S基于StatefulSet控制器运行MySQL一主多从"><a href="#1-K8S基于StatefulSet控制器运行MySQL一主多从" class="headerlink" title="1.K8S基于StatefulSet控制器运行MySQL一主多从"></a>1.K8S基于StatefulSet控制器运行MySQL一主多从</h1>
+                <h1 id="1-K8S基于StatefulSet控制器运行MySQL一主多从"><a href="#1-K8S基于StatefulSet控制器运行MySQL一主多从" class="headerlink" title="1.K8S基于StatefulSet控制器运行MySQL一主多从"></a>1.K8S基于StatefulSet控制器运行MySQL一主多从</h1><h2 id="1-1-准备xtrabackup镜像"><a href="#1-1-准备xtrabackup镜像" class="headerlink" title="1.1 准备xtrabackup镜像"></a>1.1 准备xtrabackup镜像</h2><h2 id="1-2-准备mysql镜像"><a href="#1-2-准备mysql镜像" class="headerlink" title="1.2 准备mysql镜像"></a>1.2 准备mysql镜像</h2><h2 id="1-3-配置NFS"><a href="#1-3-配置NFS" class="headerlink" title="1.3 配置NFS"></a>1.3 配置NFS</h2><h2 id="1-4-创建PV"><a href="#1-4-创建PV" class="headerlink" title="1.4 创建PV"></a>1.4 创建PV</h2>
                 
               </div>
             
