@@ -26,8 +26,11 @@
 <meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes08/image-20230514164815402.png">
 <meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes08/image-20230514194741030.png">
 <meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes08/image-20230514194807528.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes08/image-20230514223913247.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes08/image-20230514224734348.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/03/Container/Kubernetes/kubernetes08/image-20230514224754751.png">
 <meta property="article:published_time" content="2023-05-03T11:49:01.000Z">
-<meta property="article:modified_time" content="2023-05-14T13:54:22.853Z">
+<meta property="article:modified_time" content="2023-05-14T14:47:57.966Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
@@ -236,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.9k 字
+          8.6k 字
         
       </span>
     
@@ -247,7 +250,7 @@
         
         
         
-          4 分钟
+          7 分钟
         
       </span>
     
@@ -569,7 +572,159 @@ root@es1:~<span class="token comment"># systemctl restart logstash</span></code>
 <li>k8s的node节点收集，基于daemonset部署日志收集进程，实现json-file类型(标准输出&#x2F;dev&#x2F;stdout、错误输出&#x2F;dev&#x2F;stderr)日志收集，即应用程序产生的标准输出和错误输出的日志。</li>
 <li>k8s宿主机系统日志等以日志文件形式保存的日志。</li>
 </ul>
-<h3 id="1-5-1-构建filebeat镜像"><a href="#1-5-1-构建filebeat镜像" class="headerlink" title="1.5.1 构建filebeat镜像"></a>1.5.1 构建filebeat镜像</h3><h2 id="1-6-基于sidecar模式收集日志"><a href="#1-6-基于sidecar模式收集日志" class="headerlink" title="1.6 基于sidecar模式收集日志"></a>1.6 基于sidecar模式收集日志</h2>
+<p><img src="/2023/05/03/Container/Kubernetes/kubernetes08/image-20230514223913247.png" srcset="/img/loading.gif" lazyload alt="image-20230514223913247"></p>
+<p><strong>构建filebeat镜像:</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/elk/daemonset-filebeat<span class="token comment"># vim Dockerfile</span>
+FROM elastic/filebeat:7.12.1
+<span class="token environment constant">USER</span> root
+WORKDIR /usr/share/filebeat
+ADD filebeat.yml /usr/share/filebeat/</code></pre></div></figure>
+
+
+
+<p><strong>filebeat配置文件：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/elk/daemonset-filebeat<span class="token comment"># vim filebeat.yml</span>
+filebeat.inputs:
+- type: log
+  enabled: <span class="token boolean">true</span>
+  paths:
+    - /var/log/*.log
+  tags: <span class="token punctuation">[</span><span class="token string">"syslog"</span><span class="token punctuation">]</span>
+
+- type: log
+  enabled: <span class="token boolean">true</span>
+  paths:
+    - /var/lib/docker/containers/*/*.log
+  tags: <span class="token punctuation">[</span><span class="token string">"applog"</span><span class="token punctuation">]</span>
+
+output.kafka:
+  hosts: <span class="token punctuation">[</span><span class="token string">"192.168.1.58:9092"</span>,<span class="token string">"192.168.1.59:9092"</span>,<span class="token string">"192.168.1.60:9092"</span><span class="token punctuation">]</span>
+  topic: <span class="token string">'daemonset-filebeat-log'</span>
+  partition.round_robin:
+    reachable_only: <span class="token boolean">false</span>
+  required_acks: <span class="token number">1</span>
+  compression: <span class="token function">gzip</span>
+  max_message_bytes: <span class="token number">1000000</span></code></pre></div></figure>
+
+
+
+<p><strong>创建构建镜像脚本：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/elk/daemonset-filebeat<span class="token comment"># vim build-command.sh</span>
+<span class="token comment">#!/bin/bash</span>
+<span class="token assign-left variable">TAG</span><span class="token operator">=</span><span class="token variable">$1</span>
+<span class="token function">docker</span> build <span class="token parameter variable">-t</span> harbor.chsblogs.local/logs/filebeat-kafka:<span class="token variable">$&#123;TAG&#125;</span> <span class="token builtin class-name">.</span>
+
+<span class="token function">docker</span> push harbor.chsblogs.local/logs/filebeat-kafka:<span class="token variable">$&#123;TAG&#125;</span>
+
+root@deploy:/opt/dockerfile/project/elk/daemonset-filebeat<span class="token comment"># ./build-command.sh v1.0.2</span></code></pre></div></figure>
+
+
+
+<p><strong>创建tomcat容器k8s yaml：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/dockerfile/project/elk/daemonset-filebeat<span class="token comment"># vim daemonset-filebeat.yaml</span>
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: filebeat-elasticsearch
+  namespace: kube-system
+  labels:
+    k8s-app: filebeat-logging
+spec:
+  selector:
+    matchLabels:
+      name: filebeat-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: filebeat-elasticsearch
+    spec:
+      tolerations:
+      <span class="token comment"># this toleration is to have the daemonset runnable on master nodes</span>
+      <span class="token comment"># remove it if your masters can't run pods</span>
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: filebeat-elasticsearch
+        image: harbor.chsblogs.local/logs/filebeat-kafka:v1.0.2
+        env:
+        - name: <span class="token string">"KAFKA_SERVER"</span>
+          value: <span class="token string">"192.168.1.58:9092,192.168.1.59:9092,192.168.1.60:9092"</span>
+        - name: <span class="token string">"TOPIC_ID"</span>
+          value: <span class="token string">"elklog"</span>
+<span class="token comment">#        resources:</span>
+<span class="token comment">#          limits:</span>
+<span class="token comment">#            cpu: 1000m</span>
+<span class="token comment">#            memory: 1024Mi</span>
+<span class="token comment">#          requests:</span>
+<span class="token comment">#            cpu: 500m</span>
+<span class="token comment">#            memory: 1024Mi</span>
+        volumeMounts:
+        - name: varlog <span class="token comment">#定义宿主机系统日志挂载路径</span>
+          mountPath: /var/log <span class="token comment">#宿主机系统日志挂载点</span>
+        - name: varlibdockercontainers <span class="token comment">#定义容器日志挂载路径,和filebeat配置文件中的收集路径保持一致</span>
+        - name: varlibdockercontainers <span class="token comment">#定义容器日志挂载路径,和filebeat配置文件中的收集路径保持一致</span>
+          mountPath: /var/lib/docker/containers <span class="token comment">#docker挂载路径</span>
+          <span class="token comment">#mountPath: /var/log/pods #containerd挂载路径,此路径与filebeat的日志收集路径必须一致</span>
+          readOnly: <span class="token boolean">false</span>
+      terminationGracePeriodSeconds: <span class="token number">30</span>
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log <span class="token comment">#宿主机系统日志</span>
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers <span class="token comment">#docker的宿主机日志路径</span>
+          <span class="token comment">#path: /var/log/pods #containerd的宿主机日志路径</span>
+          
+root@deploy:/opt/dockerfile/project/elk/daemonset-filebeat<span class="token comment"># kubectl apply -f daemonset-filebeat.yaml</span>
+
+root@deploy:/opt/dockerfile/project/elk/daemonset-filebeat<span class="token comment"># kubectl get pod -A -o wide | grep filebeat</span>
+kube-system            filebeat-elasticsearch-fgvsk                 <span class="token number">1</span>/1     Running            <span class="token number">0</span>          23m     <span class="token number">10.20</span>.178.231   <span class="token number">192.168</span>.1.51   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+kube-system            filebeat-elasticsearch-hmcnx                 <span class="token number">1</span>/1     Running            <span class="token number">0</span>          22m     <span class="token number">10.20</span>.54.67     <span class="token number">192.168</span>.1.41   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+kube-system            filebeat-elasticsearch-j9pj9                 <span class="token number">1</span>/1     Running            <span class="token number">0</span>          22m     <span class="token number">10.20</span>.42.131    <span class="token number">192.168</span>.1.40   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+kube-system            filebeat-elasticsearch-pspjx                 <span class="token number">1</span>/1     Running            <span class="token number">0</span>          22m     <span class="token number">10.20</span>.132.223   <span class="token number">192.168</span>.1.50   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+kube-system            filebeat-elasticsearch-rknzb                 <span class="token number">1</span>/1     Running            <span class="token number">0</span>          22m     <span class="token number">10.20</span>.17.171    <span class="token number">192.168</span>.1.52   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+kube-system            filebeat-elasticsearch-tkwzw                 <span class="token number">1</span>/1     Running            <span class="token number">0</span>          23m     <span class="token number">10.20</span>.39.220    <span class="token number">192.168</span>.1.49   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+kube-system            filebeat-elasticsearch-xk7jv                 <span class="token number">1</span>/1     Running            <span class="token number">0</span>          23m     <span class="token number">10.20</span>.250.131   <span class="token number">192.168</span>.1.42   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span></code></pre></div></figure>
+
+
+
+<p><strong>配置logstash</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@es1:~<span class="token comment"># vim /etc/logstash/conf.d/k8s_log.conf</span>
+input <span class="token punctuation">&#123;</span>
+  kafka <span class="token punctuation">&#123;</span>
+    bootstrap_servers <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"192.168.1.58:9092,192.168.1.59:9092,192.168.1.60:9092"</span>
+    topics <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"daemonset-filebeat-log"</span><span class="token punctuation">]</span>
+    codec <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"json"</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+output <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token string">"syslog"</span> <span class="token keyword">in</span> <span class="token punctuation">[</span>tags<span class="token punctuation">]</span> <span class="token punctuation">&#123;</span>
+      elasticsearch <span class="token punctuation">&#123;</span>
+        hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.55:9200"</span>,<span class="token string">"192.168.1.56:9200"</span>,<span class="token string">"192.168.1.57:9200"</span><span class="token punctuation">]</span>
+        manage_template <span class="token operator">=</span><span class="token operator">></span> <span class="token boolean">false</span>
+        index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"syslog-%&#123;+yyyy.MM.dd&#125;"</span>
+      <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> <span class="token string">"applog"</span> <span class="token keyword">in</span> <span class="token punctuation">[</span>tags<span class="token punctuation">]</span> <span class="token punctuation">&#123;</span>
+      elasticsearch <span class="token punctuation">&#123;</span>
+        hosts <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token string">"192.168.1.55:9200"</span>,<span class="token string">"192.168.1.56:9200"</span>,<span class="token string">"192.168.1.57:9200"</span><span class="token punctuation">]</span>
+        manage_template <span class="token operator">=</span><span class="token operator">></span> <span class="token boolean">false</span>
+        index <span class="token operator">=</span><span class="token operator">></span> <span class="token string">"applog-%&#123;+yyyy.MM.dd&#125;"</span>
+      <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+root@es1:~<span class="token comment"># systemctl restart logstash.service</span></code></pre></div></figure>
+
+
+
+<p><strong>配置kibana创建索引模式:</strong></p>
+<p><img src="/2023/05/03/Container/Kubernetes/kubernetes08/image-20230514224734348.png" srcset="/img/loading.gif" lazyload alt="image-20230514224734348"> </p>
+<p><img src="/2023/05/03/Container/Kubernetes/kubernetes08/image-20230514224754751.png" srcset="/img/loading.gif" lazyload alt="image-20230514224754751"> </p>
+<h2 id="1-6-基于sidecar模式收集日志"><a href="#1-6-基于sidecar模式收集日志" class="headerlink" title="1.6 基于sidecar模式收集日志"></a>1.6 基于sidecar模式收集日志</h2>
                 
               </div>
             
