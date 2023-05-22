@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://chsblogs.com/2023/04/19/Monitor/Prometheus/prometheus01/image-20230520130512119.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/19/Monitor/Prometheus/prometheus01/image-20230520130605232.png">
 <meta property="article:published_time" content="2023-04-19T15:02:34.000Z">
-<meta property="article:modified_time" content="2023-05-20T05:07:52.423Z">
+<meta property="article:modified_time" content="2023-05-20T07:09:51.916Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Prometheus">
 <meta name="twitter:card" content="summary_large_image">
@@ -402,6 +402,9 @@ systemctl daemon-reload <span class="token operator">&amp;&amp;</span> systemctl
 <span class="token function">wget</span> https://dl.grafana.com/enterprise/release/grafana-enterprise_9.5.0_amd64.deb
 <span class="token function">sudo</span> dpkg <span class="token parameter variable">-i</span> grafana-enterprise_9.5.0_amd64.deb
 
+systemctl start grafana-server
+systemctl <span class="token builtin class-name">enable</span> grafana-server
+
 <span class="token comment">#2.访问测试，默认监听3000端口，登录账号密码默认admin/admin</span>
 http://192.168.1.61:3000/</code></pre></div></figure>
 
@@ -578,7 +581,7 @@ prometheus-config   <span class="token number">1</span>      19s</code></pre></d
 
 
 <p><strong>设置nfs共享存储路径：</strong></p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@ha1:~<span class="token comment"># mkdir /data/k8sdata/prometheus</span>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@ha1:~<span class="token comment"># mkdir /data/k8sdata/prometheus -p</span>
 root@ha1:~<span class="token comment"># chown nobody.nogroup -R /data/k8sdata/prometheus/</span>
 root@ha1:~<span class="token comment"># cat /etc/exports </span>
 /data/k8sdata *<span class="token punctuation">(</span>rw,no_root_squash<span class="token punctuation">)</span></code></pre></div></figure>

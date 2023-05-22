@@ -16,16 +16,21 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="1.Prometheus监控案例1.1 kube-state-metricsgithub地址：https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;kube-state-metrics Kube-state-metrics: 通过监听 API Server 生成有关资源对象的状态指标，比如 Deployment、Node、Pod，需要注意的是 kube-state-metrics 的使用场景">
+<meta property="og:type" content="article">
 <meta property="og:title" content="(03).Prometheus监控案例">
 <meta property="og:url" content="http://chsblogs.com/2023/04/19/Monitor/Prometheus/prometheus03/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
+<meta property="og:description" content="1.Prometheus监控案例1.1 kube-state-metricsgithub地址：https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;kube-state-metrics Kube-state-metrics: 通过监听 API Server 生成有关资源对象的状态指标，比如 Deployment、Node、Pod，需要注意的是 kube-state-metrics 的使用场景">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://chsblogs.com/2023/04/19/Monitor/Prometheus/prometheus03/image-20230520154235785.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/19/Monitor/Prometheus/prometheus03/image-20230520154422360.png">
 <meta property="article:published_time" content="2023-04-19T15:05:34.000Z">
-<meta property="article:modified_time" content="2023-05-06T16:30:25.575Z">
+<meta property="article:modified_time" content="2023-05-20T07:47:26.569Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Prometheus">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://chsblogs.com/2023/04/19/Monitor/Prometheus/prometheus03/image-20230520154235785.png">
   
   
   
@@ -230,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          2.8k 字
         
       </span>
     
@@ -241,7 +246,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -297,7 +302,116 @@
             
               <div class="markdown-body">
                 
-                
+                <h1 id="1-Prometheus监控案例"><a href="#1-Prometheus监控案例" class="headerlink" title="1.Prometheus监控案例"></a>1.Prometheus监控案例</h1><h2 id="1-1-kube-state-metrics"><a href="#1-1-kube-state-metrics" class="headerlink" title="1.1 kube-state-metrics"></a>1.1 kube-state-metrics</h2><p>github地址：<a target="_blank" rel="noopener" href="https://github.com/kubernetes/kube-state-metrics">https://github.com/kubernetes/kube-state-metrics</a></p>
+<p>Kube-state-metrics: 通过监听 API Server 生成有关资源对象的状态指标，比如 Deployment、Node、Pod，需要注意的是 kube-state-metrics 的使用场景不是用于监控对方是否存活，而是用于周期性获取目标对象的 metrics 指标数据并在 web 界面进行显示或被 prometheus 抓取(如 pod 的状态是 running 还是 Terminating、pod 的创建时间等) ，目前的 kube-state-metrics 收集的指标数据可参见官方的文档 ，<a target="_blank" rel="noopener" href="https://github.com/kubernetes/kube-state-metrics/tree/master/docs">https://github.com/kubernetes/kube-state-metrics/tree/master/docs</a> ,并不会存储这些指标数据，所以可以使用 Prometheus 来抓取这些数据然后存储，主要关注的是业务相关的一些元数据，比如 Deployment、Pod、副本状态等，调度了多少个 replicas？现在可用的有几个？多少个 Pod 是 running&#x2F;stopped&#x2F;terminated 状态？Pod 重启了多少次？目前有多少 job 在运行中。</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># mkdir /k8s/kube-state-metrics</span>
+root@deploy:~<span class="token comment"># cd /k8s/kube-state-metrics/</span>
+root@deploy:/k8s/kube-state-metrics<span class="token comment"># vim kube-state-metrics-deploy.yaml</span>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-state-metrics
+  namespace: kube-system
+spec:
+  replicas: <span class="token number">1</span>
+  selector:
+    matchLabels:
+      app: kube-state-metrics
+  template:
+    metadata:
+      labels:
+        app: kube-state-metrics
+    spec:
+      serviceAccountName: kube-state-metrics
+      containers:
+      - name: kube-state-metrics
+        image: registry.cn-hangzhou.aliyuncs.com/huaisen/kube-state-metrics:v2.5.0
+        ports:
+        - containerPort: <span class="token number">8080</span>
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-state-metrics
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kube-state-metrics
+rules:
+- apiGroups: <span class="token punctuation">[</span><span class="token string">""</span><span class="token punctuation">]</span>
+  resources: <span class="token punctuation">[</span><span class="token string">"nodes"</span>, <span class="token string">"pods"</span>, <span class="token string">"services"</span>, <span class="token string">"resourcequotas"</span>, <span class="token string">"replicationcontrollers"</span>, <span class="token string">"limitranges"</span>, <span class="token string">"persistentvolumeclaims"</span>, <span class="token string">"persistentvolumes"</span>, <span class="token string">"namespaces"</span>, <span class="token string">"endpoints"</span><span class="token punctuation">]</span>
+  verbs: <span class="token punctuation">[</span><span class="token string">"list"</span>, <span class="token string">"watch"</span><span class="token punctuation">]</span>
+- apiGroups: <span class="token punctuation">[</span><span class="token string">"extensions"</span><span class="token punctuation">]</span>
+  resources: <span class="token punctuation">[</span><span class="token string">"daemonsets"</span>, <span class="token string">"deployments"</span>, <span class="token string">"replicasets"</span><span class="token punctuation">]</span>
+  verbs: <span class="token punctuation">[</span><span class="token string">"list"</span>, <span class="token string">"watch"</span><span class="token punctuation">]</span>
+- apiGroups: <span class="token punctuation">[</span><span class="token string">"apps"</span><span class="token punctuation">]</span>
+  resources: <span class="token punctuation">[</span><span class="token string">"statefulsets"</span><span class="token punctuation">]</span>
+  verbs: <span class="token punctuation">[</span><span class="token string">"list"</span>, <span class="token string">"watch"</span><span class="token punctuation">]</span>
+- apiGroups: <span class="token punctuation">[</span><span class="token string">"batch"</span><span class="token punctuation">]</span>
+  resources: <span class="token punctuation">[</span><span class="token string">"cronjobs"</span>, <span class="token string">"jobs"</span><span class="token punctuation">]</span>
+  verbs: <span class="token punctuation">[</span><span class="token string">"list"</span>, <span class="token string">"watch"</span><span class="token punctuation">]</span>
+- apiGroups: <span class="token punctuation">[</span><span class="token string">"autoscaling"</span><span class="token punctuation">]</span>
+  resources: <span class="token punctuation">[</span><span class="token string">"horizontalpodautoscalers"</span><span class="token punctuation">]</span>
+  verbs: <span class="token punctuation">[</span><span class="token string">"list"</span>, <span class="token string">"watch"</span><span class="token punctuation">]</span>
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kube-state-metrics
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kube-state-metrics
+subjects:
+- kind: ServiceAccount
+  name: kube-state-metrics
+  namespace: kube-system
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: <span class="token string">'true'</span>
+  name: kube-state-metrics
+  namespace: kube-system
+  labels:
+    app: kube-state-metrics
+spec:
+  type: NodePort
+  ports:
+  - name: kube-state-metrics
+    port: <span class="token number">8080</span>
+    targetPort: <span class="token number">8080</span>
+    nodePort: <span class="token number">30001</span>
+    protocol: TCP
+  selector:
+    app: kube-state-metrics
+
+root@deploy:/k8s/kube-state-metrics<span class="token comment"># kubectl apply -f kube-state-metrics-deploy.yaml</span>
+
+root@deploy:/k8s/kube-state-metrics<span class="token comment"># kubectl get pod -A | grep kube-state-metrics</span>
+kube-system   kube-state-metrics-d889ff45b-4fxpg         <span class="token number">1</span>/1     Running   <span class="token number">0</span>             12m</code></pre></div></figure>
+
+
+
+<p><strong>prometheus-server配置采集指标：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@prometheus:/usr/local/prometheus<span class="token comment"># vim prometheus.yml</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
+  - job_name: <span class="token string">"kube-state-metrics"</span>
+    static_configs:
+      - targets: <span class="token punctuation">[</span><span class="token string">"192.168.1.40:30001"</span><span class="token punctuation">]</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span></code></pre></div></figure>
+
+
+
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus03/image-20230520154235785.png" srcset="/img/loading.gif" lazyload alt="image-20230520154235785"> </p>
+<p>ID【13332】</p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus03/image-20230520154422360.png" srcset="/img/loading.gif" lazyload alt="image-20230520154422360"> </p>
+<h2 id="1-2-监控Tomcat"><a href="#1-2-监控Tomcat" class="headerlink" title="1.2 监控Tomcat"></a>1.2 监控Tomcat</h2><h2 id="1-3-监控Redis"><a href="#1-3-监控Redis" class="headerlink" title="1.3 监控Redis"></a>1.3 监控Redis</h2><h2 id="1-4-监控MySQL"><a href="#1-4-监控MySQL" class="headerlink" title="1.4 监控MySQL"></a>1.4 监控MySQL</h2><h2 id="1-5-监控Haproxy"><a href="#1-5-监控Haproxy" class="headerlink" title="1.5 监控Haproxy"></a>1.5 监控Haproxy</h2><h2 id="1-6-监控Nginx"><a href="#1-6-监控Nginx" class="headerlink" title="1.6 监控Nginx"></a>1.6 监控Nginx</h2>
                 
               </div>
             
