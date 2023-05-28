@@ -16,38 +16,29 @@
   <meta name="author" content="陈怀森">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.基于kubeasz工具部署K8S高可用集群1.1 部署主机清单基于kubeasz工具二进制部署K8S高可用集群，熟悉K8S。基于Jenkins+Gitlab自动发布项目，Ceph存储数据，ELK收集日志，Prometheus监控。 K8S集群主机清单：    主机名 IP地址 操作系统 服务 VIP    K8S集群主机清单：       deploy.chsblogs.com 192.168">
+    <meta name="description" content="1.kubeasz工具基于Docker部署Kubernetes v1.231.1 部署主机清单K8S集群部署主机清单：    主机名 IP地址 操作系统 服务 VIP    deploy.chsblogs.com 192.168.10.10 Ubuntu20.04 k8s集群部署服务器    master1.chsblogs.com 192.168.10.11 Ubuntu20.04 K8s Ma">
 <meta property="og:type" content="article">
-<meta property="og:title" content="(04).基于kubeasz工具部署K8S高可用集群">
+<meta property="og:title" content="(04).kubeasz工具基于Docker部署Kubernetes v1.23">
 <meta property="og:url" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
-<meta property="og:description" content="1.基于kubeasz工具部署K8S高可用集群1.1 部署主机清单基于kubeasz工具二进制部署K8S高可用集群，熟悉K8S。基于Jenkins+Gitlab自动发布项目，Ceph存储数据，ELK收集日志，Prometheus监控。 K8S集群主机清单：    主机名 IP地址 操作系统 服务 VIP    K8S集群主机清单：       deploy.chsblogs.com 192.168">
+<meta property="og:description" content="1.kubeasz工具基于Docker部署Kubernetes v1.231.1 部署主机清单K8S集群部署主机清单：    主机名 IP地址 操作系统 服务 VIP    deploy.chsblogs.com 192.168.10.10 Ubuntu20.04 k8s集群部署服务器    master1.chsblogs.com 192.168.10.11 Ubuntu20.04 K8s Ma">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501100346878.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501194232560.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501202001881.png">
 <meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502103837315.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502113854805.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502114159514.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502114600908.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502115219882.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502115820852.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502120239962.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502121648663.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502130837378.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502131727996.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502132407963.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502154313000.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502160542081.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161048045.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161305210.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161654410.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163853667.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163913502.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163952162.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502170504365.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175444602.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175545010.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175720229.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175826533.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175948010.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527180313754.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527181124064.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527181802723.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527182059752.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527191726672.png">
 <meta property="article:published_time" content="2023-04-26T03:29:42.000Z">
-<meta property="article:modified_time" content="2023-05-02T12:54:51.461Z">
+<meta property="article:modified_time" content="2023-05-27T11:21:27.672Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
@@ -55,7 +46,7 @@
   
   
   
-  <title>(04).基于kubeasz工具部署K8S高可用集群 - 陈怀森の运维笔记</title>
+  <title>(04).kubeasz工具基于Docker部署Kubernetes v1.23 - 陈怀森の运维笔记</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -233,7 +224,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="(04).基于kubeasz工具部署K8S高可用集群"></span>
+            <span id="subtitle" data-typed-text="(04).kubeasz工具基于Docker部署Kubernetes v1.23"></span>
           
         </div>
 
@@ -256,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          49k 字
+          46k 字
         
       </span>
     
@@ -267,7 +258,7 @@
         
         
         
-          34 分钟
+          33 分钟
         
       </span>
     
@@ -318,13 +309,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">(04).基于kubeasz工具部署K8S高可用集群</h1>
+            <h1 style="display: none">(04).kubeasz工具基于Docker部署Kubernetes v1.23</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="1-基于kubeasz工具部署K8S高可用集群"><a href="#1-基于kubeasz工具部署K8S高可用集群" class="headerlink" title="1.基于kubeasz工具部署K8S高可用集群"></a>1.基于kubeasz工具部署K8S高可用集群</h1><h2 id="1-1-部署主机清单"><a href="#1-1-部署主机清单" class="headerlink" title="1.1 部署主机清单"></a>1.1 部署主机清单</h2><p>基于kubeasz工具二进制部署K8S高可用集群，熟悉K8S。基于Jenkins+Gitlab自动发布项目，Ceph存储数据，ELK收集日志，Prometheus监控。</p>
-<p><strong>K8S集群主机清单：</strong></p>
+                <h1 id="1-kubeasz工具基于Docker部署Kubernetes-v1-23"><a href="#1-kubeasz工具基于Docker部署Kubernetes-v1-23" class="headerlink" title="1.kubeasz工具基于Docker部署Kubernetes v1.23"></a>1.kubeasz工具基于Docker部署Kubernetes v1.23</h1><h2 id="1-1-部署主机清单"><a href="#1-1-部署主机清单" class="headerlink" title="1.1 部署主机清单"></a>1.1 部署主机清单</h2><p><strong>K8S集群部署主机清单：</strong></p>
 <table>
 <thead>
 <tr>
@@ -336,325 +326,106 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>K8S集群主机清单：</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td>deploy.chsblogs.com</td>
-<td>192.168.1.39</td>
+<td>192.168.10.10</td>
 <td>Ubuntu20.04</td>
 <td>k8s集群部署服务器</td>
 <td></td>
 </tr>
 <tr>
 <td>master1.chsblogs.com</td>
-<td>192.168.1.40</td>
+<td>192.168.10.11</td>
 <td>Ubuntu20.04</td>
 <td>K8s Master1</td>
-<td>192.168.1.90</td>
+<td>192.168.10.90</td>
 </tr>
 <tr>
 <td>master2.chsblogs.com</td>
-<td>192.168.1.41</td>
+<td>192.168.10.12</td>
 <td>Ubuntu20.04</td>
 <td>K8s Master2</td>
-<td>192.168.1.90</td>
+<td>192.168.10.90</td>
 </tr>
 <tr>
 <td>master3.chsblogs.com</td>
-<td>192.168.1.42</td>
+<td>192.168.10.13</td>
 <td>Ubuntu20.04</td>
 <td>K8s Master3</td>
-<td>192.168.1.90</td>
+<td>192.168.10.90</td>
 </tr>
 <tr>
 <td>ha1.chsblogs.com</td>
-<td>192.168.1.43</td>
+<td>192.168.10.14</td>
 <td>Ubuntu20.04</td>
 <td>Haproxy1</td>
 <td></td>
 </tr>
 <tr>
 <td>ha2.chsblogs.com</td>
-<td>192.168.1.44</td>
+<td>192.168.10.15</td>
 <td>Ubuntu20.04</td>
 <td>Haproxy2</td>
 <td></td>
 </tr>
 <tr>
 <td>etcd1.chsblogs.com</td>
-<td>192.168.1.45</td>
+<td>192.168.10.16</td>
 <td>Ubuntu20.04</td>
 <td>Etcd节点1</td>
 <td></td>
 </tr>
 <tr>
 <td>etcd2.chsblogs.com</td>
-<td>192.168.1.46</td>
+<td>192.168.10.17</td>
 <td>Ubuntu20.04</td>
 <td>Etcd节点2</td>
 <td></td>
 </tr>
 <tr>
 <td>etcd3.chsblogs.com</td>
-<td>192.168.1.47</td>
+<td>192.168.10.18</td>
 <td>Ubuntu20.04</td>
 <td>Etcd节点3</td>
 <td></td>
 </tr>
 <tr>
 <td>harbor1.chsblogs.com</td>
-<td>192.168.1.48</td>
+<td>192.168.10.19</td>
 <td>Ubuntu20.04</td>
 <td>Harbor1</td>
 <td></td>
 </tr>
 <tr>
 <td>node1.chsblogs.com</td>
-<td>192.168.1.49</td>
+<td>192.168.10.20</td>
 <td>Ubuntu20.04</td>
 <td>Node节点1</td>
 <td></td>
 </tr>
 <tr>
 <td>node2.chsblogs.com</td>
-<td>192.168.1.50</td>
+<td>192.168.10.21</td>
 <td>Ubuntu20.04</td>
 <td>Node节点2</td>
 <td></td>
 </tr>
 <tr>
 <td>node3.chsblogs.com</td>
-<td>192.168.1.51</td>
+<td>192.168.10.22</td>
 <td>Ubuntu20.04</td>
 <td>Node节点3</td>
 <td></td>
 </tr>
 <tr>
 <td>node4.chsblogs.com</td>
-<td>192.168.1.52</td>
+<td>192.168.10.23</td>
 <td>Ubuntu20.04</td>
 <td>Node节点4</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Jenkins主机清单：</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>jenkins</td>
-<td>192.168.1.53</td>
-<td>Ubuntu20.04</td>
-<td>Jenkins 2.277.4</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Gitlab主机清单：</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>gitlab</td>
-<td>192.168.1.54</td>
-<td>Ubuntu20.04</td>
-<td>GitLab 13.11.3-ce</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>ELK集群主机清单：</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>es1</td>
-<td>192.168.1.55</td>
-<td>Ubuntu20.04</td>
-<td>Elasticsearch 7.12.1 &amp; Kibana 7.12.1</td>
-<td></td>
-</tr>
-<tr>
-<td>es2</td>
-<td>192.168.1.56</td>
-<td>Ubuntu20.04</td>
-<td>Elasticsearch 7.12.1</td>
-<td></td>
-</tr>
-<tr>
-<td>es3</td>
-<td>192.168.1.57</td>
-<td>Ubuntu20.04</td>
-<td>Elasticsearch 7.12.1</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Kafka集群主机清单：</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>kafka1</td>
-<td>192.168.1.58</td>
-<td>Ubuntu20.04</td>
-<td>Kafka 2.7.1 &amp; Zookeeper 3.6.4</td>
-<td></td>
-</tr>
-<tr>
-<td>kafka2</td>
-<td>192.168.1.59</td>
-<td>Ubuntu20.04</td>
-<td>Kafka 2.7.1 &amp; Zookeeper 3.6.4</td>
-<td></td>
-</tr>
-<tr>
-<td>kafka3</td>
-<td>192.168.1.60</td>
-<td>Ubuntu20.04</td>
-<td>Kafka 2.7.1 &amp; Zookeeper 3.6.4</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Prometheus主机清单：</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>prometheus</td>
-<td>192.168.1.61</td>
-<td>Ubuntu20.04</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Ceph集群主机清单：</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>eph-deploy</td>
-<td>192.168.1.10&#x2F;172.31.1.10</td>
-<td>CentOS7.9</td>
-<td>ceph集群部署服务器</td>
-<td></td>
-</tr>
-<tr>
-<td>ceph-mon1</td>
-<td>192.168.1.11&#x2F;172.31.1.11</td>
-<td>CentOS7.9</td>
-<td>Mon监视服务器</td>
-<td></td>
-</tr>
-<tr>
-<td>ceph-mon2</td>
-<td>192.168.1.12&#x2F;172.31.1.12</td>
-<td>CentOS7.9</td>
-<td>Mon监视服务器</td>
-<td></td>
-</tr>
-<tr>
-<td>ceph-mon3</td>
-<td>192.168.1.13&#x2F;172.31.1.13</td>
-<td>CentOS7.9</td>
-<td>Mon监视服务器</td>
-<td></td>
-</tr>
-<tr>
-<td>ceph-mgr1</td>
-<td>192.168.1.14&#x2F;172.31.1.14</td>
-<td>CentOS7.9</td>
-<td>Mgr管理服务器</td>
-<td></td>
-</tr>
-<tr>
-<td>ceph-mgr1</td>
-<td>192.168.1.15&#x2F;172.31.1.15</td>
-<td>CentOS7.9</td>
-<td>Mgr管理服务器</td>
-<td></td>
-</tr>
-<tr>
-<td>ceph-node1</td>
-<td>192.168.1.16&#x2F;172.31.1.16</td>
-<td>CentOS7.9</td>
-<td>OSD存储服务器</td>
-<td></td>
-</tr>
-<tr>
-<td>ceph-node1</td>
-<td>192.168.1.17&#x2F;172.31.1.17</td>
-<td>CentOS7.9</td>
-<td>OSD存储服务器</td>
-<td></td>
-</tr>
-<tr>
-<td>ceph-node1</td>
-<td>192.168.1.18&#x2F;172.31.1.18</td>
-<td>CentOS7.9</td>
-<td>OSD存储服务器</td>
 <td></td>
 </tr>
 </tbody></table>
 <h2 id="1-2-环境准备"><a href="#1-2-环境准备" class="headerlink" title="1.2 环境准备"></a>1.2 环境准备</h2><h3 id="1-2-1-关闭swap分区"><a href="#1-2-1-关闭swap分区" class="headerlink" title="1.2.1 关闭swap分区"></a>1.2.1 关闭swap分区</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@ubuntu2004:~<span class="token comment"># vim /etc/fstab</span>
 <span class="token comment">#/swap.img      none    swap    sw      0       0</span></code></pre></div></figure>
-
-
 
 <h3 id="1-2-2-内核优化"><a href="#1-2-2-内核优化" class="headerlink" title="1.2.2 内核优化"></a>1.2.2 内核优化</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.系统资源限制优化</span>
 <span class="token function">vim</span> /etc/security/limits.conf
@@ -728,21 +499,27 @@ vm.overcommit_memory <span class="token operator">=</span> <span class="token nu
 vm.swappiness <span class="token operator">=</span> <span class="token number">10</span>
 fs.file-max <span class="token operator">=</span> <span class="token number">1000000</span></code></pre></div></figure>
 
-<h3 id="1-2-3-配置主机名"><a href="#1-2-3-配置主机名" class="headerlink" title="1.2.3 配置主机名"></a>1.2.3 配置主机名</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">hostnamectl set-hostname deploy.chsblogs.com
+<h3 id="1-2-3-配置主机名"><a href="#1-2-3-配置主机名" class="headerlink" title="1.2.3 配置主机名"></a>1.2.3 配置主机名</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#一台k8s集群部署服务器</span>
+hostnamectl set-hostname deploy.chsblogs.com
 
+<span class="token comment">#三台master服务器</span>
 hostnamectl set-hostname master1.chsblogs.com
 hostnamectl set-hostname master2.chsblogs.com
 hostnamectl set-hostname master3.chsblogs.com
 
+<span class="token comment">#两台负载均衡服务器</span>
 hostnamectl set-hostname ha1.chsblogs.com
 hostnamectl set-hostname ha2.chsblogs.com
 
+<span class="token comment">#三台etcd服务器</span>
 hostnamectl set-hostname etcd1.chsblogs.com
 hostnamectl set-hostname etcd2.chsblogs.com
 hostnamectl set-hostname etcd3.chsblogs.com
 
+<span class="token comment">#一台harbor服务器</span>
 hostnamectl set-hostname harbor1.chsblogs.com
 
+<span class="token comment">#四台node服务器</span>
 hostnamectl set-hostname node1.chsblogs.com
 hostnamectl set-hostname node2.chsblogs.com
 hostnamectl set-hostname node3.chsblogs.com
@@ -750,7 +527,7 @@ hostnamectl set-hostname node4.chsblogs.com</code></pre></div></figure>
 
 
 
-<h2 id="1-3-安装配置Haproxy"><a href="#1-3-安装配置Haproxy" class="headerlink" title="1.3 安装配置Haproxy"></a>1.3 安装配置Haproxy</h2><p><strong>主机ha1.chsblogs.com【192.168.1.43】安装配置Keepalived及Haproxy：</strong></p>
+<h2 id="1-3-安装配置Haproxy"><a href="#1-3-安装配置Haproxy" class="headerlink" title="1.3 安装配置Haproxy"></a>1.3 安装配置Haproxy</h2><p><strong>主机ha1.chsblogs.com【192.168.10.14】安装配置Keepalived及Haproxy：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装keepalived</span>
 root@k8s-ha1:~<span class="token comment"># apt update &amp;&amp; apt -y install keepalived</span>
 
@@ -782,9 +559,9 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
         auth_pass <span class="token number">1111</span>
     <span class="token punctuation">&#125;</span>
     virtual_ipaddress <span class="token punctuation">&#123;</span>
-        <span class="token number">192.168</span>.1.90 dev ens33 label ens33:1
-        <span class="token number">192.168</span>.1.91 dev ens33 label ens33:2
-        <span class="token number">192.168</span>.1.92 dev ens33 label ens33:3
+        <span class="token number">192.168</span>.10.90 dev ens33 label ens33:1
+        <span class="token number">192.168</span>.10.91 dev ens33 label ens33:2
+        <span class="token number">192.168</span>.10.92 dev ens33 label ens33:3
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span>
 
@@ -805,18 +582,18 @@ listen stats
   stats auth admin:admin
 
 listen k8s-api-6443
-  <span class="token builtin class-name">bind</span> <span class="token number">192.168</span>.1.90:6443
+  <span class="token builtin class-name">bind</span> <span class="token number">192.168</span>.10.90:6443
   mode tcp
-  server <span class="token number">192.168</span>.1.40 <span class="token number">192.168</span>.1.40:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
-  server <span class="token number">192.168</span>.1.41 <span class="token number">192.168</span>.1.41:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
-  server <span class="token number">192.168</span>.1.42 <span class="token number">192.168</span>.1.42:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.10.11 <span class="token number">192.168</span>.10.11:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.10.12 <span class="token number">192.168</span>.10.12:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.10.13 <span class="token number">192.168</span>.10.13:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
   
 root@k8s-ha1:~<span class="token comment"># systemctl restart haproxy</span>
 root@k8s-ha1:~<span class="token comment"># systemctl enable haproxy</span></code></pre></div></figure>
 
 
 
-<p><strong>主机ha2.chsblogs.com【192.168.1.44】安装配置Keepalived及Haproxy：</strong></p>
+<p><strong>主机ha2.chsblogs.com【192.168.10.15】安装配置Keepalived及Haproxy：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装keepalived</span>
 root@k8s-ha2:~<span class="token comment"># apt update &amp;&amp; apt -y install keepalived</span>
 
@@ -848,9 +625,9 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
         auth_pass <span class="token number">1111</span>
     <span class="token punctuation">&#125;</span>
     virtual_ipaddress <span class="token punctuation">&#123;</span>
-        <span class="token number">192.168</span>.1.90 dev ens33 label ens33:1
-        <span class="token number">192.168</span>.1.91 dev ens33 label ens33:2
-        <span class="token number">192.168</span>.1.92 dev ens33 label ens33:3
+        <span class="token number">192.168</span>.10.90 dev ens33 label ens33:1
+        <span class="token number">192.168</span>.10.91 dev ens33 label ens33:2
+        <span class="token number">192.168</span>.10.92 dev ens33 label ens33:3
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span>
 
@@ -871,11 +648,11 @@ listen stats
   stats auth admin:admin
 
 listen k8s-api-6443
-  <span class="token builtin class-name">bind</span> <span class="token number">192.168</span>.1.90:6443
+  <span class="token builtin class-name">bind</span> <span class="token number">192.168</span>.10.90:6443
   mode tcp
-  server <span class="token number">192.168</span>.1.40 <span class="token number">192.168</span>.1.40:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
-  server <span class="token number">192.168</span>.1.41 <span class="token number">192.168</span>.1.41:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
-  server <span class="token number">192.168</span>.1.42 <span class="token number">192.168</span>.1.42:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.10.11 <span class="token number">192.168</span>.10.11:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.10.12 <span class="token number">192.168</span>.10.12:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
+  server <span class="token number">192.168</span>.10.13 <span class="token number">192.168</span>.10.13:6443 check inter 3s fall <span class="token number">3</span> rise <span class="token number">1</span>
   
 <span class="token comment">#注意开启内核参数net.ipv4.ip_nonlocal_bind = 1，否则本机没有监听192.168.1.66地址无法启动haproxy</span>
 root@k8s-ha2:~<span class="token comment"># systemctl restart haproxy</span>
@@ -883,13 +660,13 @@ root@k8s-ha2:~<span class="token comment"># systemctl enable haproxy</span></cod
 
 
 
-<h2 id="1-4-安装配置Harbor"><a href="#1-4-安装配置Harbor" class="headerlink" title="1.4 安装配置Harbor"></a>1.4 安装配置Harbor</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装docker</span>
+<h2 id="1-4-安装配置Harbor"><a href="#1-4-安装配置Harbor" class="headerlink" title="1.4 安装配置Harbor"></a>1.4 安装配置Harbor</h2><h3 id="1-4-1-安装Harbor"><a href="#1-4-1-安装Harbor" class="headerlink" title="1.4.1 安装Harbor"></a>1.4.1 安装Harbor</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装docker</span>
 <span class="token function">sudo</span> <span class="token function">apt-get</span> update
 <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> apt-transport-https ca-certificates <span class="token function">curl</span> software-properties-common
 <span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg <span class="token operator">|</span> <span class="token function">sudo</span> apt-key <span class="token function">add</span> -
 <span class="token function">sudo</span> add-apt-repository <span class="token string">"deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu <span class="token variable"><span class="token variable">$(</span>lsb_release <span class="token parameter variable">-cs</span><span class="token variable">)</span></span> stable"</span>
 <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> update
-<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span class="token operator">=</span><span class="token number">5</span>:19.03.15~3-0~ubuntu-focal docker-ce-cli<span class="token operator">=</span><span class="token number">5</span>:19.03.15~3-0~ubuntu-focal
+<span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span class="token operator">=</span><span class="token number">5</span>:20.10.24~3-0~ubuntu-focal docker-ce-cli<span class="token operator">=</span><span class="token number">5</span>:20.10.24~3-0~ubuntu-focal
 
 <span class="token comment">#2.安装Docker-Compose</span>
 root@harbor1:/usr/local/src<span class="token comment"># curl -L https://github.com/docker/compose/releases/download/v2.15.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose</span>
@@ -986,7 +763,7 @@ https:
   <span class="token comment"># The path of cert and key files for nginx</span>
   certificate: /usr/local/src/harbor/certs/harbor.chsblogs.local.crt
   private_key: /usr/local/src/harbor/certs/harbor.chsblogs.local.key
-harbor_admin_password: <span class="token number">123456</span>
+harbor_admin_password: admin
 data_volume: /data
 
 <span class="token comment">#7.执行install.sh脚本安装</span>
@@ -995,12 +772,13 @@ root@harbor1:/usr/local/src/harbor<span class="token comment"># ./install.sh --w
 <p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501100346878.png" srcset="/img/loading.gif" lazyload alt="image-20230501100346878"> </p>
 <p><strong>创建baseimages项目：</strong></p>
 <p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501194232560.png" srcset="/img/loading.gif" lazyload alt="image-20230501194232560"> </p>
-<p><strong>docker客户端配置证书验证，并推送镜像到Harbor：</strong></p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.docker客户端创建证书保留位置，创建证书的名称必须是harbor域名的名称</span>
+<h3 id="1-4-2-配置docker客户端"><a href="#1-4-2-配置docker客户端" class="headerlink" title="1.4.2 配置docker客户端"></a>1.4.2 配置docker客户端</h3><p><strong>docker客户端配置证书验证，并推送镜像到Harbor：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#主机deploy.chsblogs.com【192.168.1.10】操作。</span>
+<span class="token comment">#1.docker客户端创建证书保留位置，创建证书的名称必须是harbor域名的名称</span>
 root@deploy:~<span class="token comment"># mkdir /etc/docker/certs.d/harbor.chsblogs.local -p</span>
 
 <span class="token comment">#2.Harbor将证书发送给客户端</span>
-root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># scp harbor.chsblogs.local.crt 192.168.1.39:/etc/docker/certs.d/harbor.chsblogs.local</span>
+root@harbor1:/usr/local/src/harbor/certs<span class="token comment"># scp harbor.chsblogs.local.crt 192.168.10.10:/etc/docker/certs.d/harbor.chsblogs.local</span>
 
 <span class="token comment">#3.docker客户端配置hosts域名解析Harbor</span>
 root@deploy:~<span class="token comment"># vim /etc/hosts</span>
@@ -1035,7 +813,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
 <span class="token comment">#6.查看Harbor</span></code></pre></div></figure>
 
 <p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230501202001881.png" srcset="/img/loading.gif" lazyload alt="image-20230501202001881"> </p>
-<h2 id="1-7-安装配置Ansible"><a href="#1-7-安装配置Ansible" class="headerlink" title="1.7 安装配置Ansible"></a>1.7 安装配置Ansible</h2><p><strong>主机deploy.chsblogs.com【192.168.1.39】安装Ansible</strong>：</p>
+<h2 id="1-7-安装配置Ansible"><a href="#1-7-安装配置Ansible" class="headerlink" title="1.7 安装配置Ansible"></a>1.7 安装配置Ansible</h2><p><strong>主机deploy.chsblogs.com【192.168.1.10】安装Ansible</strong>：</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># apt update &amp;&amp; apt -y install ansible git</span></code></pre></div></figure>
 
 
@@ -1047,19 +825,19 @@ root@deploy:~<span class="token comment"># ln -sv /usr/bin/python3 /usr/bin/pyth
 root@deploy:~<span class="token comment"># vim key.sh</span>
 <span class="token comment">#!/bin/bash</span>
 <span class="token assign-left variable">IP</span><span class="token operator">=</span><span class="token string">"
-192.168.1.40
-192.168.1.41
-192.168.1.42
-192.168.1.43
-192.168.1.44
-192.168.1.45
-192.168.1.46
-192.168.1.47
-192.168.1.48
-192.168.1.49
-192.168.1.50
-192.168.1.51
-192.168.1.52
+192.168.10.11
+192.168.10.12
+192.168.10.13
+192.168.10.14
+192.168.10.15
+192.168.10.16
+192.168.10.17
+192.168.10.18
+192.168.10.19
+192.168.10.20
+192.168.10.21
+192.168.10.22
+192.168.10.23
 "</span>
 <span class="token keyword">for</span> <span class="token for-or-select variable">n</span> <span class="token keyword">in</span> <span class="token variable">$&#123;IP&#125;</span><span class="token punctuation">;</span><span class="token keyword">do</span>
   sshpass <span class="token parameter variable">-p</span> <span class="token number">123456</span> ssh-copy-id <span class="token variable">$&#123;n&#125;</span> <span class="token parameter variable">-o</span> <span class="token assign-left variable">StrictHostKeyChecking</span><span class="token operator">=</span>no
@@ -1083,38 +861,38 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 
-<span class="token number">192.168</span>.1.40 master1.chsblogs.com master1
-<span class="token number">192.168</span>.1.41 master2.chsblogs.com master2
-<span class="token number">192.168</span>.1.42 master3.chsblogs.com master3
+<span class="token number">192.168</span>.10.11 master1.chsblogs.com master1
+<span class="token number">192.168</span>.10.12 master2.chsblogs.com master2
+<span class="token number">192.168</span>.10.13 master3.chsblogs.com master3
 
-<span class="token number">192.168</span>.1.45 etcd1.chsblogs.com etcd1
-<span class="token number">192.168</span>.1.46 etcd2.chsblogs.com etcd2
-<span class="token number">192.168</span>.1.47 etcd3.chsblogs.com etcd3
+<span class="token number">192.168</span>.10.16 etcd1.chsblogs.com etcd1
+<span class="token number">192.168</span>.10.17 etcd2.chsblogs.com etcd2
+<span class="token number">192.168</span>.10.18 etcd3.chsblogs.com etcd3
 
-<span class="token number">192.168</span>.1.49 node1.chsblogs.com node1
-<span class="token number">192.168</span>.1.50 node2.chsblogs.com node2
-<span class="token number">192.168</span>.1.51 node3.chsblogs.com node3
-<span class="token number">192.168</span>.1.52 node4.chsblogs.com node4
+<span class="token number">192.168</span>.10.19 harbor.chsblogs.local
 
-<span class="token number">192.168</span>.1.48 harbor.chsblogs.local
+<span class="token number">192.168</span>.10.20 node1.chsblogs.com node1
+<span class="token number">192.168</span>.10.21 node2.chsblogs.com node2
+<span class="token number">192.168</span>.10.22 node3.chsblogs.com node3
+<span class="token number">192.168</span>.10.23 node4.chsblogs.com node4
 
 <span class="token comment">#分发hosts文件到所有集群节点</span>
-root@deploy:~<span class="token comment"># for n in &#123;40..52&#125;;do scp /etc/hosts 192.168.1.$n:/etc/;done</span></code></pre></div></figure>
+root@deploy:~<span class="token comment"># for n in &#123;11..23&#125;;do scp /etc/hosts 192.168.10.$n:/etc/;done</span></code></pre></div></figure>
 
 
 
-<h3 id="1-7-3-配置时间同步"><a href="#1-7-3-配置时间同步" class="headerlink" title="1.7.3 配置时间同步"></a>1.7.3 配置时间同步</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># for n in &#123;40..52&#125;;do ssh 192.168.1.$n "apt update &amp;&amp; apt install chrony -y;systemctl enable chrony --now";done</span></code></pre></div></figure>
+<h3 id="1-7-3-配置时间同步"><a href="#1-7-3-配置时间同步" class="headerlink" title="1.7.3 配置时间同步"></a>1.7.3 配置时间同步</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># for n in &#123;11..23&#125;;do ssh 192.168.10.$n "apt update &amp;&amp; apt install chrony -y;systemctl enable chrony --now";done</span></code></pre></div></figure>
 
 <h3 id="1-7-4-同步docker证书"><a href="#1-7-4-同步docker证书" class="headerlink" title="1.7.4 同步docker证书"></a>1.7.4 同步docker证书</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># vim scp.sh</span>
 <span class="token comment">#!/bin/bash</span>
 <span class="token assign-left variable">IP</span><span class="token operator">=</span><span class="token string">"
-192.168.1.40
-192.168.1.41
-192.168.1.42
-192.168.1.49
-192.168.1.50
-192.168.1.51
-192.168.1.52
+192.168.10.11
+192.168.10.12
+192.168.10.13
+192.168.10.20
+192.168.10.21
+192.168.10.22
+192.168.10.23
 "</span>
 <span class="token keyword">for</span> <span class="token for-or-select variable">n</span> <span class="token keyword">in</span> <span class="token variable">$&#123;IP&#125;</span><span class="token punctuation">;</span><span class="token keyword">do</span>
   <span class="token function">ssh</span> <span class="token variable">$&#123;n&#125;</span> <span class="token string">"mkdir /etc/docker/certs.d/harbor.chsblogs.local -p"</span>
@@ -1133,14 +911,13 @@ https://github.com/easzlab/kubeasz</code></pre></div></figure>
 
 
 <p><strong>下载kubeasz工具：</strong></p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># export release=3.1.1</span>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># export release=3.2.0</span>
 root@deploy:~<span class="token comment"># wget https://github.com/easzlab/kubeasz/releases/download/$&#123;release&#125;/ezdown</span>
 root@deploy:~<span class="token comment"># chmod a+x ezdown</span>
 
 <span class="token comment">#修改ezdown配置</span>
 root@deploy:~<span class="token comment"># vim ezdown</span>
-<span class="token assign-left variable">DOCKER_VER</span><span class="token operator">=</span><span class="token number">19.03</span>.15
-<span class="token assign-left variable">K8S_BIN_VER</span><span class="token operator">=</span>v1.20.14</code></pre></div></figure>
+<span class="token assign-left variable">K8S_BIN_VER</span><span class="token operator">=</span>v1.23.16</code></pre></div></figure>
 
 
 
@@ -1169,45 +946,45 @@ root@deploy:~<span class="token comment"># cat ezdown | grep "docker pull"</span
 root@master1:~<span class="token comment"># ./ezdown -D</span>
 
 root@deploy:~<span class="token comment"># docker images</span>
-REPOSITORY                                TAG                 IMAGE ID            CREATED             SIZE
-easzlab/kubeasz-k8s-bin                   v1.20.14            006b650320fe        <span class="token number">16</span> months ago       474MB
-easzlab/kubeasz                           <span class="token number">3.1</span>.1               a9da15e59bfc        <span class="token number">19</span> months ago       164MB
-easzlab/kubeasz-ext-bin                   <span class="token number">0.9</span>.5               60e52b5c3e9f        <span class="token number">20</span> months ago       402MB
-calico/node                               v3.19.2             7aa1277761b5        <span class="token number">21</span> months ago       169MB
-calico/pod2daemon-flexvol                 v3.19.2             6a1186da14d9        <span class="token number">21</span> months ago       <span class="token number">21</span>.7MB
-calico/cni                                v3.19.2             05bf027c9836        <span class="token number">21</span> months ago       146MB
-calico/kube-controllers                   v3.19.2             779aa7e4e93c        <span class="token number">21</span> months ago       <span class="token number">60</span>.6MB
-kubernetesui/dashboard                    v2.3.1              e1482a24335a        <span class="token number">22</span> months ago       220MB
-coredns/coredns                           <span class="token number">1.8</span>.4               8d147537fb7d        <span class="token number">23</span> months ago       <span class="token number">47</span>.6MB
-easzlab/metrics-server                    v0.5.0              1c655933b9c5        <span class="token number">23</span> months ago       <span class="token number">63</span>.5MB
-easzlab/pause-amd64                       <span class="token number">3.5</span>                 ed210e3e4a5b        <span class="token number">2</span> years ago         683kB
-easzlab/nfs-subdir-external-provisioner   v4.0.1              686d3731280a        <span class="token number">2</span> years ago         <span class="token number">43</span>.8MB
-easzlab/k8s-dns-node-cache                <span class="token number">1.17</span>.0              3a187183b3a8        <span class="token number">2</span> years ago         123MB
-kubernetesui/metrics-scraper              v1.0.6              48d79e554db6        <span class="token number">2</span> years ago         <span class="token number">34</span>.5MB
-easzlab/flannel                           v0.13.0-amd64       e708f4bb69e3        <span class="token number">2</span> years ago         <span class="token number">57</span>.2MB</code></pre></div></figure>
+REPOSITORY                                TAG        IMAGE ID       CREATED         SIZE
+easzlab/kubeasz-k8s-bin                   v1.23.16   0c430a8c8dbe   <span class="token number">4</span> months ago    <span class="token number">1</span>.17GB
+easzlab/kubeasz                           <span class="token number">3.2</span>.0      cbf7e17a5ddb   <span class="token number">16</span> months ago   164MB
+easzlab/kubeasz-ext-bin                   <span class="token number">1.0</span>.0      ce7839fb3045   <span class="token number">17</span> months ago   424MB
+easzlab/metrics-server                    v0.5.2     f965999d664b   <span class="token number">18</span> months ago   <span class="token number">64</span>.3MB
+easzlab/flannel                           v0.15.1    e6ea68648f0c   <span class="token number">18</span> months ago   <span class="token number">69</span>.5MB
+kubernetesui/dashboard                    v2.4.0     72f07539ffb5   <span class="token number">19</span> months ago   221MB
+coredns/coredns                           <span class="token number">1.8</span>.6      a4ca41631cc7   <span class="token number">19</span> months ago   <span class="token number">46</span>.8MB
+easzlab/k8s-dns-node-cache                <span class="token number">1.21</span>.1     5bae806f8f12   <span class="token number">20</span> months ago   104MB
+calico/node                               v3.19.3    5ee77fcf72b4   <span class="token number">20</span> months ago   154MB
+calico/pod2daemon-flexvol                 v3.19.3    c34539dc5eef   <span class="token number">20</span> months ago   <span class="token number">21</span>.7MB
+calico/cni                                v3.19.3    71da92beaffe   <span class="token number">20</span> months ago   146MB
+calico/kube-controllers                   v3.19.3    ed1e25e26ab5   <span class="token number">20</span> months ago   <span class="token number">60</span>.6MB
+easzlab/pause                             <span class="token number">3.6</span>        6270bb605e12   <span class="token number">21</span> months ago   683kB
+kubernetesui/metrics-scraper              v1.0.7     7801cfc6d5c0   <span class="token number">23</span> months ago   <span class="token number">34</span>.4MB
+easzlab/nfs-subdir-external-provisioner   v4.0.2     cf366ff50762   <span class="token number">2</span> years ago     <span class="token number">43</span>.8MB</code></pre></div></figure>
 
 
 
 <h3 id="1-9-2-上传镜像至Harbor"><a href="#1-9-2-上传镜像至Harbor" class="headerlink" title="1.9.2 上传镜像至Harbor"></a>1.9.2 上传镜像至Harbor</h3><p>将deploy部署服务器下载好的所有镜像进行上传到本地harbor做一个归档备份</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.上传pause镜像</span>
-root@deploy:~<span class="token comment"># docker tag easzlab/pause-amd64:3.5 harbor.chsblogs.local/baseimages/pause-amd64:3.5</span>
-root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/pause-amd64:3.5</span>
+root@deploy:~<span class="token comment"># docker tag easzlab/pause:3.6 harbor.chsblogs.local/baseimages/pause:3.6</span>
+root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/pause:3.6</span>
 
 <span class="token comment">#2.上传calico/node镜像</span>
-root@deploy:~<span class="token comment"># docker tag calico/node:v3.19.2 harbor.chsblogs.local/baseimages/calico/node:v3.19.2</span>
-root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/calico/node:v3.19.2</span>
+root@deploy:~<span class="token comment"># docker tag calico/node:v3.19.3 harbor.chsblogs.local/baseimages/calico/node:v3.19.3</span>
+root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/calico/node:v3.19.3</span>
 
 <span class="token comment">#3.上传calico/pod2daemon-flexvol镜像</span>
-root@deploy:~<span class="token comment"># docker tag calico/pod2daemon-flexvol:v3.19.2 harbor.chsblogs.local/baseimages/calico/pod2daemon-flexvol:v3.19.2</span>
-root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/calico/pod2daemon-flexvol:v3.19.2</span>
+root@deploy:~<span class="token comment"># docker tag calico/pod2daemon-flexvol:v3.19.3 harbor.chsblogs.local/baseimages/calico/pod2daemon-flexvol:v3.19.3</span>
+root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/calico/pod2daemon-flexvol:v3.19.3</span>
 
 <span class="token comment">#4.上传calico/cni镜像</span>
-root@deploy:~<span class="token comment"># docker tag calico/cni:v3.19.2 harbor.chsblogs.local/baseimages/calico/cni:v3.19.2</span>
-root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/calico/cni:v3.19.2</span>
+root@deploy:~<span class="token comment"># docker tag calico/cni:v3.19.3 harbor.chsblogs.local/baseimages/calico/cni:v3.19.3</span>
+root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/calico/cni:v3.19.3</span>
 
 <span class="token comment">#5.上传calico/kube-controllers镜像</span>
-root@deploy:~<span class="token comment"># docker tag calico/kube-controllers:v3.19.2 harbor.chsblogs.local/baseimages/calico/kube-controllers:v3.19.2</span>
-root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/calico/kube-controllers:v3.19.2</span></code></pre></div></figure>
+root@deploy:~<span class="token comment"># docker tag calico/kube-controllers:v3.19.3 harbor.chsblogs.local/baseimages/calico/kube-controllers:v3.19.3</span>
+root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/calico/kube-controllers:v3.19.3</span></code></pre></div></figure>
 
 
 
@@ -1303,19 +1080,20 @@ config.yml  hosts</code></pre></div></figure>
 root@deploy:/etc/kubeasz/clusters/k8s-cluster1<span class="token comment"># vim hosts</span>
 <span class="token comment"># 'etcd' cluster should have odd member(s) (1,3,5,...)</span>
 <span class="token punctuation">[</span>etcd<span class="token punctuation">]</span> <span class="token comment">#指定etcd集群地址</span>
-<span class="token number">192.168</span>.1.45
-<span class="token number">192.168</span>.1.46
-<span class="token number">192.168</span>.1.47
+<span class="token number">192.168</span>.10.16
+<span class="token number">192.168</span>.10.17
+<span class="token number">192.168</span>.10.18
 
 <span class="token comment"># master node(s)</span>
 <span class="token punctuation">[</span>kube_master<span class="token punctuation">]</span> <span class="token comment">#指定k8s master集群地址</span>
-<span class="token number">192.168</span>.1.40
-<span class="token number">192.168</span>.1.41
+<span class="token number">192.168</span>.10.11
+<span class="token number">192.168</span>.10.12
 
 <span class="token comment"># work node(s) </span>
 <span class="token punctuation">[</span>kube_node<span class="token punctuation">]</span> <span class="token comment">#指定k8s node集群地址</span>
-<span class="token number">192.168</span>.1.49
-<span class="token number">192.168</span>.1.50
+<span class="token number">192.168</span>.10.20
+<span class="token number">192.168</span>.10.21
+<span class="token number">192.168</span>.10.22
 
 <span class="token comment"># [optional] harbor server, a private docker registry</span>
 <span class="token comment"># 'NEW_INSTALL': 'true' to install a harbor server; 'false' to integrate with existed one</span>
@@ -1323,9 +1101,9 @@ root@deploy:/etc/kubeasz/clusters/k8s-cluster1<span class="token comment"># vim 
 <span class="token comment">#192.168.1.8 NEW_INSTALL=false</span>
 
 <span class="token comment"># [optional] loadbalance for accessing k8s from outside</span>
-<span class="token punctuation">[</span>ex_lb<span class="token punctuation">]</span> <span class="token comment">#这里打开来，要调用EX_APISERVER_VIP地址，实际上负载均衡服务我们已经手动安装。</span>
-<span class="token number">192.168</span>.1.6 <span class="token assign-left variable">LB_ROLE</span><span class="token operator">=</span>backup <span class="token assign-left variable">EX_APISERVER_VIP</span><span class="token operator">=</span><span class="token number">192.168</span>.1.90 <span class="token assign-left variable">EX_APISERVER_PORT</span><span class="token operator">=</span><span class="token number">6443</span>
-<span class="token number">192.168</span>.1.7 <span class="token assign-left variable">LB_ROLE</span><span class="token operator">=</span>master <span class="token assign-left variable">EX_APISERVER_VIP</span><span class="token operator">=</span><span class="token number">192.168</span>.1.90 <span class="token assign-left variable">EX_APISERVER_PORT</span><span class="token operator">=</span><span class="token number">6443</span>
+<span class="token punctuation">[</span>ex_lb<span class="token punctuation">]</span>
+<span class="token comment">#192.168.1.6 LB_ROLE=backup EX_APISERVER_VIP=192.168.1.250 EX_APISERVER_PORT=8443</span>
+<span class="token comment">#192.168.1.7 LB_ROLE=master EX_APISERVER_VIP=192.168.1.250 EX_APISERVER_PORT=8443</span>
 
 <span class="token comment"># [optional] ntp server for the cluster</span>
 <span class="token punctuation">[</span>chrony<span class="token punctuation">]</span>
@@ -1405,6 +1183,8 @@ CERT_EXPIRY: <span class="token string">"438000h"</span>
 CLUSTER_NAME: <span class="token string">"cluster1"</span>
 CONTEXT_NAME: <span class="token string">"context-&#123;&#123; CLUSTER_NAME &#125;&#125;"</span>
 
+<span class="token comment"># k8s version</span>
+K8S_VER: <span class="token string">"1.23.16"</span>
 
 <span class="token comment">############################</span>
 <span class="token comment"># role:etcd</span>
@@ -1422,7 +1202,7 @@ ETCD_WAL_DIR: <span class="token string">""</span>
 ENABLE_MIRROR_REGISTRY: <span class="token boolean">true</span>
 
 <span class="token comment"># [containerd]基础容器镜像</span>
-SANDBOX_IMAGE: <span class="token string">"harbor.chsblogs.local/baseimages/pause-amd64:3.5"</span> <span class="token comment">#修改为本地镜像harbor仓库地址</span>
+SANDBOX_IMAGE: <span class="token string">"harbor.chsblogs.local/baseimages/pause:3.6"</span>
 
 <span class="token comment"># [containerd]容器持久化存储目录</span>
 CONTAINERD_STORAGE_DIR: <span class="token string">"/var/lib/containerd"</span>
@@ -1485,7 +1265,7 @@ FLANNEL_BACKEND: <span class="token string">"vxlan"</span>
 DIRECT_ROUTING: <span class="token boolean">false</span>
 
 <span class="token comment"># [flannel] flanneld_image: "quay.io/coreos/flannel:v0.10.0-amd64"</span>
-flannelVer: <span class="token string">"v0.13.0-amd64"</span>
+flannelVer: <span class="token string">"v0.15.1"</span>
 flanneld_image: <span class="token string">"easzlab/flannel:&#123;&#123; flannelVer &#125;&#125;"</span>
 
 <span class="token comment"># [flannel]离线镜像tar包</span>
@@ -1502,7 +1282,7 @@ IP_AUTODETECTION_METHOD: <span class="token string">"can-reach=&#123;&#123; grou
 CALICO_NETWORKING_BACKEND: <span class="token string">"brid"</span>
 
 <span class="token comment"># [calico]更新支持calico 版本: [v3.3.x] [v3.4.x] [v3.8.x] [v3.15.x]</span>
-calico_ver: <span class="token string">"v3.19.2"</span>
+calico_ver: <span class="token string">"v3.19.3"</span>
 
 <span class="token comment"># [calico]calico 主版本</span>
 calico_ver_main: <span class="token string">"&#123;&#123; calico_ver.split('.')[0] &#125;&#125;.&#123;&#123; calico_ver.split('.')[1] &#125;&#125;"</span>
@@ -1548,36 +1328,36 @@ busybox_offline: <span class="token string">"busybox_&#123;&#123; busybox_ver &#
 <span class="token comment"># role:cluster-addon</span>
 <span class="token comment">############################</span>
 <span class="token comment"># coredns 自动安装</span>
-dns_install: <span class="token string">"no"</span> <span class="token comment">#取消安装</span>
-corednsVer: <span class="token string">"1.8.4"</span>
+dns_install: <span class="token string">"no"</span>
+corednsVer: <span class="token string">"1.8.6"</span>
 ENABLE_LOCAL_DNS_CACHE: <span class="token boolean">false</span>
-dnsNodeCacheVer: <span class="token string">"1.17.0"</span>
+dnsNodeCacheVer: <span class="token string">"1.21.1"</span>
 <span class="token comment"># 设置 local dns cache 地址</span>
 LOCAL_DNS_CACHE: <span class="token string">"169.254.20.10"</span>
 
 <span class="token comment"># metric server 自动安装</span>
-metricsserver_install: <span class="token string">"no"</span> <span class="token comment">#取消安装</span>
-metricsVer: <span class="token string">"v0.5.0"</span>
+metricsserver_install: <span class="token string">"no"</span>
+metricsVer: <span class="token string">"v0.5.2"</span>
 
 <span class="token comment"># dashboard 自动安装</span>
-dashboard_install: <span class="token string">"no"</span> <span class="token comment">#取消安装</span>
-dashboardVer: <span class="token string">"v2.3.1"</span>
-dashboardMetricsScraperVer: <span class="token string">"v1.0.6"</span>
+dashboard_install: <span class="token string">"no"</span>
+dashboardVer: <span class="token string">"v2.4.0"</span>
+dashboardMetricsScraperVer: <span class="token string">"v1.0.7"</span>
 
 <span class="token comment"># ingress 自动安装</span>
-ingress_install: <span class="token string">"no"</span> <span class="token comment">#取消安装</span>
+ingress_install: <span class="token string">"no"</span>
 ingress_backend: <span class="token string">"traefik"</span>
-traefik_chart_ver: <span class="token string">"9.12.3"</span>
+traefik_chart_ver: <span class="token string">"10.3.0"</span>
 
 <span class="token comment"># prometheus 自动安装</span>
-prom_install: <span class="token string">"no"</span> <span class="token comment">#取消安装</span>
+prom_install: <span class="token string">"no"</span>
 prom_namespace: <span class="token string">"monitor"</span>
 prom_chart_ver: <span class="token string">"12.10.6"</span>
 
 <span class="token comment"># nfs-provisioner 自动安装</span>
-nfs_provisioner_install: <span class="token string">"no"</span> <span class="token comment">#取消安装</span>
+nfs_provisioner_install: <span class="token string">"no"</span>
 nfs_provisioner_namespace: <span class="token string">"kube-system"</span>
-nfs_provisioner_ver: <span class="token string">"v4.0.1"</span>
+nfs_provisioner_ver: <span class="token string">"v4.0.2"</span>
 nfs_storage_class: <span class="token string">"managed-nfs-storage"</span>
 nfs_server: <span class="token string">"192.168.1.10"</span>
 nfs_path: <span class="token string">"/data/nfs"</span>
@@ -1601,89 +1381,77 @@ HARBOR_WITH_CHARTMUSEUM: <span class="token boolean">true</span></code></pre></d
 
 
 
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#5.去掉负载均衡检查，已手动安装</span>
-root@deploy:/etc/kubeasz<span class="token comment"># vim playbooks/01.prepare.yml</span>
-<span class="token comment"># [optional] to synchronize system time of nodes with 'chrony' </span>
-- hosts:
-  - kube_master
-  - kube_node
-  - etcd
-    <span class="token comment">#- ex_lb</span>
-    <span class="token comment">#- chrony</span>
-<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span></code></pre></div></figure>
-
-
-
 <h3 id="1-10-3-初始化集群安装"><a href="#1-10-3-初始化集群安装" class="headerlink" title="1.10.3 初始化集群安装"></a>1.10.3 初始化集群安装</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ./ezctl setup k8s-cluster1 01</span>
 <span class="token comment"># 剧本文件为：/etc/kubeasz/playbooks/01.preare.yml</span>
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/prepare/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 01</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502113854805.png" srcset="/img/loading.gif" lazyload alt="image-20230502113854805"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175444602.png" srcset="/img/loading.gif" lazyload alt="image-20230527175444602"> </p>
 <h3 id="1-10-4-部署etcd集群"><a href="#1-10-4-部署etcd集群" class="headerlink" title="1.10.4 部署etcd集群"></a>1.10.4 部署etcd集群</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ./ezctl setup k8s-cluster1 02</span>
 <span class="token comment"># 剧本文件为：/etc/kubeasz/playbooks/02.etcd.yml</span>
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/etcd/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 02</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502114159514.png" srcset="/img/loading.gif" lazyload alt="image-20230502114159514"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175545010.png" srcset="/img/loading.gif" lazyload alt="image-20230527175545010"> </p>
 <p><strong>登录etcd集群查看节点状态：</strong></p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@etcd1:~<span class="token comment"># export NODE_IPS="192.168.1.45 192.168.1.46 192.168.1.47"</span>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@etcd1:~<span class="token comment"># export NODE_IPS="192.168.10.16 192.168.10.17 192.168.10.18"</span>
 root@etcd1:~<span class="token comment"># for n in $&#123;NODE_IPS&#125;;do etcdctl --endpoints=https://$&#123;n&#125;:2379 --cacert=/etc/kubernetes/ssl/ca.pem --cert=/etc/kubernetes/ssl/etcd.pem --key=/etc/kubernetes/ssl/etcd-key.pem endpoint health;done</span>
-https://192.168.1.45:2379 is healthy: successfully committed proposal: took <span class="token operator">=</span> <span class="token number">8</span>.04417ms
-https://192.168.1.46:2379 is healthy: successfully committed proposal: took <span class="token operator">=</span> <span class="token number">12</span>.723181ms
-https://192.168.1.47:2379 is healthy: successfully committed proposal: took <span class="token operator">=</span> <span class="token number">13</span>.48795ms
+https://192.168.10.16:2379 is healthy: successfully committed proposal: took <span class="token operator">=</span> <span class="token number">8</span>.726155ms
+https://192.168.10.17:2379 is healthy: successfully committed proposal: took <span class="token operator">=</span> <span class="token number">6</span>.374429ms
+https://192.168.10.18:2379 is healthy: successfully committed proposal: took <span class="token operator">=</span> <span class="token number">5</span>.907807ms
 
 root@etcd1:~<span class="token comment"># for n in $&#123;NODE_IPS&#125;;do etcdctl --endpoints=https://$&#123;n&#125;:2379 --cacert=/etc/kubernetes/ssl/ca.pem --cert=/etc/kubernetes/ssl/etcd.pem --key=/etc/kubernetes/ssl/etcd-key.pem --write-out=table endpoint status;done</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502114600908.png" srcset="/img/loading.gif" lazyload alt="image-20230502114600908"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175720229.png" srcset="/img/loading.gif" lazyload alt="image-20230527175720229"> </p>
 <h3 id="1-10-5-部署集群runtime"><a href="#1-10-5-部署集群runtime" class="headerlink" title="1.10.5 部署集群runtime"></a>1.10.5 部署集群runtime</h3><p>master和node节点必须安装docker。</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ./ezctl setup k8s-cluster1 03</span>
 <span class="token comment"># 剧本文件：/etc/kubeasz/playbooks/03.runtime.yml</span>
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/docker/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 03</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502115219882.png" srcset="/img/loading.gif" lazyload alt="image-20230502115219882"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175826533.png" srcset="/img/loading.gif" lazyload alt="image-20230527175826533"> </p>
 <h3 id="1-10-6-部署K8S-Master"><a href="#1-10-6-部署K8S-Master" class="headerlink" title="1.10.6 部署K8S Master"></a>1.10.6 部署K8S Master</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ./ezctl setup k8s-cluster1 04</span>
 <span class="token comment"># 剧本文件：/etc/kubeasz/playbooks/04.kube-master.yml</span>
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/kube-master/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 04</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502115820852.png" srcset="/img/loading.gif" lazyload alt="image-20230502115820852"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527175948010.png" srcset="/img/loading.gif" lazyload alt="image-20230527175948010"> </p>
 <p><strong>kubenetes Master节点验证：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get node</span>
-NAME           STATUS                     ROLES    AGE   VERSION
-<span class="token number">192.168</span>.1.40   Ready,SchedulingDisabled   master   46s   v1.20.14
-<span class="token number">192.168</span>.1.41   Ready,SchedulingDisabled   master   46s   v1.20.14</code></pre></div></figure>
+NAME            STATUS                     ROLES    AGE     VERSION
+<span class="token number">192.168</span>.10.11   Ready,SchedulingDisabled   master   2m27s   v1.23.16
+<span class="token number">192.168</span>.10.12   Ready,SchedulingDisabled   master   2m27s   v1.23.16</code></pre></div></figure>
 
 <h3 id="1-10-7-部署K8S-Node"><a href="#1-10-7-部署K8S-Node" class="headerlink" title="1.10.7 部署K8S Node"></a>1.10.7 部署K8S Node</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ./ezctl setup k8s-cluster1 05</span>
 <span class="token comment"># 剧本文件：/etc/kubeasz/playbooks/05.kube-node.yml</span>
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/kube-node/tasks/</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 05</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502120239962.png" srcset="/img/loading.gif" lazyload alt="image-20230502120239962"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527180313754.png" srcset="/img/loading.gif" lazyload alt="image-20230527180313754"> </p>
 <p><strong>kubenetes Node节点验证：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get node</span>
-NAME           STATUS                     ROLES    AGE     VERSION
-<span class="token number">192.168</span>.1.40   Ready,SchedulingDisabled   master   5m53s   v1.20.14
-<span class="token number">192.168</span>.1.41   Ready,SchedulingDisabled   master   5m53s   v1.20.14
-<span class="token number">192.168</span>.1.49   Ready                      <span class="token function">node</span>     106s    v1.20.14
-<span class="token number">192.168</span>.1.50   Ready                      <span class="token function">node</span>     106s    v1.20.14</code></pre></div></figure>
+NAME            STATUS                     ROLES    AGE    VERSION
+<span class="token number">192.168</span>.10.11   Ready,SchedulingDisabled   master   4m3s   v1.23.16
+<span class="token number">192.168</span>.10.12   Ready,SchedulingDisabled   master   4m3s   v1.23.16
+<span class="token number">192.168</span>.10.20   Ready                      <span class="token function">node</span>     48s    v1.23.16
+<span class="token number">192.168</span>.10.21   Ready                      <span class="token function">node</span>     48s    v1.23.16
+<span class="token number">192.168</span>.10.22   Ready                      <span class="token function">node</span>     48s    v1.23.16</code></pre></div></figure>
 
 <h3 id="1-10-8-部署网络插件calico"><a href="#1-10-8-部署网络插件calico" class="headerlink" title="1.10.8 部署网络插件calico"></a>1.10.8 部署网络插件calico</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#将镜像统一修改为本地harbor的镜像仓库地址</span>
 root@deploy:/etc/kubeasz<span class="token comment"># cd roles/calico/templates/</span>
 root@deploy:/etc/kubeasz/roles/calico/templates<span class="token comment"># vim calico-v3.19.yaml.j2</span>
 
 <span class="token comment">#1.修改calico-cni镜像仓库地址</span>
-         image: harbor.chsblogs.local/baseimages/calico/cni:v3.19.2
+         image: harbor.chsblogs.local/baseimages/calico/cni:v3.19.3
 
 <span class="token comment">#2.修改calico/pod2daemon-flexvol镜像仓库地址</span>
-         image: harbor.chsblogs.local/baseimages/calico/pod2daemon-flexvol:v3.19.2
+         image: harbor.chsblogs.local/baseimages/calico/pod2daemon-flexvol:v3.19.3
 
 <span class="token comment">#3.修改calico/node镜像仓库地址</span>
-          image: harbor.chsblogs.local/baseimages/calico/node:v3.19.2
+          image: harbor.chsblogs.local/baseimages/calico/node:v3.19.3
 
 <span class="token comment">#4.修改calico/kube-controllers镜像仓库地址</span>
-         image: harbor.chsblogs.local/baseimages/calico/kube-controllers:v3.19.2
+         image: harbor.chsblogs.local/baseimages/calico/kube-controllers:v3.19.3
 </code></pre></div></figure>
 
 
@@ -1693,27 +1461,29 @@ root@deploy:/etc/kubeasz/roles/calico/templates<span class="token comment"># vim
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/calico/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 06</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502121648663.png" srcset="/img/loading.gif" lazyload alt="image-20230502121648663"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527181124064.png" srcset="/img/loading.gif" lazyload alt="image-20230527181124064"> </p>
 <p><strong>节点验证：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get pod -A</span>
 NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE
-kube-system   calico-kube-controllers-5bb6cdfb64-48l7s   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          82s
-kube-system   calico-node-6rgc2                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          82s
-kube-system   calico-node-flv8c                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          82s
-kube-system   calico-node-plrtd                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          82s
-kube-system   calico-node-wncfj                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          82s
+kube-system   calico-kube-controllers-66fd9fc76f-59qq8   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m49s
+kube-system   calico-node-7cnwr                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m49s
+kube-system   calico-node-8b7dc                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m49s
+kube-system   calico-node-mbsbl                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m49s
+kube-system   calico-node-rsvck                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m49s
+kube-system   calico-node-zcmhz                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m49s
 
 root@master1:~<span class="token comment"># calicoctl node status</span>
 Calico process is running.
 
 IPv4 BGP status
-+--------------+-------------------+-------+----------+-------------+
-<span class="token operator">|</span> PEER ADDRESS <span class="token operator">|</span>     PEER TYPE     <span class="token operator">|</span> STATE <span class="token operator">|</span>  SINCE   <span class="token operator">|</span>    INFO     <span class="token operator">|</span>
-+--------------+-------------------+-------+----------+-------------+
-<span class="token operator">|</span> <span class="token number">192.168</span>.1.41 <span class="token operator">|</span> node-to-node mesh <span class="token operator">|</span> up    <span class="token operator">|</span> 04:16:23 <span class="token operator">|</span> Established <span class="token operator">|</span>
-<span class="token operator">|</span> <span class="token number">192.168</span>.1.49 <span class="token operator">|</span> node-to-node mesh <span class="token operator">|</span> up    <span class="token operator">|</span> 04:16:22 <span class="token operator">|</span> Established <span class="token operator">|</span>
-<span class="token operator">|</span> <span class="token number">192.168</span>.1.50 <span class="token operator">|</span> node-to-node mesh <span class="token operator">|</span> up    <span class="token operator">|</span> 04:16:23 <span class="token operator">|</span> Established <span class="token operator">|</span>
-+--------------+-------------------+-------+----------+-------------+
++---------------+-------------------+-------+----------+-------------+
+<span class="token operator">|</span> PEER ADDRESS  <span class="token operator">|</span>     PEER TYPE     <span class="token operator">|</span> STATE <span class="token operator">|</span>  SINCE   <span class="token operator">|</span>    INFO     <span class="token operator">|</span>
++---------------+-------------------+-------+----------+-------------+
+<span class="token operator">|</span> <span class="token number">192.168</span>.10.12 <span class="token operator">|</span> node-to-node mesh <span class="token operator">|</span> up    <span class="token operator">|</span> <span class="token number">10</span>:10:49 <span class="token operator">|</span> Established <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">192.168</span>.10.20 <span class="token operator">|</span> node-to-node mesh <span class="token operator">|</span> up    <span class="token operator">|</span> <span class="token number">10</span>:10:49 <span class="token operator">|</span> Established <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">192.168</span>.10.21 <span class="token operator">|</span> node-to-node mesh <span class="token operator">|</span> up    <span class="token operator">|</span> <span class="token number">10</span>:10:52 <span class="token operator">|</span> Established <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">192.168</span>.10.22 <span class="token operator">|</span> node-to-node mesh <span class="token operator">|</span> up    <span class="token operator">|</span> <span class="token number">10</span>:10:54 <span class="token operator">|</span> Established <span class="token operator">|</span>
++---------------+-------------------+-------+----------+-------------+
 
 IPv6 BGP status
 No IPv6 peers found.</code></pre></div></figure>
@@ -1729,82 +1499,81 @@ pod/net-test3 created
 
 <span class="token comment">#2.查看容器状态</span>
 root@deploy:~<span class="token comment"># kubectl get pod -o wide</span>
-NAME        READY   STATUS    RESTARTS   AGE     IP              NODE           NOMINATED NODE   READINESS GATES
-net-test1   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          8m59s   <span class="token number">10.20</span>.39.193    <span class="token number">192.168</span>.1.49   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
-net-test2   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          8m55s   <span class="token number">10.20</span>.39.194    <span class="token number">192.168</span>.1.49   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
-net-test3   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          8m51s   <span class="token number">10.20</span>.132.193   <span class="token number">192.168</span>.1.50   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+NAME        READY   STATUS    RESTARTS   AGE   IP              NODE            NOMINATED NODE   READINESS GATES
+net-test1   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          90s   <span class="token number">10.20</span>.178.193   <span class="token number">192.168</span>.10.22   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+net-test2   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          84s   <span class="token number">10.20</span>.39.193    <span class="token number">192.168</span>.10.20   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
+net-test3   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          80s   <span class="token number">10.20</span>.132.193   <span class="token number">192.168</span>.10.21   <span class="token operator">&lt;</span>none<span class="token operator">></span>           <span class="token operator">&lt;</span>none<span class="token operator">></span>
 
 <span class="token comment">#3.查看网络ping</span>
 root@deploy:~<span class="token comment"># kubectl exec -it net-test1 bash</span>
 kubectl <span class="token builtin class-name">exec</span> <span class="token punctuation">[</span>POD<span class="token punctuation">]</span> <span class="token punctuation">[</span>COMMAND<span class="token punctuation">]</span> is DEPRECATED and will be removed <span class="token keyword">in</span> a future version. Use kubectl <span class="token builtin class-name">exec</span> <span class="token punctuation">[</span>POD<span class="token punctuation">]</span> -- <span class="token punctuation">[</span>COMMAND<span class="token punctuation">]</span> instead.
-<span class="token punctuation">[</span>root@net-test1 /<span class="token punctuation">]</span><span class="token comment"># ping 10.20.132.193</span>
-PING <span class="token number">10.20</span>.132.193 <span class="token punctuation">(</span><span class="token number">10.20</span>.132.193<span class="token punctuation">)</span> <span class="token number">56</span><span class="token punctuation">(</span><span class="token number">84</span><span class="token punctuation">)</span> bytes of data.
-<span class="token number">64</span> bytes from <span class="token number">10.20</span>.132.193: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">62</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">0.718</span> ms
-<span class="token number">64</span> bytes from <span class="token number">10.20</span>.132.193: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">2</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">62</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">1.81</span> ms
-<span class="token number">64</span> bytes from <span class="token number">10.20</span>.132.193: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">3</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">62</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">0.914</span> ms
+<span class="token punctuation">[</span>root@net-test1 /<span class="token punctuation">]</span><span class="token comment"># ping 10.20.39.193 </span>
+PING <span class="token number">10.20</span>.39.193 <span class="token punctuation">(</span><span class="token number">10.20</span>.39.193<span class="token punctuation">)</span> <span class="token number">56</span><span class="token punctuation">(</span><span class="token number">84</span><span class="token punctuation">)</span> bytes of data.
+<span class="token number">64</span> bytes from <span class="token number">10.20</span>.39.193: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">62</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">0.391</span> ms
+<span class="token number">64</span> bytes from <span class="token number">10.20</span>.39.193: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">2</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">62</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">0.555</span> ms
+<span class="token number">64</span> bytes from <span class="token number">10.20</span>.39.193: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">3</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">62</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">0.255</span> ms
+<span class="token number">64</span> bytes from <span class="token number">10.20</span>.39.193: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">4</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">62</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">0.268</span> ms
 ^C
---- <span class="token number">10.20</span>.132.193 <span class="token function">ping</span> statistics ---
-<span class="token number">3</span> packets transmitted, <span class="token number">3</span> received, <span class="token number">0</span>% packet loss, <span class="token function">time</span> 2003ms
-rtt min/avg/max/mdev <span class="token operator">=</span> <span class="token number">0.718</span>/1.147/1.810/0.476 ms
+--- <span class="token number">10.20</span>.39.193 <span class="token function">ping</span> statistics ---
+<span class="token number">4</span> packets transmitted, <span class="token number">4</span> received, <span class="token number">0</span>% packet loss, <span class="token function">time</span> 3064ms
+rtt min/avg/max/mdev <span class="token operator">=</span> <span class="token number">0.255</span>/0.367/0.555/0.121 ms
 <span class="token punctuation">[</span>root@net-test1 /<span class="token punctuation">]</span><span class="token comment"># ping 223.5.5.5</span>
 PING <span class="token number">223.5</span>.5.5 <span class="token punctuation">(</span><span class="token number">223.5</span>.5.5<span class="token punctuation">)</span> <span class="token number">56</span><span class="token punctuation">(</span><span class="token number">84</span><span class="token punctuation">)</span> bytes of data.
-<span class="token number">64</span> bytes from <span class="token number">223.5</span>.5.5: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">118</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">11.4</span> ms
-<span class="token number">64</span> bytes from <span class="token number">223.5</span>.5.5: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">2</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">118</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">22.3</span> ms
-<span class="token number">64</span> bytes from <span class="token number">223.5</span>.5.5: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">3</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">118</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">16.7</span> ms
-<span class="token number">64</span> bytes from <span class="token number">223.5</span>.5.5: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">4</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">118</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">9.98</span> ms
+<span class="token number">64</span> bytes from <span class="token number">223.5</span>.5.5: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">127</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">25.3</span> ms
+<span class="token number">64</span> bytes from <span class="token number">223.5</span>.5.5: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">2</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">127</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">48.9</span> ms
+<span class="token number">64</span> bytes from <span class="token number">223.5</span>.5.5: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">3</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">127</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">25.3</span> ms
+<span class="token number">64</span> bytes from <span class="token number">223.5</span>.5.5: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">4</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">127</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">24.8</span> ms
 ^C
 --- <span class="token number">223.5</span>.5.5 <span class="token function">ping</span> statistics ---
-<span class="token number">4</span> packets transmitted, <span class="token number">4</span> received, <span class="token number">0</span>% packet loss, <span class="token function">time</span> 3004ms
-rtt min/avg/max/mdev <span class="token operator">=</span> <span class="token number">9.988</span>/15.116/22.337/4.861 ms</code></pre></div></figure>
+<span class="token number">4</span> packets transmitted, <span class="token number">4</span> received, <span class="token number">0</span>% packet loss, <span class="token function">time</span> 3003ms
+rtt min/avg/max/mdev <span class="token operator">=</span> <span class="token number">24.877</span>/31.119/48.904/10.269 ms</code></pre></div></figure>
 
-<h2 id="1-11-集群维护与管理"><a href="#1-11-集群维护与管理" class="headerlink" title="1.11 集群维护与管理"></a>1.11 集群维护与管理</h2><h3 id="1-11-1-添加Master节点"><a href="#1-11-1-添加Master节点" class="headerlink" title="1.11.1 添加Master节点"></a>1.11.1 添加Master节点</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#下面有个负载均衡器的执行报错没有关系，负载均衡器我们已经手动安装了</span>
-root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl add-master k8s-cluster1 192.168.1.42</span></code></pre></div></figure>
+<h2 id="1-11-集群维护与管理"><a href="#1-11-集群维护与管理" class="headerlink" title="1.11 集群维护与管理"></a>1.11 集群维护与管理</h2><h3 id="1-11-1-添加Master节点"><a href="#1-11-1-添加Master节点" class="headerlink" title="1.11.1 添加Master节点"></a>1.11.1 添加Master节点</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl add-master k8s-cluster1 192.168.10.13</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502130837378.png" srcset="/img/loading.gif" lazyload alt="image-20230502130837378"> </p>
-<p><strong>验证节点：</strong></p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get node -o wide</span>
-NAME           STATUS                     ROLES    AGE     VERSION    INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
-<span class="token number">192.168</span>.1.40   Ready,SchedulingDisabled   master   71m     v1.20.14   <span class="token number">192.168</span>.1.40   <span class="token operator">&lt;</span>none<span class="token operator">></span>        Ubuntu <span class="token number">20.04</span>.4 LTS   <span class="token number">5.4</span>.0-147-generic   docker://19.3.15
-<span class="token number">192.168</span>.1.41   Ready,SchedulingDisabled   master   71m     v1.20.14   <span class="token number">192.168</span>.1.41   <span class="token operator">&lt;</span>none<span class="token operator">></span>        Ubuntu <span class="token number">20.04</span>.4 LTS   <span class="token number">5.4</span>.0-147-generic   docker://19.3.15
-<span class="token number">192.168</span>.1.42   Ready,SchedulingDisabled   master   3m28s   v1.20.14   <span class="token number">192.168</span>.1.42   <span class="token operator">&lt;</span>none<span class="token operator">></span>        Ubuntu <span class="token number">20.04</span>.4 LTS   <span class="token number">5.4</span>.0-147-generic   docker://19.3.15
-<span class="token number">192.168</span>.1.49   Ready                      <span class="token function">node</span>     67m     v1.20.14   <span class="token number">192.168</span>.1.49   <span class="token operator">&lt;</span>none<span class="token operator">></span>        Ubuntu <span class="token number">20.04</span>.4 LTS   <span class="token number">5.4</span>.0-147-generic   docker://19.3.15
-<span class="token number">192.168</span>.1.50   Ready                      <span class="token function">node</span>     67m     v1.20.14   <span class="token number">192.168</span>.1.50   <span class="token operator">&lt;</span>none<span class="token operator">></span>        Ubuntu <span class="token number">20.04</span>.4 LTS   <span class="token number">5.4</span>.0-147-generic   docker://19.3.15</code></pre></div></figure>
-
-
-
-<h3 id="1-11-2-添加Node节点"><a href="#1-11-2-添加Node节点" class="headerlink" title="1.11.2 添加Node节点"></a>1.11.2 添加Node节点</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl add-node k8s-cluster1 192.168.1.51</span>
-root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl add-node k8s-cluster1 192.168.1.52</span></code></pre></div></figure>
-
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502131727996.png" srcset="/img/loading.gif" lazyload alt="image-20230502131727996"> </p>
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502132407963.png" srcset="/img/loading.gif" lazyload alt="image-20230502132407963"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527181802723.png" srcset="/img/loading.gif" lazyload alt="image-20230527181802723"> </p>
 <p><strong>验证节点：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get node</span>
-NAME           STATUS                     ROLES    AGE     VERSION
-<span class="token number">192.168</span>.1.40   Ready,SchedulingDisabled   master   86m     v1.20.14
-<span class="token number">192.168</span>.1.41   Ready,SchedulingDisabled   master   86m     v1.20.14
-<span class="token number">192.168</span>.1.42   Ready,SchedulingDisabled   master   18m     v1.20.14
-<span class="token number">192.168</span>.1.49   Ready                      <span class="token function">node</span>     82m     v1.20.14
-<span class="token number">192.168</span>.1.50   Ready                      <span class="token function">node</span>     82m     v1.20.14
-<span class="token number">192.168</span>.1.51   Ready                      <span class="token function">node</span>     9m50s   v1.20.14
-<span class="token number">192.168</span>.1.52   Ready                      <span class="token function">node</span>     4m1s    v1.20.14</code></pre></div></figure>
+NAME            STATUS                     ROLES    AGE   VERSION
+<span class="token number">192.168</span>.10.11   Ready,SchedulingDisabled   master   19m   v1.23.16
+<span class="token number">192.168</span>.10.12   Ready,SchedulingDisabled   master   19m   v1.23.16
+<span class="token number">192.168</span>.10.13   Ready,SchedulingDisabled   master   73s   v1.23.16
+<span class="token number">192.168</span>.10.20   Ready                      <span class="token function">node</span>     15m   v1.23.16
+<span class="token number">192.168</span>.10.21   Ready                      <span class="token function">node</span>     15m   v1.23.16
+<span class="token number">192.168</span>.10.22   Ready                      <span class="token function">node</span>     15m   v1.23.16</code></pre></div></figure>
+
+
+
+<h3 id="1-11-2-添加Node节点"><a href="#1-11-2-添加Node节点" class="headerlink" title="1.11.2 添加Node节点"></a>1.11.2 添加Node节点</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl add-node k8s-cluster1 192.168.10.23</span></code></pre></div></figure>
+
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527182059752.png" srcset="/img/loading.gif" lazyload alt="image-20230527182059752"> </p>
+<p><strong>验证节点：</strong></p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get node</span>
+NAME            STATUS                     ROLES    AGE     VERSION
+<span class="token number">192.168</span>.10.11   Ready,SchedulingDisabled   master   21m     v1.23.16
+<span class="token number">192.168</span>.10.12   Ready,SchedulingDisabled   master   21m     v1.23.16
+<span class="token number">192.168</span>.10.13   Ready,SchedulingDisabled   master   3m56s   v1.23.16
+<span class="token number">192.168</span>.10.20   Ready                      <span class="token function">node</span>     18m     v1.23.16
+<span class="token number">192.168</span>.10.21   Ready                      <span class="token function">node</span>     18m     v1.23.16
+<span class="token number">192.168</span>.10.22   Ready                      <span class="token function">node</span>     18m     v1.23.16
+<span class="token number">192.168</span>.10.23   Ready                      <span class="token function">node</span>     86s     v1.23.16</code></pre></div></figure>
 
 
 
 <h2 id="1-12-部署K8S-DNS组件"><a href="#1-12-部署K8S-DNS组件" class="headerlink" title="1.12 部署K8S DNS组件"></a>1.12 部署K8S DNS组件</h2><p>目前常用的dns组件有kube-dns和coredns两个，即到目前k8s版本1.17.x都可以使用，kube-dns和coredns用于解析集群中service name所对应得到的IP地址。K8S 1.18版本后将不再支持kube-dns</p>
 <h3 id="1-12-1-部署coredns"><a href="#1-12-1-部署coredns" class="headerlink" title="1.12.1 部署coredns"></a>1.12.1 部署coredns</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.coredns下载,通过kubernetes的github的项目下载,通过kubernetes的github的项目，从kubernetes源码包内获取coredns的yaml文件.</span>
-<span class="token comment">#  https://github.com/kubernetes/kubernetes/releases/tag/v1.20.15</span>
+<span class="token comment"># https://github.com/kubernetes/kubernetes/releases/tag/v1.23.16</span>
 root@deploy:~<span class="token comment"># mkdir /k8s/dns/coredns -p</span>
 root@deploy:~<span class="token comment"># cd /k8s/dns/coredns/</span>
-root@deploy:/k8s/dns/coredns<span class="token comment"># wget https://dl.k8s.io/v1.20.15/kubernetes.tar.gz</span>
+root@deploy:/k8s/dns/coredns<span class="token comment"># wget https://dl.k8s.io/v1.23.16/kubernetes.tar.gz</span>
 root@deploy:/k8s/dns/coredns<span class="token comment"># tar -xvf kubernetes.tar.gz </span>
 root@deploy:/k8s/dns/coredns<span class="token comment"># cp kubernetes/cluster/addons/dns/coredns/coredns.yaml.base .</span>
-root@deploy:/k8s/dns/coredns<span class="token comment"># mv coredns.yaml.base coredns_v1.8.4.yaml</span></code></pre></div></figure>
+root@deploy:/k8s/dns/coredns<span class="token comment"># mv coredns.yaml.base coredns_v1.8.6.yaml</span></code></pre></div></figure>
 
 
 
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#2.修改coredns_v1.8.4.yaml配置文件</span>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#2.修改coredns_v1.8.6.yaml配置文件</span>
 <span class="token comment">#将__DNS__DOMAIN__修改为当前k8s集群的dns后缀名称</span>
-root@deploy:/k8s/dns/coredns<span class="token comment"># vim coredns_v1.8.4.yaml</span>
+root@deploy:/k8s/dns/coredns<span class="token comment"># vim coredns_v1.8.6.yaml</span>
 
         <span class="token comment">#kubernetes __DNS__DOMAIN__ in-addr.arpa ip6.arpa &#123; #修改__DNS__DOMAIN__ 替换为 chsblogs.local</span>
          kubernetes chsblogs.local in-addr.arpa ip6.arpa <span class="token punctuation">&#123;</span>
@@ -1828,24 +1597,11 @@ root@deploy:/k8s/dns/coredns<span class="token comment"># vim coredns_v1.8.4.yam
   clusterIP: <span class="token number">172.20</span>.0.2
   
   <span class="token comment">#image: k8s.gcr.io/coredns:1.7.0 #修改镜像地址为本地harbor</span>
-  image: harbor.chsblogs.local/baseimages/coredns:1.8.4
-  
-<span class="token comment">#- apiGroups:</span>
-  <span class="token comment">#- ""</span>
-  <span class="token comment">#resources:</span>
-  <span class="token comment">#- nodes</span>
-  <span class="token comment">#verbs:</span>
-  <span class="token comment">#- get</span>
+  image: harbor.chsblogs.local/baseimages/coredns:1.8.6</code></pre></div></figure>
 
-- apiGroups: <span class="token comment">#改为以下，否则会报Readiness probe failed: HTTP probe failed with statuscode: 503</span>
-  - discovery.k8s.io
-  resources:
-  - endpointslices
-  verbs:
-  - list
-  - <span class="token function">watch</span>
-  
-<span class="token comment">#coredns_v1.8.4.yaml配置文件</span>
+
+
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#coredns_v1.8.6.yaml配置文件</span>
 <span class="token comment"># __MACHINE_GENERATED_WARNING__</span>
 
 apiVersion: v1
@@ -1981,7 +1737,7 @@ spec:
         kubernetes.io/os: linux
       containers:
       - name: coredns
-        image: harbor.chsblogs.local/baseimages/coredns:1.8.4
+        image: harbor.chsblogs.local/baseimages/coredns:1.8.6
         imagePullPolicy: IfNotPresent
         resources:
           limits:
@@ -2067,14 +1823,13 @@ spec:
 
 
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#3.下载coredns镜像并上传至harbor</span>
-root@deploy:~<span class="token comment"># docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:1.8.4</span>
-root@deploy:~<span class="token comment"># docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:1.8.4 harbor.chsblogs.local/baseimages/coredns:1.8.4</span>
-root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/coredns:1.8.4</span></code></pre></div></figure>
+root@deploy:~<span class="token comment"># docker tag coredns/coredns:1.8.6 harbor.chsblogs.local/baseimages/coredns:1.8.6</span>
+root@deploy:~<span class="token comment"># docker push harbor.chsblogs.local/baseimages/coredns:1.8.6</span></code></pre></div></figure>
 
 
 
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#4.创建coredns</span>
-root@deploy:/k8s/dns/coredns<span class="token comment"># kubectl apply -f coredns_v1.8.4.yaml </span>
+root@deploy:/k8s/dns/coredns<span class="token comment"># kubectl apply -f coredns_v1.8.6.yaml </span>
 serviceaccount/coredns created
 clusterrole.rbac.authorization.k8s.io/system:coredns created
 clusterrolebinding.rbac.authorization.k8s.io/system:coredns created
@@ -2082,42 +1837,44 @@ configmap/coredns created
 deployment.apps/coredns created
 service/kube-dns created
 
+root@deploy:/k8s/dns/coredns<span class="token comment"># kubectl get svc -A</span>
 NAMESPACE     NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT<span class="token punctuation">(</span>S<span class="token punctuation">)</span>                  AGE
-default       kubernetes   ClusterIP   <span class="token number">172.20</span>.0.1   <span class="token operator">&lt;</span>none<span class="token operator">></span>        <span class="token number">443</span>/TCP                  3h9m
-kube-system   kube-dns     ClusterIP   <span class="token number">172.20</span>.0.2   <span class="token operator">&lt;</span>none<span class="token operator">></span>        <span class="token number">53</span>/UDP,53/TCP,9153/TCP   5m44s
+default       kubernetes   ClusterIP   <span class="token number">172.20</span>.0.1   <span class="token operator">&lt;</span>none<span class="token operator">></span>        <span class="token number">443</span>/TCP                  41m
+kube-system   kube-dns     ClusterIP   <span class="token number">172.20</span>.0.2   <span class="token operator">&lt;</span>none<span class="token operator">></span>        <span class="token number">53</span>/UDP,53/TCP,9153/TCP   18s
 
 root@deploy:/k8s/dns/coredns<span class="token comment"># kubectl get pod -A </span>
 NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE
-default       net-test1                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          154m
-default       net-test2                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          154m
-default       net-test3                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          154m
-kube-system   calico-kube-controllers-5bb6cdfb64-48l7s   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          167m
-kube-system   calico-node-4glbl                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          115m
-kube-system   calico-node-ggvcb                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          116m
-kube-system   calico-node-ld2gk                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          115m
-kube-system   calico-node-lqgtd                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          103m
-kube-system   calico-node-n274l                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          109m
-kube-system   calico-node-tvg4l                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          116m
-kube-system   calico-node-v7t2n                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          116m
-kube-system   coredns-b7db84f9f-b9699                    <span class="token number">1</span>/1     Running   <span class="token number">0</span>          2m54s
+default       net-test1                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          28m
+default       net-test2                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          28m
+default       net-test3                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          28m
+kube-system   calico-kube-controllers-66fd9fc76f-59qq8   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          32m
+kube-system   calico-node-f6w62                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          21m
+kube-system   calico-node-h6h67                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          22m
+kube-system   calico-node-k7sz6                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          23m
+kube-system   calico-node-qmxkw                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          23m
+kube-system   calico-node-w2tr8                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          23m
+kube-system   calico-node-wtlrl                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          23m
+kube-system   calico-node-xbjll                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          23m
+kube-system   coredns-66f997d7df-6mjlv                   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          36s
 
 <span class="token comment">#测试解析外网域名</span>
 <span class="token punctuation">[</span>root@net-test1 /<span class="token punctuation">]</span><span class="token comment"># ping www.baidu.com</span>
-PING www.a.shifen.com <span class="token punctuation">(</span><span class="token number">36.152</span>.44.96<span class="token punctuation">)</span> <span class="token number">56</span><span class="token punctuation">(</span><span class="token number">84</span><span class="token punctuation">)</span> bytes of data.
-<span class="token number">64</span> bytes from <span class="token number">36.152</span>.44.96 <span class="token punctuation">(</span><span class="token number">36.152</span>.44.96<span class="token punctuation">)</span>: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">56</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">10.6</span> ms
-<span class="token number">64</span> bytes from <span class="token number">36.152</span>.44.96 <span class="token punctuation">(</span><span class="token number">36.152</span>.44.96<span class="token punctuation">)</span>: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">2</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">56</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">13.1</span> ms
-<span class="token number">64</span> bytes from <span class="token number">36.152</span>.44.96 <span class="token punctuation">(</span><span class="token number">36.152</span>.44.96<span class="token punctuation">)</span>: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">3</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">56</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">11.8</span> ms
-<span class="token number">64</span> bytes from <span class="token number">36.152</span>.44.96 <span class="token punctuation">(</span><span class="token number">36.152</span>.44.96<span class="token punctuation">)</span>: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">4</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">56</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">9.65</span> ms
+PING www.a.shifen.com <span class="token punctuation">(</span><span class="token number">14.119</span>.104.254<span class="token punctuation">)</span> <span class="token number">56</span><span class="token punctuation">(</span><span class="token number">84</span><span class="token punctuation">)</span> bytes of data.
+<span class="token number">64</span> bytes from <span class="token number">14.119</span>.104.254 <span class="token punctuation">(</span><span class="token number">14.119</span>.104.254<span class="token punctuation">)</span>: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">127</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">23.9</span> ms
+<span class="token number">64</span> bytes from <span class="token number">14.119</span>.104.254 <span class="token punctuation">(</span><span class="token number">14.119</span>.104.254<span class="token punctuation">)</span>: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">2</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">127</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">24.2</span> ms
+<span class="token number">64</span> bytes from <span class="token number">14.119</span>.104.254 <span class="token punctuation">(</span><span class="token number">14.119</span>.104.254<span class="token punctuation">)</span>: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">3</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">127</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">23.6</span> ms
+<span class="token number">64</span> bytes from <span class="token number">14.119</span>.104.254 <span class="token punctuation">(</span><span class="token number">14.119</span>.104.254<span class="token punctuation">)</span>: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">4</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">127</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">23.6</span> ms
+<span class="token number">64</span> bytes from <span class="token number">14.119</span>.104.254 <span class="token punctuation">(</span><span class="token number">14.119</span>.104.254<span class="token punctuation">)</span>: <span class="token assign-left variable">icmp_seq</span><span class="token operator">=</span><span class="token number">5</span> <span class="token assign-left variable">ttl</span><span class="token operator">=</span><span class="token number">127</span> <span class="token assign-left variable">time</span><span class="token operator">=</span><span class="token number">26.7</span> ms
 ^C
 --- www.a.shifen.com <span class="token function">ping</span> statistics ---
-<span class="token number">4</span> packets transmitted, <span class="token number">4</span> received, <span class="token number">0</span>% packet loss, <span class="token function">time</span> 3007ms
-rtt min/avg/max/mdev <span class="token operator">=</span> <span class="token number">9.653</span>/11.329/13.166/1.312 ms</code></pre></div></figure>
+<span class="token number">5</span> packets transmitted, <span class="token number">5</span> received, <span class="token number">0</span>% packet loss, <span class="token function">time</span> 4006ms
+rtt min/avg/max/mdev <span class="token operator">=</span> <span class="token number">23.652</span>/24.465/26.749/1.179 ms</code></pre></div></figure>
 
 
 
 <p><strong>增加coredns资源(cpu&#x2F;内存),增加coredns副本数：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#生产环境1个coredns可能存在解析慢的问题，增加副本数replicas: 3</span>
-root@deploy:/k8s/dns/coredns<span class="token comment"># vim coredns_v1.8.4.yaml</span>
+root@deploy:/k8s/dns/coredns<span class="token comment"># vim coredns_v1.8.6.yaml</span>
 spec:
   <span class="token comment"># replicas: not specified here:</span>
   <span class="token comment"># 1. In order to make Addon Manager do not reconcile this replicas parameter.</span>
@@ -2129,7 +1886,7 @@ spec:
     rollingUpdate:
       maxUnavailable: <span class="token number">1</span>
       
-root@deploy:/k8s/dns/coredns<span class="token comment"># kubectl apply -f coredns_v1.8.4.yaml</span>
+root@deploy:/k8s/dns/coredns<span class="token comment"># kubectl apply -f coredns_v1.8.6.yaml </span>
 serviceaccount/coredns unchanged
 clusterrole.rbac.authorization.k8s.io/system:coredns unchanged
 clusterrolebinding.rbac.authorization.k8s.io/system:coredns unchanged
@@ -2137,53 +1894,56 @@ configmap/coredns unchanged
 deployment.apps/coredns configured
 service/kube-dns unchanged
 
-root@deploy:/k8s/dns/coredns<span class="token comment"># kubectl get pod -A </span>
+root@deploy:/k8s/dns/coredns<span class="token comment"># kubectl get pod -A</span>
 NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE
-default       net-test1                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          166m
-default       net-test2                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          166m
-default       net-test3                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          166m
-kube-system   calico-kube-controllers-5bb6cdfb64-48l7s   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          179m
-kube-system   calico-node-4glbl                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          127m
-kube-system   calico-node-ggvcb                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          127m
-kube-system   calico-node-ld2gk                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          127m
-kube-system   calico-node-lqgtd                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          115m
-kube-system   calico-node-n274l                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          121m
-kube-system   calico-node-tvg4l                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          128m
-kube-system   calico-node-v7t2n                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          128m
-kube-system   coredns-b7db84f9f-9dgwj                    <span class="token number">1</span>/1     Running   <span class="token number">0</span>          18s
-kube-system   coredns-b7db84f9f-b9699                    <span class="token number">1</span>/1     Running   <span class="token number">0</span>          14m
-kube-system   coredns-b7db84f9f-fk48m                    <span class="token number">1</span>/1     Running   <span class="token number">0</span>          18s</code></pre></div></figure>
+default       net-test1                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          32m
+default       net-test2                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          32m
+default       net-test3                                  <span class="token number">1</span>/1     Running   <span class="token number">0</span>          32m
+kube-system   calico-kube-controllers-66fd9fc76f-59qq8   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          36m
+kube-system   calico-node-f6w62                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          25m
+kube-system   calico-node-h6h67                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          26m
+kube-system   calico-node-k7sz6                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          26m
+kube-system   calico-node-qmxkw                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          27m
+kube-system   calico-node-w2tr8                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          27m
+kube-system   calico-node-wtlrl                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          26m
+kube-system   calico-node-xbjll                          <span class="token number">1</span>/1     Running   <span class="token number">0</span>          27m
+kube-system   coredns-66f997d7df-6mjlv                   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          4m19s
+kube-system   coredns-66f997d7df-7wm9d                   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          5s
+kube-system   coredns-66f997d7df-g44ff                   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          5s</code></pre></div></figure>
 
 <h2 id="1-13-部署K8S-Web组件"><a href="#1-13-部署K8S-Web组件" class="headerlink" title="1.13 部署K8S Web组件"></a>1.13 部署K8S Web组件</h2><h3 id="1-13-1-部署dashboard"><a href="#1-13-1-部署dashboard" class="headerlink" title="1.13.1 部署dashboard"></a>1.13.1 部署dashboard</h3><p><a target="_blank" rel="noopener" href="https://github.com/kubernetes/dashboard">https://github.com/kubernetes/dashboard</a></p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">https://github.com/kubernetes/dashboard/releases/tag/v2.4.0
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">https://github.com/kubernetes/dashboard/releases/tag/v2.5.0
 
 <span class="token comment">#1.下载官方yaml文件</span>
 root@deploy:~<span class="token comment"># cd /k8s/</span>
 root@deploy:/k8s<span class="token comment"># mkdir dashboard</span>
 root@deploy:/k8s<span class="token comment"># cd dashboard/</span>
-root@deploy:/k8s/dashboard<span class="token comment"># wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml</span>
-root@deploy:/k8s/dashboard<span class="token comment"># mv recommended.yaml dashboard-2.4.0.yaml</span>
+root@deploy:/k8s/dashboard<span class="token comment"># wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml</span>
+root@deploy:/k8s/dashboard<span class="token comment"># mv recommended.yaml dashboard-2.5.0.yaml</span>
 
 <span class="token comment">#2.下载镜像</span>
-root@deploy:/k8s/dashboard<span class="token comment"># docker pull kubernetesui/dashboard:v2.4.0</span>
+root@deploy:/k8s/dashboard<span class="token comment"># docker pull kubernetesui/dashboard:v2.5.0</span>
 root@deploy:/k8s/dashboard<span class="token comment"># docker pull kubernetesui/metrics-scraper:v1.0.7</span>
 
 <span class="token comment">#3.将镜像上传至harbor仓库</span>
-root@deploy:/k8s/dashboard<span class="token comment"># docker tag kubernetesui/dashboard:v2.4.0 harbor.chsblogs.local/baseimages/dashboard:v2.4.0</span>
-root@deploy:/k8s/dashboard<span class="token comment"># docker push harbor.chsblogs.local/baseimages/dashboard:v2.4.0</span>
+root@deploy:/k8s/dashboard<span class="token comment"># docker tag kubernetesui/dashboard:v2.5.0 harbor.chsblogs.local/baseimages/dashboard:v2.5.0</span>
+root@deploy:/k8s/dashboard<span class="token comment"># docker push harbor.chsblogs.local/baseimages/dashboard:v2.5.0</span>
 
 root@deploy:/k8s/dashboard<span class="token comment"># docker tag kubernetesui/metrics-scraper:v1.0.7 harbor.chsblogs.local/baseimages/metrics-scraper:v1.0.7</span>
 root@deploy:/k8s/dashboard<span class="token comment"># docker push harbor.chsblogs.local/baseimages/metrics-scraper:v1.0.7</span>
 
-<span class="token comment">#4.修改ashboard-2.4.0.yaml</span>
-root@deploy:/k8s/dashboard<span class="token comment"># vim dashboard-2.4.0.yaml</span>
+<span class="token comment">#4.修改ashboard-2.5.0.yaml</span>
+root@deploy:/k8s/dashboard<span class="token comment"># vim dashboard-2.5.0.yaml</span>
 <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
 spec:
   type: NodePort
   ports:
     - port: <span class="token number">443</span>
       targetPort: <span class="token number">8443</span>
-      nodePort: <span class="token number">32000</span>
+      nodePort: <span class="token number">31000</span>
+  selector:
+    k8s-app: kubernetes-dashboard
+
 <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
     spec:
       containers:
@@ -2200,12 +1960,35 @@ spec:
 <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
 
 <span class="token comment">#5.创建容器</span>
-root@deploy:/k8s/dashboard<span class="token comment"># kubectl apply -f dashboard-2.4.0.yaml</span>
+root@deploy:/k8s/dashboard<span class="token comment"># kubectl apply -f dashboard-2.5.0.yaml </span>
+namespace/kubernetes-dashboard created
+serviceaccount/kubernetes-dashboard created
+service/kubernetes-dashboard created
+secret/kubernetes-dashboard-certs created
+secret/kubernetes-dashboard-csrf created
+secret/kubernetes-dashboard-key-holder created
+configmap/kubernetes-dashboard-settings created
+role.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrole.rbac.authorization.k8s.io/kubernetes-dashboard created
+rolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+deployment.apps/kubernetes-dashboard created
+service/dashboard-metrics-scraper created
+deployment.apps/dashboard-metrics-scraper created
 
 <span class="token comment">#6.验证容器</span>
-root@deploy:/k8s/dashboard<span class="token comment"># kubectl get pod -A | grep kubernetes-dashboard</span>
-kubernetes-dashboard   dashboard-metrics-scraper-85c7b5b9bf-6ffs2   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          15s
-kubernetes-dashboard   kubernetes-dashboard-6c4c7dcdc-l8b75         <span class="token number">1</span>/1     Running   <span class="token number">0</span>          15s
+root@deploy:/k8s/dashboard<span class="token comment"># kubectl get pod -n kubernetes-dashboard</span>
+NAME                                         READY   STATUS    RESTARTS   AGE
+dashboard-metrics-scraper-54cd684dd5-zhs6h   <span class="token number">1</span>/1     Running   <span class="token number">0</span>          14m
+kubernetes-dashboard-6b5c497dc8-8nvhz        <span class="token number">1</span>/1     Running   <span class="token number">0</span>          14m
+root@deploy:/k8s/dashboard<span class="token comment"># kubectl get svc -n kubernetes-dashboard</span>
+NAME                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT<span class="token punctuation">(</span>S<span class="token punctuation">)</span>         AGE
+dashboard-metrics-scraper   ClusterIP   <span class="token number">172.20</span>.196.91   <span class="token operator">&lt;</span>none<span class="token operator">></span>        <span class="token number">8000</span>/TCP        14m
+kubernetes-dashboard        NodePort    <span class="token number">172.20</span>.182.87   <span class="token operator">&lt;</span>none<span class="token operator">></span>        <span class="token number">443</span>:31000/TCP   14m
+root@deploy:/k8s/dashboard<span class="token comment"># kubectl get ep -n kubernetes-dashboard</span>
+NAME                        ENDPOINTS           AGE
+dashboard-metrics-scraper   <span class="token number">10.20</span>.17.132:8000   14m
+kubernetes-dashboard        <span class="token number">10.20</span>.17.131:8443   14m
 
 <span class="token comment">#7.验证宿主机是否监听32000端口，master和node节点都会监听</span>
 root@master1:~<span class="token comment"># ss -tnl | grep 32000</span>
@@ -2215,7 +1998,7 @@ root@node1:~<span class="token comment"># ss -tnl | grep 32000</span>
 LISTEN  <span class="token number">0</span>        <span class="token number">32768</span>            <span class="token number">0.0</span>.0.0:32000          <span class="token number">0.0</span>.0.0:*
 
 <span class="token comment">#8.访问测试</span>
-https://192.168.1.40:32000
+https://192.168.1.11:31000
 
 <span class="token comment">#9.创建用户</span>
 root@deploy:/k8s/dashboard<span class="token comment"># vim admin-user.yaml</span>
@@ -2263,61 +2046,7 @@ namespace:  <span class="token number">20</span> bytes
 token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IktmaWZfcS1FRnFGYS1hMVhTVkF6SGlQVlVGQjJYQmJQU0xrS0VoY0trMEkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTh0aHJjIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIxZTJmMTgzOC1kZjQ0LTQ0ODEtYTk5Mi1kYWYxZWQyNTc0NzMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.grf7QMwvSDmMczsCan9cBBE-Fp6cW43jquJVnJmFzseLAs8tS0kMiXl8CkjhgoAaLW1hpjB5MDEtWCRbPJ4MpooMsDIa_Z9HdTcpBuRYLOlMd3cYPbcS0axgek0Gaxj647nLFa1SUiyqy6DWKJw1B_0RHeIzIqOYRlmuUTNXsB8zsCwyMpDqMxwcV1Pru0WeugorCCwme5qtuz8CpMiZESCUbt6wc3xJ3Q4DsARWfH_SeIiALZjtspyfUzaBllcM6eZEza1aBrY0waOuBUfPdHhGikgBllIrnRYcqqQEQnadLtsmkuAVRtV0TPWIMFZRJ2jdl_QayGSiT-IgHlo98A
 ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502154313000.png" srcset="/img/loading.gif" lazyload alt="image-20230502154313000"> </p>
-<h3 id="1-13-2-部署rancher"><a href="#1-13-2-部署rancher" class="headerlink" title="1.13.2 部署rancher"></a>1.13.2 部署rancher</h3><p><a target="_blank" rel="noopener" href="https://ranchermanager.docs.rancher.com/zh/v2.7">https://ranchermanager.docs.rancher.com/zh/v2.7</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.rancher.com/quick-start">https://www.rancher.com/quick-start</a></p>
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502160542081.png" srcset="/img/loading.gif" lazyload alt="image-20230502160542081"> </p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装rancher</span>
-root@deploy:~<span class="token comment"># docker pull rancher/rancher</span>
-root@deploy:~<span class="token comment"># sudo docker run --privileged -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher</span>
-
-<span class="token comment">#2.访问测试</span>
-https://192.168.1.39/
-
-root@deploy:~<span class="token comment"># docker  ps</span>
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                      NAMES
-e86366447a45        rancher/rancher     <span class="token string">"entrypoint.sh"</span>     <span class="token number">3</span> minutes ago       Up <span class="token number">2</span> minutes        <span class="token number">0.0</span>.0.0:80-<span class="token operator">></span><span class="token number">80</span>/tcp, <span class="token number">0.0</span>.0.0:443-<span class="token operator">></span><span class="token number">443</span>/tcp   reverent_montalcini
-root@deploy:~<span class="token comment"># docker logs e86366447a45  2>&amp;1 | grep "Bootstrap Password:"</span>
-<span class="token number">2023</span>/05/02 08:08:26 <span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> Bootstrap Password: 4xzw6g86zwf86qr88ds2gbpq6hqn288rbznj2zbmj6clwr2cvgb9fn</code></pre></div></figure>
-
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161048045.png" srcset="/img/loading.gif" lazyload alt="image-20230502161048045"> </p>
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161305210.png" srcset="/img/loading.gif" lazyload> </p>
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502161654410.png" srcset="/img/loading.gif" lazyload alt="image-20230502161654410"> </p>
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163853667.png" srcset="/img/loading.gif" lazyload alt="image-20230502163853667"> </p>
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163913502.png" srcset="/img/loading.gif" lazyload alt="image-20230502163913502"> </p>
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502163952162.png" srcset="/img/loading.gif" lazyload alt="image-20230502163952162"> </p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># curl --insecure -sfL https://192.168.1.39/v3/import/m67rkzzk85bjz2j2j655j6tqc5xplr7ktbdgkpzffjd87kgpqqz8p4_c-m-vv4qf9bw.yaml | kubectl apply -f -clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created</span>
-clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created
-namespace/cattle-system created
-serviceaccount/cattle created
-clusterrolebinding.rbac.authorization.k8s.io/cattle-admin-binding created
-secret/cattle-credentials-e650b3d created
-clusterrole.rbac.authorization.k8s.io/cattle-admin created
-deployment.apps/cattle-cluster-agent created
-service/cattle-cluster-agent created</code></pre></div></figure>
-
-
-
-<h3 id="1-13-3-部署kuboard"><a href="#1-13-3-部署kuboard" class="headerlink" title="1.13.3 部署kuboard"></a>1.13.3 部署kuboard</h3><p><a target="_blank" rel="noopener" href="https://kuboard.cn/">https://kuboard.cn/</a></p>
-<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># docker pull swr.cn-east-2.myhuaweicloud.com/kuboard/kuboard:v3</span>
-root@deploy:~<span class="token comment"># sudo docker run -d \</span>
-<span class="token operator">></span>   <span class="token parameter variable">--restart</span><span class="token operator">=</span>unless-stopped <span class="token punctuation">\</span>
-<span class="token operator">></span>   <span class="token parameter variable">--name</span><span class="token operator">=</span>kuboard <span class="token punctuation">\</span>
-<span class="token operator">></span>   <span class="token parameter variable">-p</span> <span class="token number">80</span>:80/tcp <span class="token punctuation">\</span>
-<span class="token operator">></span>   <span class="token parameter variable">-p</span> <span class="token number">10081</span>:10081/tcp <span class="token punctuation">\</span>
-<span class="token operator">></span>   <span class="token parameter variable">-e</span> <span class="token assign-left variable">KUBOARD_ENDPOINT</span><span class="token operator">=</span><span class="token string">"http://192.168.1.39:80"</span> <span class="token punctuation">\</span>
-<span class="token operator">></span>   <span class="token parameter variable">-e</span> <span class="token assign-left variable">KUBOARD_AGENT_SERVER_TCP_PORT</span><span class="token operator">=</span><span class="token string">"10081"</span> <span class="token punctuation">\</span>
-<span class="token operator">></span>   <span class="token parameter variable">-v</span> /root/kuboard-data:/data <span class="token punctuation">\</span>
-<span class="token operator">></span>   swr.cn-east-2.myhuaweicloud.com/kuboard/kuboard:v3
-b2627d9cb853c10548f9df2403e262add548ba7a562c3a49a235e6a218ce8ee5
-
-<span class="token comment">#访问测试</span>
-http://192.168.1.39/
-
-用户名：admin
-密码：Kuboard123</code></pre></div></figure>
-
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230502170504365.png" srcset="/img/loading.gif" lazyload alt="image-20230502170504365"> </p>
+<p><img src="/2023/04/26/Container/Kubernetes/kubernetes04/image-20230527191726672.png" srcset="/img/loading.gif" lazyload alt="image-20230527191726672"> </p>
 
                 
               </div>
@@ -2370,7 +2099,7 @@ http://192.168.1.39/
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(04).基于kubeasz工具部署K8S高可用集群</div>
+      <div>(04).kubeasz工具基于Docker部署Kubernetes v1.23</div>
       <div>http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes04/</div>
     </div>
     <div class="license-meta">
@@ -2415,9 +2144,9 @@ http://192.168.1.39/
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/05/03/Container/Kubernetes/kubernetes05/" title="(05).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离">
+                      <a href="/2023/04/26/Container/Kubernetes/kubernetes03/" title="(03).kubeasz工具基于Containerd部署Kubernetes v1.26">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(05).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离</span>
+                        <span class="hidden-mobile">(03).kubeasz工具基于Containerd部署Kubernetes v1.26</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -2425,8 +2154,8 @@ http://192.168.1.39/
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/26/Container/Kubernetes/kubernetes03/" title="(03).基于kubeadm工具部署K8S高可用集群">
-                        <span class="hidden-mobile">(03).基于kubeadm工具部署K8S高可用集群</span>
+                      <a href="/2023/04/26/Container/Kubernetes/kubernetes02/" title="(02).基于kubeadm工具部署K8S高可用集群">
+                        <span class="hidden-mobile">(02).基于kubeadm工具部署K8S高可用集群</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -2515,28 +2244,28 @@ http://192.168.1.39/
     
       
       
-        <a href="/2023/04/26/Container/Kubernetes/kubernetes02/" title="(02).基于手动二进制部署K8S高可用集群"
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes02/" title="(02).基于kubeadm工具部署K8S高可用集群"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">(02).基于手动二进制部署K8S高可用集群</span>
+          <span class="category-post">(02).基于kubeadm工具部署K8S高可用集群</span>
         </a>
       
     
       
       
-        <a href="/2023/04/26/Container/Kubernetes/kubernetes03/" title="(03).基于kubeadm工具部署K8S高可用集群"
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes03/" title="(03).kubeasz工具基于Containerd部署Kubernetes v1.26"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">(03).基于kubeadm工具部署K8S高可用集群</span>
+          <span class="category-post">(03).kubeasz工具基于Containerd部署Kubernetes v1.26</span>
         </a>
       
     
       
       
-        <a href="/2023/04/26/Container/Kubernetes/kubernetes04/" title="(04).基于kubeasz工具部署K8S高可用集群"
+        <a href="/2023/04/26/Container/Kubernetes/kubernetes04/" title="(04).kubeasz工具基于Docker部署Kubernetes v1.23"
            class="list-group-item list-group-item-action
            active">
-          <span class="category-post">(04).基于kubeasz工具部署K8S高可用集群</span>
+          <span class="category-post">(04).kubeasz工具基于Docker部署Kubernetes v1.23</span>
         </a>
       
     
