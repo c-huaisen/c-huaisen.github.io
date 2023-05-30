@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
-  <link rel="icon" href="/chsblogs/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,74 +19,74 @@
     <meta name="description" content="1.Jenkins简介及安装前文已经安装完了GitLab，接下来就开始安装和使用Jenkins： 主机清单：    主机名 IP地址 操作系统 服务 VIP    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    jenkins-slave">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(02).Jenkins简介及安装">
-<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2023/03/12/CICD/JG/jg02/index.html">
+<meta property="og:url" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Jenkins简介及安装前文已经安装完了GitLab，接下来就开始安装和使用Jenkins： 主机清单：    主机名 IP地址 操作系统 服务 VIP    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    jenkins-slave">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230318155225321.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230318155351364.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230318161128345.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319103656662.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319104634975.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319104647558.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319104659568.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319105257151.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319105433190.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319110000497.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319110058812.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319123541454.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319123608295.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319123800058.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319130946637.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319131027285.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319131227206.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165543113.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165246857.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165638507.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165702556.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165747084.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165829191.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319173909270.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319173939602.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319174135447.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319174828664.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319175121208.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319175229130.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319175351208.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319181129879.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319181153245.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319181236205.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319185750341.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319190550280.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319191606520.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319191750401.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319192740789.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319192922104.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319193127300.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319195832049.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319195915693.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319200026809.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319214711213.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319214734466.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319215735968.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319221231930.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319220827811.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319220937051.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319221102077.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320215950831.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320220022218.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320195332239.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320205024130.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320210547288.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320211711903.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320213815990.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320214057798.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230318155225321.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230318155351364.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230318161128345.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319103656662.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319104634975.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319104647558.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319104659568.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319105257151.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319105433190.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319110000497.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319110058812.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319123541454.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319123608295.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319123800058.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319130946637.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319131027285.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319131227206.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319165543113.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319165246857.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319165638507.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319165702556.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319165747084.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319165829191.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319173909270.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319173939602.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319174135447.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319174828664.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319175121208.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319175229130.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319175351208.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319181129879.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319181153245.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319181236205.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319185750341.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319190550280.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319191606520.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319191750401.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319192740789.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319192922104.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319193127300.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319195832049.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319195915693.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319200026809.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319214711213.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319214734466.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319215735968.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319221231930.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319220827811.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319220937051.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230319221102077.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230320215950831.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230320220022218.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230320195332239.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230320205024130.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230320210547288.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230320211711903.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230320213815990.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230320214057798.png">
 <meta property="article:published_time" content="2023-03-12T15:36:27.000Z">
 <meta property="article:modified_time" content="2023-05-06T16:43:23.005Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="CI&#x2F;CD">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230318155225321.png">
+<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/image-20230318155225321.png">
   
   
   
@@ -114,12 +114,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/chsblogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -128,15 +128,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/chsblogs/js/utils.js" ></script>
-  <script  src="/chsblogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -153,7 +153,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/chsblogs/">
+    <a class="navbar-brand" href="/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -172,7 +172,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/">
+              <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -184,7 +184,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/archives/">
+              <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -196,7 +196,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/categories/">
+              <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -208,7 +208,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/tags/">
+              <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -220,7 +220,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/about/">
+              <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -232,7 +232,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/links/">
+              <a class="nav-link" href="/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -262,7 +262,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -755,17 +755,17 @@ root@jenkins:~<span class="token comment"># systemctl start jenkins</span>
 <span class="token comment">#3.访问测试</span>
 http://192.168.1.31:8080/</code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230318155225321.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230318155225321"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230318155351364.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230318155351364"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230318155225321.png" srcset="/img/loading.gif" lazyload alt="image-20230318155225321"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230318155351364.png" srcset="/img/loading.gif" lazyload alt="image-20230318155351364"> </p>
 <p>选择安装推荐的插件</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230318161128345.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230318161128345"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230318161128345.png" srcset="/img/loading.gif" lazyload alt="image-20230318161128345"> </p>
 <p>这里网不好的话插件可能会下载失败</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319103656662.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319103656662"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319104634975.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319104634975"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319104647558.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319104647558"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319104659568.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319104659568"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319105257151.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319105257151"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319105433190.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319105433190"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319103656662.png" srcset="/img/loading.gif" lazyload alt="image-20230319103656662"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319104634975.png" srcset="/img/loading.gif" lazyload alt="image-20230319104634975"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319104647558.png" srcset="/img/loading.gif" lazyload alt="image-20230319104647558"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319104659568.png" srcset="/img/loading.gif" lazyload alt="image-20230319104659568"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319105257151.png" srcset="/img/loading.gif" lazyload alt="image-20230319105257151"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319105433190.png" srcset="/img/loading.gif" lazyload alt="image-20230319105433190"> </p>
 <h3 id="1-3-4-Jenkins相关目录"><a href="#1-3-4-Jenkins相关目录" class="headerlink" title="1.3.4 Jenkins相关目录"></a>1.3.4 Jenkins相关目录</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@jenkins:~<span class="token comment"># cd /var/lib/jenkins/</span>
 root@jenkins:/var/lib/jenkins<span class="token comment"># ll</span>
 total <span class="token number">68</span>
@@ -802,9 +802,9 @@ root@jenkins:/usr/share/jenkins<span class="token comment"># pwd</span>
 root@jenkins:/usr/share/jenkins<span class="token comment"># ls</span>
 jenkins.war</code></pre></div></figure>
 
-<h1 id="2-Jenkins使用"><a href="#2-Jenkins使用" class="headerlink" title="2.Jenkins使用"></a>2.Jenkins使用</h1><h2 id="2-1-Jenkins插件管理"><a href="#2-1-Jenkins插件管理" class="headerlink" title="2.1 Jenkins插件管理"></a>2.1 Jenkins插件管理</h2><p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319110000497.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319110000497"> </p>
+<h1 id="2-Jenkins使用"><a href="#2-Jenkins使用" class="headerlink" title="2.Jenkins使用"></a>2.Jenkins使用</h1><h2 id="2-1-Jenkins插件管理"><a href="#2-1-Jenkins插件管理" class="headerlink" title="2.1 Jenkins插件管理"></a>2.1 Jenkins插件管理</h2><p><img src="/2023/03/12/CICD/JG/jg02/image-20230319110000497.png" srcset="/img/loading.gif" lazyload alt="image-20230319110000497"> </p>
 <p>搜索需要的插件名并安装，安装完后需重启Jenkins</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319110058812.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319110058812"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319110058812.png" srcset="/img/loading.gif" lazyload alt="image-20230319110058812"> </p>
 <h2 id="2-2-Jenkins基本Job配置"><a href="#2-2-Jenkins基本Job配置" class="headerlink" title="2.2 Jenkins基本Job配置"></a>2.2 Jenkins基本Job配置</h2><h3 id="2-2-1-配置免密认证"><a href="#2-2-1-配置免密认证" class="headerlink" title="2.2.1 配置免密认证"></a>2.2.1 配置免密认证</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.三台Tomcat配置密码</span>
 root@web1:~<span class="token comment"># passwd tomcat</span>
 New password: 
@@ -844,9 +844,9 @@ root@jenkins:~<span class="token comment"># mkdir /opt/web1</span>
 root@jenkins:~<span class="token comment"># vim /opt/web1/index.html</span>
 <span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>www.chsblogs.com v<span class="token operator"><span class="token file-descriptor important">1</span>&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span></code></pre></div></figure>
 
-<h3 id="2-2-2-创建Job"><a href="#2-2-2-创建Job" class="headerlink" title="2.2.2 创建Job"></a>2.2.2 创建Job</h3><p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319123541454.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319123541454"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319123608295.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319123608295"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319123800058.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319123800058"> </p>
+<h3 id="2-2-2-创建Job"><a href="#2-2-2-创建Job" class="headerlink" title="2.2.2 创建Job"></a>2.2.2 创建Job</h3><p><img src="/2023/03/12/CICD/JG/jg02/image-20230319123541454.png" srcset="/img/loading.gif" lazyload alt="image-20230319123541454"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319123608295.png" srcset="/img/loading.gif" lazyload alt="image-20230319123608295"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319123800058.png" srcset="/img/loading.gif" lazyload alt="image-20230319123800058"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> tomcat@192.168.1.35 <span class="token string">"/etc/init.d/tomcat stop"</span>
 <span class="token function">ssh</span> tomcat@192.168.1.36 <span class="token string">"/etc/init.d/tomcat stop"</span>
 <span class="token function">ssh</span> tomcat@192.168.1.37 <span class="token string">"/etc/init.d/tomcat stop"</span>
@@ -859,9 +859,9 @@ root@jenkins:~<span class="token comment"># vim /opt/web1/index.html</span>
 <span class="token function">ssh</span> tomcat@192.168.1.36 <span class="token string">"/etc/init.d/tomcat start"</span>
 <span class="token function">ssh</span> tomcat@192.168.1.37 <span class="token string">"/etc/init.d/tomcat start"</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319130946637.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319130946637"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319131027285.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319131027285"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319131227206.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319131227206"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319130946637.png" srcset="/img/loading.gif" lazyload alt="image-20230319130946637"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319131027285.png" srcset="/img/loading.gif" lazyload alt="image-20230319131027285"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319131227206.png" srcset="/img/loading.gif" lazyload alt="image-20230319131227206"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#访问测试</span>
 <span class="token punctuation">[</span>root@client ~<span class="token punctuation">]</span><span class="token comment"># curl http://192.168.1.66/myapp/</span>
 <span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>www.chsblogs.com v<span class="token operator"><span class="token file-descriptor important">1</span>&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span></code></pre></div></figure>
@@ -870,31 +870,31 @@ root@jenkins:~<span class="token comment"># vim /opt/web1/index.html</span>
 
 <h2 id="2-3-Jenkins用户管理"><a href="#2-3-Jenkins用户管理" class="headerlink" title="2.3 Jenkins用户管理"></a>2.3 Jenkins用户管理</h2><p>创建chsblogs-app1、chsblogs-app2、python-app1、python-app2任务，创建zhangsan、lisi用户，将zhangsan用户分配至chsblogs-项目，将lisi用户分配至python-项目。</p>
 <h3 id="2-3-1-创建Job"><a href="#2-3-1-创建Job" class="headerlink" title="2.3.1 创建Job"></a>2.3.1 创建Job</h3><p>创建chsblogs-app1、chsblogs-app2、python-app1、python-app2任务</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165543113.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319165543113"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319165543113.png" srcset="/img/loading.gif" lazyload alt="image-20230319165543113"> </p>
 <h3 id="2-3-2-安装Role-based插件"><a href="#2-3-2-安装Role-based插件" class="headerlink" title="2.3.2 安装Role-based插件"></a>2.3.2 安装Role-based插件</h3><p>安装Role-based Authorization Strategy插件</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165246857.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319165246857"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319165246857.png" srcset="/img/loading.gif" lazyload alt="image-20230319165246857"> </p>
 <h3 id="2-3-4-创建用户"><a href="#2-3-4-创建用户" class="headerlink" title="2.3.4 创建用户"></a>2.3.4 创建用户</h3><p>创建zhangsan、lisi用户</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165638507.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319165638507"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165702556.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319165702556"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165747084.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319165747084"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319165829191.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319165829191"> </p>
-<h3 id="2-3-5-创建角色"><a href="#2-3-5-创建角色" class="headerlink" title="2.3.5 创建角色"></a>2.3.5 创建角色</h3><p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319173909270.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319173909270"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319165638507.png" srcset="/img/loading.gif" lazyload alt="image-20230319165638507"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319165702556.png" srcset="/img/loading.gif" lazyload alt="image-20230319165702556"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319165747084.png" srcset="/img/loading.gif" lazyload alt="image-20230319165747084"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319165829191.png" srcset="/img/loading.gif" lazyload alt="image-20230319165829191"> </p>
+<h3 id="2-3-5-创建角色"><a href="#2-3-5-创建角色" class="headerlink" title="2.3.5 创建角色"></a>2.3.5 创建角色</h3><p><img src="/2023/03/12/CICD/JG/jg02/image-20230319173909270.png" srcset="/img/loading.gif" lazyload alt="image-20230319173909270"> </p>
 <p>将登录用户可以做任何事改为Role-Base Strategy</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319173939602.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319173939602"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319173939602.png" srcset="/img/loading.gif" lazyload alt="image-20230319173939602"> </p>
 <p>创建角色</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319174135447.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319174135447"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319174828664.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319174828664"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319174135447.png" srcset="/img/loading.gif" lazyload alt="image-20230319174135447"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319174828664.png" srcset="/img/loading.gif" lazyload alt="image-20230319174828664"> </p>
 <p>将用户和角色关联</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319175121208.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319175121208"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319175229130.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319175229130"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319175121208.png" srcset="/img/loading.gif" lazyload alt="image-20230319175121208"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319175229130.png" srcset="/img/loading.gif" lazyload alt="image-20230319175229130"> </p>
 <p>zhangsan用户登录查看是否有权限：</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319175351208.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319175351208"> </p>
-<h2 id="2-4-Jenkins邮件配置"><a href="#2-4-Jenkins邮件配置" class="headerlink" title="2.4 Jenkins邮件配置"></a>2.4 Jenkins邮件配置</h2><p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319181129879.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319181129879"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319181153245.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319181153245"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319181236205.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319181236205"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319175351208.png" srcset="/img/loading.gif" lazyload alt="image-20230319175351208"> </p>
+<h2 id="2-4-Jenkins邮件配置"><a href="#2-4-Jenkins邮件配置" class="headerlink" title="2.4 Jenkins邮件配置"></a>2.4 Jenkins邮件配置</h2><p><img src="/2023/03/12/CICD/JG/jg02/image-20230319181129879.png" srcset="/img/loading.gif" lazyload alt="image-20230319181129879"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319181153245.png" srcset="/img/loading.gif" lazyload alt="image-20230319181153245"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319181236205.png" srcset="/img/loading.gif" lazyload alt="image-20230319181236205"> </p>
 <h2 id="2-5-Jenkins-SSH"><a href="#2-5-Jenkins-SSH" class="headerlink" title="2.5 Jenkins SSH"></a>2.5 Jenkins SSH</h2><p>基于SSH Key拉取代码</p>
 <h3 id="2-5-1-方式一"><a href="#2-5-1-方式一" class="headerlink" title="2.5.1 方式一"></a>2.5.1 方式一</h3><h4 id="2-5-1-1-GitLab创建项目"><a href="#2-5-1-1-GitLab创建项目" class="headerlink" title="2.5.1.1 GitLab创建项目"></a>2.5.1.1 GitLab创建项目</h4><p>GitLab创建web2项目</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319185750341.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319185750341"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319185750341.png" srcset="/img/loading.gif" lazyload alt="image-20230319185750341"> </p>
 <p>提交v1代码</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@client ~<span class="token punctuation">]</span><span class="token comment"># git clone http://192.168.1.30/chsblogs/web2.git</span>
 Cloning into <span class="token string">'web2'</span><span class="token punctuation">..</span>.
@@ -929,7 +929,7 @@ Branch master <span class="token builtin class-name">set</span> up to track remo
 root@jenkins:~<span class="token comment"># cat /root/.ssh/id_rsa.pub </span>
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7gjifemfwJG++KPvaQ0ANxIgTp+PwLZ5doKW4eBrjfSWSmoGWR297fUGz2rou5AHcOI74feF5GDX9JzS0+yXXNQglUKNSDYLmboYcmsAJJw2n8umQVVgZSwJBS4NQxUOGnOEkkRRzvH/hS3O36UibWeBawAEd42FbOxgos2XM4jvjaNKDWS0BsAHSd4dqX2u0rFWXOUTg7e2/+fv9k3FhOp456po2Pzz8aBCqCDOKRuCo7BnAdi053hMvom3PaQDjOgdrJJGqtwTSmDsK4aazJfMZlYgSryNwfbyZGAMReAza96ctwrKe4Z6syb++UGnxhBuiSr82KsZ6BmzICwLcFdJpD7G1rugslLoMw9hMm6+HO5KPcpvj0MpIUZMxT0AkkOlFa/Ewfm2OnHRW4NEICXqSSjwplLVQtDrz2noG2QCHYNtpH2nEiXMFD/n4WUCFVmHneG4BuJMn/AXPkU8wfCSIXmYoLqBu4AS+UOj7u/Wyn6sb4x4M4z1gZ1RTf4c<span class="token operator">=</span> root@jenkins</code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319190550280.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319190550280"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319190550280.png" srcset="/img/loading.gif" lazyload alt="image-20230319190550280"> </p>
 <h4 id="2-5-1-3-配置执行Job"><a href="#2-5-1-3-配置执行Job" class="headerlink" title="2.5.1.3 配置执行Job"></a>2.5.1.3 配置执行Job</h4><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#创建git克隆项目目录</span>
 root@jenkins:~<span class="token comment"># mkdir /data/git/chsblogs -p</span>
 
@@ -958,9 +958,9 @@ root@jenkins:~<span class="token comment"># chmod +x /data/scripts/chsblogs/web2
 
 
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319191606520.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319191606520"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319191606520.png" srcset="/img/loading.gif" lazyload alt="image-20230319191606520"> </p>
 <p>立即构建：</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319191750401.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319191750401"></p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319191750401.png" srcset="/img/loading.gif" lazyload alt="image-20230319191750401"></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#访问测试</span>
 <span class="token punctuation">[</span>root@client ~<span class="token punctuation">]</span><span class="token comment"># curl http://192.168.1.66/myapp/</span>
 <span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>www.chsblogs.com v<span class="token operator"><span class="token file-descriptor important">1</span>&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span></code></pre></div></figure>
@@ -1018,9 +1018,9 @@ oIcY7Vn3OtPr3wJ5hIJEDQ62cAD7hIlThx6yc662hl/nEwyolQQPV6+ge9BVaXbgnlRVTg
 ubOB+v6C6rsps9AAAADHJvb3RAamVua2lucwECAwQFBg<span class="token operator">==</span>
 -----END OPENSSH PRIVATE KEY-----</code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319192740789.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319192740789"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319192922104.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319192922104"> </p>
-<p> <img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319193127300.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319193127300"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319192740789.png" srcset="/img/loading.gif" lazyload alt="image-20230319192740789"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319192922104.png" srcset="/img/loading.gif" lazyload alt="image-20230319192922104"> </p>
+<p> <img src="/2023/03/12/CICD/JG/jg02/image-20230319193127300.png" srcset="/img/loading.gif" lazyload alt="image-20230319193127300"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#编写执行脚本</span>
 root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/web2_deploy.sh</span>
 <span class="token comment">#!/bin/bash</span>
@@ -1060,22 +1060,22 @@ root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/web2_depl
 <span class="token function">ssh</span> tomcat@192.168.1.36 <span class="token string">"/etc/init.d/tomcat start"</span>
 <span class="token function">ssh</span> tomcat@192.168.1.37 <span class="token string">"/etc/init.d/tomcat start"</span></code></pre></div></figure>
 
-<p> <img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319195832049.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319195832049"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319195915693.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319195915693"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319200026809.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319200026809"> </p>
+<p> <img src="/2023/03/12/CICD/JG/jg02/image-20230319195832049.png" srcset="/img/loading.gif" lazyload alt="image-20230319195832049"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319195915693.png" srcset="/img/loading.gif" lazyload alt="image-20230319195915693"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319200026809.png" srcset="/img/loading.gif" lazyload alt="image-20230319200026809"> </p>
 <h2 id="2-6-Jenkins触发器"><a href="#2-6-Jenkins触发器" class="headerlink" title="2.6 Jenkins触发器"></a>2.6 Jenkins触发器</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#生成身份验证令牌</span>
 root@jenkins:~<span class="token comment"># echo $RANDOM |md5sum |cut -c 1-32</span>
 4b8b12eadfdcc25574fc18070f13685a</code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319214711213.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319214711213"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319214734466.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319214734466"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319214711213.png" srcset="/img/loading.gif" lazyload alt="image-20230319214711213"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319214734466.png" srcset="/img/loading.gif" lazyload alt="image-20230319214734466"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#触发执行Job</span>
 root@jenkins:~<span class="token comment"># curl http://192.168.1.31:8080/job/chsblogs-app1/build?token=4b8b12eadfdcc25574fc18070f13685a</span></code></pre></div></figure>
 
 
 
 <p>执行chsblogs-app1后触发chsblogs-app2执行</p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319215735968.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319215735968"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319215735968.png" srcset="/img/loading.gif" lazyload alt="image-20230319215735968"> </p>
 <h2 id="2-7-Jenkins分布式"><a href="#2-7-Jenkins分布式" class="headerlink" title="2.7 Jenkins分布式"></a>2.7 Jenkins分布式</h2><p>创建Jenkins-Slave1，由Jenkins-Slave1执行任务</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#安装JDK环境</span>
 <span class="token function">tar</span> <span class="token parameter variable">-xvf</span> jdk-8u341-linux-x64.tar.gz <span class="token parameter variable">-C</span> /usr/local/
@@ -1092,19 +1092,19 @@ EOF</span>
 <span class="token comment">#创建/var/lib/jenkins目录</span>
 root@jenkins-slave:~<span class="token comment"># mkdir /var/lib/jenkins -p</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319221231930.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319221231930"></p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319220827811.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319220827811"></p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319220937051.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319220937051"></p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230319221102077.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230319221102077"></p>
-<h2 id="2-8-Jenkins视图"><a href="#2-8-Jenkins视图" class="headerlink" title="2.8 Jenkins视图"></a>2.8 Jenkins视图</h2><p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320215950831.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230320215950831"></p>
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320220022218.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230320220022218"></p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319221231930.png" srcset="/img/loading.gif" lazyload alt="image-20230319221231930"></p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319220827811.png" srcset="/img/loading.gif" lazyload alt="image-20230319220827811"></p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319220937051.png" srcset="/img/loading.gif" lazyload alt="image-20230319220937051"></p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230319221102077.png" srcset="/img/loading.gif" lazyload alt="image-20230319221102077"></p>
+<h2 id="2-8-Jenkins视图"><a href="#2-8-Jenkins视图" class="headerlink" title="2.8 Jenkins视图"></a>2.8 Jenkins视图</h2><p><img src="/2023/03/12/CICD/JG/jg02/image-20230320215950831.png" srcset="/img/loading.gif" lazyload alt="image-20230320215950831"></p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230320220022218.png" srcset="/img/loading.gif" lazyload alt="image-20230320220022218"></p>
 <h1 id="3-Jenkins之Pipeline"><a href="#3-Jenkins之Pipeline" class="headerlink" title="3.Jenkins之Pipeline"></a>3.Jenkins之Pipeline</h1><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方文档</span>
 https://www.jenkins.io/zh/doc/book/pipeline/</code></pre></div></figure>
 
 <h2 id="3-1-Pipeline语法"><a href="#3-1-Pipeline语法" class="headerlink" title="3.1 Pipeline语法"></a>3.1 Pipeline语法</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#官方文档</span>
 https://www.jenkins.io/zh/doc/book/pipeline/syntax/</code></pre></div></figure>
 
-<h2 id="3-2-脚本化流水线"><a href="#3-2-脚本化流水线" class="headerlink" title="3.2 脚本化流水线"></a>3.2 脚本化流水线</h2><p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320195332239.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230320195332239"></p>
+<h2 id="3-2-脚本化流水线"><a href="#3-2-脚本化流水线" class="headerlink" title="3.2 脚本化流水线"></a>3.2 脚本化流水线</h2><p><img src="/2023/03/12/CICD/JG/jg02/image-20230320195332239.png" srcset="/img/loading.gif" lazyload alt="image-20230320195332239"></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#可以自动生成Pipeline</span>
 http://192.168.1.31:8080/job/test-pipeline1/pipeline-syntax/</code></pre></div></figure>
 
@@ -1141,7 +1141,7 @@ http://192.168.1.31:8080/job/test-pipeline1/pipeline-syntax/</code></pre></div><
 
 
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320205024130.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230320205024130"></p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230320205024130.png" srcset="/img/loading.gif" lazyload alt="image-20230320205024130"></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#让Jenkins节点执行任务，需配置免密钥认证</span>
 node<span class="token punctuation">(</span><span class="token string">'Jenkins-Slave1'</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
   <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
@@ -1157,7 +1157,7 @@ root@jenkins-slave:~<span class="token comment"># ssh-copy-id tomcat@192.168.1.3
 
 
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320210547288.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230320210547288"></p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230320210547288.png" srcset="/img/loading.gif" lazyload alt="image-20230320210547288"></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#把Jenkinsfile保存至GitLab</span>
 <span class="token punctuation">[</span>root@client web2<span class="token punctuation">]</span><span class="token comment"># vim Jenkinsfile</span>
 node<span class="token punctuation">(</span><span class="token string">'Jenkins-Slave1'</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
@@ -1195,8 +1195,8 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
 
 
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320211711903.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230320211711903"> </p>
-<h2 id="3-3-声明式流水线"><a href="#3-3-声明式流水线" class="headerlink" title="3.3 声明式流水线"></a>3.3 声明式流水线</h2><p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320213815990.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230320213815990"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230320211711903.png" srcset="/img/loading.gif" lazyload alt="image-20230320211711903"> </p>
+<h2 id="3-3-声明式流水线"><a href="#3-3-声明式流水线" class="headerlink" title="3.3 声明式流水线"></a>3.3 声明式流水线</h2><p><img src="/2023/03/12/CICD/JG/jg02/image-20230320213815990.png" srcset="/img/loading.gif" lazyload alt="image-20230320213815990"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">pipeline <span class="token punctuation">&#123;</span>
   agent <span class="token punctuation">&#123;</span> label <span class="token string">'Jenkins-Slave1'</span> <span class="token punctuation">&#125;</span>
   stages<span class="token punctuation">&#123;</span>
@@ -1244,7 +1244,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
 
 
 
-<p><img src="/chsblogs/chsblogs/2023/03/12/CICD/JG/jg02/jg02/image-20230320214057798.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230320214057798"> </p>
+<p><img src="/2023/03/12/CICD/JG/jg02/image-20230320214057798.png" srcset="/img/loading.gif" lazyload alt="image-20230320214057798"> </p>
 
                 
               </div>
@@ -1263,12 +1263,12 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
     
       <span class="category-chain">
         
-  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/chsblogs/categories/Linux/CI-CD/" class="category-chain-item">CI/CD</a>
+  <a href="/categories/Linux/CI-CD/" class="category-chain-item">CI/CD</a>
   
   
 
@@ -1285,7 +1285,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/chsblogs/tags/CI-CD/">#CI/CD</a>
+        <a href="/tags/CI-CD/">#CI/CD</a>
       
     </div>
   
@@ -1298,7 +1298,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
   <div class="license-box my-3">
     <div class="license-title">
       <div>(02).Jenkins简介及安装</div>
-      <div>https://huaisen.gitee.io/chsblogs/2023/03/12/CICD/JG/jg02/</div>
+      <div>https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/</div>
     </div>
     <div class="license-meta">
       
@@ -1342,7 +1342,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/chsblogs/2023/03/19/CICD/JG/jg03/" title="(03).SonarQube简介及安装">
+                      <a href="/2023/03/19/CICD/JG/jg03/" title="(03).SonarQube简介及安装">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(03).SonarQube简介及安装</span>
                         <span class="visible-mobile">上一篇</span>
@@ -1352,7 +1352,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
                   <article class="post-next col-6">
                     
                     
-                      <a href="/chsblogs/2023/03/12/CICD/JG/jg01/" title="(01).GitLab简介及安装">
+                      <a href="/2023/03/12/CICD/JG/jg01/" title="(01).GitLab简介及安装">
                         <span class="hidden-mobile">(01).GitLab简介及安装</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -1373,8 +1373,8 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://huaisen.gitee.io/chsblogs/2023/03/12/CICD/JG/jg02/';
-          this.page.identifier = '/chsblogs/2023/03/12/CICD/JG/jg02/';
+          this.page.url = 'https://chsblogs.gitee.io/2023/03/12/CICD/JG/jg02/';
+          this.page.identifier = '/2023/03/12/CICD/JG/jg02/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -1433,7 +1433,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
     
       
       
-        <a href="/chsblogs/2023/03/12/CICD/JG/jg01/" title="(01).GitLab简介及安装"
+        <a href="/2023/03/12/CICD/JG/jg01/" title="(01).GitLab简介及安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(01).GitLab简介及安装</span>
@@ -1442,7 +1442,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
     
       
       
-        <a href="/chsblogs/2023/03/12/CICD/JG/jg02/" title="(02).Jenkins简介及安装"
+        <a href="/2023/03/12/CICD/JG/jg02/" title="(02).Jenkins简介及安装"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(02).Jenkins简介及安装</span>
@@ -1451,7 +1451,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
     
       
       
-        <a href="/chsblogs/2023/03/19/CICD/JG/jg03/" title="(03).SonarQube简介及安装"
+        <a href="/2023/03/19/CICD/JG/jg03/" title="(03).SonarQube简介及安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(03).SonarQube简介及安装</span>
@@ -1460,7 +1460,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
     
       
       
-        <a href="/chsblogs/2023/03/19/CICD/JG/jg04/" title="(04).代码部署实战"
+        <a href="/2023/03/19/CICD/JG/jg04/" title="(04).代码部署实战"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(04).代码部署实战</span>
@@ -1469,7 +1469,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
     
       
       
-        <a href="/chsblogs/2023/03/19/CICD/JG/jg05/" title="(05).Git常用命令"
+        <a href="/2023/03/19/CICD/JG/jg05/" title="(05).Git常用命令"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(05).Git常用命令</span>
@@ -1578,7 +1578,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -1609,8 +1609,8 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/chsblogs/js/events.js" ></script>
-<script  src="/chsblogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -1632,7 +1632,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
 
 
   
-    <script  src="/chsblogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -1731,7 +1731,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/chsblogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -1739,7 +1739,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/chsblogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   

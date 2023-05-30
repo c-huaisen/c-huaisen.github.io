@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
-  <link rel="icon" href="/chsblogs/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,33 +19,33 @@
     <meta name="description" content="1.部署Prometheus基于Grafana渲染数据官方文档：https:&#x2F;&#x2F;prometheus.io&#x2F;docs&#x2F; github地址：https:&#x2F;&#x2F;github.com&#x2F;prometheus Prometheus server             #主服务，接受外部http请求，收集、存储、查询数据等。 Prometheus targets            #静态收集的目标服务器。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(01).部署Prometheus基于Grafana渲染数据">
-<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/index.html">
+<meta property="og:url" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.部署Prometheus基于Grafana渲染数据官方文档：https:&#x2F;&#x2F;prometheus.io&#x2F;docs&#x2F; github地址：https:&#x2F;&#x2F;github.com&#x2F;prometheus Prometheus server             #主服务，接受外部http请求，收集、存储、查询数据等。 Prometheus targets            #静态收集的目标服务器。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506213103820.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506214858413.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506215857320.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506220023937.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506221252447.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506221321610.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506221359890.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506221822953.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506222001930.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506222110809.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506222126944.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506225603923.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506225820792.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230507103657085.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230507105847814.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230520130512119.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230520130605232.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506213103820.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506214858413.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506215857320.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506220023937.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506221252447.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506221321610.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506221359890.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506221822953.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506222001930.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506222110809.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506222126944.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506225603923.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506225820792.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230507103657085.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230507105847814.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230520130512119.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230520130605232.png">
 <meta property="article:published_time" content="2023-04-19T15:02:34.000Z">
 <meta property="article:modified_time" content="2023-05-20T07:09:51.916Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Prometheus">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506213103820.png">
+<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506213103820.png">
   
   
   
@@ -73,12 +73,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/chsblogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -87,15 +87,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/chsblogs/js/utils.js" ></script>
-  <script  src="/chsblogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -112,7 +112,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/chsblogs/">
+    <a class="navbar-brand" href="/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -131,7 +131,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/">
+              <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -143,7 +143,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/archives/">
+              <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -155,7 +155,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/categories/">
+              <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -167,7 +167,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/tags/">
+              <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -179,7 +179,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/about/">
+              <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -191,7 +191,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/links/">
+              <a class="nav-link" href="/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -221,7 +221,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -328,7 +328,7 @@ Data visualization and <span class="token builtin class-name">export</span> <spa
 
 
 
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506213103820.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506213103820"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506213103820.png" srcset="/img/loading.gif" lazyload alt="image-20230506213103820"> </p>
 <h2 id="1-1-基于二进制部署Prometheus"><a href="#1-1-基于二进制部署Prometheus" class="headerlink" title="1.1 基于二进制部署Prometheus"></a>1.1 基于二进制部署Prometheus</h2><p>Prometheus组件：Prometheus Server、Grafana、alertmanager、node-exporter等组件使用单独服务器二进制安装或者单独容器进行部署。</p>
 <h3 id="1-1-1-部署Prometheus-Server"><a href="#1-1-1-部署Prometheus-Server" class="headerlink" title="1.1.1 部署Prometheus Server"></a>1.1.1 部署Prometheus Server</h3><p>官方下载：<a target="_blank" rel="noopener" href="https://prometheus.io/download/">https://prometheus.io/download/</a></p>
 <p>github下载：<a target="_blank" rel="noopener" href="https://github.com/prometheus/prometheus">https://github.com/prometheus/prometheus</a></p>
@@ -369,7 +369,7 @@ root@prometheus:~<span class="token comment"># vim /etc/systemd/system/prometheu
 
 root@prometheus:~<span class="token comment"># curl -X POST http://192.168.1.61:9090/-/reload</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506214858413.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506214858413"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506214858413.png" srcset="/img/loading.gif" lazyload alt="image-20230506214858413"> </p>
 <h3 id="1-1-2-部署node-exporter"><a href="#1-1-2-部署node-exporter" class="headerlink" title="1.1.2 部署node-exporter"></a>1.1.2 部署node-exporter</h3><p>node-exporter用于收集宿主机的监控指标数据，默认监听端口为9100</p>
 <p>github下载地址：<a target="_blank" rel="noopener" href="https://github.com/prometheus/node_exporter">https://github.com/prometheus/node_exporter</a></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.解压</span>
@@ -408,9 +408,9 @@ systemctl <span class="token builtin class-name">enable</span> grafana-server
 <span class="token comment">#2.访问测试，默认监听3000端口，登录账号密码默认admin/admin</span>
 http://192.168.1.61:3000/</code></pre></div></figure>
 
-<p> <img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506215857320.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506215857320"> </p>
+<p> <img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506215857320.png" srcset="/img/loading.gif" lazyload alt="image-20230506215857320"> </p>
 <p><strong>设置中文：</strong></p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506220023937.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506220023937"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506220023937.png" srcset="/img/loading.gif" lazyload alt="image-20230506220023937"> </p>
 <h3 id="1-1-4-基于node-exporters收集指标数据"><a href="#1-1-4-基于node-exporters收集指标数据" class="headerlink" title="1.1.4 基于node-exporters收集指标数据"></a>1.1.4 基于node-exporters收集指标数据</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.宿主机安装node-exporter</span>
 主机192.168.1.40，192.168.1.41，192.168.1.42安装node-exporter
 
@@ -428,19 +428,19 @@ root@prometheus:~<span class="token comment"># systemctl restart prometheus</spa
 
 <p><strong>配置grafana添加prometheus数据源：</strong></p>
 <p>点击【管理】-【数据源】-【Add new data source】</p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506221252447.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506221252447"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506221252447.png" srcset="/img/loading.gif" lazyload alt="image-20230506221252447"> </p>
 <p>填写URL地址：</p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506221321610.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506221321610"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506221321610.png" srcset="/img/loading.gif" lazyload alt="image-20230506221321610"> </p>
 <p>点击【Save &amp; test】</p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506221359890.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506221359890"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506221359890.png" srcset="/img/loading.gif" lazyload alt="image-20230506221359890"> </p>
 <p><strong>添加grafana dashboard模板：</strong></p>
 <p>下载添加prometheus的dashboard模板：<a target="_blank" rel="noopener" href="https://grafana.com/grafana/dashboards/">https://grafana.com/grafana/dashboards/</a></p>
 <p>如果grafana部署的服务器是内网，无法接入外网，则通过浏览器下载json手动导入到grafana，能通外网则可以直接通过模板的ID直接在grafana直接添加。</p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506221822953.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506221822953"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506221822953.png" srcset="/img/loading.gif" lazyload alt="image-20230506221822953"> </p>
 <p>左侧菜单栏点击【仪表盘】-【新建】-【导入】：</p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506222001930.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506222001930"> </p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506222110809.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506222110809"> </p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506222126944.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506222126944"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506222001930.png" srcset="/img/loading.gif" lazyload alt="image-20230506222001930"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506222110809.png" srcset="/img/loading.gif" lazyload alt="image-20230506222110809"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506222126944.png" srcset="/img/loading.gif" lazyload alt="image-20230506222126944"> </p>
 <h3 id="1-1-5-基于cadvisors收集指标数据"><a href="#1-1-5-基于cadvisors收集指标数据" class="headerlink" title="1.1.5 基于cadvisors收集指标数据"></a>1.1.5 基于cadvisors收集指标数据</h3><p>监控Pod指标数据需要使用cadvisor，cadvisor由谷歌开源，在kubernetes v1.11及之前的版本内置在kubelet中并监听在4194端口，从v1.12开始kubelet中的cadvisor被移除，因此需要单独通过daemonset等方式部署。</p>
 <p>cadvisor（容器顾问）不仅可以搜集⼀台机器上所有运行的容器信息，还提供基础查询界⾯和http接口，方便其他组件如Prometheus进行数据抓取，cAdvisor可以对节点机器上的容器进行实时监控和性能数据采集，包括容器的CPU使用情况、内存使用情况、网络吞吐量及文件系统使用情况。</p>
 <p>github地址：<a target="_blank" rel="noopener" href="https://github.com/google/cadvisor">https://github.com/google/cadvisor</a></p>
@@ -477,8 +477,8 @@ root@prometheus:~<span class="token comment"># systemctl restart prometheus</spa
 
 
 <p><strong>添加grafana dashboard模板：</strong></p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506225603923.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506225603923"> </p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230506225820792.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230506225820792"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506225603923.png" srcset="/img/loading.gif" lazyload alt="image-20230506225603923"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230506225820792.png" srcset="/img/loading.gif" lazyload alt="image-20230506225820792"> </p>
 <h2 id="1-2-K8S中部署Prometheus"><a href="#1-2-K8S中部署Prometheus" class="headerlink" title="1.2 K8S中部署Prometheus"></a>1.2 K8S中部署Prometheus</h2><h3 id="1-2-1-部署Prometheus"><a href="#1-2-1-部署Prometheus" class="headerlink" title="1.2.1 部署Prometheus"></a>1.2.1 部署Prometheus</h3><p>deployment部署prometheus-server：在k8s集群中部署prometheus-server，实现动态发现集群pod</p>
 <p><strong>创建prometheus的配置文件configmap，实现服务发现的配置：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/opt/yaml/prometheus<span class="token comment"># vim prometheus-cfg.yaml</span>
@@ -748,7 +748,7 @@ prometheus   <span class="token number">10.20</span>.39.224:9090   20s
 <span class="token comment">#访问测试</span>
 http://192.168.1.40:39090/</code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230507103657085.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230507103657085"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230507103657085.png" srcset="/img/loading.gif" lazyload alt="image-20230507103657085"> </p>
 <h3 id="1-2-2-部署node-exporter"><a href="#1-2-2-部署node-exporter" class="headerlink" title="1.2.2 部署node-exporter"></a>1.2.2 部署node-exporter</h3><p>daemonset部署node-exporter：</p>
 <p><strong>创建namespace：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># kubectl create ns monitoring</span>
@@ -892,7 +892,7 @@ cadvisor-z8b86        <span class="token number">1</span>/1     Running   <span 
 <h2 id="1-3-Operator部署Prometheus"><a href="#1-3-Operator部署Prometheus" class="headerlink" title="1.3 Operator部署Prometheus"></a>1.3 Operator部署Prometheus</h2><p>Operator部署器是基于已经编写好的yaml文件，可以将prometheus server、alertmanager、grafana、nodeexporter等组件⼀键批量部署在K8S集群当中。</p>
 <p>github地址：<a target="_blank" rel="noopener" href="https://github.com/prometheus-operator/kube-prometheus">https://github.com/prometheus-operator/kube-prometheus</a></p>
 <p><strong>根据支持的kubernetes版本去选择：</strong></p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230507105847814.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230507105847814"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230507105847814.png" srcset="/img/loading.gif" lazyload alt="image-20230507105847814"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.拉取项目代码</span>
 root@deploy:~<span class="token comment"># mkdir /k8s/prometheus/operator -p</span>
 root@deploy:~<span class="token comment"># cd /k8s/prometheus/operator/</span>
@@ -1032,8 +1032,8 @@ prometheus-k8s          <span class="token number">10.20</span>.178.195:8080,10.
 prometheus-operated     <span class="token number">10.20</span>.178.195:9090,10.20.39.197:9090                                  3m55s
 prometheus-operator     <span class="token number">10.20</span>.39.196:8443                                                     4m13s</code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230520130512119.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230520130512119"> </p>
-<p><img src="/chsblogs/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/prometheus01/image-20230520130605232.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230520130605232"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230520130512119.png" srcset="/img/loading.gif" lazyload alt="image-20230520130512119"> </p>
+<p><img src="/2023/04/19/Monitor/Prometheus/prometheus01/image-20230520130605232.png" srcset="/img/loading.gif" lazyload alt="image-20230520130605232"> </p>
 
                 
               </div>
@@ -1052,12 +1052,12 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
     
       <span class="category-chain">
         
-  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/chsblogs/categories/Linux/Prometheus/" class="category-chain-item">Prometheus</a>
+  <a href="/categories/Linux/Prometheus/" class="category-chain-item">Prometheus</a>
   
   
 
@@ -1074,7 +1074,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/chsblogs/tags/Prometheus/">#Prometheus</a>
+        <a href="/tags/Prometheus/">#Prometheus</a>
       
     </div>
   
@@ -1087,7 +1087,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
   <div class="license-box my-3">
     <div class="license-title">
       <div>(01).部署Prometheus基于Grafana渲染数据</div>
-      <div>https://huaisen.gitee.io/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/</div>
+      <div>https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/</div>
     </div>
     <div class="license-meta">
       
@@ -1131,7 +1131,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/chsblogs/2023/04/19/Monitor/Prometheus/prometheus02/" title="(02).Prometheus服务发现机制">
+                      <a href="/2023/04/19/Monitor/Prometheus/prometheus02/" title="(02).Prometheus服务发现机制">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(02).Prometheus服务发现机制</span>
                         <span class="visible-mobile">上一篇</span>
@@ -1141,7 +1141,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
                   <article class="post-next col-6">
                     
                     
-                      <a href="/chsblogs/2023/04/17/Monitor/Zabbix/zabbix06/" title="(6).Zabbix事件通知机制">
+                      <a href="/2023/04/17/Monitor/Zabbix/zabbix06/" title="(6).Zabbix事件通知机制">
                         <span class="hidden-mobile">(6).Zabbix事件通知机制</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -1162,8 +1162,8 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://huaisen.gitee.io/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/';
-          this.page.identifier = '/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/';
+          this.page.url = 'https://chsblogs.gitee.io/2023/04/19/Monitor/Prometheus/prometheus01/';
+          this.page.identifier = '/2023/04/19/Monitor/Prometheus/prometheus01/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -1222,7 +1222,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
     
       
       
-        <a href="/chsblogs/2023/04/19/Monitor/Prometheus/prometheus01/" title="(01).部署Prometheus基于Grafana渲染数据"
+        <a href="/2023/04/19/Monitor/Prometheus/prometheus01/" title="(01).部署Prometheus基于Grafana渲染数据"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(01).部署Prometheus基于Grafana渲染数据</span>
@@ -1231,7 +1231,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
     
       
       
-        <a href="/chsblogs/2023/04/19/Monitor/Prometheus/prometheus02/" title="(02).Prometheus服务发现机制"
+        <a href="/2023/04/19/Monitor/Prometheus/prometheus02/" title="(02).Prometheus服务发现机制"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(02).Prometheus服务发现机制</span>
@@ -1240,7 +1240,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
     
       
       
-        <a href="/chsblogs/2023/04/19/Monitor/Prometheus/prometheus03/" title="(03).Prometheus监控案例"
+        <a href="/2023/04/19/Monitor/Prometheus/prometheus03/" title="(03).Prometheus监控案例"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(03).Prometheus监控案例</span>
@@ -1249,7 +1249,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
     
       
       
-        <a href="/chsblogs/2023/04/19/Monitor/Prometheus/prometheus04/" title="(04).Prometheus联邦集群机制"
+        <a href="/2023/04/19/Monitor/Prometheus/prometheus04/" title="(04).Prometheus联邦集群机制"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(04).Prometheus联邦集群机制</span>
@@ -1258,7 +1258,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
     
       
       
-        <a href="/chsblogs/2023/04/19/Monitor/Prometheus/prometheus05/" title="(05).Prometheus基于alertmanager实现告警通知"
+        <a href="/2023/04/19/Monitor/Prometheus/prometheus05/" title="(05).Prometheus基于alertmanager实现告警通知"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(05).Prometheus基于alertmanager实现告警通知</span>
@@ -1367,7 +1367,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -1398,8 +1398,8 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/chsblogs/js/events.js" ></script>
-<script  src="/chsblogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -1421,7 +1421,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
 
 
   
-    <script  src="/chsblogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -1520,7 +1520,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/chsblogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -1528,7 +1528,7 @@ prometheus-operator     <span class="token number">10.20</span>.39.196:8443     
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/chsblogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   

@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
-  <link rel="icon" href="/chsblogs/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,17 +19,17 @@
     <meta name="description" content="1.Docker网络模式Docker安装完成之后，默认会在宿主机生成一个名称为docker0的网卡，IP地址为172.17.0.1&#x2F;16，并且会生成3种网络模式。创建容器时不指定网络模式下默认使用bridge(桥接)模式。 #docker0网卡 root@node10:~# ifconfig docker0 docker0: flags&#x3D;4099&lt;UP,BROADCAST,MULT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(06).Docker网络">
-<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2022/09/06/Container/Docker/docker06/index.html">
+<meta property="og:url" content="https://chsblogs.gitee.io/2022/09/06/Container/Docker/docker06/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Docker网络模式Docker安装完成之后，默认会在宿主机生成一个名称为docker0的网卡，IP地址为172.17.0.1&#x2F;16，并且会生成3种网络模式。创建容器时不指定网络模式下默认使用bridge(桥接)模式。 #docker0网卡 root@node10:~# ifconfig docker0 docker0: flags&#x3D;4099&lt;UP,BROADCAST,MULT">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/06/Container/Docker/docker06/docker06/image-20220907101804536.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/06/Container/Docker/docker06/image-20220907101804536.png">
 <meta property="article:published_time" content="2022-09-06T14:30:38.000Z">
 <meta property="article:modified_time" content="2023-05-06T16:45:09.923Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/06/Container/Docker/docker06/docker06/image-20220907101804536.png">
+<meta name="twitter:image" content="https://chsblogs.gitee.io/2022/09/06/Container/Docker/docker06/image-20220907101804536.png">
   
   
   
@@ -57,12 +57,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/chsblogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -71,15 +71,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/chsblogs/js/utils.js" ></script>
-  <script  src="/chsblogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -96,7 +96,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/chsblogs/">
+    <a class="navbar-brand" href="/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -115,7 +115,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/">
+              <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -127,7 +127,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/archives/">
+              <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -139,7 +139,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/categories/">
+              <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -151,7 +151,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/tags/">
+              <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -163,7 +163,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/about/">
+              <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -175,7 +175,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/links/">
+              <a class="nav-link" href="/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -205,7 +205,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -322,7 +322,7 @@ ccb5b55b776e   none      null      <span class="token builtin class-name">local<
 
 <h2 id="1-1-bridge模式"><a href="#1-1-bridge模式" class="headerlink" title="1.1 bridge模式"></a>1.1 bridge模式</h2><p>​	bridge模式是docker的默认网络模式，当使用 <code>docker run -d -p 80:80 nginx</code> 时，docker会在iptables上做DNAT规则，实现端口转发。可以使用<code>iptables -vnL</code> 查看。</p>
 <p>​	在docker宿主机上启动的docker容器，都会连接到docker0的虚拟网桥上。虚拟网桥的工作方式根物理交换机类似，这样在宿主机上启动的所有容器就通过交换机连接在一个二层网络中。docker启动的容器IP地址会从docker0子网中分配一个IP给容器使用，当前容器的网关为docker0的IP地址。在主机上创建一对虚拟网卡设备，docker将一对虚拟网卡设备的一端放置在容器中，命名为eth0，另一端在宿主机中，以vethX的命名方式命名，并将这个网络设备加入到docker0网桥中。可以通过<code>brctl show</code> 查看。</p>
-<p><img src="/chsblogs/chsblogs/2022/09/06/Container/Docker/docker06/docker06/image-20220907101804536.png" srcset="/chsblogs/img/loading.gif" lazyload alt="bridge模式"> </p>
+<p><img src="/2022/09/06/Container/Docker/docker06/image-20220907101804536.png" srcset="/img/loading.gif" lazyload alt="bridge模式"> </p>
 <p>宿主机和docker容器之间是可以进行网络连接的，docker容器和容器之间也可以进行网络连接。</p>
 <h2 id="1-2-host模式"><a href="#1-2-host模式" class="headerlink" title="1.2 host模式"></a>1.2 host模式</h2><p>当启动的容器网络使用host模式时，那么此容器不会获得一个独立的 Net Namespace，而是和宿主机共用一个 Net Namespace，容器不会虚拟出自己的网卡，配置自己的IP，而是使用宿主机的IP和端口。容器网络使用host模式可以直接使用宿主机的IP地址与外界通信，容器内部的服务端口占用宿主机的端口，如果宿主机的端口被占用了，那么容器内部服务器的端口就不能在使用了。host模式最大的优势就是性能比较好。</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#启动容器，指定网络模式为host</span>
@@ -583,12 +583,12 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       <span class="category-chain">
         
-  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/chsblogs/categories/Linux/Docker/" class="category-chain-item">Docker</a>
+  <a href="/categories/Linux/Docker/" class="category-chain-item">Docker</a>
   
   
 
@@ -605,7 +605,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/chsblogs/tags/Docker/">#Docker</a>
+        <a href="/tags/Docker/">#Docker</a>
       
     </div>
   
@@ -618,7 +618,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
   <div class="license-box my-3">
     <div class="license-title">
       <div>(06).Docker网络</div>
-      <div>https://huaisen.gitee.io/chsblogs/2022/09/06/Container/Docker/docker06/</div>
+      <div>https://chsblogs.gitee.io/2022/09/06/Container/Docker/docker06/</div>
     </div>
     <div class="license-meta">
       
@@ -662,7 +662,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/chsblogs/2022/09/07/Container/Docker/docker07/" title="(07).Docker资源限制">
+                      <a href="/2022/09/07/Container/Docker/docker07/" title="(07).Docker资源限制">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(07).Docker资源限制</span>
                         <span class="visible-mobile">上一篇</span>
@@ -672,7 +672,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
                   <article class="post-next col-6">
                     
                     
-                      <a href="/chsblogs/2022/09/03/Container/Docker/docker05/" title="(05).Docker镜像仓库之Harbor">
+                      <a href="/2022/09/03/Container/Docker/docker05/" title="(05).Docker镜像仓库之Harbor">
                         <span class="hidden-mobile">(05).Docker镜像仓库之Harbor</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -693,8 +693,8 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://huaisen.gitee.io/chsblogs/2022/09/06/Container/Docker/docker06/';
-          this.page.identifier = '/chsblogs/2022/09/06/Container/Docker/docker06/';
+          this.page.url = 'https://chsblogs.gitee.io/2022/09/06/Container/Docker/docker06/';
+          this.page.identifier = '/2022/09/06/Container/Docker/docker06/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -753,7 +753,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       
       
-        <a href="/chsblogs/2022/08/30/Container/Docker/docker01/" title="(01).Docker简介"
+        <a href="/2022/08/30/Container/Docker/docker01/" title="(01).Docker简介"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(01).Docker简介</span>
@@ -762,7 +762,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       
       
-        <a href="/chsblogs/2022/08/30/Container/Docker/docker02/" title="(02).Docker安装"
+        <a href="/2022/08/30/Container/Docker/docker02/" title="(02).Docker安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(02).Docker安装</span>
@@ -771,7 +771,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       
       
-        <a href="/chsblogs/2022/08/30/Container/Docker/docker03/" title="(03).Docker命令"
+        <a href="/2022/08/30/Container/Docker/docker03/" title="(03).Docker命令"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(03).Docker命令</span>
@@ -780,7 +780,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       
       
-        <a href="/chsblogs/2022/08/31/Container/Docker/docker04/" title="(04).Docker构建镜像"
+        <a href="/2022/08/31/Container/Docker/docker04/" title="(04).Docker构建镜像"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(04).Docker构建镜像</span>
@@ -789,7 +789,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       
       
-        <a href="/chsblogs/2022/09/03/Container/Docker/docker05/" title="(05).Docker镜像仓库之Harbor"
+        <a href="/2022/09/03/Container/Docker/docker05/" title="(05).Docker镜像仓库之Harbor"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(05).Docker镜像仓库之Harbor</span>
@@ -798,7 +798,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       
       
-        <a href="/chsblogs/2022/09/06/Container/Docker/docker06/" title="(06).Docker网络"
+        <a href="/2022/09/06/Container/Docker/docker06/" title="(06).Docker网络"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(06).Docker网络</span>
@@ -807,7 +807,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       
       
-        <a href="/chsblogs/2022/09/07/Container/Docker/docker07/" title="(07).Docker资源限制"
+        <a href="/2022/09/07/Container/Docker/docker07/" title="(07).Docker资源限制"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(07).Docker资源限制</span>
@@ -816,7 +816,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
     
       
       
-        <a href="/chsblogs/2022/09/07/Container/Docker/docker08/" title="(08).Docker-Compose"
+        <a href="/2022/09/07/Container/Docker/docker08/" title="(08).Docker-Compose"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(08).Docker-Compose</span>
@@ -925,7 +925,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -956,8 +956,8 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/chsblogs/js/events.js" ></script>
-<script  src="/chsblogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -979,7 +979,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
 
 
   
-    <script  src="/chsblogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -1078,7 +1078,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/chsblogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -1086,7 +1086,7 @@ PING nginx02 <span class="token punctuation">(</span><span class="token number">
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/chsblogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   

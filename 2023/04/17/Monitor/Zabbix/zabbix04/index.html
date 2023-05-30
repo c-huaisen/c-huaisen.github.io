@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
-  <link rel="icon" href="/chsblogs/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,21 +19,21 @@
     <meta name="description" content="1.Zabbix分布式监控ProxyZabbix Proxy 可以代表 Zabbix server 收集性能和可用性数据。通过这种方式， proxy 可以自己承担一些收集数据的负载，并减轻 ZabbixServer 的负担。 此外，当所有 agents 和 proxy 都向一个 Zabbix server 报告并且所有数据都集中收集时，使用 Proxy 代理是实现集中式和分布式监控的最简单方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(4).Zabbix分布式监控Proxy">
-<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/index.html">
+<meta property="og:url" content="https://chsblogs.gitee.io/2023/04/17/Monitor/Zabbix/zabbix04/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Zabbix分布式监控ProxyZabbix Proxy 可以代表 Zabbix server 收集性能和可用性数据。通过这种方式， proxy 可以自己承担一些收集数据的负载，并减轻 ZabbixServer 的负担。 此外，当所有 agents 和 proxy 都向一个 Zabbix server 报告并且所有数据都集中收集时，使用 Proxy 代理是实现集中式和分布式监控的最简单方法">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420161557593.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420215344747.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420215440222.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420210004848.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420215155331.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420161557593.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420215344747.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420215440222.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420210004848.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420215155331.png">
 <meta property="article:published_time" content="2023-04-17T03:31:00.000Z">
 <meta property="article:modified_time" content="2023-04-20T16:02:44.259Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Zabbix">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420161557593.png">
+<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420161557593.png">
   
   
   
@@ -61,12 +61,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/chsblogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -75,15 +75,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/chsblogs/js/utils.js" ></script>
-  <script  src="/chsblogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -100,7 +100,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/chsblogs/">
+    <a class="navbar-brand" href="/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -119,7 +119,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/">
+              <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -131,7 +131,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/archives/">
+              <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -143,7 +143,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/categories/">
+              <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -155,7 +155,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/tags/">
+              <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -167,7 +167,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/about/">
+              <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -179,7 +179,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/links/">
+              <a class="nav-link" href="/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -209,7 +209,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -312,7 +312,7 @@
 <li>proxy 收集的所有数据在传输到 server 之前都存储在本地。这种方式不会因为与 server 之间的任何临时通信问题而丢失数据。<br>ProxyLocalBuffer 和 ProxyOfflineBuffer 参数在proxy 配置文件控制数据在本地保存多长时间。  </li>
 <li>Zabbix proxy 代理是一个数据收集器。它不计算触发器、处理事件或发送警报。</li>
 </ul>
-<h2 id="1-1-Zabbix-Proxy架构"><a href="#1-1-Zabbix-Proxy架构" class="headerlink" title="1.1 Zabbix Proxy架构"></a>1.1 Zabbix Proxy架构</h2><p><img src="/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420161557593.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230420161557593"> </p>
+<h2 id="1-1-Zabbix-Proxy架构"><a href="#1-1-Zabbix-Proxy架构" class="headerlink" title="1.1 Zabbix Proxy架构"></a>1.1 Zabbix Proxy架构</h2><p><img src="/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420161557593.png" srcset="/img/loading.gif" lazyload alt="image-20230420161557593"> </p>
 <h2 id="1-2-Zabbix-Proxy安装"><a href="#1-2-Zabbix-Proxy安装" class="headerlink" title="1.2 Zabbix Proxy安装"></a>1.2 Zabbix Proxy安装</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.安装Zabbix Proxy</span>
 <span class="token function">wget</span> https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu20.04_all.deb
 dpkg <span class="token parameter variable">-i</span> zabbix-release_6.0-4+ubuntu20.04_all.deb
@@ -422,10 +422,10 @@ root@zabbix-proxy-active:~<span class="token comment"># systemctl restart zabbix
 
 
 <p>管理-&gt;agent代理程序-&gt;创建代理</p>
-<p><img src="/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420215344747.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230420215344747"> </p>
+<p><img src="/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420215344747.png" srcset="/img/loading.gif" lazyload alt="image-20230420215344747"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#4.添加主动模式代理主机</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420215440222.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230420215440222"> </p>
+<p><img src="/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420215440222.png" srcset="/img/loading.gif" lazyload alt="image-20230420215440222"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#5.zabbix server配置,修改zabbix server向zabbix获取监控数据的频率等参数.</span>
 root@zabbix-server:~<span class="token comment"># vim /etc/zabbix/zabbix_server.conf</span>
 <span class="token assign-left variable">StartProxyPollers</span><span class="token operator">=</span><span class="token number">20</span> <span class="token comment">#启用多少子进程与代理端通信，若代理较多可考虑加大此数值，范围是0-250</span>
@@ -517,10 +517,10 @@ root@zabbix-proxy-passive:~<span class="token comment"># systemctl restart zabbi
 
 
 <p>管理-&gt;agent代理程序-&gt;创建代理</p>
-<p><img src="/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420210004848.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230420210004848"> </p>
+<p><img src="/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420210004848.png" srcset="/img/loading.gif" lazyload alt="image-20230420210004848"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#4.添加被动模式代理主机</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/zabbix04/image-20230420215155331.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230420215155331"> </p>
+<p><img src="/2023/04/17/Monitor/Zabbix/zabbix04/image-20230420215155331.png" srcset="/img/loading.gif" lazyload alt="image-20230420215155331"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#5.zabbix server配置,修改zabbix server向zabbix获取监控数据的频率等参数.</span>
 root@zabbix-server:~<span class="token comment"># vim /etc/zabbix/zabbix_server.conf</span>
 <span class="token assign-left variable">StartProxyPollers</span><span class="token operator">=</span><span class="token number">20</span> <span class="token comment">#启用多少子进程与代理端通信，若代理较多可考虑加大此数值，范围是0-250</span>
@@ -573,12 +573,12 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
     
       <span class="category-chain">
         
-  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/chsblogs/categories/Linux/Zabbix/" class="category-chain-item">Zabbix</a>
+  <a href="/categories/Linux/Zabbix/" class="category-chain-item">Zabbix</a>
   
   
 
@@ -595,7 +595,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/chsblogs/tags/Zabbix/">#Zabbix</a>
+        <a href="/tags/Zabbix/">#Zabbix</a>
       
     </div>
   
@@ -608,7 +608,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
   <div class="license-box my-3">
     <div class="license-title">
       <div>(4).Zabbix分布式监控Proxy</div>
-      <div>https://huaisen.gitee.io/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/</div>
+      <div>https://chsblogs.gitee.io/2023/04/17/Monitor/Zabbix/zabbix04/</div>
     </div>
     <div class="license-meta">
       
@@ -652,7 +652,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/chsblogs/2023/04/17/Monitor/Zabbix/zabbix05/" title="(5).Zabbix监控案例">
+                      <a href="/2023/04/17/Monitor/Zabbix/zabbix05/" title="(5).Zabbix监控案例">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(5).Zabbix监控案例</span>
                         <span class="visible-mobile">上一篇</span>
@@ -662,7 +662,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
                   <article class="post-next col-6">
                     
                     
-                      <a href="/chsblogs/2023/04/17/Monitor/Zabbix/zabbix03/" title="(3).Zabbix配置文件详解">
+                      <a href="/2023/04/17/Monitor/Zabbix/zabbix03/" title="(3).Zabbix配置文件详解">
                         <span class="hidden-mobile">(3).Zabbix配置文件详解</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -683,8 +683,8 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://huaisen.gitee.io/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/';
-          this.page.identifier = '/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/';
+          this.page.url = 'https://chsblogs.gitee.io/2023/04/17/Monitor/Zabbix/zabbix04/';
+          this.page.identifier = '/2023/04/17/Monitor/Zabbix/zabbix04/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -743,7 +743,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
     
       
       
-        <a href="/chsblogs/2023/04/17/Monitor/Zabbix/zabbix01/" title="(1).Zabbix简介"
+        <a href="/2023/04/17/Monitor/Zabbix/zabbix01/" title="(1).Zabbix简介"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(1).Zabbix简介</span>
@@ -752,7 +752,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
     
       
       
-        <a href="/chsblogs/2023/04/17/Monitor/Zabbix/zabbix02/" title="(2).Zabbix安装"
+        <a href="/2023/04/17/Monitor/Zabbix/zabbix02/" title="(2).Zabbix安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(2).Zabbix安装</span>
@@ -761,7 +761,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
     
       
       
-        <a href="/chsblogs/2023/04/17/Monitor/Zabbix/zabbix03/" title="(3).Zabbix配置文件详解"
+        <a href="/2023/04/17/Monitor/Zabbix/zabbix03/" title="(3).Zabbix配置文件详解"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(3).Zabbix配置文件详解</span>
@@ -770,7 +770,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
     
       
       
-        <a href="/chsblogs/2023/04/17/Monitor/Zabbix/zabbix04/" title="(4).Zabbix分布式监控Proxy"
+        <a href="/2023/04/17/Monitor/Zabbix/zabbix04/" title="(4).Zabbix分布式监控Proxy"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(4).Zabbix分布式监控Proxy</span>
@@ -779,7 +779,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
     
       
       
-        <a href="/chsblogs/2023/04/17/Monitor/Zabbix/zabbix05/" title="(5).Zabbix监控案例"
+        <a href="/2023/04/17/Monitor/Zabbix/zabbix05/" title="(5).Zabbix监控案例"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(5).Zabbix监控案例</span>
@@ -788,7 +788,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
     
       
       
-        <a href="/chsblogs/2023/04/17/Monitor/Zabbix/zabbix06/" title="(6).Zabbix事件通知机制"
+        <a href="/2023/04/17/Monitor/Zabbix/zabbix06/" title="(6).Zabbix事件通知机制"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(6).Zabbix事件通知机制</span>
@@ -897,7 +897,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -928,8 +928,8 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/chsblogs/js/events.js" ></script>
-<script  src="/chsblogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -951,7 +951,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
 
 
   
-    <script  src="/chsblogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -1050,7 +1050,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/chsblogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -1058,7 +1058,7 @@ root@zabbix-agent-passive:~<span class="token comment"># systemctl restart zabbi
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/chsblogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   

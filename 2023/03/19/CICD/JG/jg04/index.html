@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
-  <link rel="icon" href="/chsblogs/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,40 +19,40 @@
     <meta name="description" content="1.基于Jenkins实现灰度部署1.1 主机清单   主机名 IP地址 操作系统 服务 VIP    client 192.168.1.10 CentOS7.9 开发人员    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    jenki">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(04).代码部署实战">
-<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2023/03/19/CICD/JG/jg04/index.html">
+<meta property="og:url" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.基于Jenkins实现灰度部署1.1 主机清单   主机名 IP地址 操作系统 服务 VIP    client 192.168.1.10 CentOS7.9 开发人员    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    jenki">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230324185516008.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230324231515848.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230324234845880.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230324235019735.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325010127093.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325000025624.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325000437857.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325000744346.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325000828345.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325014553627.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325001227886.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325005047938.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325011336989.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325011756070.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325012008368.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325011941710.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325012110489.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325012652770.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325013141011.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325013824160.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325013948756.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325014011404.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325014307090.png">
-<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325014459248.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230324185516008.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230324231515848.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230324234845880.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230324235019735.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325010127093.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325000025624.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325000437857.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325000744346.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325000828345.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325014553627.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325001227886.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325005047938.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325011336989.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325011756070.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325012008368.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325011941710.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325012110489.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325012652770.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325013141011.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325013824160.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325013948756.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325014011404.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325014307090.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230325014459248.png">
 <meta property="article:published_time" content="2023-03-19T14:30:21.000Z">
 <meta property="article:modified_time" content="2023-05-06T16:43:13.611Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="CI&#x2F;CD">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230324185516008.png">
+<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/image-20230324185516008.png">
   
   
   
@@ -80,12 +80,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/chsblogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -94,15 +94,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/chsblogs/js/utils.js" ></script>
-  <script  src="/chsblogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -119,7 +119,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/chsblogs/">
+    <a class="navbar-brand" href="/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -138,7 +138,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/">
+              <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -150,7 +150,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/archives/">
+              <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -162,7 +162,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/categories/">
+              <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -174,7 +174,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/tags/">
+              <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -186,7 +186,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/about/">
+              <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -198,7 +198,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/links/">
+              <a class="nav-link" href="/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -228,7 +228,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -426,18 +426,18 @@
 <td></td>
 </tr>
 </tbody></table>
-<h2 id="1-2-部署拓扑图"><a href="#1-2-部署拓扑图" class="headerlink" title="1.2 部署拓扑图"></a>1.2 部署拓扑图</h2><p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230324185516008.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230324185516008"> </p>
+<h2 id="1-2-部署拓扑图"><a href="#1-2-部署拓扑图" class="headerlink" title="1.2 部署拓扑图"></a>1.2 部署拓扑图</h2><p><img src="/2023/03/19/CICD/JG/jg04/image-20230324185516008.png" srcset="/img/loading.gif" lazyload alt="image-20230324185516008"> </p>
 <h2 id="1-3-GitLab创建项目"><a href="#1-3-GitLab创建项目" class="headerlink" title="1.3 GitLab创建项目"></a>1.3 GitLab创建项目</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.GitLab上创建test项目</span></code></pre></div></figure>
 
 
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230324231515848.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230324231515848"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230324231515848.png" srcset="/img/loading.gif" lazyload alt="image-20230324231515848"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#2.新建README.md</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230324234845880.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230324234845880"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230324234845880.png" srcset="/img/loading.gif" lazyload alt="image-20230324234845880"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#3.创建develop分支</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230324235019735.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230324235019735"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230324235019735.png" srcset="/img/loading.gif" lazyload alt="image-20230324235019735"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#4.开发提交v1代码至develop分支</span>
 <span class="token punctuation">[</span>root@client ~<span class="token punctuation">]</span><span class="token comment"># mkdir code</span>
 <span class="token punctuation">[</span>root@client ~<span class="token punctuation">]</span><span class="token comment"># cd code/</span>
@@ -499,19 +499,19 @@ To http://192.168.1.30/chsblogs/test.git
 
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#5.合并分支</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325010127093.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325010127093"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325010127093.png" srcset="/img/loading.gif" lazyload alt="image-20230325010127093"> </p>
 <h2 id="1-4-Jenkins创建任务"><a href="#1-4-Jenkins创建任务" class="headerlink" title="1.4 Jenkins创建任务"></a>1.4 Jenkins创建任务</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.Jenkins创建chsblogs-test任务</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325000025624.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325000025624"></p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325000025624.png" srcset="/img/loading.gif" lazyload alt="image-20230325000025624"></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#2.添加选项参数，是部署deploy还是回滚rollback_last_version</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325000437857.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325000437857"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325000437857.png" srcset="/img/loading.gif" lazyload alt="image-20230325000437857"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#3.添加选项参数,分支master和develop</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325000744346.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325000744346"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325000744346.png" srcset="/img/loading.gif" lazyload alt="image-20230325000744346"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#4.添加选项参数,获取服务器分组IP列表</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325000828345.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325000828345"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325000828345.png" srcset="/img/loading.gif" lazyload alt="image-20230325000828345"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#5.编写shell脚本</span>
 root@jenkins:~<span class="token comment"># vim /data/scripts/chsblogs/chsblogs_test.sh</span>
 <span class="token comment">#!/bin/bash</span>
@@ -685,8 +685,8 @@ root@jenkins:~<span class="token comment"># chmod +x /data/scripts/chsblogs/chsb
 
 /data/scripts/chsblogs/chsblogs_test.sh <span class="token variable">$METHOD</span> <span class="token variable">$BRANCH</span> <span class="token variable">$GROUP</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325014553627.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325014553627">  </p>
-<p> <img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325001227886.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325001227886"></p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325014553627.png" srcset="/img/loading.gif" lazyload alt="image-20230325014553627">  </p>
+<p> <img src="/2023/03/19/CICD/JG/jg04/image-20230325001227886.png" srcset="/img/loading.gif" lazyload alt="image-20230325001227886"></p>
 <h2 id="1-5-配置负载均衡"><a href="#1-5-配置负载均衡" class="headerlink" title="1.5 配置负载均衡"></a>1.5 配置负载均衡</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@ha1:~<span class="token comment"># vim /etc/haproxy/haproxy.cfg</span>
 <span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>
 <span class="token comment">#生产环境</span>
@@ -718,7 +718,7 @@ listen web_test
   server <span class="token number">192.168</span>.1.35 <span class="token number">192.168</span>.1.35:8080 check inter <span class="token number">3000</span> fall <span class="token number">2</span> rise <span class="token number">5</span></code></pre></div></figure>
 
 <h2 id="1-6-升级测试环境"><a href="#1-6-升级测试环境" class="headerlink" title="1.6 升级测试环境"></a>1.6 升级测试环境</h2><p>将测试环境test-web1、test-web2、test-web3升级至开发分支的V1版本。</p>
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325005047938.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325005047938"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325005047938.png" srcset="/img/loading.gif" lazyload alt="image-20230325005047938"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.访问测试</span>
 <span class="token punctuation">[</span>root@client ~<span class="token punctuation">]</span><span class="token comment"># curl http://192.168.1.77/myapp/</span>
 <span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>www.chsblogs.com V<span class="token operator"><span class="token file-descriptor important">1</span>&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span></code></pre></div></figure>
@@ -727,15 +727,15 @@ listen web_test
 
 <h2 id="1-7-生产环境灰度部署"><a href="#1-7-生产环境灰度部署" class="headerlink" title="1.7 生产环境灰度部署"></a>1.7 生产环境灰度部署</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.将192.168.1.35灰度部署</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325011336989.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325011336989"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325011756070.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325011756070"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325011336989.png" srcset="/img/loading.gif" lazyload alt="image-20230325011336989"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325011756070.png" srcset="/img/loading.gif" lazyload alt="image-20230325011756070"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#2.生产环境除灰度外(192.168.1.35)剩余服务器升级(192.168.1.36 192.168.1.37)</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325012008368.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325012008368"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325011941710.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325011941710"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325012008368.png" srcset="/img/loading.gif" lazyload alt="image-20230325012008368"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325011941710.png" srcset="/img/loading.gif" lazyload alt="image-20230325011941710"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#3.生产全部服务器升级</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325012110489.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325012110489"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325012110489.png" srcset="/img/loading.gif" lazyload alt="image-20230325012110489"> </p>
 <h2 id="1-8-部署V2版本"><a href="#1-8-部署V2版本" class="headerlink" title="1.8 部署V2版本"></a>1.8 部署V2版本</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.开发人员提交V2版本</span>
 <span class="token punctuation">[</span>root@client test<span class="token punctuation">]</span><span class="token comment"># vim index.html</span>
 <span class="token operator">&lt;</span>h<span class="token operator"><span class="token file-descriptor important">1</span>></span>www.chsblogs.com V<span class="token operator"><span class="token file-descriptor important">2</span>&lt;</span>/h<span class="token operator"><span class="token file-descriptor important">1</span>></span>
@@ -776,23 +776,23 @@ To http://192.168.1.30/chsblogs/test.git
 
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#2.将V2版本部署至测试环境</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325012652770.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325012652770"> </p>
-<p> <img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325013141011.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325013141011"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325012652770.png" srcset="/img/loading.gif" lazyload alt="image-20230325012652770"> </p>
+<p> <img src="/2023/03/19/CICD/JG/jg04/image-20230325013141011.png" srcset="/img/loading.gif" lazyload alt="image-20230325013141011"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#3.合并分支</span></code></pre></div></figure>
 
 
 
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#4.将V2版本灰度部署</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325013824160.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325013824160"></p>
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325013948756.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325013948756"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325013824160.png" srcset="/img/loading.gif" lazyload alt="image-20230325013824160"></p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325013948756.png" srcset="/img/loading.gif" lazyload alt="image-20230325013948756"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#5.生产除灰度外剩余服务器部署V2版本</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325014011404.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325014011404"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325014011404.png" srcset="/img/loading.gif" lazyload alt="image-20230325014011404"> </p>
 <h2 id="1-9-回退版本"><a href="#1-9-回退版本" class="headerlink" title="1.9 回退版本"></a>1.9 回退版本</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#将生产环境V2版本回退至V1版本</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325014307090.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325014307090"> </p>
-<p><img src="/chsblogs/chsblogs/2023/03/19/CICD/JG/jg04/jg04/image-20230325014459248.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230325014459248"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325014307090.png" srcset="/img/loading.gif" lazyload alt="image-20230325014307090"> </p>
+<p><img src="/2023/03/19/CICD/JG/jg04/image-20230325014459248.png" srcset="/img/loading.gif" lazyload alt="image-20230325014459248"> </p>
 
                 
               </div>
@@ -811,12 +811,12 @@ To http://192.168.1.30/chsblogs/test.git
     
       <span class="category-chain">
         
-  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/chsblogs/categories/Linux/CI-CD/" class="category-chain-item">CI/CD</a>
+  <a href="/categories/Linux/CI-CD/" class="category-chain-item">CI/CD</a>
   
   
 
@@ -833,7 +833,7 @@ To http://192.168.1.30/chsblogs/test.git
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/chsblogs/tags/CI-CD/">#CI/CD</a>
+        <a href="/tags/CI-CD/">#CI/CD</a>
       
     </div>
   
@@ -846,7 +846,7 @@ To http://192.168.1.30/chsblogs/test.git
   <div class="license-box my-3">
     <div class="license-title">
       <div>(04).代码部署实战</div>
-      <div>https://huaisen.gitee.io/chsblogs/2023/03/19/CICD/JG/jg04/</div>
+      <div>https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/</div>
     </div>
     <div class="license-meta">
       
@@ -890,7 +890,7 @@ To http://192.168.1.30/chsblogs/test.git
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/chsblogs/2023/03/19/CICD/JG/jg05/" title="(05).Git常用命令">
+                      <a href="/2023/03/19/CICD/JG/jg05/" title="(05).Git常用命令">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(05).Git常用命令</span>
                         <span class="visible-mobile">上一篇</span>
@@ -900,7 +900,7 @@ To http://192.168.1.30/chsblogs/test.git
                   <article class="post-next col-6">
                     
                     
-                      <a href="/chsblogs/2023/03/19/CICD/JG/jg03/" title="(03).SonarQube简介及安装">
+                      <a href="/2023/03/19/CICD/JG/jg03/" title="(03).SonarQube简介及安装">
                         <span class="hidden-mobile">(03).SonarQube简介及安装</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -921,8 +921,8 @@ To http://192.168.1.30/chsblogs/test.git
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://huaisen.gitee.io/chsblogs/2023/03/19/CICD/JG/jg04/';
-          this.page.identifier = '/chsblogs/2023/03/19/CICD/JG/jg04/';
+          this.page.url = 'https://chsblogs.gitee.io/2023/03/19/CICD/JG/jg04/';
+          this.page.identifier = '/2023/03/19/CICD/JG/jg04/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -981,7 +981,7 @@ To http://192.168.1.30/chsblogs/test.git
     
       
       
-        <a href="/chsblogs/2023/03/12/CICD/JG/jg01/" title="(01).GitLab简介及安装"
+        <a href="/2023/03/12/CICD/JG/jg01/" title="(01).GitLab简介及安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(01).GitLab简介及安装</span>
@@ -990,7 +990,7 @@ To http://192.168.1.30/chsblogs/test.git
     
       
       
-        <a href="/chsblogs/2023/03/12/CICD/JG/jg02/" title="(02).Jenkins简介及安装"
+        <a href="/2023/03/12/CICD/JG/jg02/" title="(02).Jenkins简介及安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(02).Jenkins简介及安装</span>
@@ -999,7 +999,7 @@ To http://192.168.1.30/chsblogs/test.git
     
       
       
-        <a href="/chsblogs/2023/03/19/CICD/JG/jg03/" title="(03).SonarQube简介及安装"
+        <a href="/2023/03/19/CICD/JG/jg03/" title="(03).SonarQube简介及安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(03).SonarQube简介及安装</span>
@@ -1008,7 +1008,7 @@ To http://192.168.1.30/chsblogs/test.git
     
       
       
-        <a href="/chsblogs/2023/03/19/CICD/JG/jg04/" title="(04).代码部署实战"
+        <a href="/2023/03/19/CICD/JG/jg04/" title="(04).代码部署实战"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(04).代码部署实战</span>
@@ -1017,7 +1017,7 @@ To http://192.168.1.30/chsblogs/test.git
     
       
       
-        <a href="/chsblogs/2023/03/19/CICD/JG/jg05/" title="(05).Git常用命令"
+        <a href="/2023/03/19/CICD/JG/jg05/" title="(05).Git常用命令"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(05).Git常用命令</span>
@@ -1126,7 +1126,7 @@ To http://192.168.1.30/chsblogs/test.git
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -1157,8 +1157,8 @@ To http://192.168.1.30/chsblogs/test.git
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/chsblogs/js/events.js" ></script>
-<script  src="/chsblogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -1180,7 +1180,7 @@ To http://192.168.1.30/chsblogs/test.git
 
 
   
-    <script  src="/chsblogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -1279,7 +1279,7 @@ To http://192.168.1.30/chsblogs/test.git
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/chsblogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -1287,7 +1287,7 @@ To http://192.168.1.30/chsblogs/test.git
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/chsblogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   
