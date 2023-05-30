@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
-  <link rel="icon" href="/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
+  <link rel="icon" href="/chsblogs/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.高可用集群1.1 集群类型 LB：Load Balance负载均衡(LVS&#x2F;HAProxy&#x2F;Nginx) HA：High Availability高可用集群(数据库、Zookeeper、Redis) HPC：High Performance Computing 高性能集群  1.2 系统可用性SLA：Service-Level Agreement 服务等级协议（提供服务的企">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/chsblogs/2023/02/06/HA/Keepalived/keepalived01/keepalived01/image-20230206151024839.png">
 <meta property="article:published_time" content="2023-02-06T03:45:41.000Z">
 <meta property="article:modified_time" content="2023-05-06T16:55:48.973Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Keepalived">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png">
+<meta name="twitter:image" content="https://chsblogs.gitee.io/chsblogs/2023/02/06/HA/Keepalived/keepalived01/keepalived01/image-20230206151024839.png">
   
   
   
@@ -57,12 +57,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link  rel="stylesheet" href="/chsblogs/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
   
 
 
@@ -71,15 +71,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  <script  src="/chsblogs/js/utils.js" ></script>
+  <script  src="/chsblogs/js/color-schema.js" ></script>
   
 
 
@@ -96,7 +96,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/chsblogs/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -115,7 +115,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/chsblogs/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -127,7 +127,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/chsblogs/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -139,7 +139,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/chsblogs/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -151,7 +151,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/chsblogs/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -163,7 +163,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
+              <a class="nav-link" href="/chsblogs/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -175,7 +175,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/links/">
+              <a class="nav-link" href="/chsblogs/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -205,7 +205,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -357,7 +357,7 @@ active/active  双主</code></pre></div></figure>
 <span class="token header"><span class="token header-name keyword">https</span><span class="token punctuation">:</span><span class="token header-value">//keepalived.org/doc/</span></span>
 <span class="token header"><span class="token header-name keyword">http</span><span class="token punctuation">:</span><span class="token header-value">//keepalived.org/documentation.html</span></span></code></pre></div></figure>
 
-<p><img src="/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png" srcset="/img/loading.gif" lazyload alt="image-20230206151024839">  </p>
+<p><img src="/chsblogs/2023/02/06/HA/Keepalived/keepalived01/keepalived01/image-20230206151024839.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230206151024839">  </p>
 <ul>
 <li>用户空间核心组件：<ul>
 <li>VRRP Stack：VIP消息通告。</li>
@@ -577,12 +577,12 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
     
       <span class="category-chain">
         
-  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/categories/Linux/Keepalived/" class="category-chain-item">Keepalived</a>
+  <a href="/chsblogs/categories/Linux/Keepalived/" class="category-chain-item">Keepalived</a>
   
   
 
@@ -599,7 +599,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Keepalived/">#Keepalived</a>
+        <a href="/chsblogs/tags/Keepalived/">#Keepalived</a>
       
     </div>
   
@@ -656,7 +656,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/02/06/HA/Keepalived/keepalived02/" title="(2).Keepalived配置说明">
+                      <a href="/chsblogs/2023/02/06/HA/Keepalived/keepalived02/" title="(2).Keepalived配置说明">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(2).Keepalived配置说明</span>
                         <span class="visible-mobile">上一篇</span>
@@ -666,7 +666,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/02/02/LB/LVS/lvs03/" title="(3).LVS实战案例">
+                      <a href="/chsblogs/2023/02/02/LB/LVS/lvs03/" title="(3).LVS实战案例">
                         <span class="hidden-mobile">(3).LVS实战案例</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -688,7 +688,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
       <script type="text/javascript">
         var disqus_config = function() {
           this.page.url = 'https://chsblogs.gitee.io/2023/02/06/HA/Keepalived/keepalived01/';
-          this.page.identifier = '/2023/02/06/HA/Keepalived/keepalived01/';
+          this.page.identifier = '/chsblogs/2023/02/06/HA/Keepalived/keepalived01/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -747,7 +747,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
     
       
       
-        <a href="/2023/02/06/HA/Keepalived/keepalived01/" title="(1).Keepalived简介及安装"
+        <a href="/chsblogs/2023/02/06/HA/Keepalived/keepalived01/" title="(1).Keepalived简介及安装"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(1).Keepalived简介及安装</span>
@@ -756,7 +756,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
     
       
       
-        <a href="/2023/02/06/HA/Keepalived/keepalived02/" title="(2).Keepalived配置说明"
+        <a href="/chsblogs/2023/02/06/HA/Keepalived/keepalived02/" title="(2).Keepalived配置说明"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(2).Keepalived配置说明</span>
@@ -765,7 +765,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
     
       
       
-        <a href="/2023/02/06/HA/Keepalived/keepalived03/" title="(3).Keepalived企业应用"
+        <a href="/chsblogs/2023/02/06/HA/Keepalived/keepalived03/" title="(3).Keepalived企业应用"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(3).Keepalived企业应用</span>
@@ -874,7 +874,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -905,8 +905,8 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<script  src="/chsblogs/js/events.js" ></script>
+<script  src="/chsblogs/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -928,7 +928,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
 
 
   
-    <script  src="/js/img-lazyload.js" ></script>
+    <script  src="/chsblogs/js/img-lazyload.js" ></script>
   
 
 
@@ -1027,7 +1027,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/js/local-search.js" ></script>
+  <script  src="/chsblogs/js/local-search.js" ></script>
 
 
 
@@ -1035,7 +1035,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
+<script  src="/chsblogs/js/boot.js" ></script>
 
 
   
