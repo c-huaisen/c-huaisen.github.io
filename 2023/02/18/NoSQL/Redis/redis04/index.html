@@ -19,17 +19,17 @@
     <meta name="description" content="1.Redis主从复制虽然Redis可以实现单机的数据持久化，但无论是RDB也好或者AOF也好，都解决不了单点宕机问题。此外,单机的性能也是有极限的,因此需要使用另外的技术来解决单点故障和性能扩展的问题。 1.1 Redis主从复制架构主从模式（master&#x2F;slave），可以实现Redis数据的跨主机备份。  程序端连接到高可用负载的VIP，然后连接到负载服务器设置的Redis后端re">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(4).Redis主从复制">
-<meta property="og:url" content="https://chsblogs.gitee.io/2023/02/18/NoSQL/Redis/redis04/index.html">
+<meta property="og:url" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Redis主从复制虽然Redis可以实现单机的数据持久化，但无论是RDB也好或者AOF也好，都解决不了单点宕机问题。此外,单机的性能也是有极限的,因此需要使用另外的技术来解决单点故障和性能扩展的问题。 1.1 Redis主从复制架构主从模式（master&#x2F;slave），可以实现Redis数据的跨主机备份。  程序端连接到高可用负载的VIP，然后连接到负载服务器设置的Redis后端re">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png">
+<meta property="og:image" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png">
 <meta property="article:published_time" content="2023-02-18T10:51:05.000Z">
 <meta property="article:modified_time" content="2023-03-15T03:24:51.612Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png">
+<meta name="twitter:image" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png">
   
   
   
@@ -71,7 +71,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -460,7 +460,7 @@ OK
   <div class="license-box my-3">
     <div class="license-title">
       <div>(4).Redis主从复制</div>
-      <div>https://chsblogs.gitee.io/2023/02/18/NoSQL/Redis/redis04/</div>
+      <div>http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/</div>
     </div>
     <div class="license-meta">
       
@@ -535,7 +535,7 @@ OK
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://chsblogs.gitee.io/2023/02/18/NoSQL/Redis/redis04/';
+          this.page.url = 'http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/';
           this.page.identifier = '/2023/02/18/NoSQL/Redis/redis04/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {

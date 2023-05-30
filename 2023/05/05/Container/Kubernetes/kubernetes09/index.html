@@ -19,19 +19,19 @@
     <meta name="description" content="1.K8S基于ZooKeeper集群实现微服务动态注册和发现  1.1 构建zookeeper镜像创建zoo.cfg配置文件： root@deploy:&#x2F;opt&#x2F;dockerfile&#x2F;project&#x2F;zookeeper# vim zoo.cfg tickTime&#x3D;2000 initLimit&#x3D;10 syncLimit&#x3D;5 dataDir&#x3D;&#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;data data">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(09).K8S基于ZooKeeper集群实现微服务动态注册和发现">
-<meta property="og:url" content="https://chsblogs.gitee.io/2023/05/05/Container/Kubernetes/kubernetes09/index.html">
+<meta property="og:url" content="http://chsblogs.com/2023/05/05/Container/Kubernetes/kubernetes09/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.K8S基于ZooKeeper集群实现微服务动态注册和发现  1.1 构建zookeeper镜像创建zoo.cfg配置文件： root@deploy:&#x2F;opt&#x2F;dockerfile&#x2F;project&#x2F;zookeeper# vim zoo.cfg tickTime&#x3D;2000 initLimit&#x3D;10 syncLimit&#x3D;5 dataDir&#x3D;&#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;data data">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/05/05/Container/Kubernetes/kubernetes09/image-20230511193018816.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/05/05/Container/Kubernetes/kubernetes09/image-20230511225316951.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/05/05/Container/Kubernetes/kubernetes09/image-20230512194646736.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/05/Container/Kubernetes/kubernetes09/image-20230511193018816.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/05/Container/Kubernetes/kubernetes09/image-20230511225316951.png">
+<meta property="og:image" content="http://chsblogs.com/2023/05/05/Container/Kubernetes/kubernetes09/image-20230512194646736.png">
 <meta property="article:published_time" content="2023-05-05T06:56:17.000Z">
 <meta property="article:modified_time" content="2023-05-12T11:48:01.026Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/05/05/Container/Kubernetes/kubernetes09/image-20230511193018816.png">
+<meta name="twitter:image" content="http://chsblogs.com/2023/05/05/Container/Kubernetes/kubernetes09/image-20230511193018816.png">
   
   
   
@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -1319,7 +1319,7 @@ dubboadmin-service      <span class="token number">10.20</span>.132.224:8080    
   <div class="license-box my-3">
     <div class="license-title">
       <div>(09).K8S基于ZooKeeper集群实现微服务动态注册和发现</div>
-      <div>https://chsblogs.gitee.io/2023/05/05/Container/Kubernetes/kubernetes09/</div>
+      <div>http://chsblogs.com/2023/05/05/Container/Kubernetes/kubernetes09/</div>
     </div>
     <div class="license-meta">
       
@@ -1394,7 +1394,7 @@ dubboadmin-service      <span class="token number">10.20</span>.132.224:8080    
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://chsblogs.gitee.io/2023/05/05/Container/Kubernetes/kubernetes09/';
+          this.page.url = 'http://chsblogs.com/2023/05/05/Container/Kubernetes/kubernetes09/';
           this.page.identifier = '/2023/05/05/Container/Kubernetes/kubernetes09/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {

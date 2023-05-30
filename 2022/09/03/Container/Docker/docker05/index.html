@@ -19,27 +19,27 @@
     <meta name="description" content="1.Harbor简介​		Harbor是VMware公司开源的企业级Docker Registry项目。Harbor提供了更好的性能和安全。它包括权限管理(RBAC)、LDAP、日志审核、管理界面、自我注册、镜像复制和中文支持等功能，具有Web管理功能，有了它之后能够很方便的管理容器镜像，搭配Jenkins使用很是方便。 VMware官方开源服务列表地址：https:&#x2F;&#x2F;github.com&#x2F;vm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(05).Docker镜像仓库之Harbor">
-<meta property="og:url" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/index.html">
+<meta property="og:url" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Harbor简介​		Harbor是VMware公司开源的企业级Docker Registry项目。Harbor提供了更好的性能和安全。它包括权限管理(RBAC)、LDAP、日志审核、管理界面、自我注册、镜像复制和中文支持等功能，具有Web管理功能，有了它之后能够很方便的管理容器镜像，搭配Jenkins使用很是方便。 VMware官方开源服务列表地址：https:&#x2F;&#x2F;github.com&#x2F;vm">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220904235329135.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220905103205291.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220905104557900.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220906102853032.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220906220516516.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220906221105045.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220906221231351.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220906220516516.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220906221414917.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220906221512412.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220906221839209.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220904235329135.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220905103205291.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220905104557900.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906102853032.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906220516516.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221105045.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221231351.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906220516516.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221414917.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221512412.png">
+<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221839209.png">
 <meta property="article:published_time" content="2022-09-03T15:38:58.000Z">
 <meta property="article:modified_time" content="2023-05-06T16:45:06.917Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/image-20220904235329135.png">
+<meta name="twitter:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220904235329135.png">
   
   
   
@@ -81,7 +81,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -345,7 +345,7 @@
 <td>v2.5.0</td>
 </tr>
 </tbody></table>
-<h2 id="2-2-安装Docker"><a href="#2-2-安装Docker" class="headerlink" title="2.2 安装Docker"></a>2.2 安装Docker</h2><p>详见Docker安装文档：<a target="_blank" rel="noopener" href="https://chsblogs.com/2022/08/30/Container/Docker/docker02/">https://chsblogs.com/2022/08/30/Container/Docker/docker02/</a></p>
+<h2 id="2-2-安装Docker"><a href="#2-2-安装Docker" class="headerlink" title="2.2 安装Docker"></a>2.2 安装Docker</h2><p>详见Docker安装文档：<a href="https://chsblogs.com/2022/08/30/Container/Docker/docker02/">https://chsblogs.com/2022/08/30/Container/Docker/docker02/</a></p>
 <h2 id="2-3-下载Harbor安装包"><a href="#2-3-下载Harbor安装包" class="headerlink" title="2.3 下载Harbor安装包"></a>2.3 下载Harbor安装包</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@node14:~<span class="token comment"># cd /usr/local/src/</span>
 root@node14:/usr/local/src<span class="token comment"># wget https://github.com/goharbor/harbor/releases/download/v2.5.0/harbor-offline-installer-v2.5.0.tgz</span>
 root@node14:/usr/local/src<span class="token comment"># ls</span>
@@ -737,7 +737,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
   <div class="license-box my-3">
     <div class="license-title">
       <div>(05).Docker镜像仓库之Harbor</div>
-      <div>https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/</div>
+      <div>http://chsblogs.com/2022/09/03/Container/Docker/docker05/</div>
     </div>
     <div class="license-meta">
       
@@ -812,7 +812,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://chsblogs.gitee.io/2022/09/03/Container/Docker/docker05/';
+          this.page.url = 'http://chsblogs.com/2022/09/03/Container/Docker/docker05/';
           this.page.identifier = '/2022/09/03/Container/Docker/docker05/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {

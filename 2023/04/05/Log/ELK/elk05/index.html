@@ -19,18 +19,18 @@
     <meta name="description" content="1.Logstash基于Redis收集日志主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(5).ELK-Logstash基于Redis收集日志">
-<meta property="og:url" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk05/index.html">
+<meta property="og:url" content="http://chsblogs.com/2023/04/05/Log/ELK/elk05/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Logstash基于Redis收集日志主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubu">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk05/image-20230408180550190.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk05/image-20230408234034737.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk05/image-20230408180550190.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk05/image-20230408234034737.png">
 <meta property="article:published_time" content="2023-04-05T02:56:58.000Z">
 <meta property="article:modified_time" content="2023-04-09T03:19:55.515Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk05/image-20230408180550190.png">
+<meta name="twitter:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk05/image-20230408180550190.png">
   
   
   
@@ -72,7 +72,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -554,7 +554,7 @@ root@logstash2:~<span class="token comment"># systemctl restart logstash</span>
   <div class="license-box my-3">
     <div class="license-title">
       <div>(5).ELK-Logstash基于Redis收集日志</div>
-      <div>https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk05/</div>
+      <div>http://chsblogs.com/2023/04/05/Log/ELK/elk05/</div>
     </div>
     <div class="license-meta">
       
@@ -629,7 +629,7 @@ root@logstash2:~<span class="token comment"># systemctl restart logstash</span>
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk05/';
+          this.page.url = 'http://chsblogs.com/2023/04/05/Log/ELK/elk05/';
           this.page.identifier = '/2023/04/05/Log/ELK/elk05/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {

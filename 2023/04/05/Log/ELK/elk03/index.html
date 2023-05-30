@@ -19,23 +19,23 @@
     <meta name="description" content="1.Kibana部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.04">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(3).ELK-Kibana部署及使用">
-<meta property="og:url" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/index.html">
+<meta property="og:url" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Kibana部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.04">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/image-20230408120402052.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/image-20230408105601043.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/image-20230408110001537.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/image-20230408110051391.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/image-20230408110129323.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/image-20230408110240493.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/image-20230408114131494.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408120402052.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408105601043.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110001537.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110051391.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110129323.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408110240493.png">
+<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408114131494.png">
 <meta property="article:published_time" content="2023-04-05T02:47:23.000Z">
 <meta property="article:modified_time" content="2023-04-08T07:24:54.160Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/image-20230408120402052.png">
+<meta name="twitter:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk03/image-20230408120402052.png">
   
   
   
@@ -77,7 +77,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -506,7 +506,7 @@ http://kibana.chsblogs.com/</code></pre></div></figure>
   <div class="license-box my-3">
     <div class="license-title">
       <div>(3).ELK-Kibana部署及使用</div>
-      <div>https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/</div>
+      <div>http://chsblogs.com/2023/04/05/Log/ELK/elk03/</div>
     </div>
     <div class="license-meta">
       
@@ -581,7 +581,7 @@ http://kibana.chsblogs.com/</code></pre></div></figure>
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk03/';
+          this.page.url = 'http://chsblogs.com/2023/04/05/Log/ELK/elk03/';
           this.page.identifier = '/2023/04/05/Log/ELK/elk03/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {

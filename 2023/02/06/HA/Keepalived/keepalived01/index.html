@@ -19,17 +19,17 @@
     <meta name="description" content="1.高可用集群1.1 集群类型 LB：Load Balance负载均衡(LVS&#x2F;HAProxy&#x2F;Nginx) HA：High Availability高可用集群(数据库、Zookeeper、Redis) HPC：High Performance Computing 高性能集群  1.2 系统可用性SLA：Service-Level Agreement 服务等级协议（提供服务的企">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(1).Keepalived简介及安装">
-<meta property="og:url" content="https://chsblogs.gitee.io/2023/02/06/HA/Keepalived/keepalived01/index.html">
+<meta property="og:url" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.高可用集群1.1 集群类型 LB：Load Balance负载均衡(LVS&#x2F;HAProxy&#x2F;Nginx) HA：High Availability高可用集群(数据库、Zookeeper、Redis) HPC：High Performance Computing 高性能集群  1.2 系统可用性SLA：Service-Level Agreement 服务等级协议（提供服务的企">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chsblogs.gitee.io/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png">
+<meta property="og:image" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png">
 <meta property="article:published_time" content="2023-02-06T03:45:41.000Z">
 <meta property="article:modified_time" content="2023-05-06T16:55:48.973Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Keepalived">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png">
+<meta name="twitter:image" content="http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/image-20230206151024839.png">
   
   
   
@@ -71,7 +71,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -612,7 +612,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
   <div class="license-box my-3">
     <div class="license-title">
       <div>(1).Keepalived简介及安装</div>
-      <div>https://chsblogs.gitee.io/2023/02/06/HA/Keepalived/keepalived01/</div>
+      <div>http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/</div>
     </div>
     <div class="license-meta">
       
@@ -687,7 +687,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/keepalived.serv
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://chsblogs.gitee.io/2023/02/06/HA/Keepalived/keepalived01/';
+          this.page.url = 'http://chsblogs.com/2023/02/06/HA/Keepalived/keepalived01/';
           this.page.identifier = '/2023/02/06/HA/Keepalived/keepalived01/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
