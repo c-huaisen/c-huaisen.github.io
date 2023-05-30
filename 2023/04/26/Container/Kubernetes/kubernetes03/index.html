@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
-  <link rel="icon" href="/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
+  <link rel="icon" href="/chsblogs/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,30 +19,30 @@
     <meta name="description" content="1.kubeasz工具基于Docker部署Kubernetes v1.231.1 部署主机清单K8S集群部署主机清单：    主机名 IP地址 操作系统 服务 VIP    deploy.chsblogs.com 192.168.10.10 Ubuntu20.04 k8s集群部署服务器    master1.chsblogs.com 192.168.10.11 Ubuntu20.04 K8s Ma">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(03).kubeasz工具基于Docker部署Kubernetes v1.23">
-<meta property="og:url" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/index.html">
+<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.kubeasz工具基于Docker部署Kubernetes v1.231.1 部署主机清单K8S集群部署主机清单：    主机名 IP地址 操作系统 服务 VIP    deploy.chsblogs.com 192.168.10.10 Ubuntu20.04 k8s集群部署服务器    master1.chsblogs.com 192.168.10.11 Ubuntu20.04 K8s Ma">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501100346878.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501194232560.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501202001881.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230502103837315.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175444602.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175545010.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175720229.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175826533.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175948010.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527180313754.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527181124064.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527181802723.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527182059752.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527191726672.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230501100346878.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230501194232560.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230501202001881.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230502103837315.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175444602.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175545010.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175720229.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175826533.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175948010.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527180313754.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527181124064.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527181802723.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527182059752.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527191726672.png">
 <meta property="article:published_time" content="2023-04-26T03:29:42.000Z">
 <meta property="article:modified_time" content="2023-05-29T04:45:03.994Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501100346878.png">
+<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230501100346878.png">
   
   
   
@@ -70,12 +70,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link  rel="stylesheet" href="/chsblogs/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
   
 
 
@@ -84,15 +84,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  <script  src="/chsblogs/js/utils.js" ></script>
+  <script  src="/chsblogs/js/color-schema.js" ></script>
   
 
 
@@ -109,7 +109,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/chsblogs/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -128,7 +128,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/chsblogs/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -140,7 +140,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/chsblogs/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -152,7 +152,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/chsblogs/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -164,7 +164,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/chsblogs/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -176,7 +176,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
+              <a class="nav-link" href="/chsblogs/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -188,7 +188,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/links/">
+              <a class="nav-link" href="/chsblogs/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -218,7 +218,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -788,9 +788,9 @@ root@harbor1:~<span class="token comment"># vim /lib/systemd/system/harbor.servi
 root@harbor1:~<span class="token comment"># systemctl daemon-reload</span>
 root@harbor1:~<span class="token comment"># systemctl enable harbor</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501100346878.png" srcset="/img/loading.gif" lazyload alt="image-20230501100346878"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230501100346878.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230501100346878"> </p>
 <p><strong>创建baseimages项目：</strong></p>
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501194232560.png" srcset="/img/loading.gif" lazyload alt="image-20230501194232560"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230501194232560.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230501194232560"> </p>
 <h3 id="1-4-2-配置docker客户端"><a href="#1-4-2-配置docker客户端" class="headerlink" title="1.4.2 配置docker客户端"></a>1.4.2 配置docker客户端</h3><p><strong>docker客户端配置证书验证，并推送镜像到Harbor：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#主机deploy.chsblogs.com【192.168.1.10】操作。</span>
 <span class="token comment">#1.docker客户端创建证书保留位置，创建证书的名称必须是harbor域名的名称</span>
@@ -831,7 +831,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
 
 <span class="token comment">#6.查看Harbor</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501202001881.png" srcset="/img/loading.gif" lazyload alt="image-20230501202001881"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230501202001881.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230501202001881"> </p>
 <h2 id="1-7-安装配置Ansible"><a href="#1-7-安装配置Ansible" class="headerlink" title="1.7 安装配置Ansible"></a>1.7 安装配置Ansible</h2><p><strong>主机deploy.chsblogs.com【192.168.1.10】安装Ansible</strong>：</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:~<span class="token comment"># apt update &amp;&amp; apt -y install ansible git</span></code></pre></div></figure>
 
@@ -940,7 +940,7 @@ root@deploy:~<span class="token comment"># vim ezdown</span>
 
 
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230502103837315.png" srcset="/img/loading.gif" lazyload alt="image-20230502103837315"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230502103837315.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230502103837315"> </p>
 <h2 id="1-9-准备镜像"><a href="#1-9-准备镜像" class="headerlink" title="1.9 准备镜像"></a>1.9 准备镜像</h2><h3 id="1-9-1-下载镜像"><a href="#1-9-1-下载镜像" class="headerlink" title="1.9.1 下载镜像"></a>1.9.1 下载镜像</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#查看脚本，可以选择自定义kubernetes组件版本号；查看安装镜像手动拉去镜像到本地。该脚本以包含docker安装，如果本机如果已经安装docker则直接使用。</span>
 root@deploy:~<span class="token comment"># cat ezdown | grep "docker pull"</span>
   <span class="token function">docker</span> pull easzlab/kubeasz-k8s-bin:<span class="token string">"<span class="token variable">$K8S_BIN_VER</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">\</span>
@@ -1405,13 +1405,13 @@ HARBOR_WITH_CHARTMUSEUM: <span class="token boolean">true</span></code></pre></d
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/prepare/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 01</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175444602.png" srcset="/img/loading.gif" lazyload alt="image-20230527175444602"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175444602.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527175444602"> </p>
 <h3 id="1-10-4-部署etcd集群"><a href="#1-10-4-部署etcd集群" class="headerlink" title="1.10.4 部署etcd集群"></a>1.10.4 部署etcd集群</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ./ezctl setup k8s-cluster1 02</span>
 <span class="token comment"># 剧本文件为：/etc/kubeasz/playbooks/02.etcd.yml</span>
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/etcd/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 02</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175545010.png" srcset="/img/loading.gif" lazyload alt="image-20230527175545010"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175545010.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527175545010"> </p>
 <p><strong>登录etcd集群查看节点状态：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@etcd1:~<span class="token comment"># export NODE_IPS="192.168.10.16 192.168.10.17 192.168.10.18"</span>
 root@etcd1:~<span class="token comment"># for n in $&#123;NODE_IPS&#125;;do etcdctl --endpoints=https://$&#123;n&#125;:2379 --cacert=/etc/kubernetes/ssl/ca.pem --cert=/etc/kubernetes/ssl/etcd.pem --key=/etc/kubernetes/ssl/etcd-key.pem endpoint health;done</span>
@@ -1421,20 +1421,20 @@ https://192.168.10.18:2379 is healthy: successfully committed proposal: took <sp
 
 root@etcd1:~<span class="token comment"># for n in $&#123;NODE_IPS&#125;;do etcdctl --endpoints=https://$&#123;n&#125;:2379 --cacert=/etc/kubernetes/ssl/ca.pem --cert=/etc/kubernetes/ssl/etcd.pem --key=/etc/kubernetes/ssl/etcd-key.pem --write-out=table endpoint status;done</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175720229.png" srcset="/img/loading.gif" lazyload alt="image-20230527175720229"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175720229.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527175720229"> </p>
 <h3 id="1-10-5-部署集群runtime"><a href="#1-10-5-部署集群runtime" class="headerlink" title="1.10.5 部署集群runtime"></a>1.10.5 部署集群runtime</h3><p>master和node节点必须安装docker。</p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ./ezctl setup k8s-cluster1 03</span>
 <span class="token comment"># 剧本文件：/etc/kubeasz/playbooks/03.runtime.yml</span>
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/docker/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 03</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175826533.png" srcset="/img/loading.gif" lazyload alt="image-20230527175826533"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175826533.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527175826533"> </p>
 <h3 id="1-10-6-部署K8S-Master"><a href="#1-10-6-部署K8S-Master" class="headerlink" title="1.10.6 部署K8S Master"></a>1.10.6 部署K8S Master</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># ./ezctl setup k8s-cluster1 04</span>
 <span class="token comment"># 剧本文件：/etc/kubeasz/playbooks/04.kube-master.yml</span>
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/kube-master/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 04</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175948010.png" srcset="/img/loading.gif" lazyload alt="image-20230527175948010"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527175948010.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527175948010"> </p>
 <p><strong>kubenetes Master节点验证：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get node</span>
 NAME            STATUS                     ROLES    AGE     VERSION
@@ -1446,7 +1446,7 @@ NAME            STATUS                     ROLES    AGE     VERSION
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/kube-node/tasks/</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 05</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527180313754.png" srcset="/img/loading.gif" lazyload alt="image-20230527180313754"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527180313754.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527180313754"> </p>
 <p><strong>kubenetes Node节点验证：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get node</span>
 NAME            STATUS                     ROLES    AGE    VERSION
@@ -1480,7 +1480,7 @@ root@deploy:/etc/kubeasz/roles/calico/templates<span class="token comment"># vim
 <span class="token comment"># 剧本角色执行文件：/etc/kubeasz/roles/calico/tasks</span>
 root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl setup k8s-cluster1 06</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527181124064.png" srcset="/img/loading.gif" lazyload alt="image-20230527181124064"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527181124064.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527181124064"> </p>
 <p><strong>节点验证：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get pod -A</span>
 NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE
@@ -1549,7 +1549,7 @@ rtt min/avg/max/mdev <span class="token operator">=</span> <span class="token nu
 
 <h2 id="1-11-集群维护与管理"><a href="#1-11-集群维护与管理" class="headerlink" title="1.11 集群维护与管理"></a>1.11 集群维护与管理</h2><h3 id="1-11-1-添加Master节点"><a href="#1-11-1-添加Master节点" class="headerlink" title="1.11.1 添加Master节点"></a>1.11.1 添加Master节点</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl add-master k8s-cluster1 192.168.10.13</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527181802723.png" srcset="/img/loading.gif" lazyload alt="image-20230527181802723"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527181802723.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527181802723"> </p>
 <p><strong>验证节点：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get node</span>
 NAME            STATUS                     ROLES    AGE   VERSION
@@ -1564,7 +1564,7 @@ NAME            STATUS                     ROLES    AGE   VERSION
 
 <h3 id="1-11-2-添加Node节点"><a href="#1-11-2-添加Node节点" class="headerlink" title="1.11.2 添加Node节点"></a>1.11.2 添加Node节点</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/etc/kubeasz<span class="token comment"># ./ezctl add-node k8s-cluster1 192.168.10.23</span></code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527182059752.png" srcset="/img/loading.gif" lazyload alt="image-20230527182059752"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527182059752.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527182059752"> </p>
 <p><strong>验证节点：</strong></p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@master1:~<span class="token comment"># kubectl get node</span>
 NAME            STATUS                     ROLES    AGE     VERSION
@@ -2065,7 +2065,7 @@ namespace:  <span class="token number">20</span> bytes
 token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IktmaWZfcS1FRnFGYS1hMVhTVkF6SGlQVlVGQjJYQmJQU0xrS0VoY0trMEkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTh0aHJjIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIxZTJmMTgzOC1kZjQ0LTQ0ODEtYTk5Mi1kYWYxZWQyNTc0NzMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.grf7QMwvSDmMczsCan9cBBE-Fp6cW43jquJVnJmFzseLAs8tS0kMiXl8CkjhgoAaLW1hpjB5MDEtWCRbPJ4MpooMsDIa_Z9HdTcpBuRYLOlMd3cYPbcS0axgek0Gaxj647nLFa1SUiyqy6DWKJw1B_0RHeIzIqOYRlmuUTNXsB8zsCwyMpDqMxwcV1Pru0WeugorCCwme5qtuz8CpMiZESCUbt6wc3xJ3Q4DsARWfH_SeIiALZjtspyfUzaBllcM6eZEza1aBrY0waOuBUfPdHhGikgBllIrnRYcqqQEQnadLtsmkuAVRtV0TPWIMFZRJ2jdl_QayGSiT-IgHlo98A
 ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></figure>
 
-<p><img src="/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527191726672.png" srcset="/img/loading.gif" lazyload alt="image-20230527191726672"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/kubernetes03/image-20230527191726672.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230527191726672"> </p>
 
                 
               </div>
@@ -2084,12 +2084,12 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       <span class="category-chain">
         
-  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/categories/Linux/Kubernetes/" class="category-chain-item">Kubernetes</a>
+  <a href="/chsblogs/categories/Linux/Kubernetes/" class="category-chain-item">Kubernetes</a>
   
   
 
@@ -2106,7 +2106,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Kubernetes/">#Kubernetes</a>
+        <a href="/chsblogs/tags/Kubernetes/">#Kubernetes</a>
       
     </div>
   
@@ -2119,7 +2119,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
   <div class="license-box my-3">
     <div class="license-title">
       <div>(03).kubeasz工具基于Docker部署Kubernetes v1.23</div>
-      <div>http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/</div>
+      <div>https://huaisen.gitee.io/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/</div>
     </div>
     <div class="license-meta">
       
@@ -2163,7 +2163,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/26/Container/Kubernetes/kubernetes04/" title="(04).kubeasz工具基于Containerd部署Kubernetes v1.26">
+                      <a href="/chsblogs/2023/04/26/Container/Kubernetes/kubernetes04/" title="(04).kubeasz工具基于Containerd部署Kubernetes v1.26">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(04).kubeasz工具基于Containerd部署Kubernetes v1.26</span>
                         <span class="visible-mobile">上一篇</span>
@@ -2173,7 +2173,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/26/Container/Kubernetes/kubernetes02/" title="(02).基于kubeadm工具部署Kubernetes v1.20.14">
+                      <a href="/chsblogs/2023/04/26/Container/Kubernetes/kubernetes02/" title="(02).基于kubeadm工具部署Kubernetes v1.20.14">
                         <span class="hidden-mobile">(02).基于kubeadm工具部署Kubernetes v1.20.14</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -2194,8 +2194,8 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/';
-          this.page.identifier = '/2023/04/26/Container/Kubernetes/kubernetes03/';
+          this.page.url = 'https://huaisen.gitee.io/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/';
+          this.page.identifier = '/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -2254,7 +2254,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/04/25/Container/Kubernetes/kubernetes01/" title="(01).K8S核心组件介绍"
+        <a href="/chsblogs/2023/04/25/Container/Kubernetes/kubernetes01/" title="(01).K8S核心组件介绍"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(01).K8S核心组件介绍</span>
@@ -2263,7 +2263,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/04/26/Container/Kubernetes/kubernetes02/" title="(02).基于kubeadm工具部署Kubernetes v1.20.14"
+        <a href="/chsblogs/2023/04/26/Container/Kubernetes/kubernetes02/" title="(02).基于kubeadm工具部署Kubernetes v1.20.14"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(02).基于kubeadm工具部署Kubernetes v1.20.14</span>
@@ -2272,7 +2272,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/04/26/Container/Kubernetes/kubernetes03/" title="(03).kubeasz工具基于Docker部署Kubernetes v1.23"
+        <a href="/chsblogs/2023/04/26/Container/Kubernetes/kubernetes03/" title="(03).kubeasz工具基于Docker部署Kubernetes v1.23"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(03).kubeasz工具基于Docker部署Kubernetes v1.23</span>
@@ -2281,7 +2281,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/04/26/Container/Kubernetes/kubernetes04/" title="(04).kubeasz工具基于Containerd部署Kubernetes v1.26"
+        <a href="/chsblogs/2023/04/26/Container/Kubernetes/kubernetes04/" title="(04).kubeasz工具基于Containerd部署Kubernetes v1.26"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(04).kubeasz工具基于Containerd部署Kubernetes v1.26</span>
@@ -2290,7 +2290,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/03/Container/Kubernetes/kubernetes05/" title="(05).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离"
+        <a href="/chsblogs/2023/05/03/Container/Kubernetes/kubernetes05/" title="(05).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(05).自定义镜像运行Nginx及Java服务并基于NFS实现动静分离</span>
@@ -2299,7 +2299,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/03/Container/Kubernetes/kubernetes06/" title="(06).K8S基于HPA控制器实现Pod自动伸缩"
+        <a href="/chsblogs/2023/05/03/Container/Kubernetes/kubernetes06/" title="(06).K8S基于HPA控制器实现Pod自动伸缩"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(06).K8S基于HPA控制器实现Pod自动伸缩</span>
@@ -2308,7 +2308,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/03/Container/Kubernetes/kubernetes07/" title="(07).K8S基于Jenkins和Gitlab实现版本升级与回滚"
+        <a href="/chsblogs/2023/05/03/Container/Kubernetes/kubernetes07/" title="(07).K8S基于Jenkins和Gitlab实现版本升级与回滚"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(07).K8S基于Jenkins和Gitlab实现版本升级与回滚</span>
@@ -2317,7 +2317,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/03/Container/Kubernetes/kubernetes08/" title="(08).K8S基于ELK及Kafka集群实现日志收集"
+        <a href="/chsblogs/2023/05/03/Container/Kubernetes/kubernetes08/" title="(08).K8S基于ELK及Kafka集群实现日志收集"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(08).K8S基于ELK及Kafka集群实现日志收集</span>
@@ -2326,7 +2326,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/05/Container/Kubernetes/kubernetes09/" title="(09).K8S基于ZooKeeper集群实现微服务动态注册和发现"
+        <a href="/chsblogs/2023/05/05/Container/Kubernetes/kubernetes09/" title="(09).K8S基于ZooKeeper集群实现微服务动态注册和发现"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(09).K8S基于ZooKeeper集群实现微服务动态注册和发现</span>
@@ -2335,7 +2335,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/09/Container/Kubernetes/kubernetes10/" title="(10).K8S账户授权RBAC"
+        <a href="/chsblogs/2023/05/09/Container/Kubernetes/kubernetes10/" title="(10).K8S账户授权RBAC"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(10).K8S账户授权RBAC</span>
@@ -2344,7 +2344,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/09/Container/Kubernetes/kubernetes11/" title="(11).K8S资源配额"
+        <a href="/chsblogs/2023/05/09/Container/Kubernetes/kubernetes11/" title="(11).K8S资源配额"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(11).K8S资源配额</span>
@@ -2353,7 +2353,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/11/Container/Kubernetes/kubernetes12/" title="(12).基于StatefulSet控制器运行Redis Cluster集群"
+        <a href="/chsblogs/2023/05/11/Container/Kubernetes/kubernetes12/" title="(12).基于StatefulSet控制器运行Redis Cluster集群"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(12).基于StatefulSet控制器运行Redis Cluster集群</span>
@@ -2362,7 +2362,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/12/Container/Kubernetes/kubernetes13/" title="(13).K8S基于StatefulSet控制器运行MySQL一主多从"
+        <a href="/chsblogs/2023/05/12/Container/Kubernetes/kubernetes13/" title="(13).K8S基于StatefulSet控制器运行MySQL一主多从"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(13).K8S基于StatefulSet控制器运行MySQL一主多从</span>
@@ -2371,7 +2371,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/19/Container/Kubernetes/kubernetes14/" title="(14).K8S之Etcd备份和恢复"
+        <a href="/chsblogs/2023/05/19/Container/Kubernetes/kubernetes14/" title="(14).K8S之Etcd备份和恢复"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(14).K8S之Etcd备份和恢复</span>
@@ -2380,7 +2380,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/28/Container/Kubernetes/kubernetes15/" title="(15).K8S之Pod状态及探针检测"
+        <a href="/chsblogs/2023/05/28/Container/Kubernetes/kubernetes15/" title="(15).K8S之Pod状态及探针检测"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(15).K8S之Pod状态及探针检测</span>
@@ -2389,7 +2389,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/28/Container/Kubernetes/kubernetes16/" title="(16).K8S之Pod调度及亲和性与反亲和性"
+        <a href="/chsblogs/2023/05/28/Container/Kubernetes/kubernetes16/" title="(16).K8S之Pod调度及亲和性与反亲和性"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(16).K8S之Pod调度及亲和性与反亲和性</span>
@@ -2398,7 +2398,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/28/Container/Kubernetes/kubernetes17/" title="(17).K8S之Ingress"
+        <a href="/chsblogs/2023/05/28/Container/Kubernetes/kubernetes17/" title="(17).K8S之Ingress"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(17).K8S之Ingress</span>
@@ -2407,7 +2407,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       
       
-        <a href="/2023/05/28/Container/Kubernetes/kubernetes18/" title="(18).K8S构建LNMP架构部署WordPress"
+        <a href="/chsblogs/2023/05/28/Container/Kubernetes/kubernetes18/" title="(18).K8S构建LNMP架构部署WordPress"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(18).K8S构建LNMP架构部署WordPress</span>
@@ -2516,7 +2516,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -2547,8 +2547,8 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<script  src="/chsblogs/js/events.js" ></script>
+<script  src="/chsblogs/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -2570,7 +2570,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
 
 
   
-    <script  src="/js/img-lazyload.js" ></script>
+    <script  src="/chsblogs/js/img-lazyload.js" ></script>
   
 
 
@@ -2669,7 +2669,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/js/local-search.js" ></script>
+  <script  src="/chsblogs/js/local-search.js" ></script>
 
 
 
@@ -2677,7 +2677,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
+<script  src="/chsblogs/js/boot.js" ></script>
 
 
   

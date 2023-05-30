@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
-  <link rel="icon" href="/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
+  <link rel="icon" href="/chsblogs/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,19 +19,19 @@
     <meta name="description" content="1.Logstash部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(2).ELK-Logstash部署及使用">
-<meta property="og:url" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/index.html">
+<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2023/04/05/Log/ELK/elk02/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Logstash部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/image-20230408084214092.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/image-20230408095741094.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/image-20230408104431723.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/05/Log/ELK/elk02/elk02/image-20230408084214092.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/05/Log/ELK/elk02/elk02/image-20230408095741094.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/05/Log/ELK/elk02/elk02/image-20230408104431723.png">
 <meta property="article:published_time" content="2023-04-05T02:47:14.000Z">
 <meta property="article:modified_time" content="2023-04-08T02:46:06.326Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/04/05/Log/ELK/elk02/image-20230408084214092.png">
+<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/04/05/Log/ELK/elk02/elk02/image-20230408084214092.png">
   
   
   
@@ -59,12 +59,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link  rel="stylesheet" href="/chsblogs/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
   
 
 
@@ -73,15 +73,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  <script  src="/chsblogs/js/utils.js" ></script>
+  <script  src="/chsblogs/js/color-schema.js" ></script>
   
 
 
@@ -98,7 +98,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/chsblogs/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -117,7 +117,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/chsblogs/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -129,7 +129,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/chsblogs/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -141,7 +141,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/chsblogs/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -153,7 +153,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/chsblogs/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -165,7 +165,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
+              <a class="nav-link" href="/chsblogs/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -177,7 +177,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/links/">
+              <a class="nav-link" href="/chsblogs/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -207,7 +207,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -365,7 +365,7 @@
 </tr>
 </tbody></table>
 <p><strong>部署拓扑图：</strong></p>
-<p><img src="/2023/04/05/Log/ELK/elk02/image-20230408084214092.png" srcset="/img/loading.gif" lazyload alt="image-20230408084214092"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/05/Log/ELK/elk02/elk02/image-20230408084214092.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230408084214092"> </p>
 <h2 id="1-1-环境初始化"><a href="#1-1-环境初始化" class="headerlink" title="1.1 环境初始化"></a>1.1 环境初始化</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.主机名配置</span>
 hostnamectl set-hostname web1.chsblogs.com
 hostnamectl set-hostname web2.chsblogs.com</code></pre></div></figure>
@@ -472,7 +472,7 @@ Hello World
 
 <span class="token comment">#查看数据</span></code></pre></div></figure>
 
-<p><img src="/2023/04/05/Log/ELK/elk02/image-20230408095741094.png" srcset="/img/loading.gif" lazyload alt="image-20230408095741094"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/05/Log/ELK/elk02/elk02/image-20230408095741094.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230408095741094"> </p>
 <h2 id="1-4-Logstash收集指定文件"><a href="#1-4-Logstash收集指定文件" class="headerlink" title="1.4 Logstash收集指定文件"></a>1.4 Logstash收集指定文件</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.Logstash收集/var/log/vmware-vmsvc-root日志</span>
 <span class="token comment">#官方文档：https://www.elastic.co/guide/en/logstash/7.12/plugins-inputs-file.html</span>
 root@web1:~<span class="token comment"># vim /etc/logstash/conf.d/test.conf</span>
@@ -501,7 +501,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
 
 <span class="token comment">#4.查看数据</span></code></pre></div></figure>
 
-<p><img src="/2023/04/05/Log/ELK/elk02/image-20230408104431723.png" srcset="/img/loading.gif" lazyload alt="image-20230408104431723"> </p>
+<p><img src="/chsblogs/chsblogs/2023/04/05/Log/ELK/elk02/elk02/image-20230408104431723.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230408104431723"> </p>
 
                 
               </div>
@@ -520,12 +520,12 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     
       <span class="category-chain">
         
-  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/categories/Linux/ELK/" class="category-chain-item">ELK</a>
+  <a href="/chsblogs/categories/Linux/ELK/" class="category-chain-item">ELK</a>
   
   
 
@@ -542,7 +542,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/ELK/">#ELK</a>
+        <a href="/chsblogs/tags/ELK/">#ELK</a>
       
     </div>
   
@@ -555,7 +555,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
   <div class="license-box my-3">
     <div class="license-title">
       <div>(2).ELK-Logstash部署及使用</div>
-      <div>http://chsblogs.com/2023/04/05/Log/ELK/elk02/</div>
+      <div>https://huaisen.gitee.io/chsblogs/2023/04/05/Log/ELK/elk02/</div>
     </div>
     <div class="license-meta">
       
@@ -599,7 +599,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/05/Log/ELK/elk03/" title="(3).ELK-Kibana部署及使用">
+                      <a href="/chsblogs/2023/04/05/Log/ELK/elk03/" title="(3).ELK-Kibana部署及使用">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(3).ELK-Kibana部署及使用</span>
                         <span class="visible-mobile">上一篇</span>
@@ -609,7 +609,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/03/26/Log/ELK/elk01/" title="(1).ELK-Elasticsearch简介及集群部署">
+                      <a href="/chsblogs/2023/03/26/Log/ELK/elk01/" title="(1).ELK-Elasticsearch简介及集群部署">
                         <span class="hidden-mobile">(1).ELK-Elasticsearch简介及集群部署</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -630,8 +630,8 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2023/04/05/Log/ELK/elk02/';
-          this.page.identifier = '/2023/04/05/Log/ELK/elk02/';
+          this.page.url = 'https://huaisen.gitee.io/chsblogs/2023/04/05/Log/ELK/elk02/';
+          this.page.identifier = '/chsblogs/2023/04/05/Log/ELK/elk02/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -690,7 +690,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     
       
       
-        <a href="/2023/03/26/Log/ELK/elk01/" title="(1).ELK-Elasticsearch简介及集群部署"
+        <a href="/chsblogs/2023/03/26/Log/ELK/elk01/" title="(1).ELK-Elasticsearch简介及集群部署"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(1).ELK-Elasticsearch简介及集群部署</span>
@@ -699,7 +699,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     
       
       
-        <a href="/2023/04/05/Log/ELK/elk02/" title="(2).ELK-Logstash部署及使用"
+        <a href="/chsblogs/2023/04/05/Log/ELK/elk02/" title="(2).ELK-Logstash部署及使用"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(2).ELK-Logstash部署及使用</span>
@@ -708,7 +708,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     
       
       
-        <a href="/2023/04/05/Log/ELK/elk03/" title="(3).ELK-Kibana部署及使用"
+        <a href="/chsblogs/2023/04/05/Log/ELK/elk03/" title="(3).ELK-Kibana部署及使用"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(3).ELK-Kibana部署及使用</span>
@@ -717,7 +717,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     
       
       
-        <a href="/2023/04/05/Log/ELK/elk04/" title="(4).ELK-基于Logstash收集日志"
+        <a href="/chsblogs/2023/04/05/Log/ELK/elk04/" title="(4).ELK-基于Logstash收集日志"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(4).ELK-基于Logstash收集日志</span>
@@ -726,7 +726,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     
       
       
-        <a href="/2023/04/05/Log/ELK/elk05/" title="(5).ELK-Logstash基于Redis收集日志"
+        <a href="/chsblogs/2023/04/05/Log/ELK/elk05/" title="(5).ELK-Logstash基于Redis收集日志"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(5).ELK-Logstash基于Redis收集日志</span>
@@ -735,7 +735,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     
       
       
-        <a href="/2023/04/05/Log/ELK/elk06/" title="(6).ELK-Logstash基于Kafka收集日志"
+        <a href="/chsblogs/2023/04/05/Log/ELK/elk06/" title="(6).ELK-Logstash基于Kafka收集日志"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(6).ELK-Logstash基于Kafka收集日志</span>
@@ -744,7 +744,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
     
       
       
-        <a href="/2023/04/05/Log/ELK/elk07/" title="(7).ELK-FileBeat部署及使用"
+        <a href="/chsblogs/2023/04/05/Log/ELK/elk07/" title="(7).ELK-FileBeat部署及使用"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(7).ELK-FileBeat部署及使用</span>
@@ -853,7 +853,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -884,8 +884,8 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<script  src="/chsblogs/js/events.js" ></script>
+<script  src="/chsblogs/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -907,7 +907,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
 
 
   
-    <script  src="/js/img-lazyload.js" ></script>
+    <script  src="/chsblogs/js/img-lazyload.js" ></script>
   
 
 
@@ -1006,7 +1006,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/js/local-search.js" ></script>
+  <script  src="/chsblogs/js/local-search.js" ></script>
 
 
 
@@ -1014,7 +1014,7 @@ root@web1:/etc/logstash/conf.d<span class="token comment"># echo "test2" >> /var
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
+<script  src="/chsblogs/js/boot.js" ></script>
 
 
   

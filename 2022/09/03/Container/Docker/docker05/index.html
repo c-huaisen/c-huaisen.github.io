@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
-  <link rel="icon" href="/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
+  <link rel="icon" href="/chsblogs/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,27 +19,27 @@
     <meta name="description" content="1.Harbor简介​		Harbor是VMware公司开源的企业级Docker Registry项目。Harbor提供了更好的性能和安全。它包括权限管理(RBAC)、LDAP、日志审核、管理界面、自我注册、镜像复制和中文支持等功能，具有Web管理功能，有了它之后能够很方便的管理容器镜像，搭配Jenkins使用很是方便。 VMware官方开源服务列表地址：https:&#x2F;&#x2F;github.com&#x2F;vm">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(05).Docker镜像仓库之Harbor">
-<meta property="og:url" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/index.html">
+<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2022/09/03/Container/Docker/docker05/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Harbor简介​		Harbor是VMware公司开源的企业级Docker Registry项目。Harbor提供了更好的性能和安全。它包括权限管理(RBAC)、LDAP、日志审核、管理界面、自我注册、镜像复制和中文支持等功能，具有Web管理功能，有了它之后能够很方便的管理容器镜像，搭配Jenkins使用很是方便。 VMware官方开源服务列表地址：https:&#x2F;&#x2F;github.com&#x2F;vm">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220904235329135.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220905103205291.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220905104557900.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906102853032.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906220516516.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221105045.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221231351.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906220516516.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221414917.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221512412.png">
-<meta property="og:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220906221839209.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220904235329135.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220905103205291.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220905104557900.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906102853032.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906220516516.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221105045.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221231351.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906220516516.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221414917.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221512412.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221839209.png">
 <meta property="article:published_time" content="2022-09-03T15:38:58.000Z">
 <meta property="article:modified_time" content="2023-05-06T16:45:06.917Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2022/09/03/Container/Docker/docker05/image-20220904235329135.png">
+<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220904235329135.png">
   
   
   
@@ -67,12 +67,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link  rel="stylesheet" href="/chsblogs/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
   
 
 
@@ -81,15 +81,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  <script  src="/chsblogs/js/utils.js" ></script>
+  <script  src="/chsblogs/js/color-schema.js" ></script>
   
 
 
@@ -106,7 +106,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/chsblogs/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -125,7 +125,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/chsblogs/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -137,7 +137,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/chsblogs/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -149,7 +149,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/chsblogs/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -161,7 +161,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/chsblogs/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -173,7 +173,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
+              <a class="nav-link" href="/chsblogs/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -185,7 +185,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/links/">
+              <a class="nav-link" href="/chsblogs/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -215,7 +215,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -345,7 +345,7 @@
 <td>v2.5.0</td>
 </tr>
 </tbody></table>
-<h2 id="2-2-安装Docker"><a href="#2-2-安装Docker" class="headerlink" title="2.2 安装Docker"></a>2.2 安装Docker</h2><p>详见Docker安装文档：<a href="https://chsblogs.com/2022/08/30/Container/Docker/docker02/">https://chsblogs.com/2022/08/30/Container/Docker/docker02/</a></p>
+<h2 id="2-2-安装Docker"><a href="#2-2-安装Docker" class="headerlink" title="2.2 安装Docker"></a>2.2 安装Docker</h2><p>详见Docker安装文档：<a target="_blank" rel="noopener" href="https://chsblogs.com/2022/08/30/Container/Docker/docker02/">https://chsblogs.com/2022/08/30/Container/Docker/docker02/</a></p>
 <h2 id="2-3-下载Harbor安装包"><a href="#2-3-下载Harbor安装包" class="headerlink" title="2.3 下载Harbor安装包"></a>2.3 下载Harbor安装包</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@node14:~<span class="token comment"># cd /usr/local/src/</span>
 root@node14:/usr/local/src<span class="token comment"># wget https://github.com/goharbor/harbor/releases/download/v2.5.0/harbor-offline-installer-v2.5.0.tgz</span>
 root@node14:/usr/local/src<span class="token comment"># ls</span>
@@ -393,7 +393,7 @@ Creating nginx             <span class="token punctuation">..</span>. <span clas
 Creating harbor-jobservice <span class="token punctuation">..</span>. <span class="token keyword">done</span>
 ✔ ----Harbor has been installed and started successfully.----</code></pre></div></figure>
 
-<h2 id="2-6-访问测试"><a href="#2-6-访问测试" class="headerlink" title="2.6 访问测试"></a>2.6 访问测试</h2><p><img src="/2022/09/03/Container/Docker/docker05/image-20220904235329135.png" srcset="/img/loading.gif" lazyload alt="Harbor">  </p>
+<h2 id="2-6-访问测试"><a href="#2-6-访问测试" class="headerlink" title="2.6 访问测试"></a>2.6 访问测试</h2><p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220904235329135.png" srcset="/chsblogs/img/loading.gif" lazyload alt="Harbor">  </p>
 <h1 id="3-使用Harbor仓库上传下载镜像"><a href="#3-使用Harbor仓库上传下载镜像" class="headerlink" title="3.使用Harbor仓库上传下载镜像"></a>3.使用Harbor仓库上传下载镜像</h1><h2 id="3-1-配置Docker文件"><a href="#3-1-配置Docker文件" class="headerlink" title="3.1 配置Docker文件"></a>3.1 配置Docker文件</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#配置docker</span>
 root@node10:~<span class="token comment"># vim /etc/docker/daemon.json</span>
 <span class="token punctuation">&#123;</span>
@@ -420,7 +420,7 @@ Login Succeeded</code></pre></div></figure>
 <h2 id="3-2-上传下载镜像"><a href="#3-2-上传下载镜像" class="headerlink" title="3.2 上传下载镜像"></a>3.2 上传下载镜像</h2><ul>
 <li>新建项目</li>
 </ul>
-<p><img src="/2022/09/03/Container/Docker/docker05/image-20220905103205291.png" srcset="/img/loading.gif" lazyload alt="baseimages"> </p>
+<p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220905103205291.png" srcset="/chsblogs/img/loading.gif" lazyload alt="baseimages"> </p>
 <ul>
 <li>镜像打tag</li>
 </ul>
@@ -444,7 +444,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
 
 
 
-<p><img src="/2022/09/03/Container/Docker/docker05/image-20220905104557900.png" srcset="/img/loading.gif" lazyload alt="baseimages"> </p>
+<p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220905104557900.png" srcset="/chsblogs/img/loading.gif" lazyload alt="baseimages"> </p>
 <ul>
 <li>从harbor下载镜像</li>
 </ul>
@@ -522,7 +522,7 @@ harbor.chsblogs.com/baseimages/ubuntu   <span class="token operator">&lt;</span>
 <li>VIP地址：192.168.1.66</li>
 <li>域名：harbor.chsblogs.com</li>
 </ul>
-<h2 id="4-2-部署拓扑图"><a href="#4-2-部署拓扑图" class="headerlink" title="4.2 部署拓扑图"></a>4.2 部署拓扑图</h2><p><img src="/2022/09/03/Container/Docker/docker05/image-20220906102853032.png" srcset="/img/loading.gif" lazyload alt="Harbor高可用部署拓扑图"></p>
+<h2 id="4-2-部署拓扑图"><a href="#4-2-部署拓扑图" class="headerlink" title="4.2 部署拓扑图"></a>4.2 部署拓扑图</h2><p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906102853032.png" srcset="/chsblogs/img/loading.gif" lazyload alt="Harbor高可用部署拓扑图"></p>
 <h2 id="4-3-安装配置Haproxy-Keepalived"><a href="#4-3-安装配置Haproxy-Keepalived" class="headerlink" title="4.3 安装配置Haproxy+Keepalived"></a>4.3 安装配置Haproxy+Keepalived</h2><h3 id="4-3-1-主机-node12-配置"><a href="#4-3-1-主机-node12-配置" class="headerlink" title="4.3.1 主机[node12]配置"></a>4.3.1 主机[node12]配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#安装keepalived+haproxy</span>
 root@node12:~<span class="token comment"># apt update &amp;&amp; apt install -y haproxy keepalived</span>
 root@node12:~<span class="token comment"># cp /usr/share/doc/keepalived/samples/keepalived.conf.sample /etc/keepalived/</span>
@@ -645,27 +645,27 @@ vrrp_instance VI_1 <span class="token punctuation">&#123;</span>
 <h2 id="4-5-配置Harbor双向复制"><a href="#4-5-配置Harbor双向复制" class="headerlink" title="4.5 配置Harbor双向复制"></a>4.5 配置Harbor双向复制</h2><h3 id="4-5-1-主机-node14-配置"><a href="#4-5-1-主机-node14-配置" class="headerlink" title="4.5.1 主机[node14]配置"></a>4.5.1 主机[node14]配置</h3><ul>
 <li>复制管理-新建规则</li>
 </ul>
-<p><img src="/2022/09/03/Container/Docker/docker05/image-20220906220516516.png" srcset="/img/loading.gif" lazyload alt="复制管理-新建规则"> </p>
+<p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906220516516.png" srcset="/chsblogs/img/loading.gif" lazyload alt="复制管理-新建规则"> </p>
 <ul>
 <li>仓库管理-新建目标</li>
 </ul>
-<p><img src="/2022/09/03/Container/Docker/docker05/image-20220906221105045.png" srcset="/img/loading.gif" lazyload alt="仓库管理-新建目标"> </p>
+<p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221105045.png" srcset="/chsblogs/img/loading.gif" lazyload alt="仓库管理-新建目标"> </p>
 <ul>
 <li>复制管理-新建规则</li>
 </ul>
-<p><img src="/2022/09/03/Container/Docker/docker05/image-20220906221231351.png" srcset="/img/loading.gif" lazyload alt="复制管理-新建规则"> </p>
+<p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221231351.png" srcset="/chsblogs/img/loading.gif" lazyload alt="复制管理-新建规则"> </p>
 <h3 id="4-5-2-主机-node15-配置"><a href="#4-5-2-主机-node15-配置" class="headerlink" title="4.5.2 主机[node15]配置"></a>4.5.2 主机[node15]配置</h3><ul>
 <li>新建项目</li>
 </ul>
-<p><img src="/2022/09/03/Container/Docker/docker05/image-20220906220516516.png" srcset="/img/loading.gif" lazyload alt="新建项目"> </p>
+<p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906220516516.png" srcset="/chsblogs/img/loading.gif" lazyload alt="新建项目"> </p>
 <ul>
 <li>仓库管理-新建目标</li>
 </ul>
-<p><img src="/2022/09/03/Container/Docker/docker05/image-20220906221414917.png" srcset="/img/loading.gif" lazyload alt="仓库管理-新建目标"> </p>
+<p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221414917.png" srcset="/chsblogs/img/loading.gif" lazyload alt="仓库管理-新建目标"> </p>
 <ul>
 <li>复制管理-新建规则</li>
 </ul>
-<p><img src="/2022/09/03/Container/Docker/docker05/image-20220906221512412.png" srcset="/img/loading.gif" lazyload alt="复制管理-新建规则"> </p>
+<p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221512412.png" srcset="/chsblogs/img/loading.gif" lazyload alt="复制管理-新建规则"> </p>
 <h2 id="4-6-上传镜像测试"><a href="#4-6-上传镜像测试" class="headerlink" title="4.6 上传镜像测试"></a>4.6 上传镜像测试</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#添加域名解析</span>
 root@node10:~<span class="token comment"># cat /etc/hosts</span>
 <span class="token number">127.0</span>.0.1 localhost
@@ -683,7 +683,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
 9f54eef41275: Pushed 
 <span class="token number">20.04</span>: digest: sha256:7cc0576c7c0ec2384de5cbf245f41567e922aab1b075f3e8ad565f508032df17 size: <span class="token number">529</span></code></pre></div></figure>
 
-<h2 id="4-7-验证Harbor镜像复制"><a href="#4-7-验证Harbor镜像复制" class="headerlink" title="4.7 验证Harbor镜像复制"></a>4.7 验证Harbor镜像复制</h2><p><img src="/2022/09/03/Container/Docker/docker05/image-20220906221839209.png" srcset="/img/loading.gif" lazyload alt="Harbor镜像复制"> </p>
+<h2 id="4-7-验证Harbor镜像复制"><a href="#4-7-验证Harbor镜像复制" class="headerlink" title="4.7 验证Harbor镜像复制"></a>4.7 验证Harbor镜像复制</h2><p><img src="/chsblogs/chsblogs/2022/09/03/Container/Docker/docker05/docker05/image-20220906221839209.png" srcset="/chsblogs/img/loading.gif" lazyload alt="Harbor镜像复制"> </p>
 
                 
               </div>
@@ -702,12 +702,12 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       <span class="category-chain">
         
-  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/categories/Linux/Docker/" class="category-chain-item">Docker</a>
+  <a href="/chsblogs/categories/Linux/Docker/" class="category-chain-item">Docker</a>
   
   
 
@@ -724,7 +724,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Docker/">#Docker</a>
+        <a href="/chsblogs/tags/Docker/">#Docker</a>
       
     </div>
   
@@ -737,7 +737,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
   <div class="license-box my-3">
     <div class="license-title">
       <div>(05).Docker镜像仓库之Harbor</div>
-      <div>http://chsblogs.com/2022/09/03/Container/Docker/docker05/</div>
+      <div>https://huaisen.gitee.io/chsblogs/2022/09/03/Container/Docker/docker05/</div>
     </div>
     <div class="license-meta">
       
@@ -781,7 +781,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/09/06/Container/Docker/docker06/" title="(06).Docker网络">
+                      <a href="/chsblogs/2022/09/06/Container/Docker/docker06/" title="(06).Docker网络">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(06).Docker网络</span>
                         <span class="visible-mobile">上一篇</span>
@@ -791,7 +791,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/09/03/StudyNotes/Linux/" title="(1).Linuxの学习笔记(大纲)">
+                      <a href="/chsblogs/2022/09/03/StudyNotes/Linux/" title="(1).Linuxの学习笔记(大纲)">
                         <span class="hidden-mobile">(1).Linuxの学习笔记(大纲)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -812,8 +812,8 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2022/09/03/Container/Docker/docker05/';
-          this.page.identifier = '/2022/09/03/Container/Docker/docker05/';
+          this.page.url = 'https://huaisen.gitee.io/chsblogs/2022/09/03/Container/Docker/docker05/';
+          this.page.identifier = '/chsblogs/2022/09/03/Container/Docker/docker05/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -872,7 +872,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       
       
-        <a href="/2022/08/30/Container/Docker/docker01/" title="(01).Docker简介"
+        <a href="/chsblogs/2022/08/30/Container/Docker/docker01/" title="(01).Docker简介"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(01).Docker简介</span>
@@ -881,7 +881,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       
       
-        <a href="/2022/08/30/Container/Docker/docker02/" title="(02).Docker安装"
+        <a href="/chsblogs/2022/08/30/Container/Docker/docker02/" title="(02).Docker安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(02).Docker安装</span>
@@ -890,7 +890,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       
       
-        <a href="/2022/08/30/Container/Docker/docker03/" title="(03).Docker命令"
+        <a href="/chsblogs/2022/08/30/Container/Docker/docker03/" title="(03).Docker命令"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(03).Docker命令</span>
@@ -899,7 +899,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       
       
-        <a href="/2022/08/31/Container/Docker/docker04/" title="(04).Docker构建镜像"
+        <a href="/chsblogs/2022/08/31/Container/Docker/docker04/" title="(04).Docker构建镜像"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(04).Docker构建镜像</span>
@@ -908,7 +908,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       
       
-        <a href="/2022/09/03/Container/Docker/docker05/" title="(05).Docker镜像仓库之Harbor"
+        <a href="/chsblogs/2022/09/03/Container/Docker/docker05/" title="(05).Docker镜像仓库之Harbor"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(05).Docker镜像仓库之Harbor</span>
@@ -917,7 +917,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       
       
-        <a href="/2022/09/06/Container/Docker/docker06/" title="(06).Docker网络"
+        <a href="/chsblogs/2022/09/06/Container/Docker/docker06/" title="(06).Docker网络"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(06).Docker网络</span>
@@ -926,7 +926,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       
       
-        <a href="/2022/09/07/Container/Docker/docker07/" title="(07).Docker资源限制"
+        <a href="/chsblogs/2022/09/07/Container/Docker/docker07/" title="(07).Docker资源限制"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(07).Docker资源限制</span>
@@ -935,7 +935,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
     
       
       
-        <a href="/2022/09/07/Container/Docker/docker08/" title="(08).Docker-Compose"
+        <a href="/chsblogs/2022/09/07/Container/Docker/docker08/" title="(08).Docker-Compose"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(08).Docker-Compose</span>
@@ -1044,7 +1044,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -1075,8 +1075,8 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<script  src="/chsblogs/js/events.js" ></script>
+<script  src="/chsblogs/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -1098,7 +1098,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
 
 
   
-    <script  src="/js/img-lazyload.js" ></script>
+    <script  src="/chsblogs/js/img-lazyload.js" ></script>
   
 
 
@@ -1197,7 +1197,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/js/local-search.js" ></script>
+  <script  src="/chsblogs/js/local-search.js" ></script>
 
 
 
@@ -1205,7 +1205,7 @@ The push refers to repository <span class="token punctuation">[</span>harbor.chs
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
+<script  src="/chsblogs/js/boot.js" ></script>
 
 
   

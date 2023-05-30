@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
-  <link rel="icon" href="/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
+  <link rel="icon" href="/chsblogs/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,17 +19,17 @@
     <meta name="description" content="1.Redis主从复制虽然Redis可以实现单机的数据持久化，但无论是RDB也好或者AOF也好，都解决不了单点宕机问题。此外,单机的性能也是有极限的,因此需要使用另外的技术来解决单点故障和性能扩展的问题。 1.1 Redis主从复制架构主从模式（master&#x2F;slave），可以实现Redis数据的跨主机备份。  程序端连接到高可用负载的VIP，然后连接到负载服务器设置的Redis后端re">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(4).Redis主从复制">
-<meta property="og:url" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/index.html">
+<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2023/02/18/NoSQL/Redis/redis04/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Redis主从复制虽然Redis可以实现单机的数据持久化，但无论是RDB也好或者AOF也好，都解决不了单点宕机问题。此外,单机的性能也是有极限的,因此需要使用另外的技术来解决单点故障和性能扩展的问题。 1.1 Redis主从复制架构主从模式（master&#x2F;slave），可以实现Redis数据的跨主机备份。  程序端连接到高可用负载的VIP，然后连接到负载服务器设置的Redis后端re">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/02/18/NoSQL/Redis/redis04/redis04/image-20230227210731764.png">
 <meta property="article:published_time" content="2023-02-18T10:51:05.000Z">
 <meta property="article:modified_time" content="2023-03-15T03:24:51.612Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png">
+<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/02/18/NoSQL/Redis/redis04/redis04/image-20230227210731764.png">
   
   
   
@@ -57,12 +57,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link  rel="stylesheet" href="/chsblogs/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
   
 
 
@@ -71,15 +71,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  <script  src="/chsblogs/js/utils.js" ></script>
+  <script  src="/chsblogs/js/color-schema.js" ></script>
   
 
 
@@ -96,7 +96,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/chsblogs/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -115,7 +115,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/chsblogs/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -127,7 +127,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/chsblogs/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -139,7 +139,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/chsblogs/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -151,7 +151,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/chsblogs/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -163,7 +163,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
+              <a class="nav-link" href="/chsblogs/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -175,7 +175,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/links/">
+              <a class="nav-link" href="/chsblogs/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -205,7 +205,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -303,7 +303,7 @@
                 
                 <h1 id="1-Redis主从复制"><a href="#1-Redis主从复制" class="headerlink" title="1.Redis主从复制"></a>1.Redis主从复制</h1><p>虽然Redis可以实现单机的数据持久化，但无论是RDB也好或者AOF也好，都解决不了单点宕机问题。此外,单机的性能也是有极限的,因此需要使用另外的技术来解决单点故障和性能扩展的问题。</p>
 <h2 id="1-1-Redis主从复制架构"><a href="#1-1-Redis主从复制架构" class="headerlink" title="1.1 Redis主从复制架构"></a>1.1 Redis主从复制架构</h2><p>主从模式（master&#x2F;slave），可以实现Redis数据的跨主机备份。  程序端连接到高可用负载的VIP，然后连接到负载服务器设置的Redis后端real server，此模式不需要在程序里面配 置Redis服务器的真实IP地址，当后期Redis服务器IP地址发生变更只需要更改redis 相应的后端real server即可， 可避免更改程序中的IP地址设置。</p>
-<p><img src="/2023/02/18/NoSQL/Redis/redis04/image-20230227210731764.png" srcset="/img/loading.gif" lazyload alt="image-20230227210731764">  </p>
+<p><img src="/chsblogs/chsblogs/2023/02/18/NoSQL/Redis/redis04/redis04/image-20230227210731764.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230227210731764">  </p>
 <h2 id="1-2-配置Redis主从"><a href="#1-2-配置Redis主从" class="headerlink" title="1.2 配置Redis主从"></a>1.2 配置Redis主从</h2><h3 id="1-2-1-配置清单"><a href="#1-2-1-配置清单" class="headerlink" title="1.2.1 配置清单"></a>1.2.1 配置清单</h3><table>
 <thead>
 <tr>
@@ -425,12 +425,12 @@ OK
     
       <span class="category-chain">
         
-  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/categories/Linux/Redis/" class="category-chain-item">Redis</a>
+  <a href="/chsblogs/categories/Linux/Redis/" class="category-chain-item">Redis</a>
   
   
 
@@ -447,7 +447,7 @@ OK
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Redis/">#Redis</a>
+        <a href="/chsblogs/tags/Redis/">#Redis</a>
       
     </div>
   
@@ -460,7 +460,7 @@ OK
   <div class="license-box my-3">
     <div class="license-title">
       <div>(4).Redis主从复制</div>
-      <div>http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/</div>
+      <div>https://huaisen.gitee.io/chsblogs/2023/02/18/NoSQL/Redis/redis04/</div>
     </div>
     <div class="license-meta">
       
@@ -504,7 +504,7 @@ OK
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/02/18/NoSQL/Redis/redis05/" title="(5).Redis哨兵机制">
+                      <a href="/chsblogs/2023/02/18/NoSQL/Redis/redis05/" title="(5).Redis哨兵机制">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(5).Redis哨兵机制</span>
                         <span class="visible-mobile">上一篇</span>
@@ -514,7 +514,7 @@ OK
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/02/16/NoSQL/Redis/redis03/" title="(3).Redis持久化">
+                      <a href="/chsblogs/2023/02/16/NoSQL/Redis/redis03/" title="(3).Redis持久化">
                         <span class="hidden-mobile">(3).Redis持久化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -535,8 +535,8 @@ OK
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2023/02/18/NoSQL/Redis/redis04/';
-          this.page.identifier = '/2023/02/18/NoSQL/Redis/redis04/';
+          this.page.url = 'https://huaisen.gitee.io/chsblogs/2023/02/18/NoSQL/Redis/redis04/';
+          this.page.identifier = '/chsblogs/2023/02/18/NoSQL/Redis/redis04/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -595,7 +595,7 @@ OK
     
       
       
-        <a href="/2023/02/16/NoSQL/Redis/redis01/" title="(1).Redis简介及安装"
+        <a href="/chsblogs/2023/02/16/NoSQL/Redis/redis01/" title="(1).Redis简介及安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(1).Redis简介及安装</span>
@@ -604,7 +604,7 @@ OK
     
       
       
-        <a href="/2023/02/16/NoSQL/Redis/redis02/" title="(2).Redis配置详解"
+        <a href="/chsblogs/2023/02/16/NoSQL/Redis/redis02/" title="(2).Redis配置详解"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(2).Redis配置详解</span>
@@ -613,7 +613,7 @@ OK
     
       
       
-        <a href="/2023/02/16/NoSQL/Redis/redis03/" title="(3).Redis持久化"
+        <a href="/chsblogs/2023/02/16/NoSQL/Redis/redis03/" title="(3).Redis持久化"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(3).Redis持久化</span>
@@ -622,7 +622,7 @@ OK
     
       
       
-        <a href="/2023/02/18/NoSQL/Redis/redis04/" title="(4).Redis主从复制"
+        <a href="/chsblogs/2023/02/18/NoSQL/Redis/redis04/" title="(4).Redis主从复制"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(4).Redis主从复制</span>
@@ -631,7 +631,7 @@ OK
     
       
       
-        <a href="/2023/02/18/NoSQL/Redis/redis05/" title="(5).Redis哨兵机制"
+        <a href="/chsblogs/2023/02/18/NoSQL/Redis/redis05/" title="(5).Redis哨兵机制"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(5).Redis哨兵机制</span>
@@ -640,7 +640,7 @@ OK
     
       
       
-        <a href="/2023/02/19/NoSQL/Redis/redis06/" title="(6).Redis之Cluster集群"
+        <a href="/chsblogs/2023/02/19/NoSQL/Redis/redis06/" title="(6).Redis之Cluster集群"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(6).Redis之Cluster集群</span>
@@ -749,7 +749,7 @@ OK
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -780,8 +780,8 @@ OK
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<script  src="/chsblogs/js/events.js" ></script>
+<script  src="/chsblogs/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -803,7 +803,7 @@ OK
 
 
   
-    <script  src="/js/img-lazyload.js" ></script>
+    <script  src="/chsblogs/js/img-lazyload.js" ></script>
   
 
 
@@ -902,7 +902,7 @@ OK
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/js/local-search.js" ></script>
+  <script  src="/chsblogs/js/local-search.js" ></script>
 
 
 
@@ -910,7 +910,7 @@ OK
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
+<script  src="/chsblogs/js/boot.js" ></script>
 
 
   

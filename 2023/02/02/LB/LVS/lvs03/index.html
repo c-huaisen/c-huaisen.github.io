@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
-  <link rel="icon" href="/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
+  <link rel="icon" href="/chsblogs/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -19,19 +19,19 @@
     <meta name="description" content="1.LVS相关软件1.1 ipvsadm#安装ipvsadm [root@Server10 ~]# yum -y install ipvsadm  #Unit File:  ipvsadm.service #主程序： &#x2F;usr&#x2F;sbin&#x2F;ipvsadm #规则保存工具： &#x2F;usr&#x2F;sbin&#x2F;ipvsadm-save #规则重载工具： &#x2F;usr&#x2F;sbin&#x2F;ipvsadm-restore #配置文件：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(3).LVS实战案例">
-<meta property="og:url" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs03/index.html">
+<meta property="og:url" content="https://huaisen.gitee.io/chsblogs/2023/02/02/LB/LVS/lvs03/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.LVS相关软件1.1 ipvsadm#安装ipvsadm [root@Server10 ~]# yum -y install ipvsadm  #Unit File:  ipvsadm.service #主程序： &#x2F;usr&#x2F;sbin&#x2F;ipvsadm #规则保存工具： &#x2F;usr&#x2F;sbin&#x2F;ipvsadm-save #规则重载工具： &#x2F;usr&#x2F;sbin&#x2F;ipvsadm-restore #配置文件：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs03/image-20230205220506587.png">
-<meta property="og:image" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs03/image-20230205233354208.png">
-<meta property="og:image" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs03/image-20230206222530142.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/02/02/LB/LVS/lvs03/lvs03/image-20230205220506587.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/02/02/LB/LVS/lvs03/lvs03/image-20230205233354208.png">
+<meta property="og:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/02/02/LB/LVS/lvs03/lvs03/image-20230206222530142.png">
 <meta property="article:published_time" content="2023-02-02T15:03:56.000Z">
 <meta property="article:modified_time" content="2023-03-15T03:17:05.883Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="LVS">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/02/02/LB/LVS/lvs03/image-20230205220506587.png">
+<meta name="twitter:image" content="https://huaisen.gitee.io/chsblogs/chsblogs/2023/02/02/LB/LVS/lvs03/lvs03/image-20230205220506587.png">
   
   
   
@@ -59,12 +59,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link  rel="stylesheet" href="/chsblogs/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
   
 
 
@@ -73,15 +73,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"huaisen.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  <script  src="/chsblogs/js/utils.js" ></script>
+  <script  src="/chsblogs/js/color-schema.js" ></script>
   
 
 
@@ -98,7 +98,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/chsblogs/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -117,7 +117,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/chsblogs/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -129,7 +129,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/chsblogs/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -141,7 +141,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/chsblogs/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -153,7 +153,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/chsblogs/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -165,7 +165,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
+              <a class="nav-link" href="/chsblogs/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -177,7 +177,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/links/">
+              <a class="nav-link" href="/chsblogs/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -207,7 +207,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -426,7 +426,7 @@ systemctl start ipvsadm.service <span class="token comment">#会自动加载/etc
 <td>Web服务</td>
 </tr>
 </tbody></table>
-<h3 id="2-1-2-部署拓扑图"><a href="#2-1-2-部署拓扑图" class="headerlink" title="2.1.2 部署拓扑图"></a>2.1.2 部署拓扑图</h3><p><img src="/2023/02/02/LB/LVS/lvs03/image-20230205220506587.png" srcset="/img/loading.gif" lazyload alt="image-20230205220506587"> </p>
+<h3 id="2-1-2-部署拓扑图"><a href="#2-1-2-部署拓扑图" class="headerlink" title="2.1.2 部署拓扑图"></a>2.1.2 部署拓扑图</h3><p><img src="/chsblogs/chsblogs/2023/02/02/LB/LVS/lvs03/lvs03/image-20230205220506587.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230205220506587"> </p>
 <h3 id="2-1-3-部署步骤"><a href="#2-1-3-部署步骤" class="headerlink" title="2.1.3 部署步骤"></a>2.1.3 部署步骤</h3><h4 id="2-1-3-1-配置网络"><a href="#2-1-3-1-配置网络" class="headerlink" title="2.1.3.1 配置网络"></a>2.1.3.1 配置网络</h4><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#client网络</span>
 <span class="token punctuation">[</span>root@client ~<span class="token punctuation">]</span><span class="token comment"># cat /etc/sysconfig/network-scripts/ifcfg-ens33 </span>
 <span class="token assign-left variable">TYPE</span><span class="token operator">=</span>Ethernet
@@ -638,7 +638,7 @@ rs2 <span class="token number">10.0</span>.0.12</code></pre></div></figure>
 <td>LVS服务</td>
 </tr>
 </tbody></table>
-<h3 id="2-2-2-部署拓扑图"><a href="#2-2-2-部署拓扑图" class="headerlink" title="2.2.2 部署拓扑图"></a>2.2.2 部署拓扑图</h3><p><img src="/2023/02/02/LB/LVS/lvs03/image-20230205233354208.png" srcset="/img/loading.gif" lazyload alt="image-20230205233354208"> </p>
+<h3 id="2-2-2-部署拓扑图"><a href="#2-2-2-部署拓扑图" class="headerlink" title="2.2.2 部署拓扑图"></a>2.2.2 部署拓扑图</h3><p><img src="/chsblogs/chsblogs/2023/02/02/LB/LVS/lvs03/lvs03/image-20230205233354208.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230205233354208"> </p>
 <h3 id="2-2-3-部署步骤"><a href="#2-2-3-部署步骤" class="headerlink" title="2.2.3 部署步骤"></a>2.2.3 部署步骤</h3><h4 id="2-2-3-1-配置网络"><a href="#2-2-3-1-配置网络" class="headerlink" title="2.2.3.1  配置网络"></a>2.2.3.1  配置网络</h4><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#client网络</span>
 <span class="token punctuation">[</span>root@client ~<span class="token punctuation">]</span><span class="token comment"># cat /etc/sysconfig/network-scripts/ifcfg-ens33</span>
 <span class="token assign-left variable">TYPE</span><span class="token operator">=</span>Ethernet
@@ -916,7 +916,7 @@ rs1 <span class="token number">10.0</span>.0.11</code></pre></div></figure>
 <td>LVS服务</td>
 </tr>
 </tbody></table>
-<h3 id="2-3-2-部署拓扑图"><a href="#2-3-2-部署拓扑图" class="headerlink" title="2.3.2 部署拓扑图"></a>2.3.2 部署拓扑图</h3><p><img src="/2023/02/02/LB/LVS/lvs03/image-20230206222530142.png" srcset="/img/loading.gif" lazyload alt="image-20230206222530142"> </p>
+<h3 id="2-3-2-部署拓扑图"><a href="#2-3-2-部署拓扑图" class="headerlink" title="2.3.2 部署拓扑图"></a>2.3.2 部署拓扑图</h3><p><img src="/chsblogs/chsblogs/2023/02/02/LB/LVS/lvs03/lvs03/image-20230206222530142.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230206222530142"> </p>
 <h3 id="2-3-3-部署步骤"><a href="#2-3-3-部署步骤" class="headerlink" title="2.3.3 部署步骤"></a>2.3.3 部署步骤</h3><h4 id="2-3-3-1-配置网络"><a href="#2-3-3-1-配置网络" class="headerlink" title="2.3.3.1  配置网络"></a>2.3.3.1  配置网络</h4><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#router的网络配置在2.2.3.1基础上添加172.16.0.10/24的地址</span>
 <span class="token function">ip</span> addr <span class="token function">add</span> <span class="token number">172.16</span>.0.10/24 dev ens36</code></pre></div></figure>
 
@@ -1058,12 +1058,12 @@ stop<span class="token punctuation">)</span>
     
       <span class="category-chain">
         
-  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/categories/Linux/LVS/" class="category-chain-item">LVS</a>
+  <a href="/chsblogs/categories/Linux/LVS/" class="category-chain-item">LVS</a>
   
   
 
@@ -1080,7 +1080,7 @@ stop<span class="token punctuation">)</span>
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/LVS/">#LVS</a>
+        <a href="/chsblogs/tags/LVS/">#LVS</a>
       
     </div>
   
@@ -1093,7 +1093,7 @@ stop<span class="token punctuation">)</span>
   <div class="license-box my-3">
     <div class="license-title">
       <div>(3).LVS实战案例</div>
-      <div>http://chsblogs.com/2023/02/02/LB/LVS/lvs03/</div>
+      <div>https://huaisen.gitee.io/chsblogs/2023/02/02/LB/LVS/lvs03/</div>
     </div>
     <div class="license-meta">
       
@@ -1137,7 +1137,7 @@ stop<span class="token punctuation">)</span>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/02/06/HA/Keepalived/keepalived01/" title="(1).Keepalived简介及安装">
+                      <a href="/chsblogs/2023/02/06/HA/Keepalived/keepalived01/" title="(1).Keepalived简介及安装">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(1).Keepalived简介及安装</span>
                         <span class="visible-mobile">上一篇</span>
@@ -1147,7 +1147,7 @@ stop<span class="token punctuation">)</span>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/02/02/LB/LVS/lvs02/" title="(2).LVS调度算法">
+                      <a href="/chsblogs/2023/02/02/LB/LVS/lvs02/" title="(2).LVS调度算法">
                         <span class="hidden-mobile">(2).LVS调度算法</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -1168,8 +1168,8 @@ stop<span class="token punctuation">)</span>
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2023/02/02/LB/LVS/lvs03/';
-          this.page.identifier = '/2023/02/02/LB/LVS/lvs03/';
+          this.page.url = 'https://huaisen.gitee.io/chsblogs/2023/02/02/LB/LVS/lvs03/';
+          this.page.identifier = '/chsblogs/2023/02/02/LB/LVS/lvs03/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -1228,7 +1228,7 @@ stop<span class="token punctuation">)</span>
     
       
       
-        <a href="/2023/02/02/LB/LVS/lvs01/" title="(1).LVS工作模式"
+        <a href="/chsblogs/2023/02/02/LB/LVS/lvs01/" title="(1).LVS工作模式"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(1).LVS工作模式</span>
@@ -1237,7 +1237,7 @@ stop<span class="token punctuation">)</span>
     
       
       
-        <a href="/2023/02/02/LB/LVS/lvs02/" title="(2).LVS调度算法"
+        <a href="/chsblogs/2023/02/02/LB/LVS/lvs02/" title="(2).LVS调度算法"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(2).LVS调度算法</span>
@@ -1246,7 +1246,7 @@ stop<span class="token punctuation">)</span>
     
       
       
-        <a href="/2023/02/02/LB/LVS/lvs03/" title="(3).LVS实战案例"
+        <a href="/chsblogs/2023/02/02/LB/LVS/lvs03/" title="(3).LVS实战案例"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(3).LVS实战案例</span>
@@ -1355,7 +1355,7 @@ stop<span class="token punctuation">)</span>
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -1386,8 +1386,8 @@ stop<span class="token punctuation">)</span>
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<script  src="/chsblogs/js/events.js" ></script>
+<script  src="/chsblogs/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -1409,7 +1409,7 @@ stop<span class="token punctuation">)</span>
 
 
   
-    <script  src="/js/img-lazyload.js" ></script>
+    <script  src="/chsblogs/js/img-lazyload.js" ></script>
   
 
 
@@ -1508,7 +1508,7 @@ stop<span class="token punctuation">)</span>
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/js/local-search.js" ></script>
+  <script  src="/chsblogs/js/local-search.js" ></script>
 
 
 
@@ -1516,7 +1516,7 @@ stop<span class="token punctuation">)</span>
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
+<script  src="/chsblogs/js/boot.js" ></script>
 
 
   
