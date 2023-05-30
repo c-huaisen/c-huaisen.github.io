@@ -23,11 +23,18 @@
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.K8S构建LNMP架构部署WordPress1.1 构建nginx资源1.1.1 创建nginx配置文件root@deploy:~# cd &#x2F;k8s&#x2F; root@deploy:&#x2F;k8s# mkdir lnmp root@deploy:&#x2F;k8s# cd lnmp&#x2F; root@deploy:&#x2F;k8s&#x2F;lnmp# mkdir nginx root@deploy:&#x2F;k8s&#x2F;lnmp# cd nginx">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chsblogs.com/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530223735563.png">
+<meta property="og:image" content="https://chsblogs.com/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530224443227.png">
+<meta property="og:image" content="https://chsblogs.com/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530225157652.png">
+<meta property="og:image" content="https://chsblogs.com/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530225255750.png">
+<meta property="og:image" content="https://chsblogs.com/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530225310664.png">
+<meta property="og:image" content="https://chsblogs.com/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530225358681.png">
 <meta property="article:published_time" content="2023-05-28T04:17:50.000Z">
-<meta property="article:modified_time" content="2023-05-30T10:24:22.282Z">
+<meta property="article:modified_time" content="2023-05-30T14:55:05.990Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://chsblogs.com/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530223735563.png">
   
   
   
@@ -232,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.2k 字
+          6.3k 字
         
       </span>
     
@@ -243,7 +250,7 @@
         
         
         
-          2 分钟
+          5 分钟
         
       </span>
     
@@ -367,7 +374,9 @@ http <span class="token punctuation">&#123;</span>
 <h3 id="1-1-2-创建nginx运行脚本"><a href="#1-1-2-创建nginx运行脚本" class="headerlink" title="1.1.2 创建nginx运行脚本"></a>1.1.2 创建nginx运行脚本</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/k8s/lnmp/nginx<span class="token comment"># vim run_nginx.sh </span>
 <span class="token comment">#!/bin/bash</span>
 /usr/local/nginx/sbin/nginx
-<span class="token function">tail</span> <span class="token parameter variable">-f</span> /usr/local/nginx/logs/access.log /usr/local/nginx/logs/error.log</code></pre></div></figure>
+<span class="token function">tail</span> <span class="token parameter variable">-f</span> /usr/local/nginx/logs/access.log /usr/local/nginx/logs/error.log
+
+root@deploy:/k8s/lnmp/nginx<span class="token comment"># chmod +x run_nginx.sh</span></code></pre></div></figure>
 
 
 
@@ -385,7 +394,7 @@ CMD <span class="token punctuation">[</span><span class="token string">"/usr/loc
 
 
 
-<h3 id="1-1-4-创建构建脚本"><a href="#1-1-4-创建构建脚本" class="headerlink" title="1.1.4 创建构建脚本"></a>1.1.4 创建构建脚本</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/k8s/lnmp/nginx<span class="token comment"># vim build-command.sh</span>
+<h3 id="1-1-4-创建镜像构建脚本"><a href="#1-1-4-创建镜像构建脚本" class="headerlink" title="1.1.4 创建镜像构建脚本"></a>1.1.4 创建镜像构建脚本</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/k8s/lnmp/nginx<span class="token comment"># vim build-command.sh</span>
 <span class="token comment">#!/bin/bash</span>
 <span class="token assign-left variable">TAG</span><span class="token operator">=</span><span class="token variable">$1</span>
 <span class="token function">docker</span> build <span class="token parameter variable">-t</span> harbor.chsblogs.local/wordpress/wordpress-nginx:<span class="token variable">$&#123;TAG&#125;</span> <span class="token builtin class-name">.</span>
@@ -399,20 +408,197 @@ root@deploy:/k8s/lnmp/nginx<span class="token comment"># bash build-command.sh v
 <h2 id="1-2-构建php镜像"><a href="#1-2-构建php镜像" class="headerlink" title="1.2 构建php镜像"></a>1.2 构建php镜像</h2><h3 id="1-2-1-创建Dockerfile"><a href="#1-2-1-创建Dockerfile" class="headerlink" title="1.2.1 创建Dockerfile"></a>1.2.1 创建Dockerfile</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/k8s/lnmp<span class="token comment"># mkdir php</span>
 root@deploy:/k8s/lnmp<span class="token comment"># cd php/</span>
 root@deploy:/k8s/lnmp/php<span class="token comment"># vim Dockerfile</span>
-</code></pre></div></figure>
+FROM harbor.chsblogs.local/baseimages/centos:7.9.2009
+RUN <span class="token function">useradd</span> nginx
+
+RUN <span class="token function">mv</span> /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+RUN <span class="token function">curl</span> <span class="token parameter variable">-o</span> /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo
+RUN <span class="token function">sed</span> <span class="token parameter variable">-i</span> <span class="token parameter variable">-e</span> <span class="token string">'/mirrors.cloud.aliyuncs.com/d'</span> <span class="token parameter variable">-e</span> <span class="token string">'/mirrors.aliyuncs.com/d'</span> /etc/yum.repos.d/CentOS-Base.repo
+RUN yum clean all <span class="token operator">&amp;&amp;</span> yum makecache
+RUN yum <span class="token function">install</span> <span class="token parameter variable">-y</span>  https://mirrors.tuna.tsinghua.edu.cn/remi/enterprise/remi-release-7.rpm <span class="token operator">&amp;&amp;</span> yum <span class="token function">install</span>  php56-php-fpm php56-php-mysql <span class="token parameter variable">-y</span>
+ADD www.conf /opt/remi/php56/root/etc/php-fpm.d/www.conf
+ADD run_php.sh /usr/local/bin/run_php.sh
+EXPOSE <span class="token number">9000</span>
+
+CMD <span class="token punctuation">[</span><span class="token string">"/usr/local/bin/run_php.sh"</span><span class="token punctuation">]</span></code></pre></div></figure>
 
 
 
+<h3 id="1-2-2-创建php-fpm容器运行脚本"><a href="#1-2-2-创建php-fpm容器运行脚本" class="headerlink" title="1.2.2 创建php-fpm容器运行脚本"></a>1.2.2 创建php-fpm容器运行脚本</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/k8s/lnmp/php<span class="token comment"># vim run_php.sh</span>
+<span class="token comment">#!/bin/bash</span>
+/opt/remi/php56/root/usr/sbin/php-fpm
+<span class="token function">tail</span> <span class="token parameter variable">-f</span> /etc/hosts</code></pre></div></figure>
 
 
 
+<h3 id="1-2-3-创建php-fpm运行配置文件"><a href="#1-2-3-创建php-fpm运行配置文件" class="headerlink" title="1.2.3 创建php-fpm运行配置文件"></a>1.2.3 创建php-fpm运行配置文件</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/k8s/lnmp/php<span class="token comment"># vim www.conf</span>
+<span class="token punctuation">[</span>www<span class="token punctuation">]</span>
+user <span class="token operator">=</span> nginx
+group <span class="token operator">=</span> nginx
+listen <span class="token operator">=</span> <span class="token number">0.0</span>.0.0:9000
+pm <span class="token operator">=</span> dynamic
+pm.max_children <span class="token operator">=</span> <span class="token number">50</span>
+pm.start_servers <span class="token operator">=</span> <span class="token number">5</span>
+pm.min_spare_servers <span class="token operator">=</span> <span class="token number">5</span>
+pm.max_spare_servers <span class="token operator">=</span> <span class="token number">35</span>
+slowlog <span class="token operator">=</span> /opt/remi/php56/root/var/log/php-fpm/www-slow.log
+php_admin_value<span class="token punctuation">[</span>error_log<span class="token punctuation">]</span> <span class="token operator">=</span> /opt/remi/php56/root/var/log/php-fpm/www-error.log
+php_admin_flag<span class="token punctuation">[</span>log_errors<span class="token punctuation">]</span> <span class="token operator">=</span> on
+php_value<span class="token punctuation">[</span>session.save_handler<span class="token punctuation">]</span> <span class="token operator">=</span> files
+php_value<span class="token punctuation">[</span>session.save_path<span class="token punctuation">]</span>    <span class="token operator">=</span> /opt/remi/php56/root/var/lib/php/session
+php_value<span class="token punctuation">[</span>soap.wsdl_cache_dir<span class="token punctuation">]</span>  <span class="token operator">=</span> /opt/remi/php56/root/var/lib/php/wsdlcache</code></pre></div></figure>
 
-<p>1.2.2 </p>
-<h2 id="1-3-创建MySQL一主多从"><a href="#1-3-创建MySQL一主多从" class="headerlink" title="1.3 创建MySQL一主多从"></a>1.3 创建MySQL一主多从</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">参考前文：https://chsblogs.com/2023/05/12/Container/Kubernetes/kubernetes13/</code></pre></div></figure>
+
+
+<h3 id="1-2-4-创建镜像构建脚本"><a href="#1-2-4-创建镜像构建脚本" class="headerlink" title="1.2.4 创建镜像构建脚本"></a>1.2.4 创建镜像构建脚本</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/k8s/lnmp/php<span class="token comment"># vim build-command.sh</span>
+<span class="token comment">#!/bin/bash</span>
+<span class="token assign-left variable">TAG</span><span class="token operator">=</span><span class="token variable">$1</span>
+<span class="token function">docker</span> build <span class="token parameter variable">-t</span> harbor.chsblogs.local/wordpress/wordpress-php-5.6:<span class="token variable">$&#123;TAG&#125;</span> <span class="token builtin class-name">.</span>
+<span class="token function">docker</span> push harbor.chsblogs.local/wordpress/wordpress-php-5.6:<span class="token variable">$&#123;TAG&#125;</span>
+
+root@deploy:/k8s/lnmp/php<span class="token comment"># bash build-command.sh v0.0.1</span></code></pre></div></figure>
 
 
 
-<h2 id="1-4-配置NFS"><a href="#1-4-配置NFS" class="headerlink" title="1.4 配置NFS"></a>1.4 配置NFS</h2><h2 id="1-5-创建wordpress资源"><a href="#1-5-创建wordpress资源" class="headerlink" title="1.5 创建wordpress资源"></a>1.5 创建wordpress资源</h2>
+<h2 id="1-3-创建MySQL一主多从"><a href="#1-3-创建MySQL一主多从" class="headerlink" title="1.3 创建MySQL一主多从"></a>1.3 创建MySQL一主多从</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#参考前文：</span>
+https://chsblogs.gitee.io/2023/05/12/Container/Kubernetes/kubernetes13/</code></pre></div></figure>
+
+
+
+<h2 id="1-4-配置NFS"><a href="#1-4-配置NFS" class="headerlink" title="1.4 配置NFS"></a>1.4 配置NFS</h2><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#配置NFS</span>
+root@ha1:/data/k8sdata<span class="token comment"># cat /etc/exports</span>
+/data/k8sdata *<span class="token punctuation">(</span>rw,no_root_squash<span class="token punctuation">)</span> 
+
+<span class="token comment">#创建wordpress目录</span>
+root@ha1:~<span class="token comment"># mkdir /data/k8sdata/wordpress</span>
+root@ha1:~<span class="token comment"># cd /data/k8sdata/wordpress/</span>
+
+<span class="token comment">#准备wordpress站点文件</span>
+root@ha1:/data/k8sdata/wordpress<span class="token comment"># ls</span>
+wordpress-5.0.19-zh_CN.tar.gz
+root@ha1:/data/k8sdata/wordpress<span class="token comment"># tar -xvf wordpress-5.0.19-zh_CN.tar.gz</span>
+root@ha1:/data/k8sdata/wordpress<span class="token comment"># mv wordpress/* .</span>
+root@ha1:/data/k8sdata/wordpress<span class="token comment"># rm -rf wordpress</span>
+root@ha1:/data/k8sdata/wordpress<span class="token comment"># rm -rf wordpress-5.0.19-zh_CN.tar.gz </span></code></pre></div></figure>
+
+
+
+<h2 id="1-5-创建WordPress资源"><a href="#1-5-创建WordPress资源" class="headerlink" title="1.5 创建WordPress资源"></a>1.5 创建WordPress资源</h2><h3 id="1-5-1-创建namespace命名空间"><a href="#1-5-1-创建namespace命名空间" class="headerlink" title="1.5.1 创建namespace命名空间"></a>1.5.1 创建namespace命名空间</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/k8s/lnmp<span class="token comment"># kubectl create ns wordpress</span></code></pre></div></figure>
+
+
+
+<h3 id="1-5-2-创建WordPress-yaml资源文件"><a href="#1-5-2-创建WordPress-yaml资源文件" class="headerlink" title="1.5.2 创建WordPress yaml资源文件"></a>1.5.2 创建WordPress yaml资源文件</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">root@deploy:/k8s/lnmp<span class="token comment"># mkdir wordpress/</span>
+root@deploy:/k8s/lnmp<span class="token comment"># cd wordpress/</span>
+root@deploy:/k8s/lnmp/wordpress<span class="token comment"># vim wordpress.yaml</span>
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: wordpress-app
+  name: wordpress-app-deployment
+  namespace: wordpress
+spec:
+  replicas: <span class="token number">1</span>
+  selector:
+    matchLabels:
+      app: wordpress-app
+  template:
+    metadata:
+      labels:
+        app: wordpress-app
+    spec:
+      containers:
+      - name: wordpress-app-nginx
+        image: harbor.chsblogs.local/wordpress/wordpress-nginx:v0.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: <span class="token number">80</span>
+          protocol: TCP
+          name: http
+        - containerPort: <span class="token number">443</span>
+          protocol: TCP
+          name: https
+        volumeMounts:
+        - name: wordpress
+          mountPath: /usr/local/nginx/html/wordpress
+          readOnly: <span class="token boolean">false</span>
+
+      - name: wordpress-app-php
+        image: harbor.chsblogs.local/wordpress/wordpress-php-5.6:v0.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: <span class="token number">9000</span>
+          protocol: TCP
+          name: http
+        volumeMounts:
+        - name: wordpress
+          mountPath: /usr/local/nginx/html/wordpress
+          readOnly: <span class="token boolean">false</span>
+
+      volumes:
+      - name: wordpress
+        nfs:
+          server: <span class="token number">192.168</span>.10.14
+          path: /data/k8sdata/wordpress
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: wordpress-app
+  name: wordpress-app-spec
+  namespace: wordpress
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: <span class="token number">80</span>
+    protocol: TCP
+    targetPort: <span class="token number">80</span>
+    nodePort: <span class="token number">30031</span>
+  - name: https
+    port: <span class="token number">443</span>
+    protocol: TCP
+    targetPort: <span class="token number">443</span>
+    nodePort: <span class="token number">30033</span>
+  selector:
+    app: wordpress-app
+    
+root@deploy:/k8s/lnmp/wordpress<span class="token comment"># kubectl apply -f wordpress.yaml </span>
+deployment.apps/wordpress-app-deployment created
+service/wordpress-app-spec created
+
+root@deploy:/k8s/lnmp/wordpress<span class="token comment"># kubectl get pod -n wordpress</span>
+NAME                                        READY   STATUS    RESTARTS   AGE
+wordpress-app-deployment-6c6f97d57d-7w8v8   <span class="token number">2</span>/2     Running   <span class="token number">0</span>          22s
+
+root@deploy:/k8s/lnmp/wordpress<span class="token comment"># kubectl get svc -n wordpress</span>
+NAME                 TYPE       CLUSTER-IP    EXTERNAL-IP   PORT<span class="token punctuation">(</span>S<span class="token punctuation">)</span>                      AGE
+wordpress-app-spec   NodePort   <span class="token number">172.20</span>.65.4   <span class="token operator">&lt;</span>none<span class="token operator">></span>        <span class="token number">80</span>:30031/TCP,443:30033/TCP   36s
+
+root@deploy:/k8s/lnmp/wordpress<span class="token comment"># kubectl get ep -n wordpress</span>
+NAME                 ENDPOINTS                          AGE
+wordpress-app-spec   <span class="token number">10.20</span>.39.207:443,10.20.39.207:80   40s</code></pre></div></figure>
+
+
+
+<h3 id="1-5-3-配置连接数据库"><a href="#1-5-3-配置连接数据库" class="headerlink" title="1.5.3 配置连接数据库"></a>1.5.3 配置连接数据库</h3><p>创建wordpress数据库：</p>
+<p><img src="/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530223735563.png" srcset="/img/loading.gif" lazyload alt="image-20230530223735563"> </p>
+<p>创建连接账号：</p>
+<figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash">grant all on wordpress.* to <span class="token string">"wordpress"</span>@<span class="token string">"%"</span> identified by <span class="token string">'wordpress'</span><span class="token punctuation">;</span></code></pre></div></figure>
+
+
+
+<h3 id="1-5-4-客户端访问WordPress"><a href="#1-5-4-客户端访问WordPress" class="headerlink" title="1.5.4 客户端访问WordPress"></a>1.5.4 客户端访问WordPress</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#访问测试</span>
+http://192.168.10.11:30031/</code></pre></div></figure>
+
+<p><img src="/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530224443227.png" srcset="/img/loading.gif" lazyload alt="image-20230530224443227"> </p>
+<p><img src="/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530225157652.png" srcset="/img/loading.gif" lazyload alt="image-20230530225157652"> </p>
+<p><img src="/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530225255750.png" srcset="/img/loading.gif" lazyload alt="image-20230530225255750"> </p>
+<p><img src="/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530225310664.png" srcset="/img/loading.gif" lazyload alt="image-20230530225310664"> </p>
+<p><img src="/2023/05/28/Container/Kubernetes/kubernetes18/image-20230530225358681.png" srcset="/img/loading.gif" lazyload alt="image-20230530225358681"> </p>
+
                 
               </div>
             
