@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
-  <link rel="icon" href="/chsblogs/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -23,14 +23,14 @@
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Redis持久化Redis虽然是一个内存级别的缓存程序，也就是redis 是使用内存进行数据的缓存的，但是其可以将内存的数据按照一定的策略保存到硬盘上，从而实现数据持久保存的目的。目前Redis支持两种不同方式的数据持久化保存机制，分别是RDB和AOF。 1.1 RDB模式1.1.1 RDB工作原理RDB(Redis DataBase)：基于时间的快照，其默认只保留当前最新的一次快照，特点是执">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chsblogs.gitee.io/chsblogs/2023/02/16/NoSQL/Redis/redis03/redis03/image-20230226094557677.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/chsblogs/2023/02/16/NoSQL/Redis/redis03/redis03/image-20230226100125771.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/02/16/NoSQL/Redis/redis03/image-20230226094557677.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/02/16/NoSQL/Redis/redis03/image-20230226100125771.png">
 <meta property="article:published_time" content="2023-02-16T15:10:16.000Z">
 <meta property="article:modified_time" content="2023-03-15T03:24:03.669Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://chsblogs.gitee.io/chsblogs/2023/02/16/NoSQL/Redis/redis03/redis03/image-20230226094557677.png">
+<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/02/16/NoSQL/Redis/redis03/image-20230226094557677.png">
   
   
   
@@ -58,12 +58,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/chsblogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -72,15 +72,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/chsblogs/js/utils.js" ></script>
-  <script  src="/chsblogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -97,7 +97,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/chsblogs/">
+    <a class="navbar-brand" href="/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -116,7 +116,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/">
+              <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -128,7 +128,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/archives/">
+              <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -140,7 +140,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/categories/">
+              <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -152,7 +152,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/tags/">
+              <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -164,7 +164,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/about/">
+              <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -176,7 +176,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/links/">
+              <a class="nav-link" href="/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -206,7 +206,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -306,7 +306,7 @@
 <h2 id="1-1-RDB模式"><a href="#1-1-RDB模式" class="headerlink" title="1.1 RDB模式"></a>1.1 RDB模式</h2><h3 id="1-1-1-RDB工作原理"><a href="#1-1-1-RDB工作原理" class="headerlink" title="1.1.1 RDB工作原理"></a>1.1.1 RDB工作原理</h3><p>RDB(Redis DataBase)：基于时间的快照，其默认只保留当前最新的一次快照，特点是执行速度比较快，缺点是可能会丢失从上次快照到当前时间点之间未做快照的数据。</p>
 <p>Redis从master主进程先fork出一个子进程，使用写时复制机制，子进程将内存的数据保存为一个临时文件，比如：tmp-.rdb，当数据保存完成之后再将上一次保存的RDB文件替换掉，然后关闭子进程，这样可以保证每一次做RDB快照保存的数据都是完整的。</p>
 <p>因为直接替换RDB文件的时候，可能会出现突然断电等问题，而导致RDB文件还没有保存完整就因为突然关机停止保存，而导致数据丢失的情况，后续可以手动将每次生成的RDB文件进行备份，这样可以最大化保存历史数据。</p>
-<p><img src="/chsblogs/2023/02/16/NoSQL/Redis/redis03/redis03/image-20230226094557677.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230226094557677">  </p>
+<p><img src="/2023/02/16/NoSQL/Redis/redis03/image-20230226094557677.png" srcset="/img/loading.gif" lazyload alt="image-20230226094557677">  </p>
 <h3 id="1-1-2-RDB相关配置"><a href="#1-1-2-RDB相关配置" class="headerlink" title="1.1.2 RDB相关配置"></a>1.1.2 RDB相关配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">################################ SNAPSHOTTING  ################################</span>
 save <span class="token number">3600</span> <span class="token number">1</span> <span class="token comment">#在900秒内有1个key内容发生更改,就执行快照机制</span>
 save <span class="token number">300</span> <span class="token number">100</span> <span class="token comment">#在300秒内有10个key内容发生更改,就执行快照机制</span>
@@ -343,7 +343,7 @@ rdb-del-sync-files no
 <h2 id="1-2-AOF模式"><a href="#1-2-AOF模式" class="headerlink" title="1.2 AOF模式"></a>1.2 AOF模式</h2><h3 id="1-2-1-AOF工作原理"><a href="#1-2-1-AOF工作原理" class="headerlink" title="1.2.1 AOF工作原理"></a>1.2.1 AOF工作原理</h3><p>AOF：AppendOnylFile，按照操作顺序依次将操作追加到指定的日志文件末尾。</p>
 <p>AOF 和 RDB 一样使用了写时复制机制，AOF默认为每秒钟 fsync一次，即将执行的命令保存到AOF文件当中，这样即使redis服务器发生故障最多只丢失1秒钟之内的数据，也可以设置不同的fsync策略always，即设置每次执行命令的时候执行fsync，fsync会在后台执行线程，所以主线程可以继续处理用户的正常请求而不受到写入AOF文件的I&#x2F;O影响。</p>
 <p>同时启用RDB和AOF,进行恢复时,默认AOF文件优先级高于RDB文件,即会使用AOF文件进行恢复。</p>
-<p><img src="/chsblogs/2023/02/16/NoSQL/Redis/redis03/redis03/image-20230226100125771.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230226100125771">  </p>
+<p><img src="/2023/02/16/NoSQL/Redis/redis03/image-20230226100125771.png" srcset="/img/loading.gif" lazyload alt="image-20230226100125771">  </p>
 <h3 id="1-2-2-AOF相关配置"><a href="#1-2-2-AOF相关配置" class="headerlink" title="1.2.2 AOF相关配置"></a>1.2.2 AOF相关配置</h3><figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">############################## APPEND ONLY MODE ###############################</span>
 <span class="token comment">##是否开启AOF日志记录，默认redis使用的是rdb方式持久化，这种方式在许多应用中已经足够用了，但是redis如果中途宕机，会导致可能有几分钟的数据丢失(取决于dump数据的间隔时间)，根据save来策略进行持久化，Append Only File是另一种持久化方式，可以提供更好的持久化特性，Redis会把每次写入的数据在接收后都写入 appendonly.aof 文件，每次启动时Redis都会先把这个文件的数据读入内存里，先忽略RDB文件。默认不启用此功能。</span>
 appendonly no
@@ -410,12 +410,12 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
     
       <span class="category-chain">
         
-  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/chsblogs/categories/Linux/Redis/" class="category-chain-item">Redis</a>
+  <a href="/categories/Linux/Redis/" class="category-chain-item">Redis</a>
   
   
 
@@ -432,7 +432,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/chsblogs/tags/Redis/">#Redis</a>
+        <a href="/tags/Redis/">#Redis</a>
       
     </div>
   
@@ -489,7 +489,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/chsblogs/2023/02/18/NoSQL/Redis/redis04/" title="(4).Redis主从复制">
+                      <a href="/2023/02/18/NoSQL/Redis/redis04/" title="(4).Redis主从复制">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(4).Redis主从复制</span>
                         <span class="visible-mobile">上一篇</span>
@@ -499,7 +499,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
                   <article class="post-next col-6">
                     
                     
-                      <a href="/chsblogs/2023/02/16/NoSQL/Redis/redis02/" title="(2).Redis配置详解">
+                      <a href="/2023/02/16/NoSQL/Redis/redis02/" title="(2).Redis配置详解">
                         <span class="hidden-mobile">(2).Redis配置详解</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -521,7 +521,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
       <script type="text/javascript">
         var disqus_config = function() {
           this.page.url = 'https://chsblogs.gitee.io/2023/02/16/NoSQL/Redis/redis03/';
-          this.page.identifier = '/chsblogs/2023/02/16/NoSQL/Redis/redis03/';
+          this.page.identifier = '/2023/02/16/NoSQL/Redis/redis03/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -580,7 +580,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
     
       
       
-        <a href="/chsblogs/2023/02/16/NoSQL/Redis/redis01/" title="(1).Redis简介及安装"
+        <a href="/2023/02/16/NoSQL/Redis/redis01/" title="(1).Redis简介及安装"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(1).Redis简介及安装</span>
@@ -589,7 +589,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
     
       
       
-        <a href="/chsblogs/2023/02/16/NoSQL/Redis/redis02/" title="(2).Redis配置详解"
+        <a href="/2023/02/16/NoSQL/Redis/redis02/" title="(2).Redis配置详解"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(2).Redis配置详解</span>
@@ -598,7 +598,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
     
       
       
-        <a href="/chsblogs/2023/02/16/NoSQL/Redis/redis03/" title="(3).Redis持久化"
+        <a href="/2023/02/16/NoSQL/Redis/redis03/" title="(3).Redis持久化"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(3).Redis持久化</span>
@@ -607,7 +607,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
     
       
       
-        <a href="/chsblogs/2023/02/18/NoSQL/Redis/redis04/" title="(4).Redis主从复制"
+        <a href="/2023/02/18/NoSQL/Redis/redis04/" title="(4).Redis主从复制"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(4).Redis主从复制</span>
@@ -616,7 +616,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
     
       
       
-        <a href="/chsblogs/2023/02/18/NoSQL/Redis/redis05/" title="(5).Redis哨兵机制"
+        <a href="/2023/02/18/NoSQL/Redis/redis05/" title="(5).Redis哨兵机制"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(5).Redis哨兵机制</span>
@@ -625,7 +625,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
     
       
       
-        <a href="/chsblogs/2023/02/19/NoSQL/Redis/redis06/" title="(6).Redis之Cluster集群"
+        <a href="/2023/02/19/NoSQL/Redis/redis06/" title="(6).Redis之Cluster集群"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(6).Redis之Cluster集群</span>
@@ -734,7 +734,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -765,8 +765,8 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/chsblogs/js/events.js" ></script>
-<script  src="/chsblogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -788,7 +788,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
 
 
   
-    <script  src="/chsblogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -887,7 +887,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/chsblogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -895,7 +895,7 @@ aof-use-rdb-preamble <span class="token function">yes</span></code></pre></div><
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/chsblogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   

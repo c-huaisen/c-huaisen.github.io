@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/chsblogs/img/default.ico">
-  <link rel="icon" href="/chsblogs/img/default.ico">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/default.ico">
+  <link rel="icon" href="/img/default.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
@@ -23,16 +23,16 @@
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.FileBeat部署及使用主机清单：    主机名 IP地址 操作系统 服务 VIP    ha1 192.168.1.30 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   ha2 192.168.1.31 Ubuntu20.04 Haproxy+Keepalived 192.168.1.66   es1 192.168.1.32 Ubuntu20.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chsblogs.gitee.io/chsblogs/2023/04/05/Log/ELK/elk07/elk07/image-20230408181603916.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/chsblogs/2023/04/05/Log/ELK/elk07/elk07/image-20230409192102997.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/chsblogs/2023/04/05/Log/ELK/elk07/elk07/image-20230408181637357.png">
-<meta property="og:image" content="https://chsblogs.gitee.io/chsblogs/2023/04/05/Log/ELK/elk07/elk07/image-20230409211107684.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk07/image-20230408181603916.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk07/image-20230409192102997.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk07/image-20230408181637357.png">
+<meta property="og:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk07/image-20230409211107684.png">
 <meta property="article:published_time" content="2023-04-05T12:06:56.000Z">
 <meta property="article:modified_time" content="2023-04-09T13:14:57.402Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="ELK">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://chsblogs.gitee.io/chsblogs/2023/04/05/Log/ELK/elk07/elk07/image-20230408181603916.png">
+<meta name="twitter:image" content="https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk07/image-20230408181603916.png">
   
   
   
@@ -60,12 +60,12 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/chsblogs/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/chsblogs/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/chsblogs/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
 
@@ -74,15 +74,15 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/chsblogs/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/chsblogs/local-search.xml"};
+    var CONFIG = {"hostname":"chsblogs.gitee.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"SHELL"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/chsblogs/js/utils.js" ></script>
-  <script  src="/chsblogs/js/color-schema.js" ></script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
 
 
@@ -99,7 +99,7 @@
 <div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/chsblogs/">
+    <a class="navbar-brand" href="/">
       <strong>陈怀森 の 运维笔记</strong>
     </a>
 
@@ -118,7 +118,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/">
+              <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -130,7 +130,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/archives/">
+              <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
                 <span>归档</span>
               </a>
@@ -142,7 +142,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/categories/">
+              <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
                 <span>分类</span>
               </a>
@@ -154,7 +154,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/tags/">
+              <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 <span>标签</span>
               </a>
@@ -166,7 +166,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/about/">
+              <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -178,7 +178,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/chsblogs/links/">
+              <a class="nav-link" href="/links/">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -208,7 +208,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/chsblogs/img/default.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
@@ -411,7 +411,7 @@
 <p>Beats 是一个免费且开放的平台，集合了多种单一用途数据采集器。它们从成百上千或成千上万台机器和系统向 Logstash 或 Elasticsearch 发送数据。</p>
 <p>FileBeat：用于采集日志和其他数据的轻量型采集器。</p>
 <h2 id="1-2-FileBeat基于Kafka收集日志"><a href="#1-2-FileBeat基于Kafka收集日志" class="headerlink" title="1.2 FileBeat基于Kafka收集日志"></a>1.2 FileBeat基于Kafka收集日志</h2><p><strong>部署拓扑图：</strong></p>
-<p><img src="/chsblogs/2023/04/05/Log/ELK/elk07/elk07/image-20230408181603916.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230408181603916"> </p>
+<p><img src="/2023/04/05/Log/ELK/elk07/image-20230408181603916.png" srcset="/img/loading.gif" lazyload alt="image-20230408181603916"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.两台web主机编写Filebeat配置</span>
 <span class="token comment">#官方文档：https://www.elastic.co/guide/en/beats/filebeat/7.12/kafka-output.html</span>
 root@web1:~<span class="token comment"># grep -v "#" /etc/filebeat/filebeat.yml | grep -v "^$"</span>
@@ -487,9 +487,9 @@ root@logstash2:~<span class="token comment"># systemctl restart logstash</span>
 
 <span class="token comment">#3.kibana创建索引查看</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/2023/04/05/Log/ELK/elk07/elk07/image-20230409192102997.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230409192102997"> </p>
+<p><img src="/2023/04/05/Log/ELK/elk07/image-20230409192102997.png" srcset="/img/loading.gif" lazyload alt="image-20230409192102997"> </p>
 <h2 id="1-3-FileBeat基于Redis收集日志"><a href="#1-3-FileBeat基于Redis收集日志" class="headerlink" title="1.3 FileBeat基于Redis收集日志"></a>1.3 FileBeat基于Redis收集日志</h2><p><strong>部署拓扑图：</strong></p>
-<p><img src="/chsblogs/2023/04/05/Log/ELK/elk07/elk07/image-20230408181637357.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230408181637357"> </p>
+<p><img src="/2023/04/05/Log/ELK/elk07/image-20230408181637357.png" srcset="/img/loading.gif" lazyload alt="image-20230408181637357"> </p>
 <figure><div class="code-wrapper"><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#1.主机logstash1安装Logstash</span>
 hostnamectl set-hostname logstash1.chsblogs.com
 <span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">apt</span> <span class="token function">install</span> openjdk-8-jdk
@@ -616,7 +616,7 @@ output <span class="token punctuation">&#123;</span>
 
 <span class="token comment">#5.kibana创建索引查看</span></code></pre></div></figure>
 
-<p><img src="/chsblogs/2023/04/05/Log/ELK/elk07/elk07/image-20230409211107684.png" srcset="/chsblogs/img/loading.gif" lazyload alt="image-20230409211107684"> </p>
+<p><img src="/2023/04/05/Log/ELK/elk07/image-20230409211107684.png" srcset="/img/loading.gif" lazyload alt="image-20230409211107684"> </p>
 
                 
               </div>
@@ -635,12 +635,12 @@ output <span class="token punctuation">&#123;</span>
     
       <span class="category-chain">
         
-  <a href="/chsblogs/categories/Linux/" class="category-chain-item">Linux</a>
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
   
   
     <span>></span>
     
-  <a href="/chsblogs/categories/Linux/ELK/" class="category-chain-item">ELK</a>
+  <a href="/categories/Linux/ELK/" class="category-chain-item">ELK</a>
   
   
 
@@ -657,7 +657,7 @@ output <span class="token punctuation">&#123;</span>
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/chsblogs/tags/ELK/">#ELK</a>
+        <a href="/tags/ELK/">#ELK</a>
       
     </div>
   
@@ -714,7 +714,7 @@ output <span class="token punctuation">&#123;</span>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/chsblogs/2023/04/15/Storage/Ceph/ceph01/" title="(01).Ceph核心组件介绍">
+                      <a href="/2023/04/15/Storage/Ceph/ceph01/" title="(01).Ceph核心组件介绍">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">(01).Ceph核心组件介绍</span>
                         <span class="visible-mobile">上一篇</span>
@@ -724,7 +724,7 @@ output <span class="token punctuation">&#123;</span>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/chsblogs/2023/04/05/Log/ELK/elk06/" title="(6).ELK-Logstash基于Kafka收集日志">
+                      <a href="/2023/04/05/Log/ELK/elk06/" title="(6).ELK-Logstash基于Kafka收集日志">
                         <span class="hidden-mobile">(6).ELK-Logstash基于Kafka收集日志</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -746,7 +746,7 @@ output <span class="token punctuation">&#123;</span>
       <script type="text/javascript">
         var disqus_config = function() {
           this.page.url = 'https://chsblogs.gitee.io/2023/04/05/Log/ELK/elk07/';
-          this.page.identifier = '/chsblogs/2023/04/05/Log/ELK/elk07/';
+          this.page.identifier = '/2023/04/05/Log/ELK/elk07/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
@@ -805,7 +805,7 @@ output <span class="token punctuation">&#123;</span>
     
       
       
-        <a href="/chsblogs/2023/03/26/Log/ELK/elk01/" title="(1).ELK-Elasticsearch简介及集群部署"
+        <a href="/2023/03/26/Log/ELK/elk01/" title="(1).ELK-Elasticsearch简介及集群部署"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(1).ELK-Elasticsearch简介及集群部署</span>
@@ -814,7 +814,7 @@ output <span class="token punctuation">&#123;</span>
     
       
       
-        <a href="/chsblogs/2023/04/05/Log/ELK/elk02/" title="(2).ELK-Logstash部署及使用"
+        <a href="/2023/04/05/Log/ELK/elk02/" title="(2).ELK-Logstash部署及使用"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(2).ELK-Logstash部署及使用</span>
@@ -823,7 +823,7 @@ output <span class="token punctuation">&#123;</span>
     
       
       
-        <a href="/chsblogs/2023/04/05/Log/ELK/elk03/" title="(3).ELK-Kibana部署及使用"
+        <a href="/2023/04/05/Log/ELK/elk03/" title="(3).ELK-Kibana部署及使用"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(3).ELK-Kibana部署及使用</span>
@@ -832,7 +832,7 @@ output <span class="token punctuation">&#123;</span>
     
       
       
-        <a href="/chsblogs/2023/04/05/Log/ELK/elk04/" title="(4).ELK-基于Logstash收集日志"
+        <a href="/2023/04/05/Log/ELK/elk04/" title="(4).ELK-基于Logstash收集日志"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(4).ELK-基于Logstash收集日志</span>
@@ -841,7 +841,7 @@ output <span class="token punctuation">&#123;</span>
     
       
       
-        <a href="/chsblogs/2023/04/05/Log/ELK/elk05/" title="(5).ELK-Logstash基于Redis收集日志"
+        <a href="/2023/04/05/Log/ELK/elk05/" title="(5).ELK-Logstash基于Redis收集日志"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(5).ELK-Logstash基于Redis收集日志</span>
@@ -850,7 +850,7 @@ output <span class="token punctuation">&#123;</span>
     
       
       
-        <a href="/chsblogs/2023/04/05/Log/ELK/elk06/" title="(6).ELK-Logstash基于Kafka收集日志"
+        <a href="/2023/04/05/Log/ELK/elk06/" title="(6).ELK-Logstash基于Kafka收集日志"
            class="list-group-item list-group-item-action
            ">
           <span class="category-post">(6).ELK-Logstash基于Kafka收集日志</span>
@@ -859,7 +859,7 @@ output <span class="token punctuation">&#123;</span>
     
       
       
-        <a href="/chsblogs/2023/04/05/Log/ELK/elk07/" title="(7).ELK-FileBeat部署及使用"
+        <a href="/2023/04/05/Log/ELK/elk07/" title="(7).ELK-FileBeat部署及使用"
            class="list-group-item list-group-item-action
            active">
           <span class="category-post">(7).ELK-FileBeat部署及使用</span>
@@ -968,7 +968,7 @@ output <span class="token punctuation">&#123;</span>
         >
           
             <span style="visibility: hidden; width: 0">|</span>
-            <img src="/chsblogs/img/police_beian.png" srcset="/chsblogs/img/loading.gif" lazyload alt="police-icon"/>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
           
           <span>赣ICP备20005950号-1</span>
         </a>
@@ -999,8 +999,8 @@ output <span class="token punctuation">&#123;</span>
 
 <script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/chsblogs/js/events.js" ></script>
-<script  src="/chsblogs/js/plugins.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -1022,7 +1022,7 @@ output <span class="token punctuation">&#123;</span>
 
 
   
-    <script  src="/chsblogs/js/img-lazyload.js" ></script>
+    <script  src="/js/img-lazyload.js" ></script>
   
 
 
@@ -1121,7 +1121,7 @@ output <span class="token punctuation">&#123;</span>
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/chsblogs/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
 
 
 
@@ -1129,7 +1129,7 @@ output <span class="token punctuation">&#123;</span>
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/chsblogs/js/boot.js" ></script>
+<script  src="/js/boot.js" ></script>
 
 
   
