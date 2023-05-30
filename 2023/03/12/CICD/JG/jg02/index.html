@@ -19,74 +19,74 @@
     <meta name="description" content="1.Jenkins简介及安装前文已经安装完了GitLab，接下来就开始安装和使用Jenkins： 主机清单：    主机名 IP地址 操作系统 服务 VIP    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    jenkins-slave">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(02).Jenkins简介及安装">
-<meta property="og:url" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/index.html">
+<meta property="og:url" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.Jenkins简介及安装前文已经安装完了GitLab，接下来就开始安装和使用Jenkins： 主机清单：    主机名 IP地址 操作系统 服务 VIP    gitlab 192.168.1.30 Ubuntu20.04 GitLab 13.11.3-ce    jenkins 192.168.1.31 Ubuntu20.04 Jenkins 2.277.4    jenkins-slave">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230318155225321.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230318155351364.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230318161128345.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319103656662.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319104634975.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319104647558.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319104659568.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319105257151.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319105433190.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319110000497.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319110058812.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319123541454.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319123608295.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319123800058.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319130946637.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319131027285.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319131227206.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165543113.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165246857.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165638507.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165702556.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165747084.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165829191.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319173909270.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319173939602.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319174135447.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319174828664.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319175121208.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319175229130.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319175351208.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319181129879.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319181153245.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319181236205.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319185750341.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319190550280.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319191606520.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319191750401.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319192740789.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319192922104.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319193127300.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319195832049.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319195915693.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319200026809.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319214711213.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319214734466.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319215735968.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319221231930.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319220827811.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319220937051.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319221102077.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320215950831.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320220022218.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320195332239.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320205024130.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320210547288.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320211711903.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320213815990.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320214057798.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230318155225321.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230318155351364.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230318161128345.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319103656662.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319104634975.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319104647558.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319104659568.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319105257151.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319105433190.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319110000497.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319110058812.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319123541454.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319123608295.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319123800058.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319130946637.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319131027285.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319131227206.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165543113.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165246857.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165638507.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165702556.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165747084.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319165829191.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319173909270.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319173939602.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319174135447.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319174828664.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319175121208.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319175229130.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319175351208.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319181129879.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319181153245.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319181236205.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319185750341.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319190550280.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319191606520.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319191750401.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319192740789.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319192922104.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319193127300.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319195832049.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319195915693.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319200026809.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319214711213.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319214734466.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319215735968.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319221231930.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319220827811.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319220937051.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230319221102077.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320215950831.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320220022218.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320195332239.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320205024130.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320210547288.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320211711903.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320213815990.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230320214057798.png">
 <meta property="article:published_time" content="2023-03-12T15:36:27.000Z">
 <meta property="article:modified_time" content="2023-05-06T16:43:23.005Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="CI&#x2F;CD">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230318155225321.png">
+<meta name="twitter:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg02/image-20230318155225321.png">
   
   
   
@@ -1298,7 +1298,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
   <div class="license-box my-3">
     <div class="license-title">
       <div>(02).Jenkins简介及安装</div>
-      <div>http://chsblogs.com/2023/03/12/CICD/JG/jg02/</div>
+      <div>https://chsblogs.com/2023/03/12/CICD/JG/jg02/</div>
     </div>
     <div class="license-meta">
       
@@ -1373,7 +1373,7 @@ node<span class="token punctuation">(</span><span class="token string">'Jenkins-
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2023/03/12/CICD/JG/jg02/';
+          this.page.url = 'https://chsblogs.com/2023/03/12/CICD/JG/jg02/';
           this.page.identifier = '/2023/03/12/CICD/JG/jg02/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {

@@ -19,33 +19,33 @@
     <meta name="description" content="1.GitLab简介及安装1.1 GitLab简介极狐GitLab 是支持并发 DevOps 的软件开发、安全和操作的单一应用程序，使软件生命周期更快，并从根本上提高了业务速度。 1.2 GitLab安装#官网文档 https:&#x2F;&#x2F;docs.gitlab.cn&#x2F;jh&#x2F;index.html  主机清单：    主机名 IP地址 操作系统 服务    gitlab 192.168.1.30 Ubunt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(01).GitLab简介及安装">
-<meta property="og:url" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/index.html">
+<meta property="og:url" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.GitLab简介及安装1.1 GitLab简介极狐GitLab 是支持并发 DevOps 的软件开发、安全和操作的单一应用程序，使软件生命周期更快，并从根本上提高了业务速度。 1.2 GitLab安装#官网文档 https:&#x2F;&#x2F;docs.gitlab.cn&#x2F;jh&#x2F;index.html  主机清单：    主机名 IP地址 操作系统 服务    gitlab 192.168.1.30 Ubunt">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313214045730.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313220050696.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313220222781.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313220731502.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313221401832.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313222806015.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313231753781.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313231859633.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313232024511.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233129391.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233318929.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233530526.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233656946.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233752467.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230314203310707.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230314203608925.png">
-<meta property="og:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230314203507713.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313214045730.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313220050696.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313220222781.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313220731502.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313221401832.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313222806015.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313231753781.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313231859633.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313232024511.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233129391.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233318929.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233530526.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233656946.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313233752467.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230314203310707.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230314203608925.png">
+<meta property="og:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230314203507713.png">
 <meta property="article:published_time" content="2023-03-12T15:20:22.000Z">
 <meta property="article:modified_time" content="2023-05-06T16:43:27.277Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="CI&#x2F;CD">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313214045730.png">
+<meta name="twitter:image" content="https://chsblogs.com/2023/03/12/CICD/JG/jg01/image-20230313214045730.png">
   
   
   
@@ -608,7 +608,7 @@ root@gitlab:~<span class="token comment"># gitlab-ctl start </span></code></pre>
   <div class="license-box my-3">
     <div class="license-title">
       <div>(01).GitLab简介及安装</div>
-      <div>http://chsblogs.com/2023/03/12/CICD/JG/jg01/</div>
+      <div>https://chsblogs.com/2023/03/12/CICD/JG/jg01/</div>
     </div>
     <div class="license-meta">
       
@@ -683,7 +683,7 @@ root@gitlab:~<span class="token comment"># gitlab-ctl start </span></code></pre>
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2023/03/12/CICD/JG/jg01/';
+          this.page.url = 'https://chsblogs.com/2023/03/12/CICD/JG/jg01/';
           this.page.identifier = '/2023/03/12/CICD/JG/jg01/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {

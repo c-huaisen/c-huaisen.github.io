@@ -19,30 +19,30 @@
     <meta name="description" content="1.kubeasz工具基于Docker部署Kubernetes v1.231.1 部署主机清单K8S集群部署主机清单：    主机名 IP地址 操作系统 服务 VIP    deploy.chsblogs.com 192.168.10.10 Ubuntu20.04 k8s集群部署服务器    master1.chsblogs.com 192.168.10.11 Ubuntu20.04 K8s Ma">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(03).kubeasz工具基于Docker部署Kubernetes v1.23">
-<meta property="og:url" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/index.html">
+<meta property="og:url" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/index.html">
 <meta property="og:site_name" content="陈怀森の运维笔记">
 <meta property="og:description" content="1.kubeasz工具基于Docker部署Kubernetes v1.231.1 部署主机清单K8S集群部署主机清单：    主机名 IP地址 操作系统 服务 VIP    deploy.chsblogs.com 192.168.10.10 Ubuntu20.04 k8s集群部署服务器    master1.chsblogs.com 192.168.10.11 Ubuntu20.04 K8s Ma">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501100346878.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501194232560.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501202001881.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230502103837315.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175444602.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175545010.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175720229.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175826533.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175948010.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527180313754.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527181124064.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527181802723.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527182059752.png">
-<meta property="og:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527191726672.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501100346878.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501194232560.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501202001881.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230502103837315.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175444602.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175545010.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175720229.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175826533.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527175948010.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527180313754.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527181124064.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527181802723.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527182059752.png">
+<meta property="og:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230527191726672.png">
 <meta property="article:published_time" content="2023-04-26T03:29:42.000Z">
 <meta property="article:modified_time" content="2023-05-29T04:45:03.994Z">
 <meta property="article:author" content="陈怀森">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501100346878.png">
+<meta name="twitter:image" content="https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/image-20230501100346878.png">
   
   
   
@@ -2119,7 +2119,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
   <div class="license-box my-3">
     <div class="license-title">
       <div>(03).kubeasz工具基于Docker部署Kubernetes v1.23</div>
-      <div>http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/</div>
+      <div>https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/</div>
     </div>
     <div class="license-meta">
       
@@ -2194,7 +2194,7 @@ ca.crt:     <span class="token number">1350</span> bytes</code></pre></div></fig
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'http://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/';
+          this.page.url = 'https://chsblogs.com/2023/04/26/Container/Kubernetes/kubernetes03/';
           this.page.identifier = '/2023/04/26/Container/Kubernetes/kubernetes03/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
